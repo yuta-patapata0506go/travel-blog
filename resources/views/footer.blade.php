@@ -15,7 +15,7 @@
                     <i class="fab fa-instagram"></i>
                 </a>
                 <a href="https://twitter.com" target="_blank" class="social-icon">
-                    <i class="fab fa-x"></i>
+                    <i class="fab fab fa-twitter "></i>
                 </a>
             </div>
 
@@ -25,13 +25,18 @@
 
             <div class="col">
                 @guest
-                    <!-- No Contact link -->
+                    <!-- Guest footer only -->
+                    <a href="#" class="footer-link">Contact</a> {{-- {{ url('/contact') }} --}}
+                    <a href="#" class="footer-link">About</a> {{-- {{ url('/about') }} --}}
                 @else
+                    {{-- 
                     @if (!Auth::user()->isAdmin())
                         <a href="#" class="footer-link">Contact</a> {{-- {{ url('/contact') }} --}}
-                    @endif
+                    {{-- @endif  --}}
+                    {{-- Admin and logged-in users will not see these links for now --}}
+                    {{-- <a href="#" class="footer-link">Contact</a> --}}
+                    <a href="#" class="footer-link">About</a> {{-- {{ url('/about') }} --}}
                 @endguest
-                <a href="#" class="footer-link">About</a> {{-- {{ url('/about') }} --}}
             </div>
         </div>
     </div>
