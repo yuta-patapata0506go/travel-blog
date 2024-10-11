@@ -6,6 +6,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/navbar', function () {
+    return view('navbar');
+});
+
 
 Auth::routes();
 
