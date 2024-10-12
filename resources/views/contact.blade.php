@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Contact-page-UI')
+@section('title', 'Contact')
 
 @section('body-class', 'contact')
 

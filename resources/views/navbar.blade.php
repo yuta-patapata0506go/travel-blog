@@ -1,9 +1,3 @@
-@extends('layouts.app')
-
-@section('title', 'Navbar-UI')
-
-@section('navbar')
-
 <!-- Navbar -->
 <nav class="navbar navbar-expand-md navbar-dark shadow-sm 
     {{ Auth::user() && Auth::user()->isAdmin() ? 'navbar-admin' : (Auth::check() ? 'navbar-registered' : 'navbar-guest') }}">
@@ -124,9 +118,3 @@
         </div>
     </div>
 </nav>
-
-@endsection
-
-
-{{-- css --}}
-<link rel="stylesheet" href="{{ asset('css/styles.css') }}">
