@@ -1,8 +1,3 @@
-@extends('layouts.app')
-
-@section('title', 'Footer-UI')
-
-@section('footer')
 {{-- Footer --}}
 <footer class="footer text-center">
     <div class="container">
@@ -41,7 +36,3 @@
         </div>
     </div>
 </footer>
-@endsection
-
-{{-- css --}}
-<link rel="stylesheet" href="{{ asset('css/styles.css') }}">

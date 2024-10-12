@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'About-UI')
-
-@section('navbar')
+@section('title', 'About')
 
 @section('content')
 <div class="container about w-75 text-center">
@@ -31,5 +29,3 @@
 }
 </style>
 
-{{-- css --}}
-<link rel="stylesheet" href="{{ asset('css/styles.css') }}">
