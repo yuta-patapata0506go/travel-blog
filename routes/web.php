@@ -6,10 +6,29 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/', function () {
+Route::get('/navbar', function () {
+    return view('navbar');
+});
+
+Route::get('/footer', function () {
+    return view('footer');
+});
+
+Route::get('/contact', function () {
+    return view('contact');
+});
+
+Route::get('/about', function () {
+    return view('about');
+});
+
+
+Route::get('/spot', function () {
     return view('spot');
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
