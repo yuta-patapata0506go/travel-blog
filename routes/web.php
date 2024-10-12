@@ -14,6 +14,10 @@ Route::get('/footer', function () {
     return view('footer');
 });
 
+Route::get('/contact', function () {
+    return view('contact');
+});
+
 
 Auth::routes();
 
