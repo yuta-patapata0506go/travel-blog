@@ -3,6 +3,18 @@ body {
     background-color: #fbf4f4 !important;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
+    height: 100%;
+    margin: 0;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Set the minimum height to 100vh */
+}
+
+main {
+    flex: 1; /* Expand the content area */
 }
 
 h1, h2, h3, h4, h5, h6 {
