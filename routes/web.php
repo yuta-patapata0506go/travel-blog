@@ -23,8 +23,8 @@ Route::get('/about', function () {
 });
 
 // Admin
-Route::get('/admin/inquiry_details', function () {
-    return view('admin/inquiry_details');
+Route::get('/admin/inquiries/inquiry_details', function () {
+    return view('admin/inquiries/inquiry_details');
 });
 
 

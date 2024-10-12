@@ -77,7 +77,7 @@
 
 
     <!-- Back and Reply Buttons -->
-    <div class="text-center">
+    <div class="text-center my-5">
         <a href="#" class="btn btn-back w-25">Back</a> {{-- {{ route('inquiries.index') }} --}}
         <a href="#" class="btn btn-reply w-25">Reply</a> {{-- {{ route('inquiries.reply', ['id' => 123]) }} --}}
     </div>
