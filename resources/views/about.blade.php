@@ -20,12 +20,5 @@
 
 @endsection
 
-<style>
-/* about */
-.logo-image {
-    width: 200px; /* Adjust the width as needed */
-    height: auto; /* Maintains the aspect ratio */
-    max-width: 100%; /* Ensures the image is responsive */
-}
-</style>
-
+{{-- css --}}
+<link rel="stylesheet" href="{{ asset('css/about.css') }}">
