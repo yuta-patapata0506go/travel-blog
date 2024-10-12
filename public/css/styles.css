@@ -53,3 +53,44 @@ input {
 .navbar .nav-link:hover i {
     color: #FFD700;
 }
+
+
+/* Footer */
+.footer {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #336B87;
+    color: white;
+    padding: 20px 0;
+    font-size: 16px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.footer .row {
+    width: 100%;
+}
+
+.footer .col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer .social-icon {
+    margin: 0 15px;
+    color: white;
+    font-size: 24px;
+}
+
+.footer-link {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 24px; 
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}

@@ -35,7 +35,7 @@
         </main>
 
 
-        {{-- @yield('footer') --}}
+        @yield('footer')
 
     </div>
 </body>
