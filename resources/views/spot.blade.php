@@ -172,8 +172,34 @@
                 </div>
 
                 <!-- Posts Gallery -->
-                <h4 class="mt-5">POST related to "SPOT NAME"</h4>
-                    
+                <h4 class="post-display mt-5">POST related to "SPOT NAME"</h4>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle rounded-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Sort by
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="Newest Post" class="form-check-input me-1"> Newest Post
+                            </label>
+                        </li>
+                        <li>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="Popular" class="form-check-input me-1"> Popular
+                            </label>
+                        </li>
+                        <li>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="Many Likes" class="form-check-input me-1"> Many Likes
+                            </label>
+                        </li>
+                        <li>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="Many Views" class="form-check-input me-1"> Many Views
+                            </label>
+                        </li>
+                    </ul>
+                </div>
                     <div class="post-container">
                         <button class="arrow-left text-dark" onclick="nextImage()"><i class="fa-regular fa-circle-left"></i></button>
                         @for($i = 0;$i < 5;$i++)

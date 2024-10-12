@@ -40,7 +40,7 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 800px; /* ナビゲーションバーとの間隔を40pxに設定 */
+    margin-top: 500px; /* ナビゲーションバーとの間隔を40pxに設定 */
 }
 
 /*.main-image , .thumbnail {
@@ -255,7 +255,27 @@ body {
     justify-content: space-between; /* 要素の間隔を均等に配置 */
     /*margin-top: 60px;
     gap: 20px; /* ポスト間の余白を設定 */
-/*}:
+/*}:*/
+
+.post-display {
+    margin-left: 0; /* テキストを左寄せ */
+}
+
+.dropdown button {
+    height: 40px; /* 高さを調整 */
+    padding: 10px 15px; /* ボタンの内側の余白 */
+    background-color: #336B87; /* ボタンの背景色 */
+    color: #ffffff; /* ボタンのテキスト色 */
+    border: none; /* ボタンの境界線を無効にする */
+    border-radius: 5px; /* 角を丸くする */
+    cursor: pointer; /* カーソルをポインターに変更 */
+}
+
+.dropdown button:hover {
+    background-color: #90AFC5; /* ホバー時の背景色 */
+    color: #2A3132; /* ボタンのテキスト色 */
+}
+
 
 /* 各投稿のスタイル */
 .post {
