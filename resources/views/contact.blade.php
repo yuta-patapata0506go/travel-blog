@@ -42,11 +42,11 @@
 body.contact {
     font-family: 'Open Sans', sans-serif;
     background-image: url('/images/backgrounds/logo_bg.svg');
-    background-size: cover;
+    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
     height: 100vh;
+    background-color: #fbf4f4;
 }
 
 h1.contact-title {
