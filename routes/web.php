@@ -22,12 +22,15 @@ Route::get('/about', function () {
     return view('about');
 });
 
+Route::get('/spot', function () {
+    return view('spot');
+});
+
 
 // Admin
 Route::get('/admin/inquiries/create_reply', function () {
     return view('admin/inquiries/create_reply');
 });
-
 
 Auth::routes();
 
