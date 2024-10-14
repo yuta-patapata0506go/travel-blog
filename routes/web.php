@@ -23,6 +23,10 @@ Route::get('/about', function () {
 });
 
 
+Route::get('/spot', function () {
+    return view('spot');
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
