@@ -3,6 +3,18 @@ body {
     background-color: #fbf4f4 !important;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
+    height: 100%;
+    margin: 0;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Set the minimum height to 100vh */
+}
+
+main {
+    flex: 1; /* Expand the content area */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -52,4 +64,45 @@ input {
 /* mouse hover */
 .navbar .nav-link:hover i {
     color: #FFD700;
+}
+
+
+/* Footer */
+.footer {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #336B87;
+    color: white;
+    padding: 20px 0;
+    font-size: 16px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.footer .row {
+    width: 100%;
+}
+
+.footer .col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer .social-icon {
+    margin: 0 15px;
+    color: white;
+    font-size: 24px;
+}
+
+.footer-link {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 24px; 
+}
+
+.footer-link:hover {
+    text-decoration: underline;
 }

@@ -14,7 +14,30 @@ Route::get('/mappage', function () {
     return view('map_page/map');
 });
 
+Route::get('/footer', function () {
+    return view('footer');
+});
+
+Route::get('/contact', function () {
+    return view('contact');
+});
+
+Route::get('/about', function () {
+    return view('about');
+});
+
+// Admin
+Route::get('/admin/inquiries/inquiry_details', function () {
+    return view('admin/inquiries/inquiry_details');
+});
+
+
+Route::get('/spot', function () {
+    return view('spot');
+});
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
