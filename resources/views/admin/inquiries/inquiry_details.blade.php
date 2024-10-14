@@ -34,45 +34,56 @@
         </div>
 
 
-        <!-- Visibility Dropdown & Status Dropdown -->
-        <div class="row my-5">
-            <div class="col">
-                <label for="visibility" class="form-label">Visibility</label>
-                <select id="visibility" class="form-select" onchange="showModal()">
-                    <option value="">Select Visibility</option>
-                    <option value="visible">Visible</option>
-                    <option value="hidden">Hidden</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="status" class="form-label">Status</label>
-                <select id="status" class="form-select" onchange="showModal()">
-                    <option value="">Select Status</option>
-                    <option value="new">New</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="resolved">Resolved</option>
-                </select>
+        
+        {{-- Dropdown for visibility --}}
+        <div class="dropdown">
+            <button class="btn btn-sm" data-bs-toggle="dropdown">
+                Visibility
+            </button>
+
+            <div class="dropdown-menu">
+                @if (isset($inquiry)) {{-- $inquiry->trashed() --}}
+                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#unhide-inquiry-"> {{-- data-bs-target: #unhide-inquiry-{{ $inquiry->id }} --}}
+                        <i class="fa-solid fa-eye"></i> Visible {{-- {{ $inquiry->id }} --}}
+                    </button>
+                @else
+                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#hide-inquiry-"> {{-- data-bs-target: #unhide-inquiry-{{ $inquiry->id }} --}}
+                        <i class="fa-solid fa-eye-slash"></i> Hidden {{-- {{ $inquiry->id }} --}}
+                    </button>
+                @endif
             </div>
         </div>
+
+        @include('admin.inquiries.modals.visibility')
         
-        <!-- Modal -->
-        {{-- <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Confirm Change</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p id="modalMessage">Are you sure you want to change the selected option?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" onclick="confirmChange()">Confirm</button>
-                    </div>
-                </div>
+
+        {{-- Dropdown for status --}}
+        <div class="dropdown">
+            <button class="btn btn-sm" data-bs-toggle="dropdown">
+                Status
+            </button>
+
+            <div class="dropdown-menu"> {{-- After setting up the table, remove the comments from @if --}}
+                {{-- @if ($inquiry->status !== 'unprocessed') --}}
+                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#unprocessed-inquiry-"> {{-- data-bs-target: #unprocessed-inquiry-{{ $inquiry->id }} --}}
+                        Unprocessed {{-- {{ $inquiry->id }} --}}
+                    </button>
+                {{-- @endif --}}
+                
+                {{-- @if ($inquiry->status !== 'responded') --}}
+                    <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#responded-inquiry-"> {{-- data-bs-target: #responded-inquiry-{{ $inquiry->id }} --}}
+                        Responded {{-- {{ $inquiry->id }} --}}
+                    </button>
+                {{-- @endif --}}
+
+                {{-- @if ($inquiry->status !== 'resolved') --}}
+                    <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#resolved-inquiry-"> {{-- data-bs-target: #resolved-inquiry-{{ $inquiry->id }} --}}
+                        Resolved {{-- {{ $inquiry->id }} --}}
+                    </button>
+                {{-- @endif --}}
             </div>
-        </div> --}}
+        </div>
+
 
 
 
