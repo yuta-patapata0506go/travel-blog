@@ -22,6 +22,11 @@ Route::get('/about', function () {
     return view('about');
 });
 
+// Admin
+Route::get('/admin/inquiries/inquiry_details', function () {
+    return view('admin/inquiries/inquiry_details');
+});
+
 
 Route::get('/spot', function () {
     return view('spot');
