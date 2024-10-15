@@ -1,0 +1,90 @@
+body {
+    background-color: #FBF4F4 !important; /* 背景色を強制的に適用 */
+    font-family: Arial, sans-serif;
+}
+
+
+h2 {
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.form-control, .form-control-file {
+    border-radius: 0.25rem;
+    margin-bottom: 70px; /* フォームフィールド間の縦間隔を広く設定 */
+    background-color: #ffffff !important; /* 背景色を白に設定 */
+    border: 1px solid !important; 
+
+
+}
+
+.btn-admin {
+    padding: 10px 15px; /* ボタンの内側の余白 */
+    background-color: #2A3132; /* ボタンの背景色 */
+    color: #FBF4F4; /* ボタンのテキスト色 */
+    border: none; /* ボタンの境界線を無効にする */
+    border-radius: 5px; /* 角を丸くする */
+    cursor: pointer; /* カーソルをポインターに変更 */
+    text-decoration: none; /* 下線を消す */
+}
+
+.btn-admin:hover {
+    background-color: #B3B3B3; /* ホバー時の背景色 */
+    color: #2A3132; /* ホバー時のテキスト色 */
+    text-decoration: none; /* ホバー時も下線を消す */
+}
+
+.btn-admin + .btn-admin {
+    margin-left: 50px; /* ボタン間のスペース */
+}
+
+.short-input {
+    max-width: 200px; /* フォームの最大幅を200pxに設定 */
+}
+
+.form-row {
+    display: flex;
+    justify-content: flex-start; /* フォームを左寄せにする */
+    gap: 50px; /* フォーム間の間隔を狭くする */
+}
+
+.form-group {
+    margin-right: 5px; /* 個々のフォーム間の余白を少し調整 */
+}
+
+/* カスタムセレクトボックスのスタイル */
+.custom-select {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.custom-select select {
+    display: none; /* デフォルトのセレクトボックスを非表示にする */
+}
+
+.select-selected {
+    background-color: #f1f1f1;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.select-selected:after {
+    content: '\f107'; /* FontAwesomeの下向き矢印アイコン */
+    font-family: 'Font Awesome 5 Free'; /* FontAwesomeフォントを使用 */
+    font-weight: 900;
+    position: absolute;
+    right: 10px;
+    top: 15px;
+}
+.wide-input {
+    width: 100%; /* 幅を100%に設定して親要素に合わせる */
+}
+
+.small-image {
+    width: 100px;  /* 幅を100pxに設定 */
+    height: auto;  /* 高さは自動調整 */
+    margin-right: 10px; /* 画像間の余白を設定 */
+}
