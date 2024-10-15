@@ -54,7 +54,7 @@
                     @csrf
                     @method('DELETE')
 
-                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-dark btn-sm" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-dark btn-sm">Hide</button>
                 </form>
             </div>
