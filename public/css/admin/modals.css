@@ -5,3 +5,17 @@
 .btn-dark {
     background-color: #2A3132; /* Dark button background color */
 }
+
+
+
+/* user icon */
+.user-profile {
+    display: inline-block;
+}
+
+.user-image {
+    width: 64px; /* same as fa-4x */
+    height: 64px; 
+    border-radius: 50%;
+    object-fit: cover; 
+}

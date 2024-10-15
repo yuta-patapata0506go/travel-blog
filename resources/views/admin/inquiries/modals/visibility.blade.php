@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" href="{{ asset('css/admin/modals.css') }}"> <!-- modal.cssファイルへのリンク -->
+    <link rel="stylesheet" href="{{ asset('css/admin/modals.css') }}"> <!-- link modal.css -->
 </head>
 
 {{-- Visible(Unhide) --}}
