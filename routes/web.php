@@ -2,8 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+
+
+Route::get('/events', function () {
+    return view('display.events');
+});
+
+Route::get('/tourism', function () {
+    return view('display.tourism');
+});
+
+Route::get('/events-tourism', function () {
+    return view('display.events-tourism');
 });
 
 Auth::routes();
