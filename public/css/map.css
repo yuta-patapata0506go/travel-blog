@@ -1,0 +1,147 @@
+body {
+  background-image: url(../images/map_samples/search_bg.webp);
+
+  /* 背景画像のサイズを調整 */
+  background-size: cover; /* 画像を全体にフィットさせる */
+  background-position: center; /* 画像を中央に配置 */
+
+  /* 背景をホワイトアウトする */
+  background-color: rgba(255, 255, 255, 0.7); /* 白色と透明度を設定 */
+  background-blend-mode: lighten; /* 白色と画像をブレンド */
+
+  /* 背景のその他の調整 */
+  background-repeat: no-repeat; /* 背景画像を繰り返さない */
+}
+
+/* Search Bar ------------------------------------------------*/
+
+.search-container {
+  position: relative;
+  width: 600px;
+  max-width: 100%;
+}
+
+.search-container input {
+  /* width: 40vw;   */
+  width: 100%;
+  padding: 10px;
+  padding-right: 40px; /* アイコンが重ならないように右側に余白を作成 */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+}
+
+.search-container i {
+  position: absolute;
+  right: 55%;
+  top: 50%;
+  transform: translateY(-90%);
+  color: #888;
+}
+
+.icon_size {
+  font-size: 30px;
+}
+
+.search-container button {
+  background-color: #336B87;
+  color: #ffffff;
+  border: none;
+  width: 150px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+}
+
+.search-container button:hover {
+  background-color: #90AFC5;
+  color: #2A3132;
+}
+
+/* Map ------------------------------------------------*/
+.map {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+  border-radius: 20px;
+}
+
+/* Sort Button ------------------------------------------------*/
+.sort_button {
+  text-align: right; 
+  position: relative;
+  margin: 0em 0em 0em 0em;
+}
+
+.sort_button i {
+  pointer-events: none; 
+  position: absolute;
+  color: #666666;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+:focus {
+  outline: none;
+}
+
+.sort_button select{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  width: 12em;
+  height: 2.5em;
+  border-radius: 50px;
+  font-size: 1.2em;
+  padding: 0em 1em 0em 1em;
+  margin: 20px 0;
+  cursor: pointer;
+}
+
+.sort_button select:hover {
+  background-color: #90AFC5;
+}
+
+
+/* Spots Section ------------------------------------------------*/
+
+.show_spot {
+  border-radius: 20px;
+  padding: 40px 80px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+  margin-bottom: 90px;
+}
+
+.small_spot .card{
+  /* height: 300px; */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+}
+
+.small_spot img {
+  height: 150px; 
+  display: block; /* 中央寄せに備えてブロック要素に */
+  margin: 0 auto; /* 画像をカード内で中央寄せ */
+  object-fit: cover;
+}
+
+
+/* Posts Section------------------------------------------------*/
+
+.small_post .card{
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+  margin-bottom: 60px;
+  overflow: hidden;
+}
+
+.small_post img {
+  height: 200px; 
+  display: block; /* 中央寄せに備えてブロック要素に */
+  margin: 0 auto; /* 画像をカード内で中央寄せ */
+  object-fit: cover
+}
+
+.post_text p {
+  position: relative;
+  max-height: 50px; /* 開く前に見せたい高さを指定 */
+  margin-bottom: 0;
+  overflow: hidden;
+  /* transition: max-height 1s; */
+}
+
+

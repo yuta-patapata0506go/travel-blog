@@ -25,6 +25,10 @@ Route::get('/navbar', function () {
     return view('navbar');
 });
 
+Route::get('/mappage', function () {
+    return view('map_page/map');
+});
+
 Route::get('/footer', function () {
     return view('footer');
 });
