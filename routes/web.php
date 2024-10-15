@@ -37,14 +37,18 @@ Route::get('/about', function () {
     return view('about');
 });
 
-// Admin
-Route::get('/admin/inquiries/inquiry_details', function () {
-    return view('admin/inquiries/inquiry_details');
+Route::get('/spot', function () {
+    return view('spot');
 });
 
 
-Route::get('/spot', function () {
-    return view('spot');
+// Admin
+Route::get('/admin/inquiries/create_reply', function () {
+    return view('admin/inquiries/create_reply');
+});
+
+Route::get('/admin/inquiries/inquiry_details', function () {
+    return view('admin/inquiries/inquiry_details');
 });
 
 Auth::routes();
