@@ -1,0 +1,14 @@
+.btn-back, .btn-reply {
+    background-color: #2A3132; 
+    color: #D9D9D9; /* text */
+    border: none; /* ボーダーをなくす（必要に応じて） */
+    padding: 10px 20px; /* パディングの設定 */
+    text-decoration: none; /* 下線を消す */
+    border-radius: 5px; /* 角を丸くする（必要に応じて） */
+    transition: background-color 0.3s, color 0.3s; /* ホバー時のスムーズな変化 */
+}
+
+.btn-back:hover, .btn-reply:hover {
+    background-color: #D9D9D9; /* ホバー時の背景色 */
+    color: #2A3132; /* ホバー時のテキスト色 */
+}
