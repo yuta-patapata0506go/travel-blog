@@ -74,7 +74,7 @@
             <!-- Buttons -->
             <div class="form-group text-center">
                 <button type="submit" class="btn-admin">Create</button>
-                <a href="#" class="btn-admin">Cancel</a>
+                <a href="#" class="btn-admin">Cancel </a>
             </div>
         </form>
 @endsection

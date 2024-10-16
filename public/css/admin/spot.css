@@ -81,7 +81,7 @@ h2 {
 }
 
 .small-image {
-    width: 100px;  /* 幅を100pxに設定 */
+    width: 100px;  /*  幅を100pxに設定 */
     height: auto;  /* 高さは自動調整 */
     margin-right: 10px; /* 画像間の余白を設定 */
 }
