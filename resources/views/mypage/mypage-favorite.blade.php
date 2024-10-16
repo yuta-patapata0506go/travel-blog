@@ -9,7 +9,7 @@
 @section('content')
 
 <div class="mypage-bg">
-@include('mypage-header')
+@include('mypage.mypage-header')
 
 
   <div class="container-mypage">
