@@ -2,23 +2,33 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+
+
+Route::get('/events', function () {
+    return view('display.events');
+});
+
+Route::get('/tourism', function () {
+    return view('display.tourism');
+});
+
+Route::get('/events-tourism', function () {
+    return view('display.events-tourism');
 });
 Route::get('/mypage-show', function () {
-    return view('mypage-show');
+    return view('mypage.mypage-show');
 });
 Route::get('/mypage-edit', function () {
-    return view('mypage-edit');
+    return view('mypage.mypage-edit');
 });
 Route::get('/mypage-following', function () {
-    return view('mypage-following');
+    return view('mypage.mypage-following');
 });
 Route::get('/mypage-followers', function () {
-    return view('mypage-followers');
+    return view('mypage.mypage-followers');
 });
 Route::get('/mypage-favorite', function () {
-    return view('mypage-favorite');
+    return view('mypage.mypage-favorite');
 });
 
 Route::get('/navbar', function () {

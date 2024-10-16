@@ -1,17 +1,19 @@
 @extends('layouts.app')
 
+@section('title', 'Login')
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/signin.css') }}">
 @endsection
 
 @section('content')
-<div class="sign_container">
+<div class="sign_container login_container">
     <div class="row justify-content-center">
         <h1 class="mt-5 mb-5">Welcome Back to WhereToGo</h1>
         <div class="col-md-8">
             <div class="form_container">
                     <div class="d-flex">
-                        <form method="POST" action="{{ route('login') }}" class="w-75 mx-auto">
+                        <form method="POST" action="{{ route('login') }}" class="w-75 mx-auto mt-5">
                             @csrf
     
                             <div class="row mb-3">
