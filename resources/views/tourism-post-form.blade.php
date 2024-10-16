@@ -1,5 +1,6 @@
 <link href="{{ asset('css/tourism-post.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+<script src="{{ asset('js/tourism-post.js') }}"></script>
 
 @extends('layouts.app')
 
@@ -314,21 +315,5 @@
     </div>
 </div>
 
-<script>
-function updateSelectedCategories() {
-    const selectedCategories = [];
-    document.querySelectorAll('#categoryForm .form-check-input:checked').forEach(checkbox => {
-        selectedCategories.push(checkbox.value);
-    });
 
-    const categoryContainer = document.getElementById('selectedCategories');
-    categoryContainer.innerHTML = ''; // 既存のカテゴリー表示をクリア
-    selectedCategories.forEach(category => {
-        const span = document.createElement('span');
-        span.classList.add('category-badge');
-        span.innerText = category;
-        categoryContainer.appendChild(span);
-    });
-}
-</script>   
 @endsection
