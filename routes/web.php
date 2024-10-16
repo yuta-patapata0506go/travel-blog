@@ -65,6 +65,31 @@ Route::get('/admin/inquiries/inquiry_details', function () {
     return view('admin/inquiries/inquiry_details');
 });
 
+Route::get('/posts-event-post', function () {
+    return view('posts.event-post');
+});
+Route::get('/posts-tourism-post', function () {
+    return view('posts.tourism-post');
+});
+
+Route::get('/posts-modal-post-delete', function () {
+    return view('posts.modal-post-delete');
+});
+
+
+Route::get('/admin-allow-spot', function () {
+    return view('admin.allow-spot');
+});
+
+Route::get('/admin-update-spot', function () {
+    return view('admin.update-spot');
+});
+
+Route::get('/admin-create-spot', function () {
+    return view('admin.create-spot');
+});
+
+
 Route::get('/select-post-form', function () {
     return view('select-post-form');
 });
