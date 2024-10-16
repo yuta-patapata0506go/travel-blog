@@ -29,18 +29,16 @@
                     <img src="images/map.png" class="spot-banner-img mx-auto d-block" alt="map pictures">
                     <div class="spot-banner-text">
                             <h2>Spots near You</h2>
-                            <div class="map-marker"></div>
                     </div>
                  </a>
             </div>
 
-            <!-- search form -->
-            <div class="search-container justify-content-center">
-                <form action="" method="GET" class="w-75" role="search">
-                    <div class="input-group mx-auto">
-                        <input type="search" name="query" class="search-input form-control me-2" placeholder="Search" aria-label="Search" required>
-                        <button type="submit" class="btn btn-success">Search</button>
-                    </div>
+            {{-- Search Bar --}}
+            <div class="search-container d-flex justify-content-center">
+                <form class="d-flex mb-4" role="search">
+                    <input class="form-control form-control-lg me-2" type="search" aria-label="Search">
+                    <i class="fas fa-search icon_size"></i>
+                    <button class="btn fs-3 fw-bold" type="submit">Search</button>
                 </form>
             </div>
 
