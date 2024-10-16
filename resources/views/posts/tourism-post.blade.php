@@ -34,13 +34,15 @@
                                         <a href="" class="dropdown-item">
                                             <i class="fa-regular fa-edit"></i>Edit
                                         </a>
-                                        <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#">
-                                            <i class="fa-regular fa-trash-can"></i>Delete
-                                        </button>
-                                    </div>
-                                    <!-- Modal for delete post -->
+                                        <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#delete-post">
+                            <i class="fa-regular fa-trash-can"></i> Delete
+                        </button>
+                    </div>
+                    {{-- Include MODAL here --}}
+                    @include('posts.modals.delete')
                             </div>
                     </div>
+            </div>
             </div>
 
             <!-- Image -->
