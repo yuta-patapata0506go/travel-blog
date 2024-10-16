@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" href="{{ asset('css/admin/modals.css') }}"> <!-- modal.cssファイルへのリンク -->
+    <link rel="stylesheet" href="{{ asset('css/admin/modals.css') }}"> <!-- link modal.css -->
 </head>
 
 {{-- Visible(Unhide) --}}
@@ -54,7 +54,7 @@
                     @csrf
                     @method('DELETE')
 
-                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-dark btn-sm" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-dark btn-sm">Hide</button>
                 </form>
             </div>
