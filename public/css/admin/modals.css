@@ -1,0 +1,7 @@
+.modal-header.bg-dark {
+    background-color: #2A3132 !important; /* Force the dark background */
+}
+
+.btn-dark {
+    background-color: #2A3132; /* Dark button background color */
+}
