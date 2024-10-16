@@ -2,6 +2,37 @@
     background-color: #2A3132 !important; /* Force the dark background */
 }
 
+
+/* button */
 .btn-dark {
     background-color: #2A3132; /* Dark button background color */
+    color: #D9D9D9; /* text */
+    border: none; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    transition: background-color 0.3s, color 0.3s; 
 }
+
+.btn-dark:hover {
+    background-color: #D9D9D9; 
+    color: #2A3132; 
+}
+
+
+
+/* user icon */
+.user-profile {
+    display: inline-block;
+}
+
+.user-image {
+    width: 64px; /* same as fa-4x */
+    height: 64px; 
+    border-radius: 50%;
+    object-fit: cover; 
+}
+
+
+
+
