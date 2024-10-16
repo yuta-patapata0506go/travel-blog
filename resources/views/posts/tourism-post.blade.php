@@ -1,5 +1,5 @@
 
-<link rel="stylesheet" href="{{asset('css/tourism.css')}}">
+<link rel="stylesheet" href="{{asset('css/posts.css')}}">
 
 @extends('layouts.app')
 
@@ -10,7 +10,7 @@
 <div class="container background-image  ">
 <div class="card my-4">
     <div class="card-body1 bg-white p-5">
-            <h1>Title</h1>
+            <h1>This is a Tourism Page !!!!!</h1>
             <div class="row align-items-center">
                     <div class="col-auto">
                         <!-- if user has avatar should display -->
@@ -43,7 +43,7 @@
                             </div>
                     </div>
             </div>
-            </div>
+
 
             <!-- Image -->
             <div class="card col mt-3" style="height: auto;">

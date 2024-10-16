@@ -7,8 +7,9 @@ Route::get('/', function () {
 });
 
 Route::get('/posts-tourism-post', function () {
-    return view('/posts/tourism-post');
+    return view('posts.tourism-post');
 });
+
 
 Auth::routes();
 
