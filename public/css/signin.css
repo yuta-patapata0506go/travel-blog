@@ -1,10 +1,18 @@
+body {
+  background-image: url(../images/backgrounds/sign_bg_2.svg);
+
+  /* 背景画像のサイズを調整 */
+  background-size: cover; /* 画像を全体にフィットさせる */
+  background-position: center; /* 画像を中央に配置 */
+
+  /* 背景のその他の調整 */
+  background-repeat: no-repeat; /* 背景画像を繰り返さない */
+}
+
 .sign_container {
   /* position: relative; */
   width: 100%;
   min-height: 95vh;
-  background-size: cover;
-  background-image: url(../signin_bg.svg);
-  background-position: center;
   font-family: "Open Sans", sans-serif;
 }
 
@@ -14,9 +22,6 @@
   font-family:  "Lato", sans-serif;
 }
 
-.sign_container form {
-  transform: translateY(30%);
-}
 
 .sign_container label {
   font-size: 24px;

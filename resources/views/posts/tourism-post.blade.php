@@ -1,16 +1,14 @@
 
-<link rel="stylesheet" href="{{asset('css/tourism.css')}}">
+<link rel="stylesheet" href="{{asset('css/posts.css')}}">
 
 @extends('layouts.app')
-
-
 
 @section('content')
 
 <div class="container background-image  ">
 <div class="card my-4">
     <div class="card-body1 bg-white p-5">
-            <h1>Title</h1>
+            <h1>This is a Tourism Page !!!!!</h1>
             <div class="row align-items-center">
                     <div class="col-auto">
                         <!-- if user has avatar should display -->
@@ -21,8 +19,6 @@
                     <div class="col ps-0">
                         <a href="#" class="text-decoration-none text-dark">NAME</a>
                     </div>
-                 
-
                     <div class="col-auto ps-0 ">
                         <!-- IF you are the OWNER of the post, you can EDIT or DELETE the post -->                 
                             <div class="dropdown">
@@ -34,14 +30,16 @@
                                         <a href="" class="dropdown-item">
                                             <i class="fa-regular fa-edit"></i>Edit
                                         </a>
-                                        <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#">
-                                            <i class="fa-regular fa-trash-can"></i>Delete
-                                        </button>
-                                    </div>
-                                    <!-- Modal for delete post -->
+                                        <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#delete-post">
+                            <i class="fa-regular fa-trash-can"></i> Delete
+                        </button>
+                    </div>
+                    {{-- Include MODAL here --}}
+                    @include('posts.modals.delete')
                             </div>
                     </div>
             </div>
+
 
             <!-- Image -->
             <div class="card col mt-3" style="height: auto;">
