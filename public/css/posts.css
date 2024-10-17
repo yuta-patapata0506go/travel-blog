@@ -1,0 +1,179 @@
+
+.background-image::before {
+    
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height:250%; /* 100%にして親要素の高さに従う */
+    min-height: 100vh; /* ビューポート全体をカバーする */
+    background-image: url('../images/197a83081ab1acc3e4fd0ac385546aae_1200x1200.webp');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    opacity: 0.15;
+    z-index: -1;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+ 
+}
+
+
+/* カードのスタイル */
+.card {
+    border-radius: 10px !important; /* より丸くし、他のスタイルに上書きされないように */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 影を追加 */
+}
+
+.cardーbody1{
+    border-radius: 10px !important; /* より丸くし、他のスタイルに上書きされないように */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 影を追加 */
+}
+.count-text {
+    font-size: 0.85rem; /* 数字を小さくする */
+    margin-left: 0; /* 左の余白をなくす */
+}
+
+.d-flex > i {
+    font-size: 1.2rem; /* アイコンのサイズ調整（必要に応じて） */
+}
+
+.d-flex {
+    gap: 0.25rem; /* アイコンと数字の間の隙間を調整 */
+}
+
+
+.icon-sm{
+    font-size: 1rem;
+}
+
+.icon-md{
+    font-size: 2rem;
+}
+
+
+     /* アイコンのスタイル */
+     .fa-heart,
+     .fa-comment,
+     .fa-star,
+     .fa-share {
+         font-size: 1.5rem;
+     }
+
+    
+
+.card {
+    border-radius: 10px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 控えめな影に調整 */
+}
+
+.comment-card {
+    border-radius: 10px; /* 子カードの丸みを適用 */
+    box-shadow: none; /* 子カードの影を削除して親カードの影のみを活かす */
+}
+.comments-container {
+    overflow: hidden; /* 必要であれば hidden を設定、ただし角が丸く表示されるように */
+    border-radius: 10px; /* カード全体に丸みを追加 */
+}
+
+
+.card-body1{
+    border-radius: 15px !important; /* より丸くし、他のスタイルに上書きされないように */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 影を追加 */
+}
+
+
+.comments-section button {
+    padding: 10px 15px; /* ボタンの内側の余白 */
+    background-color: #336B87; /* ボタンの背景色 */
+    color: #FBF4F4; /* ボタンのテキスト色 */
+    border: none; /* ボタンの境界線を無効にする */
+    border-radius: 5px; /* 角を丸くする */
+    cursor: pointer; /* カーソルをポインターに変更 */
+}
+
+.comments-section button:hover {
+    background-color: #90AFC5; /* ホバー時の背景色 */
+    color: #2A3132; /* ボタンのテキスト色 */
+}
+
+.btn-reply {
+    height: 25px !important; /* このスタイルは他のすべてのheight設定よりも優先されます */
+    padding: 2px 8px !important; /* paddingの他の設定を上書きします */
+    font-size: 8px  !important; /* テキストのサイズを小さく */
+    
+}
+
+.badge{
+    background-color: #336B87;
+    color: #FBF4F4;
+}
+
+.event-name{
+    font-size: 1.5rem;
+    background-color: #D9D9D9;
+}
+
+.carousel-indicators-wrapper {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* 背景を少し白くして視認性を向上 */
+    border-radius: 10px;
+}
+
+.carousel-indicators-wrapper {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* 背景を少し白くして視認性を向上 */
+    border-radius: 10px;
+}
+
+.carousel-indicators-wrapper button {
+    border: none; /* ボタン要素の枠線を削除 */
+    outline: none; /* ボタンのアウトラインを削除 */
+    background: transparent; /* ボタンの背景を透明に */
+    padding: 0; /* 余分なスペースを排除 */
+    cursor: pointer; /* マウスホバー時にカーソルを指カーソルに */
+}
+
+.carousel-indicators-wrapper button img {
+    width: 100px; /* サムネイルの幅 */
+    height: 70px; /* サムネイルの高さ */
+    object-fit: cover; /* アスペクト比を保ってコンテナに収める */
+    border-radius: 10px; /* サムネイルの角を丸くする */
+    border: 2px solid transparent; /* 初期状態で透明な枠線 */
+    transition: border-color 0.3s ease; /* スムーズな遷移効果 */
+}
+
+.carousel-indicators-wrapper button:hover img, 
+.carousel-indicators-wrapper button.active img {
+    border-color: #007bff !important; /* ホバー時に枠線を青色に強制変更 */
+}
+
+.main-carousel-img {
+    height: 400px; /* メイン画像の高さを固定 */
+    object-fit: cover; /* 画像のアスペクト比を保ちながらカルーセルのサイズに収める */
+    border-radius: 10px; /* メイン画像の角を丸くする */
+}
+
+.thumbnail-img {
+    width: 60px; /* サムネイルのサイズ */
+    height: 40px; /* 高さを指定して、比率を統一 */
+    object-fit: cover; /* サムネイル画像をコンテナに収める */
+    cursor: pointer; /* ポインターにカーソルを変更 */
+    border: 2px solid transparent; /* デフォルトの状態で透明な枠線 */
+    transition: border-color 0.3s ease; /* ホバー時のスムーズな遷移 */
+}
+
+.thumbnail-img:hover {
+    border-color: #007bff; /* ホバー時にボーダー色をブルーに変更 */
+}
+
+.no-link-style {
+    color: inherit; /* 親要素の色を引き継ぐ */
+    text-decoration: none; /* 下線を削除 */
+}
