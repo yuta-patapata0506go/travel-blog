@@ -8,6 +8,39 @@ Route::get('/events', function () {
     return view('display.events');
 });
 
+Route::get('/admin-users-index', function () {
+    return view('admin/users/users-index');
+});
+
+Route::get('/admin-posts-index', function () {
+    return view('/admin/posts/posts-index');
+});
+
+Route::get('/admin-spots-index', function () {
+    return view('/admin/spots/spots-index');
+});
+
+Route::get('/admin-categories-index', function () {
+    return view('/admin/categories/categories-index');
+});
+
+Route::get('/admin-inquiries-index', function () {
+    return view('/admin/inquiries/inquiries-index');
+});
+
+Route::get('/admin-spot_applications-index', function () {
+    return view('/admin/spot_applications/spot_applications-index');
+});
+
+Route::get('/admin-update_category', function () {
+    return view('/admin/modals/update_category');
+});
+
+Route::get('/admin-create_category', function () {
+    return view('/admin/modals/create_category');
+});
+
+
 Route::get('/tourism', function () {
     return view('display.tourism');
 });
@@ -89,6 +122,38 @@ Route::get('/admin-create-spot', function () {
     return view('admin.create-spot');
 });
 
+Route::get('/admin-users-index', function () {
+    return view('admin/users/users-index');
+});
+
+Route::get('/admin-posts-index', function () {
+    return view('/admin/posts/posts-index');
+});
+
+Route::get('/admin-spots-index', function () {
+    return view('/admin/spots/spots-index');
+});
+
+Route::get('/admin-categories-index', function () {
+    return view('/admin/categories/categories-index');
+});
+
+Route::get('/admin-inquiries-index', function () {
+    return view('/admin/inquiries/inquiries-index');
+});
+
+Route::get('/admin-spot_applications-index', function () {
+    return view('/admin/spot_applications/spot_applications-index');
+});
+
+Route::get('/admin-update_category', function () {
+    return view('/admin/modals/update_category');
+});
+
+Route::get('/admin-create_category', function () {
+    return view('/admin/modals/create_category');
+});
+
 
 Route::get('/select-post-form', function () {
     return view('select-post-form');
@@ -113,6 +178,8 @@ Route::get('/edit-event-post', function () {
 Route::get('/edit-tourism-post', function () {
     return view('edit-tourism-post');
 });
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -2,6 +2,10 @@
 
 @section('title', 'Contact')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/contact.css') }}">
+@endsection
+
 @section('body-class', 'contact')
 
 @section('content')
@@ -30,7 +34,7 @@
         <!-- Send Button -->
         <div class="row">
             <div class="col text-center">
-                <button type="submit" class="btn btn-primary w-50">Send</button>
+                <button type="submit" class="btn btn-send w-50">Send</button>
             </div>
         </div>
     </form>
@@ -38,27 +42,3 @@
 
 @endsection
 
-<style>
-body.contact {
-    font-family: 'Open Sans', sans-serif;
-    background-image: url('/images/backgrounds/logo_bg.svg');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
-    background-color: #fbf4f4;
-}
-
-h1.contact-title {
-    font-family: 'Lato', sans-serif;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    margin-top: 50px;
-    margin-bottom: 50px;
-}
-
-body.contact textarea, body.contact input {
-    border-radius: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-}
-</style>
