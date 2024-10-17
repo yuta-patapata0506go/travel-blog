@@ -85,11 +85,7 @@
                       @yield('content')
                     </div>
                </div>
-                <div class="row justify-content-center">
-                    <div class="col-sm-11">
-                      @yield('content')
-                    </div>
-               </div>
+                
             </div>
         </main>
 
