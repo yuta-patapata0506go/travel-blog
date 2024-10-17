@@ -1,0 +1,14 @@
+.btn-back, .btn-reply {
+    background-color: #2A3132; 
+    color: #D9D9D9; /* text */
+    border: none; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+.btn-back:hover, .btn-reply:hover {
+    background-color: #D9D9D9; 
+    color: #2A3132; 
+}
