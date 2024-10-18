@@ -12,18 +12,6 @@ body {
     background-position: center; /* 画像の中心を表示 */
 }
 
-header {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    background-color: #336B87;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-    z-index: 1000; /* 他のコンテンツより上に表示 */
-
-}
-
 h1 {
     margin-top: 60px; /* ヘッダーの下にスペースを作る */
 }
@@ -40,7 +28,8 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 500px; /* ナビゲーションバーとの間隔を40pxに設定 */
+    margin-top: 20px; /* ナビゲーションバーとの間隔を40pxに設定 */
+    margin-bottom: 80px;
 }
 
 /*.main-image , .thumbnail {
@@ -126,21 +115,71 @@ body {
     
 }
 
-/* 画像ギャラリー */
-.gallery {
-    display: flex; /* 横並びにする */
-    justify-content: space-between; /* 画像の間隔を均等にする */
-    gap: 30px; /* 画像の間に隙間を作る */
+
+/* 上の写真ギャラリー */
+.carousel-indicators-wrapper {
     margin-top: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* 背景を少し白くして視認性を向上 */
+    border-radius: 10px;
 }
+.carousel-indicators-wrapper {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* 背景を少し白くして視認性を向上 */
+    border-radius: 10px;
+}
+.carousel-indicators-wrapper button {
+    border: none; /* ボタン要素の枠線を削除 */
+    outline: none; /* ボタンのアウトラインを削除 */
+    background: transparent; /* ボタンの背景を透明に */
+    padding: 0; /* 余分なスペースを排除 */
+    cursor: pointer; /* マウスホバー時にカーソルを指カーソルに */
+}
+.carousel-indicators-wrapper button img {
+    width: 100px; /* サムネイルの幅 */
+    height: 70px; /* サムネイルの高さ */
+    object-fit: cover; /* アスペクト比を保ってコンテナに収める */
+    border-radius: 10px; /* サムネイルの角を丸くする */
+    border: 2px solid transparent; /* 初期状態で透明な枠線 */
+    transition: border-color 0.3s ease; /* スムーズな遷移効果 */
+}
+.carousel-indicators-wrapper button:hover img,
+.carousel-indicators-wrapper button.active img {
+    border-color: #007BFF !important; /* ホバー時に枠線を青色に強制変更 */
+}
+.main-carousel-img {
+    height: 400px; /* メイン画像の高さを固定 */
+    object-fit: cover; /* 画像のアスペクト比を保ちながらカルーセルのサイズに収める */
+    border-radius: 10px; /* メイン画像の角を丸くする */
+}
+.thumbnail-img {
+    width: 60px; /* サムネイルのサイズ */
+    height: 40px; /* 高さを指定して、比率を統一 */
+    object-fit: cover; /* サムネイル画像をコンテナに収める */
+    cursor: pointer; /* ポインターにカーソルを変更 */
+    border: 2px solid transparent; /* デフォルトの状態で透明な枠線 */
+    transition: border-color 0.3s ease; /* ホバー時のスムーズな遷移 */
+}
+.thumbnail-img:hover {
+    border-color: #007BFF; /* ホバー時にボーダー色をブルーに変更 */
+}
+
+/* 画像ギャラリー */
+/*.gallery {
+    display: flex; /* 横並びにする */
+    /*justify-content: space-between; /* 画像の間隔を均等にする */
+    /*gap: 30px; /* 画像の間に隙間を作る */
+    /*margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+/*}
 
 .gallery img {
     width: 70px; /* 各画像の幅を設定 */
-    height: 70px; /* 各画像の高さを設定 */
-    border-radius: 5px; /* 角を丸くする */
-    object-fit: cover; /* 画像が枠に収まるようにする */
-}
+    /*height: 70px; /* 各画像の高さを設定 */
+    /*border-radius: 5px; /* 角を丸くする */
+   /* object-fit: cover; /* 画像が枠に収まるようにする */
+/*}*/
 
 /* 横線のスタイル */
 .divider {
@@ -153,9 +192,10 @@ body {
 /* 地図と天気のコンテナ */
 .info-container {
     display: flex; /* 横並びにする */
-    justify-content: center space-between; /* 要素の間にスペースを均等に配置 */
+    justify-content: space-between; /* 要素の間にスペースを均等に配置 */
     width: 100%; /* カードの幅に合わせる */
     margin-top: 20px; /* 上に少しスペースを追加 */
+    padding: 0 5%;                /* 左右に均等な余白 */
     gap: 20px;  /* 要素間のスペースを20pxに設定 */
 }
 
@@ -166,48 +206,36 @@ body {
     background-color: #FBF4F4; /* 背景色 */
     border-radius: 5px; /* 角を丸くする */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+    margin-bottom: 40px;
 }
 
 /* コメントカード */
-.comment-card {
+.comments-section {
     background-color: #FBF4F4; /* カードの背景色 */
     width: calc(100% - 30px); /* 幅を100%から20px引いた値に設定 */
     padding: 20px;
     border-radius: 10px; /* 角を丸くする */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
-    margin-top: 20px; /* 上に少しスペースを追加 */
+    margin-top: 40px; /* 上に少しスペースを追加 */
 }
 
 /* コメントフォームのスタイル */
-.comment-card text {
-    width: calc(100% - 60px); /* 幅を100%から20px引いた値に設定 */
-    padding: 10px; /* 内側の余白 */
-    border-radius: 5px; /* 角を丸くする */
-    border: 1px solid #ccc; /* 境界線のスタイル */
-    min-height: 40px; /* ボタンの高さに合わせて最小の高さを設定 */
-    box-sizing: border-box; /* パディングを含めたサイズにする */
-    resize: none; /* テキストエリアのリサイズを無効にする場合 */
-    margin: 0; /* マージンをリセット */
-}
-
-.comment-card button {
-    height: 40px; /* 高さを調整 */
+.comments-section button {
     padding: 10px 15px; /* ボタンの内側の余白 */
     background-color: #336B87; /* ボタンの背景色 */
-    color: #ffffff; /* ボタンのテキスト色 */
+    color: #FBF4F4; /* ボタンのテキスト色 */
     border: none; /* ボタンの境界線を無効にする */
     border-radius: 5px; /* 角を丸くする */
     cursor: pointer; /* カーソルをポインターに変更 */
 }
-
-/* テキストエリアの横にスペースを追加したい場合 */
-.comment-card {
-    padding: 10px; /* カード内のパディングを調整 */
-}
-
-.comment-card button:hover {
+.comments-section button:hover {
     background-color: #90AFC5; /* ホバー時の背景色 */
     color: #2A3132; /* ボタンのテキスト色 */
+}
+.btn-reply {
+    height: 25px !important; /* このスタイルは他のすべてのheight設定よりも優先されます */
+    padding: 2px 8px !important; /* paddingの他の設定を上書きします */
+    font-size: 8px  !important; /* テキストのサイズを小さく */
 }
 
 /* イベントと観光のスタイル */
@@ -267,7 +295,7 @@ body {
     background-color: #336B87; /* ボタンの背景色 */
     color: #ffffff; /* ボタンのテキスト色 */
     border: none; /* ボタンの境界線を無効にする */
-    border-radius: 5px; /* 角を丸くする */
+    border-radius: 10px; /* 角を丸くする */
     cursor: pointer; /* カーソルをポインターに変更 */
 }
 
@@ -315,6 +343,24 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+
+.btn-comment-card {
+    height: 40px; /* 高さを調整 */
+    width: fit-content;
+    font-size: small;
+    padding: 5px 10px; /* ボタンの内側の余白 */
+    background-color: #336B87; /* ボタンの背景色 */
+    color: #ffffff; /* ボタンのテキスト色 */
+    border: none; /* ボタンの境界線を無効にする */
+    border-radius: 10px; /* 角を丸くする */
+    cursor: pointer; /* カーソルをポインターに変更 */
+}
+
+.btn-comment-card:hover {
+    background-color: #90AFC5; /* ホバー時の背景色 */
+    color: #2A3132; /* ボタンのテキスト色 */
+}
+
 .post-arrow-left, .post-arrow-right {
     position: absolute;
     top: 50%;
@@ -339,7 +385,7 @@ body {
 }
 
 .arrow-left:hover i, .arrow-right:hover i {
-    color: #000;
+    color: #336B87;
 }
 
 .spot-container {

@@ -1,0 +1,64 @@
+.modal-header.bg-dark {
+  background-color: #2A3132 !important; /* Force the dark background */
+}
+
+.modal-body {
+  background-color: #FBF4F4; /* Light background color */
+}
+
+.btn-dark {
+  background-color: #2A3132; /* Dark button background color */
+    color: #D9D9D9; /* text */
+    border: none; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    border-radius: 10px; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+button.btn.btn-dark:hover {
+    background-color: #D9D9D9; 
+    color: #2A3132; 
+}
+
+/* モーダル全体の角を丸くする */
+.modal-content {
+  border-radius: 10px !important; /* 重要度を上げて適用 */
+  overflow: hidden; /* 子要素がはみ出ないようにする */
+}
+
+
+.modal-header.bg-dark {
+  background-color: #2A3132 !important; /* Force the dark background */
+}
+
+/* user icon */
+.user-profile {
+  display: inline-block;
+}
+
+.user-image {
+  width: 64px; /* same as fa-4x */
+  height: 64px; 
+  border-radius: 50%;
+  object-fit: cover; 
+}
+/* モーダル全体の角を丸くする */
+.modal-content {
+  border-radius: 10px !important; /* 重要度を上げて適用 */
+  overflow: hidden; /* 子要素がはみ出ないようにする */
+}
+
+/* モーダルの下部分（フッター）の角を丸くする */
+.modal-footer {
+  border-radius: 0 0 10px 10px !important; /* 下の左右だけ丸くする */
+  overflow: hidden; /* 子要素の影響を排除 */
+  border-top: none; /* フッターの上に余計なボーダーがある場合は削除 */
+}
+  /* background-color: #FBF4F4; /* Light background color */
+
+
+
+
+
+

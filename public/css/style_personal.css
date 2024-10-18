@@ -1,0 +1,142 @@
+.text-s32{
+   font-size: 32px;
+   font-family: Lato, sans-serif;
+}
+.text-s24{
+   font-size: 24px;
+   font-family: "Open sans", sans-serif;
+}
+.text-s16{
+   font-size: 16px;
+   font-family: "Open sans", sans-serif;
+}
+.text-s48{
+   font-size: 64px;
+   font-family: Lato, sans-serif;
+}
+.icon-big{
+   font-size: 3.5rem;
+}
+.icon-small{
+   font-size: 1.5rem;
+}
+h1{
+   font-family: Lato, sans-serif;
+}
+h5,p{
+   font-family: "Open sans", sans-serif;
+}
+body{
+   background-image: url(../images/94DE96B6-E60D-4DA8-B3A4-892E5AC7853E.jpg);
+   position: relative;
+   background-size: cover; 
+   height: 100vh;
+   z-index: 1;
+   background-attachment: fixed;
+   background-position: center center;
+}
+body::after{
+   content: "";
+   position: fixed;
+   z-index: 1;
+   width: 100%;
+   height:100%;
+   top: 0;
+   left: 0;
+   background-color: white;
+   opacity: 0.5;
+}
+nav{
+   z-index: 2; 
+}
+.container-mypage{
+   position: relative;
+   z-index: 3;
+   padding-bottom: 100px;
+}
+
+input{
+   box-shadow: 0px 2px 3px 1px rgba(72, 72, 72, 0.4);
+}
+textarea{
+   box-shadow: 0px 2px 3px 1px rgba(72, 72, 72, 0.4); 
+}
+input::placeholder{
+   color: #90AFC5 !important;
+   font-family: "Open sans", sans-serif; 
+}
+textarea::placeholder{
+   color: #90AFC5 !important;
+}
+.dark-text{
+   color: #2A3132;
+}
+
+
+.btn-green{ /*green button */
+   background-color: #336B87;
+   color: #FFFFFF;
+   width: 100px;  
+   padding: 6px;
+   border-radius: 5px;
+   border:none;
+   font-family: "Open Sans", sans-serif;
+}
+.btn-green:hover{
+   background-color: #90AFC5; /* ホバー時の背景色 */
+   color: #2A3132; /* ボタンのテキスト色 */
+}
+.btn-follow{
+   padding: 10px;
+}
+
+.btn-black{ /*black button*/
+   border:none;
+   color: #FFFFFF;
+   background-color: #2A3132;
+   width: 100px;
+   border-radius: 5px;
+   font-family: "Open Sans", sans-serif;
+}
+.btn-black:hover{
+   background-color: #B3B3B3; /* ホバー時の背景色 */
+   color: #2A3132; /* ボタンのテキスト色 */
+}
+.label-text{
+   font-size: 20px;
+}
+.btn-sm{
+   font-family: "Open Sans", sans-serif;
+}
+.small_post .card{
+   box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+   margin-bottom: 60px;
+   overflow: hidden;
+   border-radius: 10px; /* 角を丸くする */
+ }
+ 
+ .small_post img {
+   height: 200px; 
+   display: block; /* 中央寄せに備えてブロック要素に */
+   margin: 0 auto; /* 画像をカード内で中央寄せ */
+   object-fit: cover
+ }
+ 
+ .post_text p {
+   position: relative;
+   max-height: 50px; /* 開く前に見せたい高さを指定 */
+   margin-bottom: 0;
+   overflow: hidden;
+   /* transition: max-height 1s; */
+ }
+ 
+ 
+ .post_text button {
+   height: 40px; /* 高さを調整 */
+   padding: 10px 15px; /* ボタンの内側の余白 */
+   background-color: #336B87 !important; /* ボタンの背景色 */
+   color: #ffffff; /* ボタンのテキスト色 */
+   border: none; /* ボタンの境界線を無効にする */
+   border-radius: 5px; /* 角を丸くする */
+   cursor: pointer; /* カーソルをポインターに変更 */
+ }
