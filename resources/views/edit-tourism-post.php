@@ -1,13 +1,13 @@
-<link href="{{ asset('css/event-post.css') }}" rel="stylesheet">
+<link href="{{ asset('css/tourism-post.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
-
+<script src="{{ asset('js/edit-tourism.js') }}"></script>
 
 @extends('layouts.app')
 
 @section('content')
 <div class="background"></div> <!-- 背景画像 -->     
 <div class="container container-fluid mt-5">
-    <h2 class="text-center mb-4">Event Post Form</h2>
+    <h2 class="text-center mb-4">Edit Tourism Post</h2>
     
     <form action="#" method="POST" enctype="multipart/form-data">
         @csrf
@@ -41,17 +41,7 @@
                 Choose a category
             </button>
             <div id="selectedCategories" class="mt-2"></div>
-        </div>
-        <div class="row">
-  <div class="col-md-6">
-    <label for="start-date" class="form-label">Start Date <span class="text-danger">*</span>:</label>
-    <input type="date" id="start-date" name="start_date" class="form-control">
-  </div>
-  <div class="col-md-6">
-    <label for="end-date" class="form-label">End Date <span class="text-danger">*</span>:</label>
-    <input type="date" id="end-date" name="end_date" class="form-control">
-  </div>
-</div>
+        </div>      
        
         <div class="mb-3">
             <label for="fee" class="form-label">Fee:</label>
@@ -63,7 +53,7 @@
             <input type="text" class="form-control" id="info" name="info" placeholder="Enter any useful information">
         </div>
         <div class="d-flex justify-content-center mt-4">
-            <button type="submit" class="btn-post btn-lg-custom">Post</button>
+            <button type="submit" class="btn-post btn-lg-custom">Save</button>
             <button type="button" class="btn cancel-btn btn-lg-custom">Cancel</button>
         </div>       
     </form>
@@ -312,7 +302,10 @@
                               </div>    
                            </div>    
                         </div>                
-                    </div>                    
+                    </div>
+
+
+                    
                 </form>
             </div>            
             <div class="modal-footer">
@@ -321,5 +314,4 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('js/event-post.js') }}"></script>
 @endsection
