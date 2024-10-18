@@ -55,8 +55,7 @@ button.btn.btn-dark:hover {
   overflow: hidden; /* 子要素の影響を排除 */
   border-top: none; /* フッターの上に余計なボーダーがある場合は削除 */
 }
-  background-color: #FBF4F4; /* Light background color */
-}
+  /* background-color: #FBF4F4; /* Light background color */
 
 
 
