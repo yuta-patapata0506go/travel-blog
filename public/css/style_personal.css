@@ -15,7 +15,7 @@
    font-family: Lato, sans-serif;
 }
 .icon-big{
-   font-size: 5rem;
+   font-size: 3.5rem;
 }
 .icon-small{
    font-size: 1.5rem;
@@ -103,8 +103,40 @@ textarea::placeholder{
    color: #2A3132; /* ボタンのテキスト色 */
 }
 .label-text{
-   font-size: 24px;
+   font-size: 20px;
 }
 .btn-sm{
    font-family: "Open Sans", sans-serif;
 }
+.small_post .card{
+   box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+   margin-bottom: 60px;
+   overflow: hidden;
+   border-radius: 10px; /* 角を丸くする */
+ }
+ 
+ .small_post img {
+   height: 200px; 
+   display: block; /* 中央寄せに備えてブロック要素に */
+   margin: 0 auto; /* 画像をカード内で中央寄せ */
+   object-fit: cover
+ }
+ 
+ .post_text p {
+   position: relative;
+   max-height: 50px; /* 開く前に見せたい高さを指定 */
+   margin-bottom: 0;
+   overflow: hidden;
+   /* transition: max-height 1s; */
+ }
+ 
+ 
+ .post_text button {
+   height: 40px; /* 高さを調整 */
+   padding: 10px 15px; /* ボタンの内側の余白 */
+   background-color: #336B87 !important; /* ボタンの背景色 */
+   color: #ffffff; /* ボタンのテキスト色 */
+   border: none; /* ボタンの境界線を無効にする */
+   border-radius: 5px; /* 角を丸くする */
+   cursor: pointer; /* カーソルをポインターに変更 */
+ }
