@@ -8,39 +8,23 @@
 
 .btn-dark {
   background-color: #2A3132; /* Dark button background color */
-}
-.modal-header.bg-dark {
-  background-color: #2A3132 !important; /* Force the dark background */
-}
-
-.btn-dark {
-  background-color: #2A3132; /* Dark button background color */
-}
-
-/* user icon */
-.user-profile {
-  display: inline-block;
+    color: #D9D9D9; /* text */
+    border: none; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    border-radius: 10px; 
+    transition: background-color 0.3s, color 0.3s; 
 }
 
-.user-image {
-  width: 64px; /* same as fa-4x */
-  height: 64px; 
-  border-radius: 50%;
-  object-fit: cover; 
+button.btn.btn-dark:hover {
+    background-color: #D9D9D9; 
+    color: #2A3132; 
 }
+
 /* モーダル全体の角を丸くする */
 .modal-content {
   border-radius: 10px !important; /* 重要度を上げて適用 */
   overflow: hidden; /* 子要素がはみ出ないようにする */
-}
-
-
-.modal-header.bg-dark {
-  background-color: #2A3132 !important; /* Force the dark background */
-}
-
-.modal-body {
-  background-color: #FBF4F4; /* Light background color */
 }
 
 
