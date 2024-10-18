@@ -1,10 +1,14 @@
+input, textarea {
+    border-radius: 10px;
+}
+
 .btn-cancel, .btn-submit {
     background-color: #2A3132; /* Button background color */
     color: #D9D9D9; /* Button text color */
-    border: none; /* Remove border (optional) */
-    padding: 10px 20px; /* Set padding */
-    text-decoration: none; /* Remove underline */
-    border-radius: 5px; /* Round corners (optional) */
+    border: none; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    border-radius: 10px; 
     transition: background-color 0.3s, color 0.3s; /* Smooth transition on hover */
 }
 

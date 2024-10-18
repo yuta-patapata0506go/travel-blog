@@ -1,13 +1,13 @@
 <link href="{{ asset('css/event-post.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
-
+<script src="{{ asset('js/edit-event.js') }}"></script>
 
 @extends('layouts.app')
 
 @section('content')
 <div class="background"></div> <!-- 背景画像 -->     
 <div class="container container-fluid mt-5">
-    <h2 class="text-center mb-4">Event Post Form</h2>
+    <h2 class="text-center mb-4">Edit Event Post</h2>
     
     <form action="#" method="POST" enctype="multipart/form-data">
         @csrf
@@ -63,7 +63,7 @@
             <input type="text" class="form-control" id="info" name="info" placeholder="Enter any useful information">
         </div>
         <div class="d-flex justify-content-center mt-4">
-            <button type="submit" class="btn-post btn-lg-custom">Post</button>
+            <button type="submit" class="btn-post btn-lg-custom">Save</button>
             <button type="button" class="btn cancel-btn btn-lg-custom">Cancel</button>
         </div>       
     </form>
@@ -312,7 +312,10 @@
                               </div>    
                            </div>    
                         </div>                
-                    </div>                    
+                    </div>
+
+
+                    
                 </form>
             </div>            
             <div class="modal-footer">
@@ -321,5 +324,5 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('js/event-post.js') }}"></script>
+
 @endsection
