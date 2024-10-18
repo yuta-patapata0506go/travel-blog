@@ -9,7 +9,7 @@
                   <img src="{{ asset('images/map_samples/post_pc_sample.png') }}" class="card-img-top" alt="Tourism Image">
                 </a>
 
-                <div class="card-body bg-light">
+                <div class="card-body">
 
                   <div class="row">
                     <div class="col-auto">
@@ -35,7 +35,8 @@
                   </div>
                   <div class="post_text">
                     <p>text text text text text text text text text text text text text text text text text text text text</p>
-                    <a href="#">Read more</a>
+                    <button class="btn comment-card">Learn More</button>
+                   
                   </div>
               
                 </div>
