@@ -340,5 +340,6 @@ function updateSelectedCategories() {
         categoryContainer.appendChild(span);
     });
 }
-</script>   
+</script>  
+
 @endsection
