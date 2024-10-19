@@ -111,15 +111,15 @@ Route::get('/posts-modal-post-delete', function () {
 
 
 Route::get('/admin-allow-spot', function () {
-    return view('admin.allow-spot');
+    return view('admin.spot_applications.allowCreate');
 });
 
 Route::get('/admin-update-spot', function () {
-    return view('admin.update-spot');
+    return view('admin.spots.update');
 });
 
 Route::get('/admin-create-spot', function () {
-    return view('admin.create-spot');
+    return view('admin.spots.create');
 });
 
 Route::get('/admin-users-index', function () {
