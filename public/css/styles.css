@@ -1,10 +1,6 @@
 /* Entire */
 body {
-<<<<<<< HEAD
     background-color: #fbf4f4 !important;
-=======
-    background-color: #fbf4f4;
->>>>>>> main
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     height: 100%;
@@ -109,9 +105,6 @@ input {
 
 .footer-link:hover {
     text-decoration: underline;
-<<<<<<< HEAD
-}
-=======
 }
 
 /* Search Bar ------------------------------------------------*/
@@ -160,4 +153,3 @@ input {
     opacity: 0.1; /* 透過率 */
     z-index: 1; /* 他の要素の下に配置 */
 }
->>>>>>> main
