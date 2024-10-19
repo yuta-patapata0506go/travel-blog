@@ -53,7 +53,7 @@
     background-color: #005f73 !important; /* Indigo color */
     color: #FFFFFF !important; /* 白色 */
     border: none !important;
-    border-radius: 8px !important; /* 角を丸める */
+    border-radius:10px !important; /* 角を丸める */
     margin-right: 300px; /* PostボタンとSaveボタンの間に20pxの余白を追加 */
 }
 
@@ -66,7 +66,7 @@
     background-color: #005f73 !important; /* Coral color */
     color: #FFFFFF !important; /* 白色 */
     border: none !important;
-    border-radius: 8px !important; /* 角を丸める */  
+    border-radius: 10px !important; /* 角を丸める */  
     font-size: 1rem !important; /* フォントサイズを大きくする */
     padding: 0.5rem 1rem !important; /* 上下左右の余白を調整 */     
 }
@@ -102,7 +102,7 @@
         background-color: #005f73 !important; /* Coral color */
         color: #FFFFFF !important; /* 白色 */
         border: none !important;
-        border-radius: 8px !important; /* 角を丸める */  
+        border-radius: 10px !important; /* 角を丸める */  
         font-size: 1rem !important; /* フォントサイズを大きくする */
         padding: 0.5rem 1rem !important; /* 上下左右の余白を調整 */     
     }
@@ -116,7 +116,7 @@
         background-color: #005f73 !important; /* Indigo color */
         color: #FFFFFF !important; /* 白色 */
         border: none !important;
-        border-radius: 8px !important; /* 角を丸める */
+        border-radius: 10px !important; /* 角を丸める */
         margin-right: 300px; /* PostボタンとSaveボタンの間に20pxの余白を追加 */
     }
     
@@ -254,4 +254,9 @@ main {
 .small-large-text {
     font-size: 1.25rem; /* 必要に応じてサイズを調整 */
     font-weight: bold; /* テキストを太くする場合 */
+}
+
+.form-shadow {
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
