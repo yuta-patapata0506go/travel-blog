@@ -1,6 +1,10 @@
 /* Entire */
 body {
+<<<<<<< HEAD
     background-color: #fbf4f4 !important;
+=======
+    background-color: #fbf4f4;
+>>>>>>> main
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     height: 100%;
@@ -105,4 +109,55 @@ input {
 
 .footer-link:hover {
     text-decoration: underline;
+<<<<<<< HEAD
 }
+=======
+}
+
+/* Search Bar ------------------------------------------------*/
+.search-container {
+    position: relative;
+    width: 600px;
+    max-width: 100%;
+  }
+  .search-container input {
+    /* width: 40vw;   */
+    width: 100%;
+    padding: 10px;
+    padding-right: 40px; /* アイコンが重ならないように右側に余白を作成 */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+  }
+  .search-container i {
+    position: absolute;
+    right: 55%;
+    top: 50%;
+    transform: translateY(-90%);
+    color: #888;
+  }
+  .icon_size {
+    font-size: 30px;
+  }
+  .search-container button {
+    background-color: #336B87;
+    color: #ffffff;
+    border: none;
+    width: 150px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+  }
+  .search-container button:hover {
+    background-color: #90AFC5;
+    color: #2A3132;
+  }
+
+  .background-overlay {
+    position: absolute; /* 絶対位置に設定 */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover; /* 背景画像のサイズ調整 */
+    background-position: center; /* 背景画像の位置 */
+    opacity: 0.1; /* 透過率 */
+    z-index: 1; /* 他の要素の下に配置 */
+}
+>>>>>>> main

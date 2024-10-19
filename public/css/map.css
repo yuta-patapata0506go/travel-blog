@@ -1,17 +1,19 @@
 body {
-  background-image: url(../images/map_samples/search_bg.webp);
+  background-image: url(../images/map_samples/search_bg.webp) !important;
+
 
   /* 背景画像のサイズを調整 */
   background-size: cover; /* 画像を全体にフィットさせる */
   background-position: center; /* 画像を中央に配置 */
 
   /* 背景をホワイトアウトする */
-  background-color: rgba(255, 255, 255, 0.7); /* 白色と透明度を設定 */
+  background-color: rgba(255, 255, 255, 0.6); /* 白色と透明度を設定 */
   background-blend-mode: lighten; /* 白色と画像をブレンド */
 
   /* 背景のその他の調整 */
   background-repeat: no-repeat; /* 背景画像を繰り返さない */
 }
+
 
 /* Search Bar ------------------------------------------------*/
 
@@ -111,6 +113,7 @@ body {
 .small_spot .card{
   /* height: 300px; */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+  border-radius: 10px; /* 角を丸くする */
 }
 
 .small_spot img {
@@ -127,6 +130,7 @@ body {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
   margin-bottom: 60px;
   overflow: hidden;
+  border-radius: 10px; /* 角を丸くする */
 }
 
 .small_post img {
@@ -145,3 +149,12 @@ body {
 }
 
 
+.post_text button {
+  height: 40px; /* 高さを調整 */
+  padding: 10px 15px; /* ボタンの内側の余白 */
+  background-color: #336B87 !important; /* ボタンの背景色 */
+  color: #ffffff; /* ボタンのテキスト色 */
+  border: none; /* ボタンの境界線を無効にする */
+  border-radius: 5px; /* 角を丸くする */
+  cursor: pointer; /* カーソルをポインターに変更 */
+}
