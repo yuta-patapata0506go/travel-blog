@@ -13,7 +13,7 @@
         @csrf
         <div class="mb-3">
             <label for="type" class="form-label">Spot <span class="text-danger">*</span>:</label>
-            <select class="form-select" id="spot" name="spot" required>
+            <select class="form-select form-shadow" id="spot" name="spot" required>
                 <option value="">Please select a spot. If no spot is displayed here, you will need to go back to the previous page and register a spot first.</option>
                 <option value="public">Sapporo clock tower</option>
                 <option value="private">Tokyo tower</option>
@@ -22,18 +22,18 @@
 
         <div class="mb-3">
             <label for="image" class="form-label">Image <span class="text-danger">*</span>:</label>
-            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+            <input type="file" class="form-control form-shadow" id="image" name="image" accept="image/*">
             <small class="form-text text-muted">The acceptable formats are .jpg, .jpeg, .png, .gif (max 2MB)</small>
         </div>
 
         <div class="mb-3">
             <label for="event_name" class="form-label">Event name <span class="text-danger">*</span>:</label>
-            <input type="text" class="form-control" id="event_name" name="event_name" placeholder="Enter event name" required>
+            <input type="text" class="form-control form-shadow" id="event_name" name="event_name" placeholder="Enter event name" required>
         </div>
 
         <div class="mb-3">
             <label for="comments" class="form-label">Comments:</label>
-            <textarea class="form-control" id="comments" name="comments" rows="3" placeholder="Enter comments"></textarea>
+            <textarea class="form-control form-shadow" id="comments" name="comments" rows="3" placeholder="Enter comments"></textarea>
         </div>
         <div class="mb-3">
             <label class="form-label">Category:</label>
@@ -45,12 +45,12 @@
        
         <div class="mb-3">
             <label for="fee" class="form-label">Fee:</label>
-            <input type="text" class="form-control" id="fee" name="fee" placeholder="Enter fee amount">
+            <input type="text" class="form-control form-shadow" id="fee" name="fee" placeholder="Enter fee amount">
         </div>
 
         <div class="mb-3">
             <label for="info" class="form-label">Useful Information:</label>
-            <input type="text" class="form-control" id="info" name="info" placeholder="Enter any useful information">
+            <input type="text" class="form-control form-shadow" id="info" name="info" placeholder="Enter any useful information">
         </div>
         <div class="d-flex justify-content-center mt-4">
             <button type="submit" class="btn-post btn-lg-custom">Post</button>

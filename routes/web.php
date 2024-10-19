@@ -1,9 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
+// Home Route
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-
+// Events and Tourism Routes
 Route::get('/events', function () {
     return view('display.events');
 });
@@ -48,6 +51,7 @@ Route::get('/tourism', function () {
 Route::get('/events-tourism', function () {
     return view('display.events-tourism');
 });
+// My Page Routes
 Route::get('/mypage-show', function () {
     return view('mypage.mypage-show');
 });
@@ -89,7 +93,7 @@ Route::get('/spot', function () {
 });
 
 
-// Admin
+// Admin　Routes
 Route::get('/admin/inquiries/create_reply', function () {
     return view('admin/inquiries/create_reply');
 });
@@ -179,9 +183,9 @@ Route::get('/edit-tourism-post', function () {
     return view('edit-tourism-post');
 });
 
+<<<<<<< HEAD
+// Authentication Routes
+=======
 
+>>>>>>> 5949b5f35bdfe2011180741503196236e5bd5715
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
