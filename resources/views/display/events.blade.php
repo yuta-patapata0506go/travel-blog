@@ -9,10 +9,12 @@
     <div class="row">
         <div class="col-md-11 event-content mx-auto">
            <!-- images -->
-            <div class="images">
-                 <div class="logo-img">
-                     <img src="images/Group 316.png" class="mx-auto d-block" alt="logo">  
-                 </div>
+           <div class="images">
+                <div class="logo-img text-center mt-4 mb-4">
+                     <img src="{{ asset('images/Group 316.png') }}" alt="Where To Go?" class="img-fluid mb-2">
+                </div>
+               
+            
                  <div class="eventbar">
                       <img src="images/eventbar.png" alt="Event Banner" class="banner-img">
                       <div class="banner-text">Event</div>
@@ -83,17 +85,19 @@
         </div> 
     </div> 
     
-    <!-- sort part -->
-    <div class="sort">
-        <button class="btn btn-outline-secondary dropdown-toggle rounded-pill" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            Sort by recommended
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="?sort=likes">Likes</a></li>
-            <li><a class="dropdown-item" href="?sort=favorites">Favorites</a></li>
-            <li><a class="dropdown-item" href="?sort=lately">Lately</a></li>
-        </ul>
-    </div>
+  {{-- Sort Button --}}
+  <form id="sort" class="sort_button">
+    <label for="sortOptions" class="fs-4">Sort by</label>
+    <select name="price" id="sortOptions" class="fs-4">
+        <option value="1">Recommended</option>
+        <option value="2">Newest Post</option>
+        <option value="3">Popular</option>
+        <option value="4">Many Likes</option>
+        <option value="5">Many Views</option>
+    </select>
+    <i class="fa-solid fa-chevron-down icon_size"></i>
+  </form>
+             
 
     {{-- Posts Section --}}
     @include('post-spot.event-posts')
