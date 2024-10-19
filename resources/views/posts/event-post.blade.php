@@ -1,5 +1,5 @@
 
-<link rel="stylesheet" href="{{asset('css/tourism.css')}}">
+<link rel="stylesheet" href="{{asset('css/posts.css')}}">
 
 @extends('layouts.app')
 
@@ -34,11 +34,12 @@
                                         <a href="" class="dropdown-item">
                                             <i class="fa-regular fa-edit"></i>Edit
                                         </a>
-                                        <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#">
-                                            <i class="fa-regular fa-trash-can"></i>Delete
-                                        </button>
-                                    </div>
-                                    <!-- Modal for delete post -->
+                                        <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#delete-post">
+                            <i class="fa-regular fa-trash-can"></i> Delete
+                        </button>
+                    </div>
+                    {{-- Include MODAL here --}}
+                    @include('posts.modals.delete')
                             </div>
                     </div>
             </div>
@@ -76,7 +77,7 @@
                     </button>
                 </div>
 
-                <!-- SubImages(thumbnail) -->
+                <!-- サブ画像 (サムネイル) -->
                 <div class="carousel-indicators-wrapper mt-3 d-flex justify-content-center gap-2 flex-wrap">
                     <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1">
                         <img src="{{ asset('images/firework.jpeg') }}" class="thumbnail-img" alt="Firework Thumbnail 1">

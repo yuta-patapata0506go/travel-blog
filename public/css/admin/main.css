@@ -1,0 +1,188 @@
+/* フォントの設定とボディの背景色 */
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #FBF4F4 !important; /* ボディの背景色を強制適用 */
+}
+
+/* 見出しのスタイル */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lato', sans-serif; /* 見出しにLatoフォントを設定 */
+}
+
+/* ナビゲーションバーとフッターのスタイル */
+.navbar, .footer {
+  background-color: #333; /* 背景色 */
+  color: white; /* 文字色 */
+  border-radius: 10px; /* 角を10pxに丸める */
+}
+
+/* 管理画面タイトルのスタイル */
+.admin-title {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* テーブルのスタイル */
+table {
+  width: 100%; /* 全幅にする */
+  border-collapse: collapse; /* ボーダーの重なりを防ぐ */
+  background-color: #FFFFFF; /* 背景色を白に設定 */
+  border-radius: 10px; /* 角を10pxに丸める */
+  overflow: hidden; /* 角を丸めた効果を適用するため */
+}
+
+/* テーブルヘッダーのスタイル */
+thead th {
+  border: none; /* ボーダーをなくす */
+  background-color: #333; /* 背景色 */
+  color: white; /* 文字色 */
+}
+
+/* テーブルセルのスタイル */
+.table th, .table td {
+  vertical-align: middle; /* 垂直位置を中央に */
+}
+
+/* tbodyの背景色とホバー時のスタイル */
+tbody {
+  background-color: #FBF4F4; /* 背景色 */
+}
+
+tbody tr:hover {
+  background-color: #B3B3B3; /* ホバー時の背景色 */
+}
+
+/* ページネーションのスタイル */
+.pagination {
+  justify-content: center; /* 中央に配置 */
+  background-color: #FBF4F4; /* 背景色 */
+  padding: 10px; /* パディング */
+  border-radius: 10px; /* 角を丸める */
+}
+
+/* アクティブなページアイテムのスタイル */
+.pagination .page-item.active .page-link {
+  background-color: #2A3132; /* 背景色 */
+  color: white; /* 文字色 */
+}
+
+/* ページリンクのスタイル */
+.pagination .page-link {
+  color: #000; /* 文字色 */
+  background-color: #FFFFFF; /* 背景色 */
+  border: 1px solid #ddd; /* 薄い枠線 */
+  border-radius: 10px; /* 角を丸く */
+}
+
+/* ページリンクのホバー時のスタイル */
+.pagination .page-link:hover {
+  background-color: #B3B3B3; /* ホバー時の背景色 */
+}
+
+/* アイコンタブのスタイル */
+.icon-tab {
+  display: flex;
+  justify-content: center; /* 中央に配置 */
+  margin-bottom: 20px; /* 下に余白 */
+}
+
+/* アイコンボタンのスタイル */
+.icon-btn {
+  border: none; /* ボーダーを無効に */
+  background-color: transparent; /* 背景を透明に */
+  color: #000; /* 文字色 */
+  transition: color 0.3s, background-color 0.3s; /* 色と背景色の変化にアニメーションを追加 */
+  font-size: 24px; /* サイズ */
+  width: 80px; /* 幅 */
+  height: 80px; /* 高さ */
+  display: flex;
+  justify-content: center; /* 中央に配置 */
+  align-items: center; /* 中央に配置 */
+  margin: 0 10px; /* 間隔 */
+  border-radius: 10px; /* 角を丸める */
+}
+
+/* ホバー時のアイコンボタンのスタイル */
+.icon-btn:hover {
+  color: #FFFFFF; /* ホバー時の文字色 */
+  background-color: #B3B3B3; /* ホバー時の背景色 */
+}
+
+/* ドロップダウンのスタイル */
+.dropdown-toggle {
+  background-color: transparent;
+  border: none;
+  color: inherit; /* 親要素の色を継承 */
+}
+
+.dropdown-toggle:hover {
+  background-color: #B3B3B3; /* ホバー時の背景色 */
+}
+
+/* アイコンコンテナのスタイル */
+.icon-container {
+  display: flex; /* 横並び */
+  justify-content: space-between; /* スペースを均等に */
+  border: 1px solid #ccc; /* 枠線 */
+  border-radius: 10px; /* 角を丸める */
+  background-color: #FFFFFF; /* 背景色 */
+  padding: 10px; /* 内側の余白 */
+}
+
+/* アイコンアイテムのスタイル */
+.icon-item {
+  flex: 1; /* 均等に広げる */
+  text-align: center; /* 中央に配置 */
+  padding: 20px; /* 内側の余白 */
+  text-decoration: none; /* 下線を消す */
+  color: black; /* 文字色 */
+  transition: background-color 0.3s; /* 背景色の変化にアニメーションを追加 */
+  border-radius: 10px; /* 角を丸める */
+}
+
+.icon-item i {
+  font-size: 30px; /* サイズ */
+  display: block; /* 縦並びにする */
+  margin-bottom: 5px; /* アイコンとテキストの間隔 */
+}
+
+/* ホバー時のアイコンアイテムのスタイル */
+.icon-item:hover {
+  background-color: #B3B3B3; /* ホバー時の背景色 */
+}
+
+/* アクティブなアイコンアイテムのスタイル */
+.icon-item.active {
+  background-color: #2A3132; /* 背景色 */
+  color: white; /* 文字色 */
+}
+
+.btn-outline-dark {
+  background-color: #2A3132 !important; /* カーソルを当てていないときの背景色を強制適用 */
+  color: white !important; /* 文字色を白に強制適用 */
+  border: none;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
+
+.btn-outline-dark:hover {
+  background-color: #B3B3B3 !important; /* ホバー時の背景色を強制適用 */
+  color: black !important; /* ホバー時の文字色を強制適用 */
+}
+
+
+
+/* その他のスタイル */
+.more-button {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+
+.icon-image {
+  width: 40px; /* 幅 */
+  height: 40px; /* 高さ */
+  border-radius: 50%; /* 丸くする */
+  object-fit: cover; /* 枠にフィットさせる */
+}
