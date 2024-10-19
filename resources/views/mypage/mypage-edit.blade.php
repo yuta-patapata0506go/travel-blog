@@ -27,7 +27,7 @@
               {{-- @endif --}}
                 
                   <input type="file" name="avatar" id="avatar" class="form-control mt-3" aria-describedby="avatar-info">
-                    <div id="avatar-info" class="form-text">
+                    <div id="avatar-info" class="form-text text-dark">
                       Acceptable formats: jpeg, jpg, png, gif only.<br>
                       Max file size:1048Kb.
                     </div>          
