@@ -59,7 +59,6 @@ input {
 .navbar-guest {
     background-color: #336B87;
 }
-*/
 
 /* mouse hover */
 .navbar .nav-link:hover i {
@@ -106,7 +105,6 @@ input {
 .footer-link:hover {
     text-decoration: underline;
 }
-<<<<<<< HEAD
 
 /* Search Bar ------------------------------------------------*/
 .search-container {
@@ -154,5 +152,3 @@ input {
     opacity: 0.1; /* 透過率 */
     z-index: 1; /* 他の要素の下に配置 */
 }
-=======
->>>>>>> 5949b5f35bdfe2011180741503196236e5bd5715
