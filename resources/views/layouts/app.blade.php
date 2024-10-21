@@ -92,7 +92,7 @@
 
 
     </div>
-
+   @yield('scripts')
 
 </body>
 
