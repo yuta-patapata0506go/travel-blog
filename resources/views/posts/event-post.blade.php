@@ -183,7 +183,7 @@
                             <p>2024/8/1</p>
                             <h5 class="fw-bold">Fee</h5>
                             <p>Free</p>
-                            <h5>Useful Information About This Spot</h5>
+                            <h5 class="fw-bold">Useful Information About This Spot</h5>
                             <p> &middot; &nbsp; It's better to go earier</p>
                             <p> &middot; &nbsp; It's better to go earier</p>
                             <p> &middot; &nbsp; It's better to go earier</p>
