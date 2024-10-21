@@ -1,12 +1,7 @@
-
 <link rel="stylesheet" href="{{asset('css/posts.css')}}">
-
 @extends('layouts.app')
 
-
-
 @section('content')
-
 <div class="container background-image  ">
 <div class="card my-4">
     <div class="card-body1 bg-white p-5">
@@ -20,10 +15,8 @@
                     </div>
                     <div class="col ps-0">
                         <a href="#" class="text-decoration-none text-dark">NAME</a>
-                    </div>
-                 
-
-                    <div class="col-auto ps-0 ">
+                    </div>    
+                <div class="col-auto ps-0 ">
                         <!-- IF you are the OWNER of the post, you can EDIT or DELETE the post -->                 
                             <div class="dropdown">
                                     <button class="btn btn-sm shadow-none"  data-bs-toggle="dropdown">
@@ -96,9 +89,6 @@
                     </button>
                 </div>
             </div>
-  
-
-
 
             <div class="row align-items-center">
                 <!-- Event Name -->
@@ -188,6 +178,7 @@
                 <div class="col-6">
                     <div class="card3 bg-white ps-4 mb-3  rounded-0" style="height: 20rem; border-left: 1px solid black; border-top: none; border-right: none; border-bottom: none;">
                         <div class="card-body">
+                            <!-- event ID がであれば表示する -->
                         <h5 class="fw-bold">Event Date</h5>
                             <p>2024/8/1</p>
                             <h5 class="fw-bold">Fee</h5>
