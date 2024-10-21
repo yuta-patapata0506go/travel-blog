@@ -1,6 +1,6 @@
+@section('css')
 <link href="{{ asset('css/tourism-post.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
-<script src="{{ asset('js/edit-tourism.js') }}"></script>
+@endsection
 
 @extends('layouts.app')
 
@@ -314,4 +314,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script src="{{ asset('js/edit-tourism.js') }}"></script>
 @endsection
