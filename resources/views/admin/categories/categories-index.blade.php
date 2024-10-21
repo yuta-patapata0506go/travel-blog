@@ -2,12 +2,13 @@
 
 @extends('layouts.app')
 
-@section('title', 'Admin: Posts')
+@section('title', 'Admin: Categories')
 
 @section('content')
 
 <body>
     <!-- Navbar -->
+
 
     <!-- Admin Page Title -->
     <div class="container mt-5">
@@ -27,7 +28,13 @@
             </button>
 
             @include('admin.modals.recommended_post')
+
+            {{-- <button class="btn btn-outline-dark">Create New Category</button> --}}
+            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#create-category">
+                Create New Category
+            </button>
         </div>
+        @include('admin.categories.modals.create_category')
 
         <!-- User Table -->
         
@@ -38,13 +45,13 @@
                         <a href="admin-users-index" class="icon-item">
                             <i class="fa-solid fa-user"></i>
                         </a>
-                        <a href="admin-posts-index" class="icon-item active">
+                        <a href="admin-posts-index" class="icon-item">
                             <i class="fa-solid fa-newspaper"></i>
                         </a>
                         <a href="admin-spots-index" class="icon-item">
                             <i class="fa-solid fa-location-dot"></i>
                         </a>
-                        <a href="admin-categories-index" class="icon-item">
+                        <a href="admin-categories-index" class="icon-item active">
                             <i class="fa-solid fa-shapes"></i>
                         </a>
                         <a href="admin-inquiries-index" class="icon-item">
@@ -55,74 +62,61 @@
                         </a>
                     </div>
                 </tr>
-
+                <br>
                 <tr>
                     <th>ID</th>
-                    <th>Title</th>
-                    <th>Spot</th>
-                    <th>User Name</th>
-                    <th>Category</th>
-                    <th>Type</th>
+                    <th>Name</th>
                     <th>Create</th>
+                    <th>Update</th>
                     <th>Visibility</th>
                     <th></th>
-                    <th></th>
                 </tr>
-                <br>
             </thead>
-            <!-- ページ1 -->
 <tbody>
     <tr>
         <td>1</td>
-        <td>First visit to Egypt</td>
-        <td>Pyramid</td>
-        <td>Miki</td>
-        <td>Africa, History</td>
-        <td>Tourism</td>
+        <td>Category4</td>
+        <td>2024-07-12 11:12:30</td>
         <td>2024-07-12 11:12:30</td>
         <td>
 
-{{-- Dropdown for visibility --}}
-<div class="dropdown">
-    <button class="btn btn-sm" data-bs-toggle="dropdown">
-        Visible
-    </button>
-  
-    <div class="dropdown-menu">
-        @if (isset($post)) {{-- $post->trashed() --}}
-            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#unhide-post-"> {{-- data-bs-target: #unhide-post-{{ $post->id }} --}}
-                <i class="fa-solid fa-eye"></i> Visible {{-- {{ $post->id }} --}}
-            </button>
-        @else
-            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#hide-post-"> {{-- data-bs-target: #hide-post-{{ $post->id }} --}}
-                <i class="fa-solid fa-eye-slash"></i> Hidden {{-- {{ $post->id }} --}}
-            </button>
-        @endif
-    </div>
-  </div>
-  
-  @include('admin.posts.modals.visibility')
+            {{-- Dropdown for visibility --}}
+            <div class="dropdown">
+                <button class="btn btn-sm" data-bs-toggle="dropdown">
+                    Visible
+                </button>
+
+                <div class="dropdown-menu">
+                    @if (isset($category)) {{-- $category->trashed() --}}
+                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#unhide-category-"> {{-- data-bs-target: #unhide-category-{{ $category->id }} --}}
+                            <i class="fa-solid fa-eye"></i> Visible {{-- {{ $category->id }} --}}
+                        </button>
+                    @else
+                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#hide-category-"> {{-- data-bs-target: #hide-category-{{ $category->id }} --}}
+                            <i class="fa-solid fa-eye-slash"></i> Hidden {{-- {{ $category->id }} --}}
+                        </button>
+                    @endif
+                </div>
+            </div>
+
+            @include('admin.categories.modals.visibility')
         </td>
         <td>
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#update-category">
             <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
-        </td>
-        <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
+        </button>
         </td>
     </tr>
     
     <tr>
         <td>2</td>
-        <td>Exploring the Sphinx</td>
-        <td>Sphinx</td>
-        <td>Ken</td>
-        <td>Africa, Outdoors</td>
-        <td>Event</td>
-        <td>2024-08-01 09:45:00</td>
+        <td>Category2</td>
+        <td>2024-08-15 09:20:45</td>
+        <td>2024-08-15 09:20:45</td>
         <td>
             <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="visibilityDropdown2" data-bs-toggle="dropdown" aria-expanded="false">
-                    Hidden
+                    Visible
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="visibilityDropdown2">
                     <li><a class="dropdown-item" href="#">Visible</a></li>
@@ -131,21 +125,17 @@
             </div>
         </td>
         <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
-        </td>
-        <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#update-category">
+                <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+            </button>
         </td>
     </tr>
     
     <tr>
         <td>3</td>
-        <td>Desert Adventure</td>
-        <td>Desert</td>
-        <td>Alice</td>
-        <td>Outdoors, Africa</td>
-        <td>Tourism</td>
-        <td>2024-09-05 08:20:45</td>
+        <td>Category5</td>
+        <td>2024-09-05 14:55:00</td>
+        <td>2024-09-05 14:55:00</td>
         <td>
             <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="visibilityDropdown3" data-bs-toggle="dropdown" aria-expanded="false">
@@ -158,25 +148,21 @@
             </div>
         </td>
         <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
-        </td>
-        <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#update-category">
+                <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+            </button>
         </td>
     </tr>
     
     <tr>
         <td>4</td>
-        <td>Nile River Cruise</td>
-        <td>Nile River</td>
-        <td>John</td>
-        <td>Africa, History, Outdoors</td>
-        <td>Event</td>
-        <td>2024-09-15 14:35:20</td>
+        <td>Category1</td>
+        <td>2024-10-12 16:30:00</td>
+        <td>2024-10-12 16:30:00</td>
         <td>
             <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="visibilityDropdown4" data-bs-toggle="dropdown" aria-expanded="false">
-                    Hidden
+                    Visible
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="visibilityDropdown4">
                     <li><a class="dropdown-item" href="#">Visible</a></li>
@@ -185,21 +171,17 @@
             </div>
         </td>
         <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
-        </td>
-        <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#update-category">
+                <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+            </button>
         </td>
     </tr>
     
     <tr>
         <td>5</td>
-        <td>Great Pyramids Tour</td>
-        <td>Pyramids</td>
-        <td>Sarah</td>
-        <td>Africa, History</td>
-        <td>Tourism</td>
-        <td>2024-10-01 10:00:00</td>
+        <td>Category3</td>
+        <td>2024-11-20 08:45:30</td>
+        <td>2024-11-20 08:45:30</td>
         <td>
             <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="visibilityDropdown5" data-bs-toggle="dropdown" aria-expanded="false">
@@ -212,25 +194,21 @@
             </div>
         </td>
         <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
-        </td>
-        <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#update-category">
+                <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+            </button>
         </td>
     </tr>
     
     <tr>
         <td>6</td>
-        <td>Exploring Luxor</td>
-        <td>Luxor Temple</td>
-        <td>Tom</td>
-        <td>Africa, History</td>
-        <td>Event</td>
-        <td>2024-10-10 09:15:30</td>
+        <td>Category1</td>
+        <td>2024-12-02 13:25:50</td>
+        <td>2024-12-02 13:25:50</td>
         <td>
             <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="visibilityDropdown6" data-bs-toggle="dropdown" aria-expanded="false">
-                    Hidden
+                    Visible
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="visibilityDropdown6">
                     <li><a class="dropdown-item" href="#">Visible</a></li>
@@ -239,21 +217,17 @@
             </div>
         </td>
         <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
-        </td>
-        <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#update-category">
+                <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+            </button>
         </td>
     </tr>
     
     <tr>
         <td>7</td>
-        <td>Valley of the Kings</td>
-        <td>Valley</td>
-        <td>Linda</td>
-        <td>Africa, History</td>
-        <td>Tourism</td>
-        <td>2024-11-20 16:25:00</td>
+        <td>Category4</td>
+        <td>2024-06-25 07:35:10</td>
+        <td>2024-06-25 07:35:10</td>
         <td>
             <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="visibilityDropdown7" data-bs-toggle="dropdown" aria-expanded="false">
@@ -266,25 +240,21 @@
             </div>
         </td>
         <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
-        </td>
-        <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#update-category">
+                <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+            </button>
         </td>
     </tr>
     
     <tr>
         <td>8</td>
-        <td>Camel Ride Adventure</td>
-        <td>Camel Ride</td>
-        <td>Mike</td>
-        <td>Outdoors, Africa</td>
-        <td>Event</td>
-        <td>2024-12-05 13:45:00</td>
+        <td>Category2</td>
+        <td>2024-05-18 09:10:20</td>
+        <td>2024-05-18 09:10:20</td>
         <td>
             <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="visibilityDropdown8" data-bs-toggle="dropdown" aria-expanded="false">
-                    Hidden
+                    Visible
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="visibilityDropdown8">
                     <li><a class="dropdown-item" href="#">Visible</a></li>
@@ -293,21 +263,17 @@
             </div>
         </td>
         <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
-        </td>
-        <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#update-category">
+                <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+            </button>
         </td>
     </tr>
     
     <tr>
         <td>9</td>
-        <td>Aswan High Dam Tour</td>
-        <td>Aswan Dam</td>
-        <td>Kathy</td>
-        <td>Africa, History, Outdoors</td>
-        <td>Tourism</td>
-        <td>2024-12-15 11:30:00</td>
+        <td>Category5</td>
+        <td>2024-03-29 17:50:40</td>
+        <td>2024-03-29 17:50:40</td>
         <td>
             <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="visibilityDropdown9" data-bs-toggle="dropdown" aria-expanded="false">
@@ -320,20 +286,17 @@
             </div>
         </td>
         <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
-        </td>
-        <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#update-category">
+                <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+            </button>
         </td>
     </tr>
+    
     <tr>
         <td>10</td>
-        <td>Hot Air Balloon Ride</td>
-        <td>Balloon</td>
-        <td>Emma</td>
-        <td>Outdoors, Africa</td>
-        <td>Event</td>
-        <td>2024-12-20 07:30:00</td>
+        <td>Category3</td>
+        <td>2024-01-12 15:15:30</td>
+        <td>2024-01-12 15:15:30</td>
         <td>
             <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="visibilityDropdown10" data-bs-toggle="dropdown" aria-expanded="false">
@@ -346,14 +309,14 @@
             </div>
         </td>
         <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
-        </td>
-        <td>
-            <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#update-category">
+                <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+            </button>
         </td>
     </tr>
     
 </tbody>
+@include('admin.categories.modals.update_category')
         </table>
 
         <!-- Pagination -->    
@@ -372,4 +335,4 @@
 
 </body>
 @endsection
-
+ 

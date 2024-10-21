@@ -3,21 +3,21 @@
 </head>
 
 {{-- Visible(Unhide) --}}
-<div class="modal fade" id="unhide-post-"> {{-- id: unhide-post-{{ $post->id }} --}}
+<div class="modal fade" id="unhide-category-"> {{-- id: unhide-category-{{ $category->id }} --}}
   <div class="modal-dialog w-50 text-center">
       <div class="modal-content border-dark">
           <div class="modal-header border-dark text-center bg-dark">
               <h5 class="modal-title text-light mx-auto">
-                  <i class="fa-solid fa-eye"></i> Unhide Post
+                  <i class="fa-solid fa-eye"></i> Unhide Category
               </h5>
           </div>
           <div class="modal-body">
               <div class="mt-3">
-                  <i class="fa-solid fa-newspaper fa-4x"></i>
-                  <p class="mt-1 text-muted">Post ID: {{-- {{ $post->id }} --}}</p>
+                  <i class="fa-solid fa-shapes fa-4x"></i>
+                  <p class="mt-1 text-muted">Category Name {{-- {{ $category->name }} --}}</p>
               </div>
               <i class="fa-solid fa-triangle-exclamation fa-4x"></i>
-              <p>Are you sure you want to unhide this post?</p>
+              <p>Are you sure you want to unhide this category?</p>
           </div>
           <div class="modal-footer border-0 justify-content-center">
               <form action="#" method="post">
@@ -33,21 +33,21 @@
 </div>
 
 {{-- Hidden(Hide) --}}
-<div class="modal fade" id="hide-post-"> {{-- id: hide-post-{{ $post->id }} --}}
+<div class="modal fade" id="hide-category-"> {{-- id: hide-category-{{ $category->id }} --}}
   <div class="modal-dialog w-50 text-center">
       <div class="modal-content border-dark">
           <div class="modal-header border-dark text-center bg-dark"> {{-- Center the header --}}
               <h5 class="modal-title text-light mx-auto"> {{-- Added mx-auto for centering --}}
-                  <i class="fa-solid fa-eye-slash"></i> Hide Post
+                  <i class="fa-solid fa-eye-slash"></i> Hide Category
               </h5>
           </div>
           <div class="modal-body">
               <div class="mt-3">
-                  <i class="fa-solid fa-newspaper fa-4x"></i>
-                  <p class="mt-1 text-muted">Post Title{{-- {{ $post->title }} --}}</p>
+                  <i class="fa-solid fa-shapes fa-4x"></i>
+                  <p class="mt-1 text-muted">Category Name {{-- {{ $category->name }} --}}</p>
               </div>
               <i class="fa-solid fa-triangle-exclamation fa-4x"></i>
-              <p>Are you sure you want to hide this post?</p>
+              <p>Are you sure you want to hide this category?</p>
           </div>
           <div class="modal-footer border-0 justify-content-center"> {{-- Added justify-content-center --}}
               <form action="#" method="post">
@@ -61,3 +61,4 @@
       </div>
   </div>
 </div>
+

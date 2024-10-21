@@ -17,15 +17,20 @@
                      <div class="col-4">
                         <div class="row">
                            <div class="col-6">
-                              <a href="#" class="text-decoration-none text-dark text-s32">Followers</a>
+                              <a href="#" class="text-decoration-none text-dark text-s16">Followers</a>
                            </div>
                            <div class="col-6 ps-5">  
-                              <a href="#" class="text-decoration-none text-s32 btn-green btn-follow">Following</a>
+                              <a href="#" class="text-decoration-none text-start btn-green text-s16 btn-follow pw-5">Following</a>
                            </div>
                         </div>
-                        
+                     </div>   
                         {{-- @foreach ($user->followers as $follower) --}}
-                           <div class="row align-center mt-5">
+                        <div class="row content-justify-center mt-5">
+                           <h2 class="text-center fw-bold">Followers</h2>                     
+                        </div>
+                        
+                        <div class="col-4"> 
+                           <div class="row align-center mt-3">
                               <div class="col-auto">
                               {{-- <a href="{{ route('profile.show', $follower->follower->id)}}">
                                     @if ($follower->follower->avatar)

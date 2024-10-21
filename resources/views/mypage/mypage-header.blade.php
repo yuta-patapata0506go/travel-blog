@@ -15,22 +15,22 @@
           <div class="col-8">
             <div class="row mb-3">
               <div class="col-auto">
-                <h2 class="display-6 mb-0 text-s48"> USER NAME </h2>
+                <h1 class="m-2 text-s36 fw-bold"> USER NAME </h1>
               </div>
               <div class="col-auto p-2">
                 {{--@if (Auth::user()->id === $user->id) --}}
-                    <a href="#" class="btn mx-5 my-3 fw-bold btn-green">Edit Profile</a>
+                    <a href="#" class="btn mx-5 my-3 btn-green">Edit Profile</a>
                 {{--@else
                   @if ($user->isFollowed())
                     <form action="{{ route('follow.destroy', $user->id) }}" method="post">
                       @csrf
                       @method('DELETE')
-                      <button type="submit" class="btn btn-2 fw-bold">Following</button>
+                      <button type="submit" class="btn btn-black">Following</button>
                     </form> 
                   @else
                     <form action="{{ route('follow.store', $user->id)}}" method="post">
                       @csrf
-                      <button type="submit" class="btn btn-3 fw-bold">Follow</button>
+                      <button type="submit" class="btn btn-green">Follow</button>
                     </form>
                   @endif
                 @endif
@@ -54,7 +54,7 @@
                 </a>
               </div>
             </div> --}}
-            <p class="fw-bold text-s24 dark-text"> BIO: I love traveling. </p>
+            <p class="text-s16 dark-text"> BIO: I love traveling. </p>
           </div>    
         </div>
   </div>

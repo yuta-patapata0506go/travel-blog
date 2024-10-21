@@ -82,7 +82,7 @@
                             {{-- Dropdown for visibility --}}
                                 <div class="dropdown">
                                     <button class="btn btn-sm" data-bs-toggle="dropdown">
-                                        Visibility
+                                        Visible
                                     </button>
                                 
                                     <div class="dropdown-menu">

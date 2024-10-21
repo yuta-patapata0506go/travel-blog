@@ -1,4 +1,4 @@
-<div class="show_spot mt-4 bg-light">
+<div class="show_spot mt-4 bg-white">
   <div class="row">
     @for ($i = 0; $i < 6; $i++)
         <div class="small_spot col-md-4 mb-4">

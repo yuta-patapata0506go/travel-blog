@@ -1,0 +1,155 @@
+/* Entire */
+body {
+    background-color: #fbf4f4;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    height: 100%;
+    margin: 0;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Set the minimum height to 100vh */
+}
+
+main {
+    flex: 1; /* Expand the content area */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lato', sans-serif; 
+}
+
+input {
+    border-radius: 10px; /* Adjust the value to control the roundness */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Creates a drop shadow */
+}
+
+/* Navbar */
+.navbar {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.navbar-logo {
+    width: 150px;
+    height: auto;
+}
+
+/* icon */
+.navbar .nav-link i {
+    color: white;
+    font-size: 24px; 
+    margin-right: 8px;
+}
+
+/* Admin Navbar */
+/*
+.navbar-admin {
+    background-color: #2A3132;
+}
+
+/* Registered User Navbar */
+/*
+.navbar-registered {
+    background-color: #336B87;
+}
+
+/* Guest Navbar */
+.navbar-guest {
+    background-color: #336B87;
+}
+*/
+
+/* mouse hover */
+.navbar .nav-link:hover i {
+    color: #FFD700;
+}
+
+
+/* Footer */
+.footer {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #336B87;
+    color: white;
+    padding: 20px 0;
+    font-size: 16px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.footer .row {
+    width: 100%;
+}
+
+.footer .col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer .social-icon {
+    margin: 0 15px;
+    color: white;
+    font-size: 24px;
+}
+
+.footer-link {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 24px; 
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
+
+/* Search Bar ------------------------------------------------*/
+.search-container {
+    position: relative;
+    width: 600px;
+    max-width: 100%;
+  }
+  .search-container input {
+    /* width: 40vw;   */
+    width: 100%;
+    padding: 10px;
+    padding-right: 40px; /* アイコンが重ならないように右側に余白を作成 */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+  }
+  .search-container i {
+    position: absolute;
+    right: 55%;
+    top: 50%;
+    transform: translateY(-90%);
+    color: #888;
+  }
+  .icon_size {
+    font-size: 30px;
+  }
+  .search-container button {
+    background-color: #336B87;
+    color: #ffffff;
+    border: none;
+    width: 150px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+  }
+  .search-container button:hover {
+    background-color: #90AFC5;
+    color: #2A3132;
+  }
+
+  .background-overlay {
+    position: absolute; /* 絶対位置に設定 */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover; /* 背景画像のサイズ調整 */
+    background-position: center; /* 背景画像の位置 */
+    opacity: 0.1; /* 透過率 */
+    z-index: 1; /* 他の要素の下に配置 */
+}
