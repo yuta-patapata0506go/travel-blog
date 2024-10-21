@@ -214,6 +214,29 @@ body {
     border-radius: 5px; /* 角を丸くする */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
     margin-bottom: 40px;
+    min-width: 0;
+}
+
+/* フォームとその中の要素が重なるように調整 */
+.map-form {
+    display: block;
+    width: 100%; /* 親コンテナに合わせる */
+    height: 100%; /* 中の要素に合わせる */
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+/* .map のスタイル */
+.map {
+    width: 100%; /* フォームと同じ幅 */
+    height: 100%; /* フォームと同じ高さ */
+    padding: 20px;
+    background-color: #FBF4F4; /* 背景色 */
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影 */
+    box-sizing: border-box; /* パディングを含む幅計算 */
+    cursor: pointer; /* クリックできることを示す */
 }
 
 /* Comments Section------------------------------------------------*/
