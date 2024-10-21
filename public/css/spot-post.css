@@ -2,6 +2,7 @@
         background-color: #2A3132 !important;
         color: white !important;
         transition: background-color 0.3s ease !important; /* ホバーのスムーズなトランジション */
+        border-radius: 10px !important; /* 角を丸める */
     }
     /* Cancelボタンのホバースタイル */
     .cancel-btn:hover {
@@ -25,7 +26,7 @@
         background-color: #005f73 !important; /* Indigo color */
         color: #FFFFFF !important; /* 白色 */
         border: none !important;
-        border-radius: 8px !important; /* 角を丸める */
+        border-radius: 10px !important; /* 角を丸める */
         margin-right: 300px; /* PostボタンとSaveボタンの間に20pxの余白を追加 */
         width: 250px; /* 必要に応じて変更 */
     }
@@ -128,4 +129,9 @@ min-height: 100vh; /* ビューポートの高さを100%に設定 */
 .small-large-text {
 font-size: 1.25rem; /* 必要に応じてサイズを調整 */
 font-weight: bold; /* テキストを太くする場合 */
+}
+
+.form-shadow {
+border-radius: 10px;
+box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }

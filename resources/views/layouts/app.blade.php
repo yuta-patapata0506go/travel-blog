@@ -89,6 +89,7 @@
             </div>
         </main>
 
+        @include('footer')
 
     </div>
    @yield('scripts')

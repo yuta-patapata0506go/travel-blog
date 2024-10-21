@@ -5,15 +5,20 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* ビューポート全体の高さ */
-    background-color: rgba(0, 0, 0, 0.3); /* ここで0.15は透過率15% */
     background-image: url('/images/christmas.png'); /* 画像のパスを設定 */
     background-size: cover; /* 画像を画面全体に広げる */
     background-position: center; /* 画像の中心を表示 */
+    background-color: #FBF4F4;
+    height: 100vh; /* ビューポート全体の高さ */
+    min-height: 250vh; /* ビューポート全体の高さ */
 }
 
 h1 {
     margin-top: 60px; /* ヘッダーの下にスペースを作る */
+}
+
+p {
+    font-size: small;
 }
 
 /* 投稿カード */
@@ -30,6 +35,7 @@ h1 {
     align-items: center;
     margin-top: 20px; /* ナビゲーションバーとの間隔を40pxに設定 */
     margin-bottom: 80px;
+    object-fit: cover; /* 画像が枠内に収まるように切り取る */
 }
 
 /*.main-image , .thumbnail {
@@ -53,7 +59,7 @@ h1 {
     color: #888;  /* デフォルトは灰色 */
     margin-left: 10px;
     cursor: pointer;
-    border-radius: 50%;  /* 丸くする */
+    border-radius: 10px;  /* 丸くする */
     padding: 5px;  /* アイコンの周りにスペース */
     background: transparent;  /* 塗りつぶしなし */
 }
@@ -81,7 +87,7 @@ button:focus {
 
 /* その他のスタイル */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Lato', sans-serif;
     background-color: #FBF4F4;
     margin: 0;
     padding: 0;
@@ -100,6 +106,7 @@ body {
     margin-bottom: 20px;
     object-fit: cover; /* 画像が枠内に収まるように切り取る */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+
 }
 
 /* 投稿カード内のコンテンツ */
@@ -207,8 +214,32 @@ body {
     border-radius: 5px; /* 角を丸くする */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
     margin-bottom: 40px;
+    min-width: 0;
 }
 
+/* フォームとその中の要素が重なるように調整 */
+.map-form {
+    display: block;
+    width: 100%; /* 親コンテナに合わせる */
+    height: 100%; /* 中の要素に合わせる */
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+/* .map のスタイル */
+.map {
+    width: 100%; /* フォームと同じ幅 */
+    height: 100%; /* フォームと同じ高さ */
+    padding: 20px;
+    background-color: #FBF4F4; /* 背景色 */
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影 */
+    box-sizing: border-box; /* パディングを含む幅計算 */
+    cursor: pointer; /* クリックできることを示す */
+}
+
+/* Comments Section------------------------------------------------*/
 /* コメントカード */
 .comments-section {
     background-color: #FBF4F4; /* カードの背景色 */
@@ -223,7 +254,7 @@ body {
 .comments-section button {
     padding: 10px 15px; /* ボタンの内側の余白 */
     background-color: #336B87; /* ボタンの背景色 */
-    color: #FBF4F4; /* ボタンのテキスト色 */
+    color: #ffffff; /* ボタンのテキスト色 */
     border: none; /* ボタンの境界線を無効にする */
     border-radius: 5px; /* 角を丸くする */
     cursor: pointer; /* カーソルをポインターに変更 */
@@ -238,6 +269,10 @@ body {
     font-size: 8px  !important; /* テキストのサイズを小さく */
 }
 
+/* -----------------------------------------------------------*/
+
+
+/* Event & Tourism ----------------------------------------------------*/
 /* イベントと観光のスタイル */
 .event, .tourism {
     width: 48%; /* 各要素を横に2つ並べるために48%に設定 */
@@ -278,6 +313,14 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* -----------------------------------------------------------*/
+
+
+
+
+
+/* Small posts  --------------------------------------------------*/
+
 /*.post-gallery {
     display: flex;
     justify-content: space-between; /* 要素の間隔を均等に配置 */
@@ -285,9 +328,7 @@ body {
     gap: 20px; /* ポスト間の余白を設定 */
 /*}:*/
 
-.post-display {
-    margin-left: 0; /* テキストを左寄せ */
-}
+
 
 .dropdown button {
     height: 40px; /* 高さを調整 */
@@ -305,61 +346,114 @@ body {
 }
 
 
-/* 各投稿のスタイル */
-.post {
-    flex: 1; /* 各投稿が均等に幅を占めるようにする */
-    max-width: 18%; /* 5つ並んだときに横いっぱいになるようにする */
-    background-color: #fff; /* 背景色を設定 */
-    border-radius: 10px; /* 角を丸くする */
-    padding: 10px; /* 内側の余白 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
-    text-align: center; /* テキストを中央揃えにする */
-    margin: 10px; /* マージンを追加して隙間を調整 */
-    border: none; /* 外枠をなしに */
-}
 
-.post img {
-    width: 100%; /* 画像をポストの幅に合わせる */
-    height: auto; /* 縦横比を保持 */
-    max-height: 500px; /* 最大高さを増やす */
-    border-radius: 10px; /* 角を丸くする */
-    object-fit: cover; /* 画像が枠に収まるようにする */
-}
 
+
+/* カード全体のスタイル */
 .post-container {
     display: flex;
-    overflow-x: scroll; /* 横スクロール可能にする */
-    scroll-behavior: smooth; /* スムーズスクロール */
-    width: 100%; /* コンテナ全体の幅を設定 */
+    align-items: center;
+    gap: 10px; /* カード間の隙間を調整 */
+    overflow-x: scroll;
+    scroll-behavior: smooth;
     padding: 10px;
+    width: 100%;
 }
 
-.post-gallery .post-card {
-    flex: 1; /* 各ポストカードが等しく横幅を取るようにする */
-    width: calc(20% - 20px); /* 5つ並ぶように、各ポストの幅を20%に設定し、余白を考慮 */
-    padding: 10px;
-    background-color: #ffffff;
+/* 個別のカード */
+.post {
+    width: 18rem;
+    background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    position: relative;
 }
 
+/* 画像のスタイル */
+.post img {
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+}
 
-.btn-comment-card {
-    height: 40px; /* 高さを調整 */
+/* タイトルの左寄せ */
+.card-title {
+    text-align: left;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* カード内のアイコン配置 */
+.card-body .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.title-line{
+    text-align: right;
+}
+
+/* アイコンのボタン */
+.card-body .btn {
+    text-align: right;
+    border: none;
+    background: none;
+    color: #888;
+    padding: 0;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+/* ホバー時の効果 */
+.card-body .fa-heart:hover {
+    color: red;
+}
+
+.card-body .fa-star:hover {
+    color: gold;
+}
+
+/* カテゴリーバッジのスタイル */
+.badge {
+    margin-right: 5px;
+    font-size: 0.85rem;
+}
+
+/* 「Read More」ボタンのスタイル */
+.btn-small-post-card {
     width: fit-content;
+    height: 40px;
     font-size: small;
-    padding: 5px 10px; /* ボタンの内側の余白 */
-    background-color: #336B87; /* ボタンの背景色 */
-    color: #ffffff; /* ボタンのテキスト色 */
-    border: none; /* ボタンの境界線を無効にする */
-    border-radius: 10px; /* 角を丸くする */
-    cursor: pointer; /* カーソルをポインターに変更 */
+    padding: 5px 10px;
+    background-color: #336B87;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.btn-comment-card:hover {
-    background-color: #90AFC5; /* ホバー時の背景色 */
-    color: #2A3132; /* ボタンのテキスト色 */
+.btn-small-post-card:hover {
+    background-color: #90AFC5;
+    color: #2A3132;
 }
+
+/* 左右の矢印ボタン */
+.arrow-left, .arrow-right {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+/* -----------------------------------------------------------*/
+
+
+/* Arrow   ---------------------------------------------------*/
 
 .post-arrow-left, .post-arrow-right {
     position: absolute;
@@ -388,41 +482,10 @@ body {
     color: #336B87;
 }
 
-.spot-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
-.main-image img {
-    width: 100%;
-    max-width: 800px;
-    height: auto;
-}
+/* -----------------------------------------------------------*/
 
-.thumbnails {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-
-.thumbnail img {
-    width: 100px;
-    height: auto;
-    cursor: pointer;
-    margin: 0 5px;
-}
-
-.arrow-right {
-    background-color: transparent;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-nav ul {
+/*nav ul {
     list-style: none;
     padding: 0;
 }
@@ -455,4 +518,4 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-}
+}*/

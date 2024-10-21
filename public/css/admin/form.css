@@ -1,34 +1,38 @@
 body {
     background-color: #FBF4F4 !important; /* 背景色を強制的に適用 */
-    font-family: Arial, sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
 
-h2 {
-    font-weight: bold;
-    margin-bottom: 30px;
-}
+h1, h2, h3, h4, h5 {
+    font-family: 'Lato', sans-serif;
+  }
+  
 
 .form-control, .form-control-file {
-    border-radius: 0.25rem;
+    border-radius: 10px;
     background-color: #ffffff !important; /* 背景色を白に設定 */
     border: 1px solid !important;  
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 
 .btn-admin {
     padding: 10px 15px; /* ボタンの内側の余白 */
     background-color: #2A3132; /* ボタンの背景色 */
     color: #FBF4F4; /* ボタンのテキスト色 */
     border: none; /* ボタンの境界線を無効にする */
-    border-radius: 5px; /* 角を丸くする */
+    border-radius: 10px; /* 角を丸くする */
     cursor: pointer; /* カーソルをポインターに変更 */
     text-decoration: none; /* 下線を消す */
+
 }
 
 .btn-admin:hover {
     background-color: #B3B3B3; /* ホバー時の背景色 */
     color: #2A3132; /* ホバー時のテキスト色 */
     text-decoration: none; /* ホバー時も下線を消す */
+   
 }
 
 .btn-admin + .btn-admin {
@@ -43,10 +47,6 @@ h2 {
     display: flex;
     justify-content: flex-start; /* フォームを左寄せにする */
     gap: 50px; /* フォーム間の間隔を狭くする */
-}
-
-.form-group {
-    margin-right: 5px; /* 個々のフォーム間の余白を少し調整 */
 }
 
 /* カスタムセレクトボックスのスタイル */
@@ -84,4 +84,19 @@ h2 {
     width: 100px;  /*  幅を100pxに設定 */
     height: auto;  /* 高さは自動調整 */
     margin-right: 10px; /* 画像間の余白を設定 */
+    border-radius: 10px;
 }
+
+.btn {
+  
+    border: 2px solid #2A3132 !important; /* ボーダーを設定（色や太さを調整可能） */
+    border-radius: 10px !important; /* 角を丸めず、四角にする */
+    background-color: #FFFFFF !important; /* ボタンの背景色を白に設定 */
+    color: #2A3132 !important; /* ボタンの文字色を設定 */
+    cursor: pointer !important; /* カーソルをポインターに */
+}
+
+.btn:hover {
+    background-color: #D9D9D9 !important; /* ホバー時の背景色 */
+}
+

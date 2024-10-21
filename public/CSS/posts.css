@@ -6,7 +6,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height:250%; /* 100%にして親要素の高さに従う */
+    height:220%; /* 100%にして親要素の高さに従う */
     min-height: 100vh; /* ビューポート全体をカバーする */
     background-image: url('../images/197a83081ab1acc3e4fd0ac385546aae_1200x1200.webp');
     background-position: center center;
@@ -177,3 +177,17 @@ body {
     color: inherit; /* 親要素の色を引き継ぐ */
     text-decoration: none; /* 下線を削除 */
 }
+
+.section-with-background {
+    position: relative;
+    min-height: 100vh;
+    background-image: url('../images/197a83081ab1acc3e4fd0ac385546aae_1200x1200.webp');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    opacity: 0.15;
+    z-index: -1;
+}
+
+

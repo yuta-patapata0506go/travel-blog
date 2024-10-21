@@ -1,9 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
+// Home Route
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-
+// Events and Tourism Routes
 Route::get('/events', function () {
     return view('display.events');
 });
@@ -48,6 +51,7 @@ Route::get('/tourism', function () {
 Route::get('/events-tourism', function () {
     return view('display.events-tourism');
 });
+// My Page Routes
 Route::get('/mypage-show', function () {
     return view('mypage.mypage-show');
 });
@@ -89,7 +93,7 @@ Route::get('/spot', function () {
 });
 
 
-// Admin
+// Admin　Routes
 Route::get('/admin/inquiries/create_reply', function () {
     return view('admin/inquiries/create_reply');
 });
@@ -111,15 +115,15 @@ Route::get('/posts-modal-post-delete', function () {
 
 
 Route::get('/admin-allow-spot', function () {
-    return view('admin.allow-spot');
+    return view('admin.spot_applications.allowCreate');
 });
 
 Route::get('/admin-update-spot', function () {
-    return view('admin.update-spot');
+    return view('admin.spots.update');
 });
 
 Route::get('/admin-create-spot', function () {
-    return view('admin.create-spot');
+    return view('admin.spots.create');
 });
 
 Route::get('/admin-users-index', function () {
@@ -179,9 +183,6 @@ Route::get('/edit-tourism-post', function () {
     return view('edit-tourism-post');
 });
 
+// Authentication Routes
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-

@@ -4,6 +4,8 @@
     <link rel="stylesheet" href="{{ asset('css/spot.css') }}">
 @endsection
 
+@section('title', 'Spot Page')
+
 @section('content')
 
         <!-- Card of whole page -->
@@ -36,13 +38,13 @@
                     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="{{ asset('/images/beer.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 1">
+                                <img src="{{ asset('/images/petra1.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 1">
                             </div>
                             <div class="carousel-item">
-                                <img src="{{ asset('/images/beer2.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 2">
+                                <img src="{{ asset('/images/petra2.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 2">
                             </div>
                             <div class="carousel-item">
-                                <img src="{{ asset('/images/castle.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 3">
+                                <img src="{{ asset('/images/petra3.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 3">
                             </div>
                             <div class="carousel-item">
                                 <img src="{{ asset('/images/city.jpg') }}" class="d-block w-100 main-carousel-img" alt="Beach Image">
@@ -64,19 +66,19 @@
                     <!-- サブ画像 (サムネイル) -->
                     <div class="carousel-indicators-wrapper mt-3 d-flex justify-content-center gap-2 flex-wrap">
                         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1">
-                            <img src="{{ asset('images/castle.jpg') }}" class="thumbnail-img" alt="Thumbnail 1">
+                            <img src="{{ asset('images/petra1.jpg') }}" class="thumbnail-img" alt="Thumbnail 1">
                         </button>
                         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2">
-                            <img src="{{ asset('images/castle.jpg') }}" class="thumbnail-img" alt="Thumbnail 2">
+                            <img src="{{ asset('images/petra2.jpg') }}" class="thumbnail-img" alt="Thumbnail 2">
                         </button>
                         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2" aria-label="Slide 3">
-                            <img src="{{ asset('images/castle.jpg') }}" class="thumbnail-img" alt="Thumbnail 3">
+                            <img src="{{ asset('images/petra3.jpg') }}" class="thumbnail-img" alt="Thumbnail 3">
                         </button>
                         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="3" aria-label="Slide 4">
-                            <img src="{{ asset('images/castle.jpg') }}" class="thumbnail-img" alt="Thumbnail">
+                            <img src="{{ asset('images/petra1.jpg') }}" class="thumbnail-img" alt="Thumbnail">
                         </button>
                         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="4" aria-label="Slide 5">
-                            <img src="{{ asset('images/castle.jpg') }}" class="thumbnail-img" alt="Thumbnail">
+                            <img src="{{ asset('images/petra2.jpg') }}" class="thumbnail-img" alt="Thumbnail">
                         </button>
                     </div>
                 </div>
@@ -115,21 +117,31 @@
 
                 <!-- Map and Weather Display -->
                 <div class="info-container">
-                    <div class="map">
+
+                <!-- Mapへの遷移用フォーム -->
+                <form action="/mappage" method="GET" class="map-form" onclick="this.parentElement.submit()">
+                    <div class="map" onclick="this.parentElement.submit()">
                         <h5>Map</h5>
                         <i class="fa-regular fa-map"></i>
                         <img src="/images/map.png" alt="">
                         <p>Map will be displayed here.</p>
-                        <!-- Embed map code here -->
+                        <h6>Address</h6>
+                        <p>000-0000</p>
+                        <p>Petra - Wadi Musa, Jordan</p>
                     </div>
-                    <div class="weather">
-                        <h5>Weather</h5>
-                        <i class="fa-solid fa-cloud-sun"></i>
-                        <img src="/images/weather.png" alt="">
-                        <p>Weather information will be displayed here.</p>
-                        <!-- Embed weather code here -->
-                    </div>
+                </form>
+
+                <!-- Weather -->
+                <div class="weather">
+                    <h5>Weather</h5>
+                    <i class="fa-solid fa-cloud-sun"></i>
+                    <img src="/images/weather.png" alt="">
+                    <p>Weather information will be displayed here.</p>
+                    <!-- Embed weather code here -->
                 </div>
+
+            </div>
+
 
                 <!-- Comments -->
                             <div class="comments-section my-2">
@@ -206,13 +218,13 @@
                 <!-- Event and Tourism Display -->
                 <div class="event-tourism-container mt-5">
                     <!-- Eventページに遷移するフォーム -->
-                    <form action="#" method="GET" class="event-link event text-white text-shadow" 
+                    <form action="/events" method="GET" class="event-link event text-white text-shadow" 
                         style="cursor: pointer;" onclick="this.submit();">
                         <h5>Event</h5>
                     </form>
 
                     <!-- Tourismページに遷移するフォーム -->
-                    <form action="#" method="GET" class="tourism-link tourism text-white text-shadow" 
+                    <form action="/tourism" method="GET" class="tourism-link tourism text-white text-shadow" 
                         style="cursor: pointer;" onclick="this.submit();">
                         <h5>Tourism</h5>
                     </form>
@@ -220,7 +232,7 @@
 
 
                 <!-- Posts Gallery -->
-                <h4 class="post-display mt-5">POST related to "SPOT NAME"</h4>
+                <h4 class="post-gallery mt-5">POST related to "SPOT NAME"</h4>
                 <!-- Sort by dropdown -->
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle rounded-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -262,23 +274,113 @@
                 
 
                     <!-- Post display and jump to the Post Page-->
-                    <div class="post-container">
-                        <button class="arrow-left" onclick="nextImage()"><i class="fa-regular fa-circle-left"></i></button>
-                        @for($i = 0;$i < 5;$i++)
-                            <!-- カード全体をフォームで囲む -->
-                            <form action="#" method="GET" class="card post shadow-card" style="cursor: pointer;" 
-                                onclick="this.submit();">
-                                <img src="{{ asset('images/beer.jpg') }}" class="img-fluid" alt="Post 1">
+                    <div class="post-container d-flex align-items-center">
+                        <button class="arrow-left" onclick="nextImage()">
+                            <i class="fa-solid fa-circle-left"></i>
+                        </button>
+
+                        @for($i = 0; $i < 4; $i++)
+                        <div class="card post shadow-card m-2" style="cursor: pointer; width: 18rem;" onclick="this.querySelector('form').submit();">
+                            <!-- カード内のフォーム -->
+                            <form action="/posts-event-post" method="GET">
+                                <img src="{{ asset('images/beer.jpg') }}" class="card-img-top" alt="Post Image">
+
                                 <div class="card-body">
-                                    <h5 class="card-title">Title</h5>
-                                    <p class="card-text">Category1 / Category2</p>
-                                    <p class="card-text">Short description of the tourism spot</p>
-                                    <button type="button" class="btn btn-comment-card">Learn More</button>
+                                    <div class="row">
+                                        <div class="">
+                                            <div class="col-auto title-line">
+                                                <h5 class="card-title">Title {{ $i + 1 }}</h5>
+                                                <div class="col-auto">
+                                                    <form action="#">
+                                                        <button type="submit" class="btn shadow-none p-0"><i class="fa-solid fa-heart"></i></button>
+                                                    </form>
+                                                    <form action="#">
+                                                        <button type="submit" class="btn shadow-none p-0"><i class="fa-solid fa-star"></i></button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mb-2">
+                                                <span class="col badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
+                                                <span class="col badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
+                                            </div>
+                                            
+                                            <p class="card-text">Short description of the tourism spot.</p>
+                                            
+                                            <button type="button" class="btn-small-post-card">Read More</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
+                        </div>
                         @endfor
-                        <button class="arrow-right" onclick="nextImage()"><i class="fa-regular fa-circle-right"></i></button>
+
+                        <button class="arrow-right" onclick="nextImage()">
+                            <i class="fa-solid fa-circle-right"></i>
+                        </button>
                     </div>
+
+                    
+                    <!--<div class="post-container">
+                        <button class="arrow-left" onclick="nextImage()"><i class="fa-regular fa-circle-left"></i></button>
+                            @for($i = 0;$i < 4;$i++)-->
+                                <!-- カード全体をフォームで囲む -->
+                                <!--<form action="#" method="GET" class="card post shadow-card" style="cursor: pointer;" 
+                                    onclick="this.submit();">
+                                    <img src="{{ asset('images/beer.jpg') }}" class="img-fluid" alt="Post 1">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Title</h5>
+                                        <div class="row">
+                                            <div class="col-auto mb-1">
+                                                <span class="badge bg-opacity-50 rounded-pill">Category</span>
+                                                <span class="badge bg-opacity-50 rounded-pill">Category</span>
+                                            </div>
+                                        </div>
+                                        <p class="card-text">Short description of the tourism spot</p>
+                                        <button type="button" class="btn btn-comment-card">Read More</button>
+                                    </div>
+                                </form>
+                            @endfor
+                        <button class="arrow-right" onclick="nextImage()"><i class="fa-regular fa-circle-right"></i></button>
+                    </div>-->
+                            <!--<form action="#" method="GET" class="card post shadow-card" style="cursor: pointer;" 
+                                onclick="this.submit();">
+                                <div class="small_post">
+                                        <img src="{{ asset('images/map_samples/post_pc_sample.png') }}" class="card-img-top" alt="Tourism Image">
+                                        <div class="card-body">
+                                            <div class="col-auto">
+                                            <h5 class="fw-bolder">Title</h5>
+                                            <form action="#">
+                                                <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-heart"></i></button>
+                                            </form>
+                                            <form action="#">
+                                                <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-star"></i></button>
+                                            </form>
+                                            <div class="col-auto mb-1">
+                                                <span class="badge bg-opacity-50 rounded-pill">Category</span>
+                                                <span class="badge bg-opacity-50 rounded-pill">Category</span>
+                                            </div>
+                                            <button type="button" class="btn btn-comment-card">Read More</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-auto mb-1">
+                                            <span class="badge bg-opacity-50 rounded-pill">Category</span>
+                                            <span class="badge bg-opacity-50 rounded-pill">Category</span>
+                                            </div>
+                                        </div>
+                                        <div class="post_text">-->
+                                            <!--<p>text text text text text text text text text text text text text text text text text text text text</p>-->
+                                            <!--<button type="button" class="btn btn-comment-card">Read More</button>
+                                        </div>
+                                    
+                                        </div>
+                                    
+                                </div>
+                            </form>
+                        -->
+                        
                         <!--<div class="post-container">
                         <button class="arrow-left text-dark" onclick="nextImage()"><i class="fa-regular fa-circle-left"></i></button>
                         <div class="post">
@@ -329,6 +431,6 @@
     </script>
 @endsection
 
-@section('style')
+@section('styles')
    
 @endsection
