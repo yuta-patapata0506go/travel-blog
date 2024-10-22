@@ -1,10 +1,10 @@
- <div class="show_spot mt-4 mb-5 bg-light">
+<div class="show_spot mt-4 bg-white">
   <div class="row">
     @for ($i = 0; $i < 6; $i++)
         <div class="small_spot col-md-4 mb-4">
             <div class="card">
                 <a href="#" >
-                  <img src="{{ asset('images/spot_pc_sample.png') }}" class="card-img-top " alt="Tourism Image">
+                  <img src="{{ asset('images/map_samples/spot_pc_sample.png') }}" class="card-img-top " alt="Tourism Image">
                 </a>
                 
                 <div class="card-body">
