@@ -1,4 +1,3 @@
-
 <head>
   <link rel="stylesheet" href="{{ asset('css/admin/modals.css') }}"> <!-- link modal.css -->
 </head>
