@@ -1,14 +1,15 @@
 @extends('layouts.app')
 
-@section('css')
+<!--@section('css')
     <link rel="stylesheet" href="{{ asset('css/spot.css') }}">
-@endsection
+@endsection-->
 
 @section('title', 'Spot Page')
 
 @section('content')
 
-        <!-- Card of whole page -->
+        <div class="post-container">
+            <!-- Card of whole page -->
         <div class="post-card">
             <!-- HEART BUTTON + no. of likes & FAVORITE BUTTON + no. of likes -->
             <div class="icons d-flex align-items-center">
@@ -274,7 +275,7 @@
                 
 
                     <!-- Post display and jump to the Post Page-->
-                    <div class="post-container d-flex align-items-center">
+                    <div class="small-post-container d-flex align-items-center">
                         <button class="arrow-left" onclick="nextImage()">
                             <i class="fa-solid fa-circle-left"></i>
                         </button>
@@ -409,6 +410,8 @@
             </div>
         </div>
     </div>
+        </div>
+        
 
     <script>
         function switchImage(imagePath) {

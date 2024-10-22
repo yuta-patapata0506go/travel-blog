@@ -1,4 +1,4 @@
-body {
+/*body {
     font-family: 'Lato', sans-serif;
     margin: 0;
     padding: 0;
@@ -6,11 +6,32 @@ body {
     justify-content: center;
     align-items: center;
     background-image: url('/images/christmas.png'); /* 画像のパスを設定 */
+    /*background-size: cover; /* 画像を画面全体に広げる */
+    /*background-position: center; /* 画像の中心を表示 */
+    /*background-color: #FBF4F4;
+    height: 100vh; /* ビューポート全体の高さ */
+    /*min-height: 250vh; /* ビューポート全体の高さ */
+/*}*/
+
+body {
+    background-image: url('/images/christmas.png'); /* 画像のパスを設定 */
     background-size: cover; /* 画像を画面全体に広げる */
     background-position: center; /* 画像の中心を表示 */
-    background-color: #FBF4F4;
-    height: 100vh; /* ビューポート全体の高さ */
+    background-attachment: fixed;
+    /*opacity: 0.15; /* 背景画像の透過率を設定 */   
+}
+
+
+
+.post-container {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* 縦方向に並べる */
     min-height: 250vh; /* ビューポート全体の高さ */
+    
 }
 
 h1 {
@@ -37,14 +58,6 @@ p {
     margin-bottom: 80px;
     object-fit: cover; /* 画像が枠内に収まるように切り取る */
 }
-
-/*.main-image , .thumbnail {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
-    /*border-radius: 10px; /* 角を丸くする */
-    /*object-fit: cover; /* 画像が枠内に収まるように切り取る */
-    /*width: 100%; /* カードの幅に合わせる */
-    /*height: auto; /* 縦横比を保持しつつ高さを自動調整 */
-/*}*/
 
 .icons {
     position: absolute;
@@ -86,17 +99,6 @@ button:focus {
 }
 
 /* その他のスタイル */
-body {
-    font-family: 'Lato', sans-serif;
-    background-color: #FBF4F4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; /* 縦方向に並べる */
-    min-height: 250vh; /* ビューポート全体の高さ */
-}
 
 .post-card img {
     width: 100%; /* カードの幅に合わせる */
@@ -121,7 +123,6 @@ body {
     text-align: center;
     
 }
-
 
 /* 上の写真ギャラリー */
 .carousel-indicators-wrapper {
@@ -171,22 +172,6 @@ body {
 .thumbnail-img:hover {
     border-color: #007BFF; /* ホバー時にボーダー色をブルーに変更 */
 }
-
-/* 画像ギャラリー */
-/*.gallery {
-    display: flex; /* 横並びにする */
-    /*justify-content: space-between; /* 画像の間隔を均等にする */
-    /*gap: 30px; /* 画像の間に隙間を作る */
-    /*margin-top: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
-/*}
-
-.gallery img {
-    width: 70px; /* 各画像の幅を設定 */
-    /*height: 70px; /* 各画像の高さを設定 */
-    /*border-radius: 5px; /* 角を丸くする */
-   /* object-fit: cover; /* 画像が枠に収まるようにする */
-/*}*/
 
 /* 横線のスタイル */
 .divider {
@@ -264,11 +249,11 @@ body {
     color: #2A3132; /* ボタンのテキスト色 */
 }
 .btn-reply {
+    background-color: #336B87; /* ボタンの背景色 */
     height: 25px !important; /* このスタイルは他のすべてのheight設定よりも優先されます */
     padding: 2px 8px !important; /* paddingの他の設定を上書きします */
     font-size: 8px  !important; /* テキストのサイズを小さく */
 }
-
 /* -----------------------------------------------------------*/
 
 
@@ -316,19 +301,7 @@ body {
 /* -----------------------------------------------------------*/
 
 
-
-
-
 /* Small posts  --------------------------------------------------*/
-
-/*.post-gallery {
-    display: flex;
-    justify-content: space-between; /* 要素の間隔を均等に配置 */
-    /*margin-top: 60px;
-    gap: 20px; /* ポスト間の余白を設定 */
-/*}:*/
-
-
 
 .dropdown button {
     height: 40px; /* 高さを調整 */
@@ -345,12 +318,8 @@ body {
     color: #2A3132; /* ボタンのテキスト色 */
 }
 
-
-
-
-
 /* カード全体のスタイル */
-.post-container {
+.small-post-container {
     display: flex;
     align-items: center;
     gap: 10px; /* カード間の隙間を調整 */
@@ -449,12 +418,10 @@ body {
     cursor: pointer;
     font-size: 1.5rem;
 }
-
 /* -----------------------------------------------------------*/
 
 
 /* Arrow   ---------------------------------------------------*/
-
 .post-arrow-left, .post-arrow-right {
     position: absolute;
     top: 50%;
@@ -481,41 +448,4 @@ body {
 .arrow-left:hover i, .arrow-right:hover i {
     color: #336B87;
 }
-
-
 /* -----------------------------------------------------------*/
-
-/*nav ul {
-    list-style: none;
-    padding: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin-right: 10px;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.hero {
-    background-color: #ffdd57;
-    padding: 50px;
-    text-align: center;
-}
-
-.content {
-    padding: 20px;
-}
-
-footer {
-    background-color: #336B87;
-    color: #fff;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}*/
