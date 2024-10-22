@@ -9,10 +9,10 @@
         <div class="col-md-11 event-content mx-auto">
            <!-- images -->
             <div class="images">
-                 <div class="logo-img">
-                     <img src="images/Group 316.png" class="mx-auto d-block" alt="logo">  
+                  <div class="logo-img text-center mt-4 mb-4">
+                     <img src="{{ asset('images/Group 316.png') }}" alt="Where To Go?" class="img-fluid mb-2">
                  </div>
-                 <div class="eventbar">
+                 <div class="tourismbar">
                       <img src="images/tourismbar.png" alt="Tourism Banner" class="banner-img">
                       <div class="banner-text">Tourism</div>
                  </div>
@@ -28,13 +28,12 @@
                  </a>
             </div>
 
-            <!-- search form -->
-            <div class="search-container justify-content-center">
-                <form action="" method="GET" class="w-75" role="search">
-                    <div class="input-group mx-auto">
-                        <input type="search" name="query" class="search-input form-control me-2" placeholder="Search" aria-label="Search" required>
-                        <button type="submit" class="btn btn-success">Search</button>
-                    </div>
+             {{-- Search Bar --}}
+             <div class="search-container d-flex justify-content-center">
+                <form class="d-flex mb-4" role="search">
+                    <input class="form-control form-control-lg me-2" type="search" aria-label="Search">
+                    <i class="fas fa-search icon_size"></i>
+                    <button class="btn fs-3 fw-bold" type="submit">Search</button>
                 </form>
             </div>
 
@@ -52,17 +51,19 @@
         </div>
     </div> 
     
-    <!-- sort part -->
-    <div class="sort">
-        <button class="btn btn-outline-secondary dropdown-toggle rounded-pill" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            Sort by recommended
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="?sort=likes">Likes</a></li>
-            <li><a class="dropdown-item" href="?sort=favorites">Favorites</a></li>
-            <li><a class="dropdown-item" href="?sort=lately">Lately</a></li>
-        </ul>
-    </div>
+    {{-- Sort Button --}}
+  <form id="sort" class="sort_button">
+    <label for="sortOptions" class="fs-4">Sort by</label>
+    <select name="price" id="sortOptions" class="fs-4">
+        <option value="1">Recommended</option>
+        <option value="2">Newest Post</option>
+        <option value="3">Popular</option>
+        <option value="4">Many Likes</option>
+        <option value="5">Many Views</option>
+    </select>
+    <i class="fa-solid fa-chevron-down icon_size"></i>
+  </form>
+           
 
     {{-- Posts Section --}}
     @include('post-spot.tourism-posts')

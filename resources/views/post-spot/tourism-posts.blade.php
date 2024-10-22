@@ -1,14 +1,15 @@
-<div class="show_posts">
-    <h3>Recommend</h3>
-        <div class="row">
-              @for ($i = 0; $i < 4; $i++)
-               <div class="small_post col-md-3">
-                     <div class="card">
-                     <a href="#" >
-                           <img src="{{ asset('images/post_pc_sample.png') }}" class="card-img-top" alt="Tourism Image">
-                     </a>
 
-                <div class="card-body bg-light border border-rounded">
+<div class="show_posts">
+  <h3>Recommend</h3>
+  <div class="row">
+    @for ($i = 0; $i < 4; $i++)
+        <div class="small_post col-md-3">
+            <div class="card">
+                <a href="#" >
+                  <img src="{{ asset('images/map_samples/post_pc_sample.png') }}" class="card-img-top" alt="Tourism Image">
+                </a>
+
+                <div class="card-body">
 
                   <div class="row">
                     <div class="col-auto">
@@ -34,7 +35,8 @@
                   </div>
                   <div class="post_text">
                     <p>text text text text text text text text text text text text text text text text text text text text</p>
-                    <a href="#">Read more</a>
+                    <button class="btn comment-card">Learn More</button>
+                   
                   </div>
               
                 </div>
@@ -43,17 +45,17 @@
     @endfor
   </div>
 
-        <div class="row">
-          <h3>Tourism posts</h3>
-              @for ($i = 0; $i < 8; $i++)
-               <div class="small_post col-md-3">
-                
-                     <div class="card">
-                     <a href="#" >
-                           <img src="{{ asset('images/post_pc_sample.png') }}" class="card-img-top" alt="Tourism Image">
-                     </a>
 
-                <div class="card-body bg-light border border-rounded">
+  <h3>Tourism posts</h3>
+  <div class="row">
+    @for ($i = 0; $i < 8; $i++)
+        <div class="small_post col-md-3">
+            <div class="card">
+                <a href="#" >
+                  <img src="{{ asset('images/map_samples/post_pc_sample.png') }}" class="card-img-top" alt="Tourism Image">
+                </a>
+
+                <div class="card-body">
 
                   <div class="row">
                     <div class="col-auto">
@@ -79,12 +81,13 @@
                   </div>
                   <div class="post_text">
                     <p>text text text text text text text text text text text text text text text text text text text text</p>
-                    <a href="#">Read more</a>
+                    <button class="btn comment-card">Learn More</button>
+                   
                   </div>
               
                 </div>
             </div>
         </div>
     @endfor
-  </div>            
+  </div>
 </div>
