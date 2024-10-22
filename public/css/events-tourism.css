@@ -6,15 +6,6 @@ body {
   overflow-x: hidden; /* 横スクロールを無効化 */
 }
 
-h1, h2, h3, h4, h5 {
-  font-family: 'Lato', sans-serif;
-}
-
-p {
-  font-family: 'Open Sans', sans-serif;
-}
-
-
 /* background of page */
 .background-image::before {
   content: "";
@@ -38,13 +29,6 @@ p {
 }
 
 /* images */
-.logo-img {
-  margin-bottom: 40px;
-}
-
-.logo-img img{
-  height: 80px
-}
 
 .tourism-img {
   height: 100px;
@@ -71,33 +55,42 @@ p {
   opacity: 0.8; /* 不透明度を下げる */
 }
 
-/* serch */
+/* Search Bar ------------------------------------------------*/
 .search-container {
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: center;
-
+  position: relative;
+  width: 600px;
+  max-width: 100%;
+  margin: auto;
 }
-
-/* searh form */
-.search-input {
-  height: 60px;
-  border-radius: 10px;
+.search-container input {
+  /* width: 40vw;   */
+  width: 100%;
+  padding: 10px;
+  padding-right: 40px; /* アイコンが重ならないように右側に余白を作成 */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
 }
-
-/* serch-button */
-.search-container .btn {
-  background-color: #336b87;
-  color: white;
-  padding: 12px 24px;
+.search-container i {
+  position: absolute;
+  right: 40%;
+  top: 50%;
+  transform: translateY(-90%);
+  color: #888;
+}
+.icon_size {
+  font-size: 30px;
+}
+.search-container button {
+  background-color: #336B87;
+  color: #ffffff;
   border: none;
-  border-radius: 10px;
-  cursor: pointer;
+  width: 150px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
 }
-/* serach-button hover */
-.search-container .btn:hover {
-  color: #90afc5;
+.search-container button:hover {
+  background-color: #90AFC5;
+  color: #2A3132;
 }
+
 
 /* category */
 .category {
@@ -158,57 +151,74 @@ text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
-/* sort */
-.sort {
-  text-align: right;
-  margin-bottom: 20px;
+/* Sort Button ------------------------------------------------*/
+.sort_button {
+  text-align: right; 
+  position: relative;
+  margin: 0em 0em 0em 0em;
 }
 
-/* sort button*/
-.btn-outline-secondary {
-  border-color: #ccc;
-  color: #000;
-  padding: 8px 20px;
-  font-size: 16px;
-  background-color: #fff;
+.sort_button i {
+  pointer-events: none; 
+  position: absolute;
+  color: #666666;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
 }
 
-/* sort dropdown */
-.dropdown-menu {
-  min-width:200px;
+:focus {
+  outline: none;
 }
 
-/* sort dropdown */
-.dropdown-menu a {
-  font-size: 16px;
-  padding: 10px 15px
+.sort_button select{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 12em;
+  height: 2.5em;
+  border-radius: 50px;
+  font-size: 1.2em;
+  padding: 0em 1em 0em 1em;
+  margin: 20px 0;
+  cursor: pointer;
 }
 
+.sort_button select:hover {
+  background-color: #90AFC5;
+}
+
+
+
+/* Spots Section ------------------------------------------------*/
 
 .show_spot {
   border-radius: 20px;
   padding: 40px 80px;
-  margin-top:20px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
-
+  margin-bottom: 90px;
 }
 
 .small_spot .card{
-  height: 300px;
+  /* height: 300px; */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+  border-radius: 10px; /* 角を丸くする */
 }
 
 .small_spot img {
-  height: 65%;
-  /* width: 65%; */
+  height: 150px; 
   display: block; /* 中央寄せに備えてブロック要素に */
   margin: 0 auto; /* 画像をカード内で中央寄せ */
+  object-fit: cover;
 }
 
-/* posts */
+/* Posts Section------------------------------------------------*/
+
 .small_post .card{
   box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
   margin-bottom: 60px;
+  overflow: hidden;
+  border-radius: 10px; /* 角を丸くする */
 }
 
 .small_post img {
@@ -224,4 +234,15 @@ text-align: center;
   margin-bottom: 0;
   overflow: hidden;
   /* transition: max-height 1s; */
+}
+
+
+.post_text button {
+  height: 40px; /* 高さを調整 */
+  padding: 10px 15px; /* ボタンの内側の余白 */
+  background-color: #336B87 !important; /* ボタンの背景色 */
+  color: #ffffff; /* ボタンのテキスト色 */
+  border: none; /* ボタンの境界線を無効にする */
+  border-radius: 5px; /* 角を丸くする */
+  cursor: pointer; /* カーソルをポインターに変更 */
 }
