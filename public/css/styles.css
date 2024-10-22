@@ -107,7 +107,6 @@ input {
     text-decoration: underline;
 }
 
-
 /* Search Bar ------------------------------------------------*/
 .search-container {
     position: relative;
@@ -154,4 +153,3 @@ input {
     opacity: 0.1; /* 透過率 */
     z-index: 1; /* 他の要素の下に配置 */
 }
-

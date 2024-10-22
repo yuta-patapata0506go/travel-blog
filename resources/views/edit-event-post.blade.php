@@ -1,13 +1,12 @@
-<link href="{{ asset('css/tourism-post.css') }}" rel="stylesheet">
+<link href="{{ asset('css/event-post.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
-<script src="{{ asset('js/edit-tourism.js') }}"></script>
 
 @extends('layouts.app')
 
 @section('content')
 <div class="background"></div> <!-- 背景画像 -->     
 <div class="container container-fluid mt-5">
-    <h2 class="text-center mb-4">Edit Tourism Post</h2>
+    <h2 class="text-center mb-4">Edit Event Post</h2>
     
     <form action="#" method="POST" enctype="multipart/form-data">
         @csrf
@@ -41,7 +40,17 @@
                 Choose a category
             </button>
             <div id="selectedCategories" class="mt-2"></div>
-        </div>      
+        </div>
+        <div class="row">
+  <div class="col-md-6">
+    <label for="start-date" class="form-label">Start Date <span class="text-danger">*</span>:</label>
+    <input type="date" id="start-date" name="start_date" class="form-control">
+  </div>
+  <div class="col-md-6">
+    <label for="end-date" class="form-label">End Date <span class="text-danger">*</span>:</label>
+    <input type="date" id="end-date" name="end_date" class="form-control">
+  </div>
+</div>
        
         <div class="mb-3">
             <label for="fee" class="form-label">Fee:</label>
@@ -314,4 +323,23 @@
         </div>
     </div>
 </div>
+
+<script>
+function updateSelectedCategories() {
+    const selectedCategories = [];
+    document.querySelectorAll('#categoryForm .form-check-input:checked').forEach(checkbox => {
+        selectedCategories.push(checkbox.value);
+    });
+
+    const categoryContainer = document.getElementById('selectedCategories');
+    categoryContainer.innerHTML = ''; // 既存のカテゴリー表示をクリア
+    selectedCategories.forEach(category => {
+        const span = document.createElement('span');
+        span.classList.add('category-badge');
+        span.innerText = category;
+        categoryContainer.appendChild(span);
+    });
+}
+</script>  
+
 @endsection

@@ -183,5 +183,6 @@ Route::get('/edit-tourism-post', function () {
     return view('edit-tourism-post');
 });
 
+// Authentication Routes
 
 Auth::routes();

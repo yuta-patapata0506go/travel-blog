@@ -38,13 +38,13 @@
                     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="{{ asset('/images/beer.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 1">
+                                <img src="{{ asset('/images/petra1.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 1">
                             </div>
                             <div class="carousel-item">
-                                <img src="{{ asset('/images/beer2.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 2">
+                                <img src="{{ asset('/images/petra2.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 2">
                             </div>
                             <div class="carousel-item">
-                                <img src="{{ asset('/images/castle.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 3">
+                                <img src="{{ asset('/images/petra3.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 3">
                             </div>
                             <div class="carousel-item">
                                 <img src="{{ asset('/images/city.jpg') }}" class="d-block w-100 main-carousel-img" alt="Beach Image">
@@ -66,19 +66,19 @@
                     <!-- サブ画像 (サムネイル) -->
                     <div class="carousel-indicators-wrapper mt-3 d-flex justify-content-center gap-2 flex-wrap">
                         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1">
-                            <img src="{{ asset('images/castle.jpg') }}" class="thumbnail-img" alt="Thumbnail 1">
+                            <img src="{{ asset('images/petra1.jpg') }}" class="thumbnail-img" alt="Thumbnail 1">
                         </button>
                         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2">
-                            <img src="{{ asset('images/castle.jpg') }}" class="thumbnail-img" alt="Thumbnail 2">
+                            <img src="{{ asset('images/petra2.jpg') }}" class="thumbnail-img" alt="Thumbnail 2">
                         </button>
                         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2" aria-label="Slide 3">
-                            <img src="{{ asset('images/castle.jpg') }}" class="thumbnail-img" alt="Thumbnail 3">
+                            <img src="{{ asset('images/petra3.jpg') }}" class="thumbnail-img" alt="Thumbnail 3">
                         </button>
                         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="3" aria-label="Slide 4">
-                            <img src="{{ asset('images/castle.jpg') }}" class="thumbnail-img" alt="Thumbnail">
+                            <img src="{{ asset('images/petra1.jpg') }}" class="thumbnail-img" alt="Thumbnail">
                         </button>
                         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="4" aria-label="Slide 5">
-                            <img src="{{ asset('images/castle.jpg') }}" class="thumbnail-img" alt="Thumbnail">
+                            <img src="{{ asset('images/petra2.jpg') }}" class="thumbnail-img" alt="Thumbnail">
                         </button>
                     </div>
                 </div>
@@ -117,21 +117,31 @@
 
                 <!-- Map and Weather Display -->
                 <div class="info-container">
-                    <div class="map">
+
+                <!-- Mapへの遷移用フォーム -->
+                <form action="/mappage" method="GET" class="map-form" onclick="this.parentElement.submit()">
+                    <div class="map" onclick="this.parentElement.submit()">
                         <h5>Map</h5>
                         <i class="fa-regular fa-map"></i>
                         <img src="/images/map.png" alt="">
                         <p>Map will be displayed here.</p>
-                        <!-- Embed map code here -->
+                        <h6>Address</h6>
+                        <p>000-0000</p>
+                        <p>Petra - Wadi Musa, Jordan</p>
                     </div>
-                    <div class="weather">
-                        <h5>Weather</h5>
-                        <i class="fa-solid fa-cloud-sun"></i>
-                        <img src="/images/weather.png" alt="">
-                        <p>Weather information will be displayed here.</p>
-                        <!-- Embed weather code here -->
-                    </div>
+                </form>
+
+                <!-- Weather -->
+                <div class="weather">
+                    <h5>Weather</h5>
+                    <i class="fa-solid fa-cloud-sun"></i>
+                    <img src="/images/weather.png" alt="">
+                    <p>Weather information will be displayed here.</p>
+                    <!-- Embed weather code here -->
                 </div>
+
+            </div>
+
 
                 <!-- Comments -->
                             <div class="comments-section my-2">
@@ -208,13 +218,13 @@
                 <!-- Event and Tourism Display -->
                 <div class="event-tourism-container mt-5">
                     <!-- Eventページに遷移するフォーム -->
-                    <form action="#" method="GET" class="event-link event text-white text-shadow" 
+                    <form action="/events" method="GET" class="event-link event text-white text-shadow" 
                         style="cursor: pointer;" onclick="this.submit();">
                         <h5>Event</h5>
                     </form>
 
                     <!-- Tourismページに遷移するフォーム -->
-                    <form action="#" method="GET" class="tourism-link tourism text-white text-shadow" 
+                    <form action="/tourism" method="GET" class="tourism-link tourism text-white text-shadow" 
                         style="cursor: pointer;" onclick="this.submit();">
                         <h5>Tourism</h5>
                     </form>
@@ -272,7 +282,7 @@
                         @for($i = 0; $i < 4; $i++)
                         <div class="card post shadow-card m-2" style="cursor: pointer; width: 18rem;" onclick="this.querySelector('form').submit();">
                             <!-- カード内のフォーム -->
-                            <form action="#" method="GET">
+                            <form action="/posts-event-post" method="GET">
                                 <img src="{{ asset('images/beer.jpg') }}" class="card-img-top" alt="Post Image">
 
                                 <div class="card-body">
@@ -290,9 +300,9 @@
                                                 </div>
                                             </div>
                                             
-                                            <div class="mb-2">
-                                                <span class="badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
-                                                <span class="badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
+                                            <div class="row mb-2">
+                                                <span class="col badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
+                                                <span class="col badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
                                             </div>
                                             
                                             <p class="card-text">Short description of the tourism spot.</p>
