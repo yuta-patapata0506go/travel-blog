@@ -183,9 +183,5 @@ Route::get('/edit-tourism-post', function () {
     return view('edit-tourism-post');
 });
 
-<<<<<<< HEAD
-// Authentication Routes
-=======
 
->>>>>>> 5949b5f35bdfe2011180741503196236e5bd5715
 Auth::routes();
