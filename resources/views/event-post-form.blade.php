@@ -1,8 +1,11 @@
-<link href="{{ asset('css/event-post.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
-
-
 @extends('layouts.app')
+
+
+
+
+@section('css')
+<link href="{{ asset('css/event-post.css') }}" rel="stylesheet">
+@endsection
 
 @section('content')
 <div class="background"></div> <!-- 背景画像 -->     
