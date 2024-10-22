@@ -81,7 +81,7 @@
                 </div>
             </div>
 
-            <!-- Footer -->
+            {{-- <!-- Footer -->
             <footer class="text-center mt-5 p-3 footer">
                 <div class="social-icons">
                     <a href="#"><i class="fab fa-instagram"></i></a>
@@ -94,7 +94,7 @@
                         <a href="#">Contact</a> | <a href="#">About</a>
                     </div>
                 </div>
-            </footer><
+            </footer> --}}
         </div>
     </div>
 @endsection
