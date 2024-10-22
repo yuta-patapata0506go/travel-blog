@@ -1,5 +1,3 @@
-resource > views > admin > posts > modals> visibility.blade.php
-
 <head>
   <link rel="stylesheet" href="{{ asset('css/admin/modals.css') }}"> <!-- link modal.css -->
 </head>
