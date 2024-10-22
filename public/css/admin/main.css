@@ -50,7 +50,7 @@ tbody {
 }
 
 tbody tr:hover {
-  background-color: #D9D9D9; /* ホバー時の背景色 */
+  background-color: #B3B3B3; /* ホバー時の背景色 */
 }
 
 /* ページネーションのスタイル */
@@ -77,7 +77,7 @@ tbody tr:hover {
 
 /* ページリンクのホバー時のスタイル */
 .pagination .page-link:hover {
-  background-color: #D9D9D9; /* ホバー時の背景色 */
+  background-color: #B3B3B3; /* ホバー時の背景色 */
 }
 
 /* アイコンタブのスタイル */
@@ -106,7 +106,7 @@ tbody tr:hover {
 /* ホバー時のアイコンボタンのスタイル */
 .icon-btn:hover {
   color: #FFFFFF; /* ホバー時の文字色 */
-  background-color: #D9D9D9; /* ホバー時の背景色 */
+  background-color: #B3B3B3; /* ホバー時の背景色 */
 }
 
 /* ドロップダウンのスタイル */
@@ -117,7 +117,7 @@ tbody tr:hover {
 }
 
 .dropdown-toggle:hover {
-  background-color: #D9D9D9; /* ホバー時の背景色 */
+  background-color: #B3B3B3; /* ホバー時の背景色 */
 }
 
 /* アイコンコンテナのスタイル */
@@ -149,7 +149,7 @@ tbody tr:hover {
 
 /* ホバー時のアイコンアイテムのスタイル */
 .icon-item:hover {
-  background-color: #D9D9D9; /* ホバー時の背景色 */
+  background-color: #B3B3B3; /* ホバー時の背景色 */
 }
 
 /* アクティブなアイコンアイテムのスタイル */
@@ -167,7 +167,7 @@ tbody tr:hover {
 }
 
 .btn-outline-dark:hover {
-  background-color: #D9D9D9 !important; /* ホバー時の背景色を強制適用 */
+  background-color: #B3B3B3 !important; /* ホバー時の背景色を強制適用 */
   color: black !important; /* ホバー時の文字色を強制適用 */
 }
 
