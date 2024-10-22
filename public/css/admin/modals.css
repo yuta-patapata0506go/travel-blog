@@ -39,6 +39,15 @@ button.btn.btn-dark:hover, button.btn.btn-outline-dark:hover {
   overflow: hidden;
 }
 
+.modal-body {
+  background-color: #FBF4F4; /* Light background color */
+}
+
+
+.modal-header.bg-dark {
+  background-color: #2A3132 !important; /* Force the dark background */
+}
+
 /* user icon */
 .user-profile {
   display: inline-block;

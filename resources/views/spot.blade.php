@@ -4,6 +4,8 @@
     <link rel="stylesheet" href="{{ asset('css/spot.css') }}">
 @endsection
 
+@section('title', 'Spot Page')
+
 @section('content')
 
         <!-- Card of whole page -->
@@ -220,7 +222,7 @@
 
 
                 <!-- Posts Gallery -->
-                <h4 class="post-display mt-5">POST related to "SPOT NAME"</h4>
+                <h4 class="post-gallery mt-5">POST related to "SPOT NAME"</h4>
                 <!-- Sort by dropdown -->
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle rounded-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -262,23 +264,113 @@
                 
 
                     <!-- Post display and jump to the Post Page-->
-                    <div class="post-container">
-                        <button class="arrow-left" onclick="nextImage()"><i class="fa-regular fa-circle-left"></i></button>
-                        @for($i = 0;$i < 5;$i++)
-                            <!-- カード全体をフォームで囲む -->
-                            <form action="#" method="GET" class="card post shadow-card" style="cursor: pointer;" 
-                                onclick="this.submit();">
-                                <img src="{{ asset('images/beer.jpg') }}" class="img-fluid" alt="Post 1">
+                    <div class="post-container d-flex align-items-center">
+                        <button class="arrow-left" onclick="nextImage()">
+                            <i class="fa-solid fa-circle-left"></i>
+                        </button>
+
+                        @for($i = 0; $i < 4; $i++)
+                        <div class="card post shadow-card m-2" style="cursor: pointer; width: 18rem;" onclick="this.querySelector('form').submit();">
+                            <!-- カード内のフォーム -->
+                            <form action="#" method="GET">
+                                <img src="{{ asset('images/beer.jpg') }}" class="card-img-top" alt="Post Image">
+
                                 <div class="card-body">
-                                    <h5 class="card-title">Title</h5>
-                                    <p class="card-text">Category1 / Category2</p>
-                                    <p class="card-text">Short description of the tourism spot</p>
-                                    <button type="button" class="btn btn-comment-card">Learn More</button>
+                                    <div class="row">
+                                        <div class="">
+                                            <div class="col-auto title-line">
+                                                <h5 class="card-title">Title {{ $i + 1 }}</h5>
+                                                <div class="col-auto">
+                                                    <form action="#">
+                                                        <button type="submit" class="btn shadow-none p-0"><i class="fa-solid fa-heart"></i></button>
+                                                    </form>
+                                                    <form action="#">
+                                                        <button type="submit" class="btn shadow-none p-0"><i class="fa-solid fa-star"></i></button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
+                                                <span class="badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
+                                            </div>
+                                            
+                                            <p class="card-text">Short description of the tourism spot.</p>
+                                            
+                                            <button type="button" class="btn-small-post-card">Read More</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
+                        </div>
                         @endfor
-                        <button class="arrow-right" onclick="nextImage()"><i class="fa-regular fa-circle-right"></i></button>
+
+                        <button class="arrow-right" onclick="nextImage()">
+                            <i class="fa-solid fa-circle-right"></i>
+                        </button>
                     </div>
+
+                    
+                    <!--<div class="post-container">
+                        <button class="arrow-left" onclick="nextImage()"><i class="fa-regular fa-circle-left"></i></button>
+                            @for($i = 0;$i < 4;$i++)-->
+                                <!-- カード全体をフォームで囲む -->
+                                <!--<form action="#" method="GET" class="card post shadow-card" style="cursor: pointer;" 
+                                    onclick="this.submit();">
+                                    <img src="{{ asset('images/beer.jpg') }}" class="img-fluid" alt="Post 1">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Title</h5>
+                                        <div class="row">
+                                            <div class="col-auto mb-1">
+                                                <span class="badge bg-opacity-50 rounded-pill">Category</span>
+                                                <span class="badge bg-opacity-50 rounded-pill">Category</span>
+                                            </div>
+                                        </div>
+                                        <p class="card-text">Short description of the tourism spot</p>
+                                        <button type="button" class="btn btn-comment-card">Read More</button>
+                                    </div>
+                                </form>
+                            @endfor
+                        <button class="arrow-right" onclick="nextImage()"><i class="fa-regular fa-circle-right"></i></button>
+                    </div>-->
+                            <!--<form action="#" method="GET" class="card post shadow-card" style="cursor: pointer;" 
+                                onclick="this.submit();">
+                                <div class="small_post">
+                                        <img src="{{ asset('images/map_samples/post_pc_sample.png') }}" class="card-img-top" alt="Tourism Image">
+                                        <div class="card-body">
+                                            <div class="col-auto">
+                                            <h5 class="fw-bolder">Title</h5>
+                                            <form action="#">
+                                                <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-heart"></i></button>
+                                            </form>
+                                            <form action="#">
+                                                <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-star"></i></button>
+                                            </form>
+                                            <div class="col-auto mb-1">
+                                                <span class="badge bg-opacity-50 rounded-pill">Category</span>
+                                                <span class="badge bg-opacity-50 rounded-pill">Category</span>
+                                            </div>
+                                            <button type="button" class="btn btn-comment-card">Read More</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-auto mb-1">
+                                            <span class="badge bg-opacity-50 rounded-pill">Category</span>
+                                            <span class="badge bg-opacity-50 rounded-pill">Category</span>
+                                            </div>
+                                        </div>
+                                        <div class="post_text">-->
+                                            <!--<p>text text text text text text text text text text text text text text text text text text text text</p>-->
+                                            <!--<button type="button" class="btn btn-comment-card">Read More</button>
+                                        </div>
+                                    
+                                        </div>
+                                    
+                                </div>
+                            </form>
+                        -->
+                        
                         <!--<div class="post-container">
                         <button class="arrow-left text-dark" onclick="nextImage()"><i class="fa-regular fa-circle-left"></i></button>
                         <div class="post">
@@ -329,6 +421,6 @@
     </script>
 @endsection
 
-@section('style')
+@section('styles')
    
 @endsection
