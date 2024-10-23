@@ -17,18 +17,18 @@
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-center">{{ __('Name') }}</label>
+    <label for="username" class="col-md-4 col-form-label text-md-center">{{ __('Username') }}</label>
 
-                            <div class="col-md-6 mb-4">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+    <div class="col-md-6 mb-4">
+        <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
 
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+        @error('username')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+</div>
 
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-center">{{ __('Email Address') }}</label>
