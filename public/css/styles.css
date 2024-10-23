@@ -36,6 +36,11 @@ input {
     height: auto;
 }
 
+.nav-item .nav-link {
+    display: flex;
+    align-items: center;
+}
+
 /* icon */
 .navbar .nav-link i {
     color: white;
@@ -44,13 +49,11 @@ input {
 }
 
 /* Admin Navbar */
-/*
 .navbar-admin {
     background-color: #2A3132;
 }
 
 /* Registered User Navbar */
-/*
 .navbar-registered {
     background-color: #336B87;
 }
@@ -59,11 +62,18 @@ input {
 .navbar-guest {
     background-color: #336B87;
 }
-*/
+
+.dropdown-toggle::after {
+    display: none; /* hide triangle */
+}
+
+.dropdown-item {
+    text-align: center;
+}
 
 /* mouse hover */
 .navbar .nav-link:hover i {
-    color: #FFD700;
+    color: #50312F;
 }
 
 
