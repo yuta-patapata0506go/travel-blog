@@ -117,6 +117,11 @@ input {
     text-decoration: underline;
 }
 
+/* Admin Footer */
+.footer-admin {
+    background-color: #2A3132; /* Black color for admin footer */
+}
+
 /* Search Bar ------------------------------------------------*/
 .search-container {
     position: relative;
