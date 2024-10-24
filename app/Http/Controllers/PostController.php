@@ -7,6 +7,7 @@ use App\Models\Spot;
 use App\Models\Comment;
 use App\Models\User;    
 use App\Models\Category;
+use App\Models\Image;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -14,12 +15,14 @@ class PostController extends Controller
     private $post;
 
     private $category;
+    private $image;
 
-    public function __construct(Post $post, category $category)
+    public function __construct(Post $post, category $category, image $image)
 
     {
         $this->post = $post;
         $this->category = $category;
+        $this->image = $image;
     }
 
 
@@ -50,13 +53,12 @@ class PostController extends Controller
         return view('posts.index', compact('posts'));
     }
 
-    // 投稿の詳細表示
-    public function show($id)
-    {
-        $post = Post::with('user', 'spot', 'comments')->findOrFail($id);
-
-        return view('posts.show', compact('post'));
-    }
+     // 投稿の詳細表示
+     public function show($id)
+     {
+         $post = $this->post->with('user', 'spot', 'comments')->findOrFail($id);
+         return view('posts.show', compact('post'));
+     }
 
    
 
@@ -124,9 +126,9 @@ class PostController extends Controller
 
         // バリデーションルール
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:30',
             'type' => 'required|integer|in:0,1',
-            'event_name' => 'nullable|string|max:255',
+            'event_name' => 'nullable|string|max:30',
             'fee' => 'nullable|numeric|min:0',
             'date' => 'required|date',
             'comments' => 'nullable|string|max:255',
