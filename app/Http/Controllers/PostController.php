@@ -27,11 +27,15 @@ class PostController extends Controller
 
 
      // 新規投稿フォームの表示
-     public function create()
+     public function create($type)
      {
-        $all_categories = $this->category->all();
-         return view('posts.create')->with('all_categories', $all_categories);
+         // カテゴリーを取得
+        //  $all_categories = $this->category->all();
+     
+         // $typeと$all_categoriesをビューに渡す
+         return view('posts.create', compact('type', 'all_categories'));
      }
+     
 
     // 投稿の一覧表示
     public function index(Request $request)
