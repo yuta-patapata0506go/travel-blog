@@ -30,7 +30,7 @@ class PostController extends Controller
      public function create($type)
      {
          // カテゴリーを取得
-        //  $all_categories = $this->category->all();
+         $all_categories = $this->category->all();
      
          // $typeと$all_categoriesをビューに渡す
          return view('posts.create', compact('type', 'all_categories'));
@@ -75,10 +75,12 @@ class PostController extends Controller
             'type' => 'required|integer|in:0,1',
             'event_name' => 'nullable|string|max:30',
             'fee' => 'nullable|numeric|min:0',
-            'date' => 'required|date',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
             'comments' => 'nullable|string|max:255',
+            'category' => 'required|array', // 複数カテゴリー対応
             'helpful_info' => 'nullable|string',
-            'visibility_status' => 'required|integer|in:0,1',
+            'image' => 'required', // 画像が必須
         ]);
 
         // 新しい投稿を作成
@@ -89,7 +91,8 @@ class PostController extends Controller
         $this->post->type = $request->type;
         $this->post->event_name = $request->input('event_name');
         $this->post->fee = $request->fee;
-        $this->post->date = $request->date;
+        $this->post->start_date = $request->start_date;
+        $this->post->end_date = $request->end_date;
         $this->post->comments = $request->comments;
         $this->post->helpful_info = $request->helpful_info;
 
@@ -100,9 +103,12 @@ class PostController extends Controller
             $category_post[] = ["category_id"=>$category_id];
         endforeach;
 
-        $this->$post->category_post()->createMany($category_post);
+        $this->post->category_post()->createMany($category_post);
 
-        return redirect()->route('index');
+        // / 画像の保存（ImageControllerで処理を行う）
+        app(ImageController::class)->store($request, $post->id);
+
+        return redirect()->back()->with('success', 'Post created successfully.');
     }
 
     // 投稿編集フォームの表示

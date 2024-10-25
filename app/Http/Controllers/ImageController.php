@@ -15,32 +15,27 @@ class ImageController extends Controller
     }
 
     // 画像のアップロード
-    public function store(Request $request)
+    public function store(Request $request, $postId)
     {
+        // バリデーション
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:10240', // 画像のバリデーション
-            'caption' => 'nullable|string|max:255',
-            'status' => 'required|string|in:published,draft',
-            'post_id' => 'nullable|exists:posts,id', // 投稿に関連付け
-            'spot_id' => 'nullable|exists:spots,id', // スポットに関連付け
+            'image.*' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
-        // 画像を保存する
-        if ($request->hasFile('image')) {
-            $imageFile = $request->file('image');
-            $imagePath = $imageFile->store('images', 'public'); // ストレージに保存
+        // 複数画像の処理
+        if ($request->hasfile('image')) {
+            foreach ($request->file('image') as $file) {
+                // 画像を保存
+                $filename = time().'_'.$file->getClientOriginalName();
+                $file->move(public_path('uploads'), $filename);
+
+                // 画像情報を保存
+                $this->image->create([
+                    'post_id' => $postId,
+                    'filename' => $filename,
+                ]);
+            }
         }
-
-        // 新しい画像レコードを作成
-        $this->image->image_url = $imagePath; // 保存した画像のパスを格納
-        $this->image->caption = $request->input('caption');
-        $this->image->status = $request->input('status');
-        $this->image->user_id = auth()->id(); // 現在のユーザーを設定
-        $this->image->post_id = $request->input('post_id'); // 投稿に関連付け
-        $this->image->spot_id = $request->input('spot_id'); // スポットに関連付け
-        $this->image->save();
-
-        return redirect()->back()->with('success', 'Image uploaded successfully.');
     }
 
     // 画像の一覧表示

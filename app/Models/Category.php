@@ -9,6 +9,8 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $table ="new_categories";
+
     #To get the number of categories for each post
     public function categoryPost(){
         return $this->hasMany(CategoryPost::class);
