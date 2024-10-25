@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ContactController;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\admin\CategoryController;
 
 // Home Route
@@ -81,8 +83,10 @@ Route::get('/footer', function () {
     return view('footer');
 });
 
-Route::get('/contact', function () {
-    return view('contact');
+// contact
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/contact/create', [ContactController::class, 'create'])->name('contact.create');
+    Route::post('/contact/store', [ContactController::class, 'store'])->name('contact.store');
 });
 
 Route::get('/about', function () {
