@@ -20,13 +20,12 @@
 
             <div class="col">
                 @guest
-                    <!-- Guest footer only -->
-                    <a href="#" class="footer-link">About</a>
+                    <a href="{{ route('about') }}" class="footer-link">About</a>
                 @else
                     @if (!Auth::user()->isAdmin())
-                        <a href="#" class="footer-link">Contact</a> {{-- {{ url('/contact') }} --}}
+                        <a href="{{ route('contact.create') }}" class="footer-link">Contact</a>
                     @endif
-                    <a href="#" class="footer-link">About</a> {{-- {{ url('/about') }} --}}
+                    <a href="{{ route('about') }}" class="footer-link">About</a>
                 @endguest
             </div>
         </div>
