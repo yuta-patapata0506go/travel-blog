@@ -90,7 +90,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('/about', function () {
     return view('about');
-});
+})->name('about');
+
 
 Route::get('/spot', function () {
     return view('spot');
