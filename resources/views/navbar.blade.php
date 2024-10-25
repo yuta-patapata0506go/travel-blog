@@ -12,7 +12,6 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
-                <!-- 他のメニュー項目がここに入る -->
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -37,7 +36,9 @@
                             @else
                                 <i class="fas fa-user-circle" style="font-size: 30px;"></i>
                             @endif
-                            {{ Auth::user()->username }}
+                            <span class="username">
+                                {{ Auth::user()->username }}
+                            </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#">
@@ -64,7 +65,7 @@
                         <a class="nav-link" href="#"><i class="fas fa-language"></i></a> <!-- Language icon -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-address-card"></i></a> <!-- Contact icon -->
+                        <a class="nav-link" href="{{ route('contact.create') }}"><i class="fas fa-address-card"></i></a> <!-- Contact icon -->
                     </li>
                     <!-- User Icon Dropdown -->
                     <li class="nav-item dropdown">
@@ -74,7 +75,9 @@
                             @else
                                 <i class="fas fa-user-circle" style="font-size: 30px;"></i>
                             @endif
-                            {{ Auth::user()->username }}
+                            <span class="username">
+                                {{ Auth::user()->username }}
+                            </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#">
