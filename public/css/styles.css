@@ -29,6 +29,7 @@ input {
 /* Navbar */
 .navbar {
     font-family: 'Open Sans', sans-serif;
+    z-index: 10;
 }
 
 .navbar-logo {
@@ -36,17 +37,32 @@ input {
     height: auto;
 }
 
-.nav-item .nav-link {
+.navbar-nav .nav-item .nav-link {
     display: flex;
     align-items: center;
+    justify-content: center; /* Align the icons in the center */
+    height: 100%; /* Center the icons in the navbar */
+}
+
+.navbar-nav .nav-item .username {
+    margin-left: 8px; /* Set spacing from the icons */
 }
 
 /* icon */
 .navbar .nav-link i {
     color: white;
     font-size: 24px; 
-    margin-right: 8px;
+    margin-right: 0 8px;
 }
+
+.navbar-nav .nav-item img.rounded-circle {
+    width: 30px;
+    height: 30px;
+    object-fit: cover; /* Shape the image */
+    margin-right: 8px;
+    vertical-align: middle; /* Center the image */
+}
+
 
 /* Admin Navbar */
 .navbar-admin {
@@ -64,11 +80,7 @@ input {
 }
 
 .dropdown-toggle::after {
-    display: none; /* hide triangle */
-}
-
-.dropdown-item {
-    text-align: center;
+    display: none !important; /* hide triangle */
 }
 
 /* mouse hover */
@@ -115,6 +127,11 @@ input {
 
 .footer-link:hover {
     text-decoration: underline;
+}
+
+/* Admin Footer */
+.footer-admin {
+    background-color: #2A3132; /* Black color for admin footer */
 }
 
 /* Search Bar ------------------------------------------------*/
