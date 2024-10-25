@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Auth;
 
@@ -191,3 +192,16 @@ Route::get('/edit-tourism-post', function () {
 // Authentication Routes
 
 Auth::routes();
+
+Route::group(["middleware"=> "auth"], function(){
+
+    Route::group(['prefix' => 'post', 'as' =>'post.'],function(){
+        Route::get('posts/create/{type}', [PostController::class, 'create'])->name('create');
+        Route::post('store', [PostController::class, 'store'])->name('store');
+        Route::get('show/{id}', [PostController::class, 'show'])->name('show');
+        Route::get('edit/{id}', [PostController::class, 'edit'])->name('edit');
+        Route::patch('update/{id}', [PostController::class, 'update'])->name('update');
+        Route::delete('destroy/{id}', [PostController::class, 'destroy'])->name('destroy');
+    
+       });
+ });
