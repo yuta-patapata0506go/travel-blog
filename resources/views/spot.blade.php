@@ -136,11 +136,18 @@
                 <div class="weather">
                     <h5>Weather</h5>
                     <i class="fa-solid fa-cloud-sun"></i>
-                    <img src="/images/weather.png" alt="">
-                    <p>Weather information will be displayed here.</p>
+                    <img src="/images/weather.png" alt="">                
                     <!-- Embed weather code here -->
+                    <h1>{{ $spot->name }}</h1>
+                     <p>Location: {{ $spot->location }}</p>
+                     <h2>天気情報</h2>
+                      <p>Wether Conditon: {{ $spot->weather_condition }}</p>
+                      <p>Temperature: {{ $spot->temperature }}°C</p>
+                      <p>Humidity: {{ $spot->humidity }}%</p>
+                      <p>Wind Speed: {{ $spot->wind_speed }} m/s</p>
+                      <p>Precipitation: {{ $spot->precipitation }} mm</p>
+                      <p>UV Index: {{ $spot->uv_index }}</p>
                 </div>
-
             </div>
 
 

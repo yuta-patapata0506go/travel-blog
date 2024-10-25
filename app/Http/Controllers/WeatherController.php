@@ -1,7 +1,4 @@
 <?php
-
-// app/Http/Controllers/WeatherController.php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -18,7 +15,7 @@ class WeatherController extends Controller
             return response()->json(['message' => 'Spot not found'], 404);
         }
 
-        $apiKey = env('7c431d4846c86a615608f1e1cae38cf4');
+        $apiKey = env('OPENWEATHERMAP_API_KEY');
         $url = "http://api.openweathermap.org/data/2.5/weather?lat={$spot->latitude}&lon={$spot->longitude}&appid={$apiKey}&units=metric";
         $response = Http::get($url);
         $data = $response->json();
@@ -36,11 +33,10 @@ class WeatherController extends Controller
 
     private function getUVIndex($lat, $lon)
     {
-        $apiKey = env('7c431d4846c86a615608f1e1cae38cf4');
+        $apiKey = env('OPENWEATHERMAP_API_KEY');
         $url = "http://api.openweathermap.org/data/2.5/uvi?lat={$lat}&lon={$lon}&appid={$apiKey}";
         $response = Http::get($url);
         $data = $response->json();
         return $data['value'];
     }
 }
-

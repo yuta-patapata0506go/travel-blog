@@ -190,8 +190,6 @@ Route::get('/edit-tourism-post', function () {
 
 use App\Http\Controllers\WeatherController;
 
-Route::get('/update-weather/{spot_id}', [WeatherController::class, 'updateWeather']);
-
 Route::get('/spot/{spot_id}', [WeatherController::class, 'show']);
 
 // Authentication Routes
