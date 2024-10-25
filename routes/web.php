@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\admin\CategoryController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -186,3 +187,12 @@ Route::get('/edit-tourism-post', function () {
 // Authentication Routes
 
 Auth::routes();
+
+Route::group(["prefix"=>"admin","as"=>"admin."],function(){
+    Route::group(["prefix"=>"category","as"=>"category."],function(){
+       Route::get('/view',[CategoryController::class,'view'])->name('view');
+       Route::post('/store',[CategoryController::class,'store'])->name('store');
+       Route::get('/create',[CategoryController::class,'create'])->name('create');
+
+    });
+});
