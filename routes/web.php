@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\InquiriesController;
 use Illuminate\Support\Facades\Auth;
 
 // Home Route
@@ -100,6 +101,13 @@ Route::get('/spot', function () {
 
 
 // Admin　Routes
+Route::group(['middleware' => 'auth'], function () {
+    // Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
+        Route::get('/admin/admin-inquiries-index', [InquiriesController::class, 'index'])->name('admin.inquiries.index');
+    // });
+});
+
+
 Route::get('/admin/inquiries/create_reply', function () {
     return view('admin/inquiries/create_reply');
 });
@@ -148,9 +156,9 @@ Route::get('/admin-categories-index', function () {
     return view('/admin/categories/categories-index');
 });
 
-Route::get('/admin-inquiries-index', function () {
-    return view('/admin/inquiries/inquiries-index');
-});
+// Route::get('/admin-inquiries-index', function () {
+//     return view('/admin/inquiries/inquiries-index');
+// });
 
 Route::get('/admin-spot_applications-index', function () {
     return view('/admin/spot_applications/spot_applications-index');

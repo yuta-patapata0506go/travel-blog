@@ -33,7 +33,7 @@
             @include('admin.modals.recommended_post')
         </div>
 
-        <!-- User Table -->
+        <!-- Inquiries Table -->
         
         <table class="table table-hover table-bordered text-center">
             <thead class="table-dark">
@@ -72,6 +72,52 @@
                 </tr>
                 </thead>
                 <tbody>
+                    @foreach ($all_inquiries as $inquiry) <!-- Loop through each inquiry -->
+                        <tr>
+                            <td>{{ $inquiry->id }}</td>
+                            <td>{{ $inquiry->created_at->format('Y-m-d') }}</td> <!-- Format the date as needed -->
+                            <td>{{ $inquiry->user->name }}</td>
+                            <td>{{ $inquiry->user->email }}</td>
+                            <td class="textCell">
+                                <p>{{ Str::limit($inquiry->body, 100) }}</p>
+                                <a href="#">Read More...</a>
+                            </td> <!-- Ensure you have the correct field for content -->
+                            <td>
+                                <div class="dropdown">
+                                    <button class="dropdown-toggle" type="button" id="visibilityDropdown{{ $inquiry->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ $inquiry->status }} <!-- Assuming 'status' is a field in your inquiry model -->
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="visibilityDropdown{{ $inquiry->id }}">
+                                        <li><a class="dropdown-item" href="#">Unprocessed</a></li>
+                                        <li><a class="dropdown-item" href="#">Responded</a></li>
+                                        <li><a class="dropdown-item" href="#">Resolved</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm" data-bs-toggle="dropdown">
+                                        {{ $inquiry->visibility ? 'Visible' : 'Hidden' }} <!-- Assuming 'visibility' is a boolean field -->
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        @if ($inquiry->visibility)
+                                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#unhide-inquiry-{{ $inquiry->id }}">
+                                                <i class="fa-solid fa-eye"></i> Visible
+                                            </button>
+                                        @else
+                                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#hide-inquiry-{{ $inquiry->id }}">
+                                                <i class="fa-solid fa-eye-slash"></i> Hidden
+                                            </button>
+                                        @endif
+                                    </div>
+                                </div>
+                                @include('admin.inquiries.modals.visibility', ['inquiry' => $inquiry]) <!-- Pass inquiry to the modal -->
+                            </div>
+                            <td>
+                                <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
+                            </td>
+                        </tr>
+                    @endforeach
                     <tr>
                         <td>1</td>
                         <td>2025-10-11</td>
@@ -118,7 +164,7 @@
                         </td>
                     </tr>
                 
-                    <tr>
+                    {{-- <tr>
                         <td>2</td>
                         <td>2025-10-10</td>
                         <td>Taro</td>
@@ -150,9 +196,9 @@
                         <td>
                             <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
                         </td>
-                    </tr>
+                    </tr> --}}
                 
-                    <tr>
+                    {{-- <tr>
                         <td>3</td>
                         <td>2025-10-09</td>
                         <td>Yuki</td>
@@ -184,9 +230,9 @@
                         <td>
                             <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
                         </td>
-                    </tr>
+                    </tr> --}}
                 
-                    <tr>
+                    {{-- <tr>
                         <td>4</td>
                         <td>2025-10-08</td>
                         <td>Hana</td>
@@ -218,9 +264,9 @@
                         <td>
                             <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
                         </td>
-                    </tr>
+                    </tr> --}}
                 
-                    <tr>
+                    {{-- <tr>
                         <td>5</td>
                         <td>2025-10-07</td>
                         <td>Satoshi</td>
@@ -252,9 +298,9 @@
                         <td>
                             <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
                         </td>
-                    </tr>
+                    </tr> --}}
                 
-                    <tr>
+                    {{-- <tr>
                         <td>6</td>
                         <td>2025-10-06</td>
                         <td>Akira</td>
@@ -286,9 +332,9 @@
                         <td>
                             <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
                         </td>
-                    </tr>
+                    </tr> --}}
                 
-                    <tr>
+                    {{-- <tr>
                         <td>7</td>
                         <td>2025-10-05</td>
                         <td>Rika</td>
@@ -320,9 +366,9 @@
                         <td>
                             <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
                         </td>
-                    </tr>
+                    </tr> --}}
                 
-                    <tr>
+                    {{-- <tr>
                         <td>8</td>
                         <td>2025-10-04</td>
                         <td>Ken</td>
@@ -354,9 +400,9 @@
                         <td>
                             <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
                         </td>
-                    </tr>
+                    </tr> --}}
                 
-                    <tr>
+                    {{-- <tr>
                         <td>9</td>
                         <td>2025-10-03</td>
                         <td>Mai</td>
@@ -388,9 +434,9 @@
                         <td>
                             <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
                         </td>
-                    </tr>
+                    </tr> --}}
                 
-                    <tr>
+                    {{-- <tr>
                         <td>10</td>
                         <td>2025-10-02</td>
                         <td>Aoi</td>
@@ -422,7 +468,7 @@
                         <td>
                             <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
                         </td>
-                    </tr>
+                    </tr> --}}
                     <script>
                         document.addEventListener("DOMContentLoaded", function() {
                             const cells = document.querySelectorAll(".textCell"); // .textCellクラスを持つ全てのセルを取得
@@ -449,6 +495,7 @@
                 </tbody>                
         </table>
 
+        {{-- I will create pagination later! - by Miki --}}
         <!-- Pagination -->    
         <nav aria-label="Page navigation">
             <ul class="pagination">
