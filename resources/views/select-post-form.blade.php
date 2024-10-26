@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link href="{{ asset('css/select-post.css') }}" rel="stylesheet">
+@endsection
+
 @section('title', 'Select-post-form')
 
 @section('content')
