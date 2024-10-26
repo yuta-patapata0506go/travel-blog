@@ -18,9 +18,9 @@ class CategoryController extends Controller
         $this->category = $category;
     }
 
-    public function view(){
+    public function index(){
         $all_categories = $this->category->all();
-        return view('admin.category.view')->with('all_categories',$all_categories );
+        return view('admin.categories.categories-index', compact('all_categories')); 
     }
 
     
@@ -35,14 +35,9 @@ class CategoryController extends Controller
         $category->user_id = Auth::id();
         $category->save();
 
-        return redirect('/admin-categories-index')->with('success', 'カテゴリーが作成されました。');
+        return redirect('admin-categories-index');
     }
 
-    public function create(){
-        $all_categories = $this->category->all();
-        return view('admin.categories.index')->with('all_categories',$all_categories);
-
-    }
 
     public function edit($id) {
         

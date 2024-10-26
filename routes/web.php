@@ -143,9 +143,12 @@ Route::get('/admin-spots-index', function () {
     return view('/admin/spots/spots-index');
 });
 
-Route::get('/admin-categories-index', function () {
-    return view('/admin/categories/categories-index');
-});
+
+       Route::get('/admin-categories-index',[CategoryController::class,'index'])->name('admin.categories.index');
+       Route::post('/admin-categories-store',[CategoryController::class,'store'])->name('admin.categories.store');
+       
+
+
 
 Route::get('/admin-inquiries-index', function () {
     return view('/admin/inquiries/inquiries-index');
@@ -158,6 +161,7 @@ Route::get('/admin-spot_applications-index', function () {
 Route::get('/admin-update_category', function () {
     return view('/admin/modals/update_category');
 });
+
 
 Route::get('/admin-create_category', function () {
     return view('/admin/modals/create_category');
@@ -192,11 +196,3 @@ Route::get('/edit-tourism-post', function () {
 
 Auth::routes();
 
-Route::group(["prefix"=>"admin","as"=>"admin."],function(){
-    Route::group(["prefix"=>"category","as"=>"category."],function(){
-       Route::get('/view',[CategoryController::class,'view'])->name('view');
-       Route::post('/store',[CategoryController::class,'store'])->name('store');
-       Route::get('/create',[CategoryController::class,'create'])->name('create');
-
-    });
-});

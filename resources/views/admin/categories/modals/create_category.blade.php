@@ -8,7 +8,7 @@
               <h5 class="modal-title text-light mx-auto">Create Category</h5>
           </div>
           <div class="modal-body">
-            <form action="{{ route('admin.category.store') }}" method="post">
+            <form action="{{ route('admin.categories.store') }}" method="post">
             @csrf
             <div class="container">
               <label for="category-name" class="form-label">Category Name</label>
