@@ -206,13 +206,10 @@ Route::get('/edit-tourism-post', function () {
     return view('edit-tourism-post');
 });
 
-<<<<<<< HEAD
 Route::get('/spot/{spot_id}', [WeatherController::class, 'show']);
 
-=======
 Route::post('/like/{id}', [LikeController::class, 'store'])->name('like');
 Route::post('/favorite/{id}', [FavoriteController::class, 'store'])->name('favorite');
->>>>>>> main
 
 // Authentication Routes
 
