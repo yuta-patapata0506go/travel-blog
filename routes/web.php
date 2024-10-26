@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\WeatherController;
 use Illuminate\Support\Facades\Auth;
 
 // Home Route
@@ -188,9 +189,8 @@ Route::get('/edit-tourism-post', function () {
     return view('edit-tourism-post');
 });
 
-use App\Http\Controllers\WeatherController;
-
 Route::get('/spot/{spot_id}', [WeatherController::class, 'show']);
+
 
 // Authentication Routes
 

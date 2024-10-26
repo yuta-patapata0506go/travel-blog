@@ -39,4 +39,42 @@ class WeatherController extends Controller
         $data = $response->json();
         return $data['value'];
     }
+
+    //位置情報取得
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|min:1|max:50',
+            'postalcode' => 'required|max:10',
+            'address' => 'required|string|max:255'
+        ]);
+
+        // Geocoding APIを使って住所から緯度と経度を取得
+        $address = $request->address;
+        $mapboxApiKey = env('MAPBOX_API_KEY');
+        $response = Http::get("https://api.mapbox.com/geocoding/v5/mapbox.places/{$address}.json", [
+            'access_token' => $mapboxApiKey,
+        ]);
+
+        if ($response->successful()) {
+            $data = $response->json();
+            $coordinates = $data['features'][0]['geometry']['coordinates'];
+            $latitude = $coordinates[1];
+            $longitude = $coordinates[0];
+        } else {
+            // エラーハンドリング
+            return back()->withErrors(['error' => 'The retrieval of latitude and longitude for the address has failed.']);
+        }
+
+        // データの保存
+        $spot = new Spot;
+        $spot->name = $request->name;
+        $spot->postalcode = $request->postalcode;
+        $spot->address = $request->address;
+        $spot->latitude = $latitude;
+        $spot->longitude = $longitude;
+        $spot->save();
+
+        return redirect()->route('home');
+    }
 }
