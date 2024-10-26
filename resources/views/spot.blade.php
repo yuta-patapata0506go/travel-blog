@@ -4,13 +4,15 @@
     <link rel="stylesheet" href="{{ asset('css/spot.css') }}">
 @endsection-->
 
+@section('content')
 
         <div class="post-container">
             <!-- Card of whole page -->
+        @foreach($spots as $spot)
         <div class="post-card">
             <!-- HEART BUTTON + no. of likes & FAVORITE BUTTON + no. of likes -->
-            <div class="icons d-flex align-items-center">
-                @if ($spot->isLiked)
+            < class="icons d-flex align-items-center">
+                @if ($spot->isLiked())
                     <form action="{{ route('spot.like', $spot->id ?? 1) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
@@ -58,9 +60,10 @@
                     <!--</button>
                     @csrf
                 </form>-->
+        
             </div>
 
-
+        
             <!-- photos of spots　-->
             <h2>{{ $spot->name }}</h2>
             <div class="spot-container">
@@ -352,6 +355,7 @@
                     </button>
                 </div>
             </div>
+        @endforeach
         </div>
     </div>
         </div>
