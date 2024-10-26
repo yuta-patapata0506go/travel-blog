@@ -103,7 +103,12 @@ Route::get('/spot', function () {
 // Admin　Routes
 Route::group(['middleware' => 'auth'], function () {
     // Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
-        Route::get('/admin/admin-inquiries-index', [InquiriesController::class, 'index'])->name('admin.inquiries.index');
+        Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries
+            Route::get('/', [InquiriesController::class, 'index'])->name('index'); 
+            Route::get('/{id}/inquiry_details', [InquiriesController::class, 'show'])->name('inquiry_details');
+            Route::patch('/{id}/change-visibility', [InquiriesController::class, 'changeVisibility'])->name('changeVisibility');
+            Route::post('/{id}/change-status', [InquiriesController::class, 'changeStatus'])->name('changeStatus');
+        });
     // });
 });
 
