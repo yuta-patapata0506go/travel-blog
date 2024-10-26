@@ -118,12 +118,39 @@
         <!-- Pagination -->    
         <nav aria-label="Page navigation">
             <ul class="pagination">
-                <li class="page-item disabled"><a class="page-link" href="#"><</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">></a></li>
-            </ul>
+             @if ($all_categories->onFirstPage())
+                <li class="page-item disabled">
+                    <span class="page-link"><</a>
+                </li>
+             @else
+                <li class="page-item">
+                    <a class="page-link" href="{{$all_categories->previousPageUrl()}}" rel="prev"><</a>
+                </li>
+            @endif
+
+            @for ($page = 1; $page <= $all_categories->lastPage(); $page++)
+              @if ($page == $all_categories->currentPage())
+                <li class="page-item active">
+                    <span class="page-link">{{ $page }}</>
+                </li>
+              @else
+                <li class="page-item">
+                    <a class="page-link" href="{{ $all_categories->url($page) }}">{{ $page }}  
+                    </a></li>
+                @endif
+        @endfor
+
+        {{-- 次のページへのリンク --}}
+        @if ($all_categories->hasMorePages())
+            <li class="page-item">
+                <a class="page-link" href="{{ $all_categories->nextPageUrl() }}" rel="next">＞</a>
+            </li>
+        @else
+            <li class="page-item disabled"><span class="page-link">＞</span></li>
+        @endif
+    </ul>
+
+            
         </nav>
     </div>
 

@@ -19,7 +19,7 @@ class CategoryController extends Controller
     }
 
     public function index(){
-        $all_categories = $this->category->all();
+        $all_categories = $this->category->paginate(10);
         return view('admin.categories.categories-index', compact('all_categories')); 
     }
 
