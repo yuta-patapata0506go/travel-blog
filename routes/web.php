@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SpotController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\WeatherController;
@@ -95,9 +98,22 @@ Route::get('/about', function () {
 })->name('about');
 
 
-Route::get('/spot', function () {
-    return view('spot');
+//Spot
+
+Route::group(['prefix'=>'spot', 'as'=>'spot.'], function(){
+    Route::get('/', [SpotController::class, 'index'])->name('index');
+    Route::get('create', [SpotController::class, 'create'])->name('create');
+    Route::post('store', [SpotController::class, 'store'])->name('store');
+    Route::get('/spot/{id}', [SpotController::class, 'show'])->name('show'); 
+
+    // Like のルート
+    Route::post('/like/{spot}', [SpotController::class, 'like'])->name('like');
+    // Like のルート
+    Route::post('/favorite/{spot}', [SpotController::class, 'favorite'])->name('favorite');
+
 });
+
+
 
 
 // Admin　Routes
@@ -190,8 +206,13 @@ Route::get('/edit-tourism-post', function () {
     return view('edit-tourism-post');
 });
 
+<<<<<<< HEAD
 Route::get('/spot/{spot_id}', [WeatherController::class, 'show']);
 
+=======
+Route::post('/like/{id}', [LikeController::class, 'store'])->name('like');
+Route::post('/favorite/{id}', [FavoriteController::class, 'store'])->name('favorite');
+>>>>>>> main
 
 // Authentication Routes
 
