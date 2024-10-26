@@ -15,28 +15,60 @@ class ImageController extends Controller
     }
 
     // 画像のアップロード
+    // public function store(Request $request, $postId)
+    // {
+    //     // バリデーション
+    //     $request->validate([
+    //         'image.*' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+    //     ]);
+
+    //     // 複数画像の処理
+    //     if ($request->hasfile('image')) {
+    //         foreach ($request->file('image') as $file) {
+    //             // 画像を保存
+    //             $filename = time().'_'.$file->getClientOriginalName();
+    //             $file->move(public_path('uploads'), $filename);
+
+    //             // 画像情報を保存
+    //             $this->image->create([
+    //                 'post_id' => $postId,
+    //                 'filename' => $filename,
+    //             ]);
+    //         }
+    //     }
+    // }
+
     public function store(Request $request, $postId)
     {
-        // バリデーション
         $request->validate([
             'image.*' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
-        // 複数画像の処理
-        if ($request->hasfile('image')) {
+        // dd($request->image);
+        if ($request->hasFile('image')) {
             foreach ($request->file('image') as $file) {
-                // 画像を保存
-                $filename = time().'_'.$file->getClientOriginalName();
-                $file->move(public_path('uploads'), $filename);
-
-                // 画像情報を保存
+                // Convert the image to a Base64 string
+                $base64Image = 'data:image/' . $file->extension() . ';base64,' . base64_encode(file_get_contents($file));
                 $this->image->create([
+                    'image_url' => $base64Image,
                     'post_id' => $postId,
-                    'filename' => $filename,
+                    'spot_id' => $request->spot,
+                    'user_id' => auth()->id(),
+                    'caption' => 'new',
+                    'status' => 'new',
                 ]);
             }
         }
     }
+    
+    
+    
+    
+    
+    
+    
+    
+
 
     // 画像の一覧表示
     public function index()

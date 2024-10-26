@@ -9,7 +9,7 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $table ="new_categories";
+    protected $table ="renew_categories";
 
     #To get the number of categories for each post
     public function categoryPost(){

@@ -10,18 +10,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-
+    protected $table = "posts";
     use HasFactory;
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    
-    public function spot()
+
+    public function CategoryPost()
     {
-        return $this->belongsTo(Spot::class);
+        return $this->hasMany(CategoryPost::class);
     }
+
+    
+    // public function spot()
+    // {
+    //     return $this->belongsTo(Spot::class);
+    // }
     
     public function images()
     {

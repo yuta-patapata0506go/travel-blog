@@ -11,7 +11,7 @@ class CategoryPost extends Model
 
     protected $table = "category_post_pivot";
     public $timestamps = false;
-    protected $fillable = ['category_id','post_id'];
+    protected $fillable = ['category_id','post_id','status'];
 
     public function category(){
         return $this->belongsTo(Category::class);

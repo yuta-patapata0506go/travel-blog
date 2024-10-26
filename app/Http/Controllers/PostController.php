@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\Spot;
-use App\Models\Comment;
-use App\Models\User;    
-use App\Models\Category;
-use App\Models\Image;
+use App\Models\Category; 
+use App\Models\Image;   
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -17,7 +14,7 @@ class PostController extends Controller
     private $category;
     private $image;
 
-    public function __construct(Post $post, category $category, image $image)
+    public function __construct(Post $post, Category $category, Image $image)
 
     {
         $this->post = $post;
@@ -28,13 +25,14 @@ class PostController extends Controller
 
      // 新規投稿フォームの表示
      public function create($type)
-     {
-         // カテゴリーを取得
-         $all_categories = $this->category->all();
-     
-         // $typeと$all_categoriesをビューに渡す
-         return view('posts.create', compact('type', 'all_categories'));
-     }
+{
+    // Categoryモデルから全てのカテゴリを取得
+    $all_categories = Category::all();  // インスタンスではなく、直接モデルを呼び出す
+
+    // $typeと$all_categoriesをビューに渡す
+    return view('posts.create', compact('type', 'all_categories'));
+}
+
      
 
     // 投稿の一覧表示
@@ -69,44 +67,60 @@ class PostController extends Controller
     // 新規投稿の保存
     public function store(Request $request)
     {
-        // バリデーションルール
-        $request->validate([
-            'title' => 'required|string|max:30',
-            'type' => 'required|integer|in:0,1',
+       // バリデーションルールを定義
+        $rules = [
+            'title' => 'string|max:30',
+            'type' => 'integer|in:0,1',
             'event_name' => 'nullable|string|max:30',
             'fee' => 'nullable|numeric|min:0',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
             'comments' => 'nullable|string|max:255',
-            'category' => 'required|array', // 複数カテゴリー対応
+            'category' => 'required|array', // 配列であることを指定
             'helpful_info' => 'nullable|string',
-            'image' => 'required', // 画像が必須
-        ]);
+            'image' => 'required|array', // 画像が必須
+        ];
+
+        // `type` が `1` の場合のみ `start_date` を必須にする
+        if ($request->type == 0) {
+            $rules['start_date'] = 'required|date';
+            $rules['end_date'] = 'required|date';
+        }
+
+        // バリデーションを実行
+        $request->validate($rules);
+
 
         // 新しい投稿を作成
    
         $this->post->user_id = auth()->id(); // 現在のユーザーIDをセット
-        $this->post->spots_id = $request->spots_id; // スポットID
-        $this->post->title = $request->title;
+        $this->post->spots_id = $request->spot; // スポットID
+        $this->post->title = $request->title??'';
         $this->post->type = $request->type;
         $this->post->event_name = $request->input('event_name');
         $this->post->fee = $request->fee;
-        $this->post->start_date = $request->start_date;
-        $this->post->end_date = $request->end_date;
+        $this->post->start_date = $request->start_date ?: null; // 空ならNULLを設定
+        $this->post->end_date = $request->end_date ?: null; // 空ならNULLを設定
         $this->post->comments = $request->comments;
         $this->post->helpful_info = $request->helpful_info;
 
         // 投稿を保存
         $this->post->save();
 
-        foreach($request->category as $category_id):
-            $category_post[] = ["category_id"=>$category_id];
-        endforeach;
-
-        $this->post->category_post()->createMany($category_post);
+        $categoryIds = is_array($request->category) ? $request->category : explode(',', $request->category);
+        $category_post = [];
+        foreach ($request->category as $category_id) {
+            $category_post[] = [
+                "category_id" => trim($category_id),
+                "post_id" => $this->post->id,
+                "status" => 'new'
+            ];
+        }
+        // dd($category_post);
+        $this->post->CategoryPost()->createMany($category_post);
 
         // / 画像の保存（ImageControllerで処理を行う）
-        app(ImageController::class)->store($request, $post->id);
+        app(ImageController::class)->store($request, $this->post->id);
 
         return redirect()->back()->with('success', 'Post created successfully.');
     }
