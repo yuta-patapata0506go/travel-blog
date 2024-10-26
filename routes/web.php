@@ -5,6 +5,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SpotController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ContactController;
+use Illuminate\Support\Facades\Auth;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -83,13 +86,16 @@ Route::get('/footer', function () {
     return view('footer');
 });
 
-Route::get('/contact', function () {
-    return view('contact');
+// contact
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/contact/create', [ContactController::class, 'create'])->name('contact.create');
+    Route::post('/contact/store', [ContactController::class, 'store'])->name('contact.store');
 });
 
 Route::get('/about', function () {
     return view('about');
-});
+})->name('about');
+
 
 //Spot
 
@@ -205,3 +211,16 @@ Route::post('/favorite/{id}', [FavoriteController::class, 'store'])->name('favor
 // Authentication Routes
 
 Auth::routes();
+
+Route::group(["middleware"=> "auth"], function(){
+
+    Route::group(['prefix' => 'post', 'as' =>'post.'],function(){
+        Route::get('posts/create/{type}', [PostController::class, 'create'])->name('create');
+        Route::post('store', [PostController::class, 'store'])->name('store');
+        Route::get('show/{id}', [PostController::class, 'show'])->name('show');
+        Route::get('edit/{id}', [PostController::class, 'edit'])->name('edit');
+        Route::patch('update/{id}', [PostController::class, 'update'])->name('update');
+        Route::delete('destroy/{id}', [PostController::class, 'destroy'])->name('destroy');
+    
+       });
+ });

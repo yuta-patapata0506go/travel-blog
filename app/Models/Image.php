@@ -11,21 +11,19 @@ use Illuminate\Database\Eloquent\Model;
 class Image extends Model
 {
     use HasFactory;
-    protected $fillable = ['image_url', 'post_id', 'spot_id', 'user_id', 'caption', 'status'];
-
-    // スポットとのリレーション
-    public function spot()
-    {
-        return $this->belongsTo(Spot::class);
-    }
 
     public function post()
-    {
-        return $this->belongsTo(Post::class);
-    }
+{
+    return $this->belongsTo(Post::class);
+}
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+public function spot()
+{
+    return $this->belongsTo(Spot::class);
+}
+
+public function user()
+{
+    return $this->belongsTo(User::class);
+}
 }
