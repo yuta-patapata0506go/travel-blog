@@ -10,13 +10,13 @@
 <div class="container mt-5 text-center">
     <h1 class="long-underline position-relative">Spot Post Form</h1>
 
-    <form action="#" method="post" enctype="multipart/form-data" class="mt-4">
+    <form action="{{ route('spot.store') }}" method="POST" enctype="multipart/form-data" class="mt-4">
         @csrf
         <div class="mb-3 text-start">
             <label for="spot-name" class="form-label">
                 Spot name <span class="text-danger">*</span>:
             </label>
-            <input type="text" id="spot-name" class="form-control form-shadow" placeholder="ex. Tokyo sky tree" required>
+            <input type="text" id="spot-name" name="name" class="form-control form-shadow" placeholder="ex. Tokyo sky tree" required>
         </div>
 
         <div class="row mb-3">
@@ -24,13 +24,13 @@
                 <label for="postal-code" class="form-label">
                     Postal Code <span class="text-danger">*</span>:
                 </label>
-                <input type="text" id="postal-code" class="form-control form-shadow" placeholder="ex. 〒130-0002" required>
+                <input type="text" id="postal-code" name="postalcode" class="form-control form-shadow" placeholder="ex. 〒130-0002" required>
             </div>
             <div class="col-md-9 text-start">
                 <label for="address" class="form-label">
                     Address <span class="text-danger">*</span>:
                 </label>
-                <input type="text" id="address" class="form-control form-shadow" placeholder="ex. 5-10 Narihiru, Sumida Ward, Tokyo" required>
+                <input type="text" id="address" name="address" class="form-control form-shadow" placeholder="ex. 5-10 Narihiru, Sumida Ward, Tokyo" required>
             </div>
         </div>
 
@@ -38,7 +38,7 @@
             <label for="image" class="form-label">
                 Image <span class="text-danger">*</span>:
             </label>
-            <input type="file" id="image" class="form-control form-shadow" required>
+            <input type="file" id="image" name="image" class="form-control form-shadow" required>
             <small class="form-text text-muted">The acceptable formats are jpeg, jpg, png, and gif only. Max file size is 1048kb.</small>
         </div>
         <br>

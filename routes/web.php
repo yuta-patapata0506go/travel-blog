@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SpotController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\FavoriteController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -88,9 +91,22 @@ Route::get('/about', function () {
     return view('about');
 });
 
-Route::get('/spot', function () {
-    return view('spot');
+//Spot
+
+Route::group(['prefix'=>'spot', 'as'=>'spot.'], function(){
+    Route::get('/', [SpotController::class, 'index'])->name('index');
+    Route::get('create', [SpotController::class, 'create'])->name('create');
+    Route::post('store', [SpotController::class, 'store'])->name('store');
+    Route::get('/spot/{id}', [SpotController::class, 'show'])->name('show'); 
+
+    // Like のルート
+    Route::post('/like/{spot}', [SpotController::class, 'like'])->name('like');
+    // Like のルート
+    Route::post('/favorite/{spot}', [SpotController::class, 'favorite'])->name('favorite');
+
 });
+
+
 
 
 // Admin　Routes
@@ -182,6 +198,9 @@ Route::get('/edit-event-post', function () {
 Route::get('/edit-tourism-post', function () {
     return view('edit-tourism-post');
 });
+
+Route::post('/like/{id}', [LikeController::class, 'store'])->name('like');
+Route::post('/favorite/{id}', [FavoriteController::class, 'store'])->name('favorite');
 
 // Authentication Routes
 
