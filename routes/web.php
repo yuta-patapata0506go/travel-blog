@@ -9,6 +9,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\ResponsesController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -117,9 +118,11 @@ Route::group(['prefix'=>'spot', 'as'=>'spot.'], function(){
 
 
 // Admin　Routes
-Route::get('/admin/inquiries/create_reply', function () {
-    return view('admin/inquiries/create_reply');
-});
+// Route::get('/admin/inquiries/create_reply', function () {
+//     return view('admin/inquiries/create_reply');
+// });
+// will change later!!!!
+Route::get('/admin/inquiries/create_reply/{inquiry_id}', [ResponsesController::class, 'create'])->name('admin.inquiries.create_reply');
 
 Route::get('/admin/inquiries/inquiry_details', function () {
     return view('admin/inquiries/inquiry_details');

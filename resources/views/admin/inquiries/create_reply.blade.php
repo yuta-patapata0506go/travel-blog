@@ -13,28 +13,29 @@
     <!-- Inquiry ID -->
     <div class="mb-3">
         <label for="inquiryID" class="form-label">Inquiry ID:</label>
-        <input type="text" id="inquiryID" class="form-control" value="123" readonly> {{-- value: {{ $inquiry->id }} --}}
+        <input type="text" id="inquiryID" class="form-control" value="{{ $inquiry->id }}" readonly> 
     </div>
 
     <!-- Title -->
     <div class="mb-4">
         <label for="title" class="form-label">Title:</label>
-        <input type="text" id="title" class="form-control" value="Thank you for your inquiry, [User Name]!" readonly> {{-- value[]: {{ $inquiry->user->name }} --}}
+        <input type="text" id="title" class="form-control" value="Thank you for your inquiry, {{ $inquiry->user->username }}!"> 
     </div>
 
     <!-- Body -->
     <div class="mb-5">
         <label for="body" class="form-label">Body:</label>
         <textarea id="body" class="form-control" rows="10">
-Dear [User name], {{-- {{ $inquiry->user->name }} --}}
+Dear {{ $inquiry->user->username }}, 
 
 Thank you for reaching out to us!
+
+[Message here...]
 
 If you have any additional information to share, please feel free to reply to this email.
 
 Best regards,
-[Your Name]
-[Your Position]
+[Admin: {{ auth()->user()->username }}]
 Where To Go
 Email: wheretogo@mail.com
 Phone: 0123456789
