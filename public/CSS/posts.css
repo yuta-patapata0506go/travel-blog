@@ -1,25 +1,24 @@
 
-.background-image::before {
-    
+.background::before {  
     content: "";
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height:220%; /* 100%にして親要素の高さに従う */
-    min-height: 100vh; /* ビューポート全体をカバーする */
+    height: 100vh; /* 親要素の高さを100%に */
     background-image: url('../images/197a83081ab1acc3e4fd0ac385546aae_1200x1200.webp');
     background-position: center center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment: scroll;
     background-size: cover;
-    opacity: 0.15;
+    opacity: 0.6;
     z-index: -1;
+
+
 }
 
 body {
     font-family: 'Lato', sans-serif;
- 
 }
 
 
@@ -178,16 +177,6 @@ body {
     text-decoration: none; /* 下線を削除 */
 }
 
-.section-with-background {
-    position: relative;
-    min-height: 100vh;
-    background-image: url('../images/197a83081ab1acc3e4fd0ac385546aae_1200x1200.webp');
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    opacity: 0.15;
-    z-index: -1;
-}
+
 
 

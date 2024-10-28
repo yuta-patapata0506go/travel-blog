@@ -2,62 +2,64 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container background-image  ">
-<div class="card my-4">
-    <div class="card-body1 bg-white p-5">
-            <h1>This is an Event Page !!!!!</h1>
-            <div class="row align-items-center">
-                    <div class="col-auto">
-                        <!-- if user has avatar should display -->
-                        <a href="#">
-                            <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
-                        </a>
-                    </div>
-                    <div class="col ps-0">
-                        <a href="#" class="text-decoration-none text-dark">NAME</a>
-                    </div>    
-                <div class="col-auto ps-0 ">
-                        <!-- IF you are the OWNER of the post, you can EDIT or DELETE the post -->                 
-                            <div class="dropdown">
-                                    <button class="btn btn-sm shadow-none"  data-bs-toggle="dropdown">
-                                        <i class="fa-solid fa-ellipsis"></i>
-                                    </button>
-                                
-                                    <div class="dropdown-menu">
-                                        <a href="" class="dropdown-item">
-                                            <i class="fa-regular fa-edit"></i>Edit
-                                        </a>
-                                        <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#delete-post">
-                            <i class="fa-regular fa-trash-can"></i> Delete
-                        </button>
-                    </div>
-                    {{-- Include MODAL here --}}
-                    @include('posts.modals.delete')
+<div class="container background  ">
+   <div class="card my-4">
+      <div class="card-body1 bg-white p-5">
+
+            <h1>{{ $post->title }}</h1>
+                <div class="row align-items-center">
+                        <div class="col-auto">
+                            <!-- if user has avatar should display -->
+                            <a href="#">
+                                <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
+                            </a>
+                        </div>
+                        <div class="col ps-0">
+                            <a href="#" class="text-decoration-none text-dark">NAME</a>
+                        </div>    
+                    <div class="col-auto ps-0 ">
+                            <!-- IF you are the OWNER of the post, you can EDIT or DELETE the post -->                 
+                                <div class="dropdown">
+                                        <button class="btn btn-sm shadow-none"  data-bs-toggle="dropdown">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </button>
+                                    
+                                        <div class="dropdown-menu">
+                                            <a href="" class="dropdown-item">
+                                                <i class="fa-regular fa-edit"></i>Edit
+                                            </a>
+                                            <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#delete-post">
+                                                <i class="fa-regular fa-trash-can"></i> Delete
+                                            </button>
+                                        </div>
+                                        {{-- Include MODAL here --}}
+                                        @include('posts.modals.delete')
                             </div>
                     </div>
-            </div>
+                </div>
+            
 
-            <!-- Image -->
+                <!-- Image -->
             <div class="card col mt-3" style="height: auto;">
                 <!-- Main Image -->
                 <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="{{ asset('images/firework.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 1">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="{{ asset('images/firework2.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 2">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="{{ asset('images/firework3.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 3">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="{{ asset('images/beach.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Beach Image">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="{{ asset('images/firework5.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Another Image">
-                        </div>
-                    </div>
+                     <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="{{ asset('images/firework.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ asset('images/firework2.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 2">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ asset('images/firework3.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 3">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ asset('images/beach.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Beach Image">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ asset('images/firework5.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Another Image">
+                            </div>
+                     </div>
 
                     <!-- カルーセルのコントロール（前後に移動） -->
                     <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
@@ -92,9 +94,13 @@
 
             <div class="row align-items-center">
                 <!-- Event Name -->
-                <div class="col-auto">
-                    <h2 class="event-name mt-3 p-2 border rounded"> Event Title </h2>
-                </div>
+                @if ($post->type == 1)
+                    <!-- Event Name -->
+                    <div class="col-auto">
+                        <h2 class="event-name mt-3 p-2 border rounded">{{ $post->event_name }}</h2>
+                    </div>
+                @endif
+
 
                 <!-- Category Group -->
                 <div class="col d-flex justify-content-end">
@@ -106,18 +112,18 @@
 
             <!-- Comments -->
             <p class="mt-3">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero laudantium et, ducimus id ut error delectus incidunt omnis quas saepe officia temporibus exercitationem cum? Asperiores itaque maiores aperiam illum at?</p>
+                {{ $post->comments}}
             </p>
 
-            <!-- Date -->
-            <small class="text-muted"> Date</small>
+            <!-- post Date -->
+            <small class="text-muted"> {{ $post->created_at->format('Y-m-d') }}</small>
 
             <!-- Button -->
             <div class="container mt-4">
                 <div class="row">
                     <div class="col-12">
                         <div class="d-flex justify-content-end align-items-center button-container">
-                            <!-- commnt count -->
+                            <!-- comment count -->
                             <div class="d-flex align-items-center me-3">
                                 <a href="#comment" class="no-link-style">
                                     <i class="fa-regular fa-comment"></i>
@@ -162,7 +168,7 @@
                      <div class="card3 border-0  bg-white" style="height: 20rem;">
                         <div class="card-body">
                             <a href="#" class="">
-                                    <i class="fa-solid fa-location-dot"></i> Spot name
+                                    <h3><i class="fa-solid fa-location-dot"></i> Spot name</h3>
                             </a>                
                             <iframe 
                                 src="https://www.google.com/maps?q= &output=embed"
@@ -180,13 +186,24 @@
                         <div class="card-body">
                             <!-- event ID がであれば表示する -->
                         <h5 class="fw-bold">Event Date</h5>
-                            <p>2024/8/1</p>
+                            <p>
+                                @if ($post->type == 1)
+                                    <!-- イベントの開始日を相対的に表示 -->
+                                    @if (!empty($post->start_date))
+                                        <p>Event Start Date: {{ $post->start_date->diffForHumans() }}</p>
+                                    @endif
+
+                                    <!-- イベントの終了日を相対的に表示 -->
+                                    @if (!empty($post->end_date))
+                                        <p>Event End Date: {{ $post->end_date->diffForHumans() }}</p>
+                                    @endif
+                                @endif
+                            </p>
                             <h5 class="fw-bold">Fee</h5>
-                            <p>Free</p>
+                            <p>{{ $post->fee }}</p>
                             <h5 class="fw-bold">Useful Information About This Spot</h5>
-                            <p> &middot; &nbsp; It's better to go earier</p>
-                            <p> &middot; &nbsp; It's better to go earier</p>
-                            <p> &middot; &nbsp; It's better to go earier</p>
+                            <p> &middot; &nbsp; {{ $post->helpful_info }}</p>
+                            
                         </div>
                     </div>
                 </div>
@@ -269,13 +286,8 @@
                                     </div>
                                 </div>
                             </div>
-                <p class="">No, comments </p>
-            </div>
-        </div>
-      
-    </div>
+                <p class="">No, comments </p>    
+      </div>        
+   </div>
 </div>
-
-
-
 @endsection
