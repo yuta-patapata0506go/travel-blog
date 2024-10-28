@@ -9,13 +9,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Lato', sans-serif; /* 見出しにLatoフォントを設定 */
 }
 
-/* ナビゲーションバーとフッターのスタイル */
-.navbar, .footer {
-  background-color: #333; /* 背景色 */
-  color: white; /* 文字色 */
-  border-radius: 10px; /* 角を10pxに丸める */
-}
-
 /* 管理画面タイトルのスタイル */
 .admin-title {
   font-size: 32px;

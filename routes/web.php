@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\UsersController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -132,9 +133,7 @@ Route::get('/admin-create-spot', function () {
     return view('admin.spots.create');
 });
 
-Route::get('/admin-users-index', function () {
-    return view('admin/users/users-index');
-});
+Route::get('/admin-users-index', [UsersController::class, 'index'])->name('admin.users.index');
 
 Route::get('/admin-posts-index', function () {
     return view('/admin/posts/posts-index');
@@ -163,6 +162,8 @@ Route::get('/admin-update_category', function () {
 Route::get('/admin-create_category', function () {
     return view('/admin/modals/create_category');
 });
+
+
 
 
 Route::get('/select-post-form', function () {
