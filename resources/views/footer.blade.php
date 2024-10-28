@@ -30,5 +30,9 @@
             </div>
         </div>
     </div>
+    <form action="{{ route('logout') }}" method="POST" style="display: none;" id="logout-form">
+        @csrf
+    </form>
+    <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</button>
 </footer>
 

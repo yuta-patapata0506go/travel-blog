@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-<!--@section('css')
+@section('css')
     <link rel="stylesheet" href="{{ asset('css/spot.css') }}">
-@endsection-->
+@endsection
 
 @section('content')
 
@@ -11,7 +11,7 @@
         @foreach($spots as $spot)
         <div class="post-card">
             <!-- HEART BUTTON + no. of likes & FAVORITE BUTTON + no. of likes -->
-            < class="icons d-flex align-items-center">
+            <div class="icons d-flex align-items-center">
                 @if ($spot->isLiked())
                     <form action="{{ route('spot.like', $spot->id ?? 1) }}" method="POST">
                         @csrf
