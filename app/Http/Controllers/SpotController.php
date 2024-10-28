@@ -7,6 +7,7 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Models\Like;
 use App\Models\Favorite;
+use Illuminate\Support\Facades\Log;
 
 
 class SpotController extends Controller
@@ -39,13 +40,14 @@ class SpotController extends Controller
     // 新しいスポットを保存する処理
     public function store(Request $request)
     {
+        try{
         // バリデーションの追加
         $request->validate([
             'name' => 'required|string|max:255',
             'postalcode' => 'required|string|max:10',
             'address' => 'required|string|max:255',
            
-            'image' => 'required|image|mimes:jpeg,jpg,png,gif|max:1048',
+            'image' => 'required|image|mimes:jpeg,jpg,png,gif',
         ]);
 
         $this->spot->name = $request->name;
@@ -66,7 +68,10 @@ class SpotController extends Controller
 
         return redirect()->route('home')->with('success', 'Pending approval by Admin.');
 
-        
+        } catch (\Exception $e) {
+            Log::error('Failed: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Failed']);
+        }
 
         // スポットを作成
         /*$spot = Spot::create([
