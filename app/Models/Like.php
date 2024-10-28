@@ -12,7 +12,7 @@ class Like extends Model
     public $timestamps = false;
 
     
-    /*  ChatGPTから
+    /*  ChatGPTから */
     use HasFactory;
     // 使用するテーブル名を指定（デフォルトで 'likes' に対応するので省略可能）
     protected $table = 'likes';
@@ -24,7 +24,7 @@ class Like extends Model
         'spot_id',
         'created_at',
     ];
-
+/*
     // ユーザーとのリレーション (1対多の「多」側)
     public function user()
     {

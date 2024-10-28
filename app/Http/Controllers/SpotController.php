@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Spot;  // Spotモデルの読み込み
 use App\Models\Image;
 use Illuminate\Http\Request;
+use App\Models\Like;
+use App\Models\Favorite;
 
 
 class SpotController extends Controller
@@ -97,6 +99,17 @@ class SpotController extends Controller
 
         // IDを使ってスポットデータを取得
         $spot = Spot::findOrFail($id);
+        $userId = auth()->id();
+
+        // いいね済みかどうかを確認
+        $liked = Like::where('user_id', $userId)->where('spot_id', $id)->exists();
+
+        // いいね数を取得
+        $likesCount = Like::where('spot_id', $id)->count();
+
+            // お気に入りの状態と数を取得
+        $favorited = $spot->isFavorited; // アクセサを使用
+        $favoritesCount = Favorite::where('spot_id', $id)->count();
 
         // デバッグ用: 取得したスポットデータを確認
         //dd($spot);  // ここで変数の内容を出力して処理を中断します
@@ -107,13 +120,53 @@ class SpotController extends Controller
         }
 
         // spot.blade.php に $spot 変数を渡す
-        return view('spot', compact('spot'));
+        return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount'));
 
         /*// ビューにスポットデータを渡す
         return view('spot', [
             'spot' => $spot,
             'isDetail' => true, // 詳細表示かどうかを示すフラグ
         ]);*/
+    }
+
+    public function like($id)
+    {
+        $userId = auth()->id();
+        $existingLike = Like::where('user_id', $userId)->where('spot_id', $id)->first();
+
+        if ($existingLike) {
+            // すでに「いいね」している場合は削除して、いいねを取り消し
+            $existingLike->delete();
+        } else {
+            // 新しく「いいね」を追加
+            Like::create([
+                'user_id' => $userId,
+                'spot_id' => $id
+            ]);
+        }
+
+        // リダイレクトしてページを再読み込み
+        return redirect()->back();
+    }
+
+    public function favorite($id)
+    {
+        $userId = auth()->id();
+        $existingFavorite = Favorite::where('user_id', $userId)->where('spot_id', $id)->first();
+
+        if ($existingFavorite) {
+            // すでに「いいね」している場合は削除して、いいねを取り消し
+            $existingFavorite->delete();
+        } else {
+            // 新しく「いいね」を追加
+            Favorite::create([
+                'user_id' => $userId,
+                'spot_id' => $id
+            ]);
+        }
+
+        // リダイレクトしてページを再読み込み
+        return redirect()->back();
     }
 
     

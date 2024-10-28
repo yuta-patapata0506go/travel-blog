@@ -6,12 +6,13 @@
 
 @section('content')
 
+@foreach($spots as $spot)
         <div class="post-container">
             <!-- Card of whole page -->
-        @foreach($spots as $spot)
+        
         <div class="post-card">
             <!-- HEART BUTTON + no. of likes & FAVORITE BUTTON + no. of likes -->
-            < class="icons d-flex align-items-center">
+            <div class="icons d-flex align-items-center">
                 @if ($spot->isLiked())
                     <form action="{{ route('spot.like', $spot->id ?? 1) }}" method="POST">
                         @csrf
@@ -354,11 +355,12 @@
                         <i class="fa-solid fa-circle-right"></i>
                     </button>
                 </div>
+                
             </div>
-        @endforeach
         </div>
     </div>
-        </div>
+</div>
+@endforeach
         
 
     <script>

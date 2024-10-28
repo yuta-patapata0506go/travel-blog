@@ -106,9 +106,9 @@ Route::group(['prefix'=>'spot', 'as'=>'spot.'], function(){
     Route::get('/spot/{id}', [SpotController::class, 'show'])->name('show'); 
 
     // Like のルート
-    Route::post('/like/{spot}', [SpotController::class, 'like'])->name('like');
-    // Like のルート
-    Route::post('/favorite/{spot}', [SpotController::class, 'favorite'])->name('favorite');
+    Route::post('/spot/{id}/like', [SpotController::class, 'like'])->name('like');
+    // Favorite のルート
+    Route::post('/spot/{id}/favorite', [SpotController::class, 'favorite'])->name('favorite');
 
 });
 
