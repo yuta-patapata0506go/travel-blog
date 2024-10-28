@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Category;
+use App\Models\Post;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryPost extends Model
+class CategoryPost extends Pivot
 {
     use HasFactory;
 
@@ -15,5 +18,10 @@ class CategoryPost extends Model
 
     public function category(){
         return $this->belongsTo(Category::class);
+    }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
     }
 }

@@ -70,20 +70,14 @@ class ImageController extends Controller
     
 
 
-    // 画像の一覧表示
-    public function index()
-    {
-        $images = $this->image->with('user', 'post', 'spot')->paginate(10);
-
-        return view('images.index', compact('images'));
-    }
+ 
 
     // 画像の詳細表示
     public function show($id)
     {
         $image = $this->image->with('user', 'post', 'spot')->findOrFail($id);
 
-        return view('images.show', compact('image'));
+        return view('posts.show', compact('image'));
     }
 
     // 画像の編集

@@ -38,27 +38,14 @@ class PostController extends Controller
     // 投稿の一覧表示
     public function index(Request $request)
     {
-        $type = $request->input('type', 0);  // デフォルトは観光（tourism）
-
-        // typeによってフィルタリングされたポストを取得
-        if ($type == 0) {
-            // 観光ポストを取得
-            $posts = Post::tourism()->get();
-        } elseif ($type == 1) {
-            // イベントポストを取得
-            $posts = Post::event()->get();
-        } else {
-            // 全てのポストを取得
-            $posts = Post::all();
-        }
-
-        return view('posts.index', compact('posts'));
+      
     }
 
      // 投稿の詳細表示
      public function show($id)
      {
-         $post = $this->post->with('user', 'spot', 'comments')->findOrFail($id);
+        //  $post = $this->post->with('user', 'spot', 'comments')->findOrFail($id);
+       $post = $this->post->with(['images','categories'])->findOrFail($id);
          return view('posts.show', compact('post'));
      }
 

@@ -83,7 +83,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Category:</label>
-                <button type="button" class="btn-category" data-bs-toggle="modal" data-bs-target="#categoryModal">
+                <button type="button" class="btn-category" data-bs-toggle="modal" data-bs-target="#categoryModal2">
                     Choose a category
                 </button>
                 <div id="selectedCategories" class="mt-2"></div>
@@ -122,42 +122,45 @@
                 <button type="button" class="btn cancel-btn btn-lg-custom">Cancel</button>
             </div>
 
-<!-- Category Modal -->
-<div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="categoryModalLabel">Select Categories</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="categoryForm">
-                    @foreach($all_categories->where('parent_id', null) as $parent)
-                        <div class="form-group">
-                            <label for="parent_{{ $parent->id }}">■{{ $parent->name }}</label>
-                            <div class="row">
-                                @foreach($all_categories->where('parent_id', $parent->id) as $child)
-                                <div class="col-md-4">
-                                    <div class="form-check">
-                                        <!-- valueにカテゴリID、data-nameにカテゴリ名をセット -->
-                                        <input class="form-check-input" name="category[]" type="checkbox" id="{{ strtolower($child->name) }}" value="{{ $child->id }}" data-name="{{ $child->name }}">
-                                        <label class="form-check-label" for="{{ strtolower($child->name) }}">{{ $child->name }}</label>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
+            <!-- Category Modal -->
+            <div class="modal fade" id="categoryModal2" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="categoryModalLabel">Select Categories</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                    @endforeach
-                </form>
+                        <div class="modal-body">
+                            <form id="categoryForm2">
+                                @foreach($all_categories->where('parent_id', null) as $parent)
+                                    <div class="form-group">
+                                        <label for="parent_{{ $parent->id }}">■{{ $parent->name }}</label>
+                                        <div class="row">
+                                            @foreach($all_categories->where('parent_id', $parent->id) as $child)
+                                            <div class="col-md-4">
+                                                <div class="form-check">
+                                                    <!-- valueにカテゴリID、data-nameにカテゴリ名をセット -->
+                                                    <!-- <input class="form-check-input" name="category[]" type="checkbox" id="{{ strtolower($child->name) }}" value="{{ $child->id }}" data-name="{{ $child->name }}">
+                                                    <label class="form-check-label" for="{{ strtolower($child->name) }}">{{ $child->name }}</label> -->
+                                                    <input class="form-check-input2" name="category[]" type="checkbox"  value="{{ $child->id }}" data-name="{{ $child->name }}">
+                                                    <label class="form-check-label" for="{{ strtolower($child->name) }}">{{ $child->name }}</label>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <!-- hidden input を追加して選択したカテゴリを格納 -->
+                            <input type="hidden" id="category-input" name="selected_categories">
+                            <button type="button" id="selectedcategory-btn" class="btn btn-select btn-large">Select</button>
+                             <!-- data-bs-dismiss="modal"  -->
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">
-                <!-- hidden input を追加して選択したカテゴリを格納 -->
-
-                <button type="button" class="btn btn-select btn-large" data-bs-dismiss="modal" onclick="updateSelectedCategories()">Select</button>
-            </div>
-        </div>
-    </div>
-</div>
 
         </form>
 
@@ -285,42 +288,6 @@
     <!-- @endif -->
 </div>
 
-<!-- Category Modal -->
-<div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="categoryModalLabel">Select Categories</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="categoryForm">
-                    @foreach($all_categories->where('parent_id', null) as $parent)
-                        <div class="form-group">
-                            <label for="parent_{{ $parent->id }}">■{{ $parent->name }}</label>
-                            <div class="row">
-                                @foreach($all_categories->where('parent_id', $parent->id) as $child)
-                                <div class="col-md-4">
-                                    <div class="form-check">
-                                        <!-- valueにカテゴリID、data-nameにカテゴリ名をセット -->
-                                        <input class="form-check-input" type="checkbox" id="{{ strtolower($child->name) }}" value="{{ $child->id }}" data-name="{{ $child->name }}">
-                                        <label class="form-check-label" for="{{ strtolower($child->name) }}">{{ $child->name }}</label>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endforeach
-                </form>
-            </div>
-            <div class="modal-footer">
-                <!-- hidden input を追加して選択したカテゴリを格納 -->
-             
-                <button type="button" class="btn btn-select btn-large" data-bs-dismiss="modal" onclick="updateSelectedCategories()">Select</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 @endsection
 

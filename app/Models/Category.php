@@ -16,4 +16,11 @@ class Category extends Model
         return $this->hasMany(CategoryPost::class);
     }
 
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'category_post_pivot', 'category_id', 'post_id')
+                    ->using(CategoryPost::class) // カスタムピボットモデルを指定
+                    ->withPivot('status'); // 追加のピボット属性を指定
+    }
+
 }
