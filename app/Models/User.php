@@ -6,10 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -44,4 +46,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function followers(){
+        return $this->hasMany(Follow::class, 'following_user_id');
+    }
+
+    public function following(){
+        return $this->hasMany(Follow::class, 'followed_user_id');
+    }
+    public function isFollowed(){
+        return $this->followers()->where('followed_user_id', Auth::user()->id)->exists();
+    }
+
+   
 }

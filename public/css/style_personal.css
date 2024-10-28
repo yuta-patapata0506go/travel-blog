@@ -138,3 +138,18 @@ textarea::placeholder{
    border-radius: 5px; /* 角を丸くする */
    cursor: pointer; /* カーソルをポインターに変更 */
  }
+ .avatar-size{
+   height: 150px;
+   width: 150px;
+   margin-bottom: 20px;
+ }
+ .avatar-small{
+   height: 45px;
+   width: 45px; 
+ }
+ .border-color{
+   border-color: #336B87;
+ }
+.modal{
+   z-index: 5;
+}

@@ -11,20 +11,19 @@
    @include('mypage.mypage-header')
 
       <div class="container-mypage">
-               <div style="margin-top: 50px">
-               {{--@if ($user->followers->isNotEmpty()) --}}
+               @if ($user->followers->isNotEmpty())
                   <div class="row justify-content-center">
                      <div class="col-4">
                         <div class="row">
                            <div class="col-6">
-                              <a href="#" class="text-decoration-none text-dark text-s16">Followers</a>
+                              <a href="{{route('profile.followers', $user->id)}}" class="text-decoration-none text-dark text-s16">Followers</a>
                            </div>
                            <div class="col-6 ps-5">  
-                              <a href="#" class="text-decoration-none text-start btn-green text-s16 btn-follow pw-5">Following</a>
+                              <a href="{{route('profile.following',$user->id)}}" class="text-decoration-none text-start btn-green text-s16 btn-follow pw-5">Following</a>
                            </div>
                         </div>
                      </div>   
-                        {{-- @foreach ($user->followers as $follower) --}}
+                        @foreach ($user->followers as $follower)
                         <div class="row content-justify-center mt-5">
                            <h2 class="text-center fw-bold">Followers</h2>                     
                         </div>
@@ -32,42 +31,41 @@
                         <div class="col-4"> 
                            <div class="row align-center mt-3">
                               <div class="col-auto">
-                              {{-- <a href="{{ route('profile.show', $follower->follower->id)}}">
+                              <a href="{{ route('profile.show', $follower->follower->id)}}">
                                     @if ($follower->follower->avatar)
-                                       <img src="{{ $follower->follower->avatar }}" alt="{{ $follower->follower->name }}" class="rounded-circle avatar-sm">
-                                    @else --}}
+                                       <img src="{{ $follower->follower->avatar }}" alt="{{ $follower->follower->username }}" class="rounded-circle avatar-small">
+                                    @else 
                                        <i class="fa-solid fa-circle-user text-dark icon-small"></i>
-                                 {{-- @endif
-                                 </a> --}}
+                                    @endif
+                                 </a>
                               </div>
-                              <div class="col ps-0 text-truncate">
-                                 <a href="#" class="text-decoration-none text-s16 text-dark fw-bold">USER NAME</a>
+                              <div class="col m-auto text-truncate">
+                                 <a href="{{ route('profile.show', $follower->follower->id)}}" class="text-decoration-none text-s16 text-dark fw-bold">{{ $follower->follower->username }}</a>
                               </div>
                               <div class="col-auto text-end">
-                                 {{--@if ($follower->follower->id !== Auth::user()->id)
-                                    @if ($follower->follwer->isFollowed())
-                                       <form action="{{ route('follow.destroy', $follower->follower->id)}}" method="post"> --}}
+                                 @if ($follower->follower->id !== Auth::user()->id)
+                                    @if ($follower->follower->isFollowed())
+                                       <form action="{{ route('follow.destroy', $follower->follower->id)}}" method="post">
                                           @csrf
                                           @method('DELETE')
                                           <button type="submit" class="border-0 bg-transparent p-0 text-dark btn-sm">Following</button>
-                                       {{--</form>
+                                       </form>
                                     @else
-                                       <form action="{{route('follower.store', $follower->follwer->id)}}" method="post"> --}}
+                                       <form action="{{route('follow.store', $follower->follower->id)}}" method="post">
                                           @csrf
                                           <button type="submit" class="border-0 btn-black  btn-sm">Follow</button>
-                                       {{--</form>
+                                       </form>
                                     
                                     @endif                          
-                                 @endif --}}
+                                 @endif
                               </div>
                            </div>
-                           {{-- @endforeach --}}
+                           @endforeach
                      </div>
                   </div>
-               {{--@else--}}
+               @else
                   <h3 class="text-dark text-s32 text-center">No Followers</h3>
-               {{--@endif--}}
-            </div>
+               @endif
       </div>
 </div>
    
