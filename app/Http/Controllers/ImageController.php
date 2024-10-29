@@ -14,29 +14,8 @@ class ImageController extends Controller
         $this->image = $image;
     }
 
-    // 画像のアップロード
-    public function store(Request $request, $postId)
-    {
-        // バリデーション
-        $request->validate([
-            'image.*' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
-        ]);
-
-        // 複数画像の処理
-        if ($request->hasfile('image')) {
-            foreach ($request->file('image') as $file) {
-                // 画像を保存
-                $filename = time().'_'.$file->getClientOriginalName();
-                $file->move(public_path('uploads'), $filename);
-
-                // 画像情報を保存
-                $this->image->create([
-                    'post_id' => $postId,
-                    'filename' => $filename,
-                ]);
-            }
-        }
-        public function store(Request $request, $postId)
+    
+        public function store(Request $request, $postId, $spotId)
         {
             $request->validate([
                 'image.*' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
@@ -50,7 +29,7 @@ class ImageController extends Controller
                     $this->image->create([
                         'image_url' => $base64Image,
                         'post_id' => $postId,
-                        'spot_id' => $request->spot,
+                        'spot_id' => $spotId,
                         'user_id' => auth()->id(),
                         'caption' => 'new',
                         'status' => 'new',
@@ -58,7 +37,7 @@ class ImageController extends Controller
                 }
             }
         }
-    }
+    
 
     // 画像の一覧表示
     public function index()

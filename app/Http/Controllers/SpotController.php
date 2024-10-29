@@ -39,7 +39,7 @@ class SpotController extends Controller
     }
 
     // 新しいスポットを保存する処理
-    public function store(Request $request, $spotId)
+    public function store(Request $request)
     {
         try{
         // バリデーションの追加
@@ -59,6 +59,7 @@ class SpotController extends Controller
             'access_token' => $mapboxApiKey,
         ]);
 
+        
         if ($response->successful()) {
             $data = $response->json();
             $coordinates = $data['features'][0]['geometry']['coordinates'];
@@ -72,23 +73,21 @@ class SpotController extends Controller
 
         $this->spot->name = $request->name;
         // this code converts the image into a text;
-        $this->spot->image       = 'data:image/'.$request->image->extension().';base64,'.base64_encode(file_get_contents($request->image));
+        /*$this->spot->image       = 'data:image/'.$request->image->extension().';base64,'.base64_encode(file_get_contents($request->image));*/
         $this->spot->user_id     = auth()->user()->id;
         $this->spot->postalcode  = $request->postalcode;
         $this->spot->address     = $request->address;
         $this->spot->latitude = $latitude;
         $this->spot->longitude = $longitude;
 
-        // 画像をストレージに保存
-        $imagePath = $request->file('image')->store('images', 'public'); // 'public'ストレージに保存
-        $this->spot->image = $imagePath; // スポットに画像パスを設定
-
-
         $this->spot->save();
+        // / 画像の保存（ImageControllerで処理を行う）
+        app(ImageController::class)->store($request, null, $this->spot->id);
 
         return redirect()->route('home')->with('success', 'Pending approval by Admin.');
 
         } catch (\Exception $e) {
+            dd($e);
             Log::error('Failed: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'Failed']);
         }
