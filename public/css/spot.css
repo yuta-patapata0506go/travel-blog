@@ -449,3 +449,55 @@ button:focus {
     color: #336B87;
 }
 /* -----------------------------------------------------------*/
+
+.weather-card {
+    max-width: 400px;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    position: relative;
+    color: #333;
+}
+.weather-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+}
+.temperature {
+    font-size: 2.5em;
+    font-weight: bold;
+}
+.condition {
+    font-size: 1.2em;
+    color: #666;
+}
+.weather-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    margin-top: 15px;
+}
+.detail-item {
+    text-align: left;
+}
+.detail-item p {
+    margin: 0;
+}
+.detail-label {
+    font-size: 0.8em;
+    color: #888;
+}
+.icon {
+    font-size: 2.5em;
+    color: #ffcc00;
+}
+.more-details {
+    font-size: 0.8em;
+    color: #007bff;
+    cursor: pointer;
+}

@@ -167,14 +167,9 @@
                 </form>
 
                 <!-- Weather -->
-                <div class="weather">
-                    <h5>Weather</h5>
-                    <i class="fa-solid fa-cloud-sun"></i>
-                    <img src="/images/weather.png" alt="">                
-                    <!-- Embed weather code here -->
-                    <h1>{{ $spot->name }}</h1>
-                     <p>Location: {{ $spot->location }}</p>
-                     <h2>天気情報</h2>
+                
+                <div class="weather"> 
+                     <h2>Weather Information</h2>
                       <p>Wether Conditon: {{ $spot->weather_condition }}</p>
                       <p>Temperature: {{ $spot->temperature }}°C</p>
                       <p>Humidity: {{ $spot->humidity }}%</p>
