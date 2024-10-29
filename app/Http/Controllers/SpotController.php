@@ -7,6 +7,7 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Models\Like;
 use App\Models\Favorite;
+use Illuminate\Support\Facades\Http;
 
 
 class SpotController extends Controller
@@ -48,14 +49,33 @@ class SpotController extends Controller
             'image' => 'required|image|mimes:jpeg,jpg,png,gif|max:1048',
         ]);
 
+        // Geocoding APIを使って住所から緯度と経度を取得
+        $address = $request->address;
+        $mapboxApiKey = env('MAPBOX_API_KEY'); // 環境変数にAPIキーを設定
+
+        $response = Http::get("https://api.mapbox.com/geocoding/v5/mapbox.places/{$address}.json", [
+            'access_token' => $mapboxApiKey,
+        ]);
+
+        if ($response->successful()) {
+            $data = $response->json();
+            $coordinates = $data['features'][0]['geometry']['coordinates'];
+            $latitude = $coordinates[1];
+            $longitude = $coordinates[0];
+        } else {
+            // エラーハンドリング
+            return back()->withErrors(['error' => 'The retrieval of latitude and longitude for the address has failed.']);
+        }
+
+
         $this->spot->name = $request->name;
         // this code converts the image into a text;
         /*$this->spot->image       = 'data:image/'.$request->image->extension().';base64,'.base64_encode(file_get_contents($request->image));*/
         $this->spot->user_id     = auth()->user()->id;
         $this->spot->postalcode  = $request->postalcode;
         $this->spot->address     = $request->address;
-        /*$this->spot->latitude = $request->latitude;
-        $this->spot->longitude = $request->longitude;*/
+        $this->spot->latitude = $latitude;
+        $this->spot->longitude = $longitude;
 
         /*// 画像をストレージに保存
         $imagePath = $request->file('image')->store('images', 'public'); // 'public'ストレージに保存
