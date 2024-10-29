@@ -146,7 +146,11 @@ Route::get('/admin-spots-index', function () {
 
        Route::get('/admin-categories-index',[CategoryController::class,'index'])->name('admin.categories.index');
        Route::post('/admin-categories-store',[CategoryController::class,'store'])->name('admin.categories.store');
-       
+
+       Route::get('/admin-categories-edit/{id}',[CategoryController::class,'edit'])->name('admin.categories.edit');
+
+       Route::patch('/admin-categories-update/{id}',[CategoryController::class,'update'])->name('admin.categories.update');
+       Route::patch('/admin/categories/{id}/changeVisibility', [CategoryController::class, 'changeVisibility'])->name('admin.categories.changeVisibility');
 
 
 

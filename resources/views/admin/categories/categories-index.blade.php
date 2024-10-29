@@ -54,7 +54,7 @@
                         <a href="admin-categories-index" class="icon-item active">
                             <i class="fa-solid fa-shapes"></i>
                         </a>
-                        <a href="admin-inquiries-index" class="icon-item">
+                        <a href="admin-categories-index" class="icon-item">
                             <i class="fa-solid fa-address-card"></i>
                         </a>
                         <a href="admin-spot_applications-index" class="icon-item">
@@ -77,42 +77,59 @@
     <tr>
         <td>{{$category->id}}</td>
         <td>{{$category->title}}</td>
-        <td>{{$category->created_at }}</td>
-        <td>{{ $category->updated_at }}</td>
+        <td>
+        {{ $category->created_at->format('Y-m-d H:i:s') }}
+        </td>
+        
+        
+        <td>
+        
+        {{ $category->updated_at->format('Y-m-d H:i:s') }}
+        
+        
+</td>
         <td>
 
             {{-- Dropdown for visibility --}}
             <div class="dropdown">
-                <button class="btn btn-sm" data-bs-toggle="dropdown">
-                    Visible
-                </button>
+              <button class="btn btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                {{ $category->status === 0 ? 'Visible' : 'Hidden' }}
+             </button>
 
-                <div class="dropdown-menu">
-                    @if (isset($category)) {{-- $category->trashed() --}}
-                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#unhide-category-"> {{-- data-bs-target: #unhide-category-{{ $category->id }} --}}
-                            <i class="fa-solid fa-eye"></i> Visible {{-- {{ $category->id }} --}}
-                        </button>
+                 <div class="dropdown-menu">
+                    @if ($category->status === 0)
+                      <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#hide-category-{{ $category->id }}">
+                        <i class="fa-solid fa-eye-slash"></i> Hide
+                      </button>
                     @else
-                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#hide-category-"> {{-- data-bs-target: #hide-category-{{ $category->id }} --}}
-                            <i class="fa-solid fa-eye-slash"></i> Hidden {{-- {{ $category->id }} --}}
-                        </button>
+                      <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#unhide-category-{{ $category->id }}">
+                        <i class="fa-solid fa-eye"></i> Unhide
+                      </button>
                     @endif
+                    
                 </div>
             </div>
-
+           
             @include('admin.categories.modals.visibility')
         </td>
+
         <td>
-            <button class="btn" data-bs-toggle="modal" data-bs-target="#update-category">
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#update-category-{{$category->id}}">
             <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
         </button>
+
+        
         </td>
     </tr>
-    @endforeach
+
+
+   
     
-  
+    @include('admin.categories.modals.update_category')
+    @endforeach
 </tbody>
-@include('admin.categories.modals.update_category')
+
+
         </table>
 
         <!-- Pagination -->    

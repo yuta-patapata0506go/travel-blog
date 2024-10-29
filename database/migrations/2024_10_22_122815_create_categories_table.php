@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');  // Foreign key for users
             $table->string('status', 255);  // Status field with varchar(255)
             $table->timestamp('created_at')->useCurrent();  // Timestamp for created_at
-
+            $table->softDeletes(); // Soft delete column
             // 外部キー制約
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
