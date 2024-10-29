@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Favorite;
 
 class Spot extends Model
 {
@@ -43,15 +42,5 @@ class Spot extends Model
        return $this->likes()->where('user_id', auth()->user()->id)->exists();
     }
     // select * from likes where post_id = 15 and user_id = 2 ???? == TRUE
-
-    public function favorites()
-    {
-        return $this->hasMany(Favorite::class);
-    }
-    // アクセサとしてisFavoritedを定義
-    public function getIsFavoritedAttribute()
-    {
-        return $this->favorites()->where('user_id', auth()->user()->id)->exists();
-    }
 
 }

@@ -171,7 +171,9 @@
                 
                 <div class="weather"> 
                      <h2>Weather Information</h2>
-                      <p>Wether Conditon: {{ $spot->weather_condition }}</p>
+                     <br>
+                     <br>
+                      <p>Weather Conditon: {{ $spot->weather_condition }}</p>
                       <p>Temperature: {{ $spot->temperature }}°C</p>
                       <p>Humidity: {{ $spot->humidity }}%</p>
                       <p>Wind Speed: {{ $spot->wind_speed }} m/s</p>
