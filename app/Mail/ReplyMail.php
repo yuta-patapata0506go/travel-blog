@@ -16,9 +16,21 @@ class ReplyMail extends Mailable
     /**
      * Create a new message instance.
      */
+    public $responseBody;
+
     public function __construct()
     {
-        //
+        $this->responseBody = $responseBody;
+    }
+
+    public function build()
+    {
+        return $this->from('where25.inquiry@gmail.com', 'Where To Go')
+                    ->subject('Your Inquiry Response')
+                    ->view('emails.reply') // ビュー名を指定
+                    ->with([
+                        'responseBody' => $this->responseBody,
+                    ]);
     }
 
     /**
