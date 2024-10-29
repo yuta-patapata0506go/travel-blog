@@ -6,33 +6,93 @@
 @section('content')
 <div class="background"></div> <!-- 背景画像 -->     
 <div class="container container-fluid mt-5">
-    <h2 class="text-center mb-4">Edit Event Post</h2>
+@if ($type == 0)
+  <h2 class="text-center mb-4">Event Post Form</h2>
+@else
+  <h2 class="text-center mb-4">Tourism Post Form</h2>
+@endif
     
     <form action="#" method="POST" enctype="multipart/form-data">
         @csrf
+        @method('PATCH')
         <div class="mb-3">
             <label for="type" class="form-label">Spot <span class="text-danger">*</span>:</label>
             <select class="form-select" id="spot" name="spot" required>
                 <option value="">Please select a spot. If no spot is displayed here, you will need to go back to the previous page and register a spot first.</option>
-                <option value="public">Sapporo clock tower</option>
+                <option value="1">Sapporo clock tower</option>
                 <option value="private">Tokyo tower</option>
             </select>
         </div>
 
         <div class="mb-3">
-            <label for="image" class="form-label">Image <span class="text-danger">*</span>:</label>
-            <input type="file" class="form-control" id="image" name="image" accept="image/*">
-            <small class="form-text text-muted">The acceptable formats are .jpg, .jpeg, .png, .gif (max 2MB)</small>
-        </div>
+    <label for="image" class="form-label">Image <span class="text-danger">*</span>:</label>
+    
+     <!-- 保存されている画像のサムネイル表示部分 
+    <div class="d-flex mb-2">
+        @foreach ($post->images as $image)
+            <img src="{{ $image->image_url }}" class="img-responsive small-image">
+        @endforeach
+    </div>
 
+     ファイル選択フィールド 
+    <input type="file" class="form-control" id="image" name="image[]" accept="image/*" multiple>
+    <small class="form-text text-muted">Acceptable formats: jpeg, jpg, png, gif. Max file size: 2MB.</small>
+</div> -->
+
+<div class="mb-3">
+    <label for="image" class="form-label">Image <span class="text-danger">*</span>:</label>
+    
+    <!-- 保存されている画像のサムネイル表示部分 -->
+    <div class="d-flex mb-2">
+        @foreach ($post->images as $image)
+            <div class="position-relative me-2">
+                <img src="{{ $image->image_url }}" class="img-responsive small-image" style="width: 100px; height: auto;">
+                <!-- 削除ボタン -->
+                <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0" onclick="deleteImage({{ $image->id }})">-</button>
+            </div>
+        @endforeach
+    </div>
+
+    <!-- ファイル選択フィールド -->
+    <input type="file" class="form-control" id="image" name="image[]" accept="image/*" multiple>
+    <small class="form-text text-muted">Acceptable formats: jpeg, jpg, png, gif. Max file size: 2MB.</small>
+</div>
+
+<!-- JavaScriptによる削除リクエストの処理 -->
+<script>
+    function deleteImage(imageId) {
+        if (confirm("Are you sure you want to delete this image?")) {
+            // AJAXリクエストで画像削除を実行
+            fetch(`/images/${imageId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // 成功した場合、ページから画像要素を削除
+                    document.querySelector(`[onclick="deleteImage(${imageId})"]`).parentElement.remove();
+                } else {
+                    alert("Failed to delete the image. Please try again.");
+                }
+            });
+        }
+    }
+</script>
+
+
+
+        @if ($type == 0)
         <div class="mb-3">
             <label for="event_name" class="form-label">Event name <span class="text-danger">*</span>:</label>
-            <input type="text" class="form-control" id="event_name" name="event_name" placeholder="Enter event name" required>
+            <input type="text" class="form-control" id="event_name" name="event_name"  value="{{ $post->event_name }}" required>
         </div>
+        @endif 
 
         <div class="mb-3">
             <label for="comments" class="form-label">Comments:</label>
-            <textarea class="form-control" id="comments" name="comments" rows="3" placeholder="Enter comments"></textarea>
+            <textarea class="form-control" id="comments" name="comments" rows="3">{{ $post->comments }}</textarea>
         </div>
         <div class="mb-3">
             <label class="form-label">Category:</label>
@@ -41,25 +101,60 @@
             </button>
             <div id="selectedCategories" class="mt-2"></div>
         </div>
+
+        @if ($type == 0)
         <div class="row">
-  <div class="col-md-6">
-    <label for="start-date" class="form-label">Start Date <span class="text-danger">*</span>:</label>
-    <input type="date" id="start-date" name="start_date" class="form-control">
-  </div>
-  <div class="col-md-6">
-    <label for="end-date" class="form-label">End Date <span class="text-danger">*</span>:</label>
-    <input type="date" id="end-date" name="end_date" class="form-control">
-  </div>
-</div>
+          <div class="col-md-6">
+            <label for="start-date" class="form-label">Start Date <span class="text-danger">*</span>:</label>
+            <input type="date" id="start-date" name="start_date" class="form-control" value="{{ $startDate }}">
+          </div>
+          <div class="col-md-6">
+            <label for="end-date" class="form-label">End Date <span class="text-danger">*</span>:</label>
+            <input type="date" id="end-date" name="end_date" class="form-control" value="{{ $endDate }}">
+          </div>
+        </div>
+        @endif 
        
         <div class="mb-3">
-            <label for="fee" class="form-label">Fee:</label>
-            <input type="text" class="form-control" id="fee" name="fee" placeholder="Enter fee amount">
-        </div>
+                <label for="fee" class="form-label mt-2">Fee:</label>
+                <div style="display: flex; gap: 10px; align-items: center;"> 
+                    <!-- Adult Fee -->
+                    <div class="input-group" style="flex: 1;">
+                        <span class="input-group-text">Adult</span>
+                        <input type="number" class="form-control form-shadow" id="adult_fee" name="adult_fee" placeholder="Enter adult fee amount" min="0" step="0.01">
+                        <select class="form-select" id="adult_currency" name="adult_currency" style="width: 80px;">
+                            <option value="" disabled selected>Select Currency</option>
+                            <option value="JPY">Yen</option>
+                            <option value="USD">USD</option>
+                            <option value="EUR">Euro</option>
+                            <option value="GBP">British Pound</option>
+                            <option value="AUD">Australian Dollar</option>
+                            <option value="CAD">Canadian Dollar</option>
+                            <option value="CHF">Swiss Franc</option>
+                            <option value="CNY">Chinese Yuan</option>
+                            <option value="KRW">South Korean Won</option>
+                            <option value="INR">Indian Rupee</option>
+                            <option value="Free">Free</option>
+                        </select>
+                    </div>      
+                    <!-- Child Fee -->
+                    <div class="input-group" style="flex: 1;">
+                        <span class="input-group-text">Child</span>
+                        <input type="number" class="form-control form-shadow" id="adult_fee" name="adult_fee" placeholder="Enter adult fee amount" min="0" step="0.01">
+                        <select class="form-select" id="child_currency" name="child_currency" style="width: 80px;">
+                            <option value="" disabled selected>Select Currency</option>
+                            <option value="JPY">Yen</option>
+                            <option value="USD">USD</option>
+                            <option value="EUR">Euro</option>
+                            <option value="Free">Free</option>
+                        </select>
+                    </div>         
+                </div>
+            </div>
 
         <div class="mb-3">
             <label for="info" class="form-label">Useful Information:</label>
-            <input type="text" class="form-control" id="info" name="info" placeholder="Enter any useful information">
+            <input type="text" class="form-control" id="info" name="info"  value="{{ $post->helpful_info }}">
         </div>
         <div class="d-flex justify-content-center mt-4">
             <button type="submit" class="btn-post btn-lg-custom">Save</button>

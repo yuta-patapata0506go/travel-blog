@@ -25,7 +25,7 @@
                                         </button>
                                     
                                         <div class="dropdown-menu">
-                                            <a href="" class="dropdown-item">
+                                            <a href="{{ route('post.edit', $post->id) }}" class="dropdown-item">
                                                 <i class="fa-regular fa-edit"></i>Edit
                                             </a>
                                             <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#delete-post">
@@ -40,61 +40,43 @@
             
 
                 <!-- Image -->
-            <div class="card col mt-3" style="height: auto;">
-                <!-- Main Image -->
-                <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
-                     <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="{{ asset('images/firework.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 1">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('images/firework2.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 2">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('images/firework3.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 3">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('images/beach.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Beach Image">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('images/firework5.jpeg') }}" class="d-block w-100 main-carousel-img" alt="Another Image">
-                            </div>
-                     </div>
-
-                    <!-- カルーセルのコントロール（前後に移動） -->
-                    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+                <div class="card col mt-3" style="height: auto;">
+    <!-- Main Image Carousel -->
+    <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
+        <div class="carousel-inner">
+            @foreach ($post->images as $index => $image)
+                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                    <!-- Base64エンコードされた画像データをsrc属性に設定 -->
+                    <img src="{{ $image->image_url }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
                 </div>
+            @endforeach
+        </div>
 
-                <!-- サブ画像 (サムネイル) -->
-                <div class="carousel-indicators-wrapper mt-3 d-flex justify-content-center gap-2 flex-wrap">
-                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1">
-                        <img src="{{ asset('images/firework.jpeg') }}" class="thumbnail-img" alt="Firework Thumbnail 1">
-                    </button>
-                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2">
-                        <img src="{{ asset('images/firework2.jpeg') }}" class="thumbnail-img" alt="Firework Thumbnail 2">
-                    </button>
-                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2" aria-label="Slide 3">
-                        <img src="{{ asset('images/firework3.jpeg') }}" class="thumbnail-img" alt="Firework Thumbnail 3">
-                    </button>
-                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="3" aria-label="Slide 4">
-                        <img src="{{ asset('images/beach.jpeg') }}" class="thumbnail-img" alt="Beach Thumbnail">
-                    </button>
-                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="4" aria-label="Slide 5">
-                        <img src="{{ asset('images/firework5.jpeg') }}" class="thumbnail-img" alt="Another Thumbnail">
-                    </button>
-                </div>
-            </div>
+        <!-- Carousel Controls (Previous/Next) -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Thumbnail Images as Carousel Indicators -->
+    <div class="carousel-indicators-wrapper mt-3 d-flex justify-content-center gap-2 flex-wrap">
+        @foreach ($post->images as $index => $image)
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}" aria-label="Slide {{ $index + 1 }}">
+                <img src="{{ $image->image_url }}" class="thumbnail-img" alt="Thumbnail {{ $index + 1 }}">
+            </button>
+        @endforeach
+    </div>
+</div>
+
 
             <div class="row align-items-center">
                 <!-- Event Name -->
-                @if ($post->type == 1)
+                @if ($post->type ==0)
                     <!-- Event Name -->
                     <div class="col-auto">
                         <h2 class="event-name mt-3 p-2 border rounded">{{ $post->event_name }}</h2>
@@ -104,8 +86,9 @@
 
                 <!-- Category Group -->
                 <div class="col d-flex justify-content-end">
-                    <div class="badge bg-secondary bg-opacity-50 me-2">category1</div>
-                    <div class="badge bg-secondary bg-opacity-50">category2</div>
+                @foreach ($post->categories as $category)
+                    <div class="badge bg-secondary bg-opacity-50 me-2">{{ $category->name }}</div>
+                @endforeach
                 </div>
             </div>
 
@@ -168,7 +151,13 @@
                      <div class="card3 border-0  bg-white" style="height: 20rem;">
                         <div class="card-body">
                             <a href="#" class="">
-                                    <h3><i class="fa-solid fa-location-dot"></i> Spot name</h3>
+                            @if (!empty($post->spot))
+                                <a href="#" class="">
+                                    <h3><i class="fa-solid fa-location-dot"></i> {{ $post->spot->name }}</h3>
+                                </a>
+                            @else
+                                <p><i class="fa-solid fa-location-dot"></i> Location not available</p>
+                            @endif
                             </a>                
                             <iframe 
                                 src="https://www.google.com/maps?q= &output=embed"
@@ -185,22 +174,54 @@
                     <div class="card3 bg-white ps-4 mb-3  rounded-0" style="height: 20rem; border-left: 1px solid black; border-top: none; border-right: none; border-bottom: none;">
                         <div class="card-body">
                             <!-- event ID がであれば表示する -->
-                        <h5 class="fw-bold">Event Date</h5>
-                            <p>
-                                @if ($post->type == 1)
-                                    <!-- イベントの開始日を相対的に表示 -->
+                            @if ($post->type == 0)
+                                <h5 class="fw-bold" style="margin-bottom: 5px;">Event Date</h5>
+
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <!-- Start Date -->
                                     @if (!empty($post->start_date))
-                                        <p>Event Start Date: {{ $post->start_date->diffForHumans() }}</p>
+                                        <div style="flex: 1; text-align: center; margin: 0; padding: 0;">
+                                            <p style="margin: 0;">Start Date:</p>
+                                            <p style="margin: 0; font-size: 1.2em;">{{ $post->start_date->format('Y-m-d') }}</p>
+                                            <small style="display: block; color: gray; margin: 0;">({{ $post->start_date->diffForHumans() }})</small>
+                                        </div>
                                     @endif
 
-                                    <!-- イベントの終了日を相対的に表示 -->
+                                    <!-- 矢印またはハイフン -->
+                                    <div style="text-align: center; color: gray;">
+                                        ➔ <!-- 矢印の代わりに "-" を表示したい場合は、ここを "-" に変更 -->
+                                    </div>
+
+                                    <!-- End Date -->
                                     @if (!empty($post->end_date))
-                                        <p>Event End Date: {{ $post->end_date->diffForHumans() }}</p>
+                                        <div style="flex: 1; text-align: center; margin: 0; padding: 0;">
+                                            <p style="margin: 0;">End Date:</p>
+                                            <p style="margin: 0; font-size: 1.2em;">{{ $post->end_date->format('Y-m-d') }}</p>
+                                            <small style="display: block; color: gray; margin: 0;">({{ $post->end_date->diffForHumans() }})</small>
+                                        </div>
                                     @endif
-                                @endif
-                            </p>
+                                </div>
+                            @endif
+
+                            <br>
                             <h5 class="fw-bold">Fee</h5>
-                            <p>{{ $post->fee }}</p>
+
+                                <div>
+                                    <!-- Adult Fee -->
+                                    <p>
+                                        <strong>Adult Fee:</strong> 
+                                        {{ $post->adult_fee }} 
+                                        <small>{{ $post->adult_currency }}</small>
+                                    </p>
+
+                                    <!-- Child Fee -->
+                                    <p>
+                                        <strong>Child Fee:</strong> 
+                                        {{ $post->child_fee }} 
+                                        <small>{{ $post->child_currency }}</small>
+                                    </p>
+                                </div>
+
                             <h5 class="fw-bold">Useful Information About This Spot</h5>
                             <p> &middot; &nbsp; {{ $post->helpful_info }}</p>
                             

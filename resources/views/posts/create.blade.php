@@ -105,13 +105,48 @@
             @endif 
 
             <div class="mb-3">
-                <label for="fee" class="form-label">Fee:</label>
-                <input type="text" class="form-control form-shadow" id="fee" name="fee" placeholder="Enter fee amount">
+                <label for="fee" class="form-label mt-2">Fee:</label>
+                <div style="display: flex; gap: 10px; align-items: center;"> 
+                    <!-- Adult Fee -->
+                    <div class="input-group" style="flex: 1;">
+                        <span class="input-group-text">Adult</span>
+                        <input type="number" class="form-control form-shadow" id="adult_fee" name="adult_fee" placeholder="Enter adult fee amount" min="0" step="0.01">
+                        <select class="form-select" id="adult_currency" name="adult_currency" style="width: 80px;">
+                            <option value="" disabled selected>Select Currency</option>
+                            <option value="JPY">Yen</option>
+                            <option value="USD">USD</option>
+                            <option value="EUR">Euro</option>
+                            <option value="GBP">British Pound</option>
+                            <option value="AUD">Australian Dollar</option>
+                            <option value="CAD">Canadian Dollar</option>
+                            <option value="CHF">Swiss Franc</option>
+                            <option value="CNY">Chinese Yuan</option>
+                            <option value="KRW">South Korean Won</option>
+                            <option value="INR">Indian Rupee</option>
+                            <option value="Free">Free</option>
+                        </select>
+                    </div>      
+                    <!-- Child Fee -->
+                    <div class="input-group" style="flex: 1;">
+                        <span class="input-group-text">Child</span>
+                        <input type="number" class="form-control form-shadow" id="adult_fee" name="adult_fee" placeholder="Enter adult fee amount" min="0" step="0.01">
+                        <select class="form-select" id="child_currency" name="child_currency" style="width: 80px;">
+                            <option value="" disabled selected>Select Currency</option>
+                            <option value="JPY">Yen</option>
+                            <option value="USD">USD</option>
+                            <option value="EUR">Euro</option>
+                            <option value="Free">Free</option>
+                        </select>
+                    </div>         
+                </div>
             </div>
+
+
+
 
             <div class="mb-3">
                 <label for="info" class="form-label">Useful Information:</label>
-                <input type="text" class="form-control form-shadow" id="info" name="info" placeholder="Enter any useful information">
+                <input type="text" class="form-control form-shadow" id="helpful_info" name="helpful_info" placeholder="Enter any useful information">
             </div>
 
             <!-- <input type="hidden" name="category" id="category-input">  -->

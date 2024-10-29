@@ -62,72 +62,14 @@ class ImageController extends Controller
     }
     
     
-    
-    
-    
-    
-    
-    
-
-
  
 
-    // 画像の詳細表示
-    public function show($id)
-    {
-        $image = $this->image->with('user', 'post', 'spot')->findOrFail($id);
-
-        return view('posts.show', compact('image'));
-    }
-
-    // 画像の編集
-    public function edit($id)
-    {
-        $image = $this->image->findOrFail($id);
-
-        if ($image->user_id !== auth()->id()) {
-            return redirect()->back()->with('error', 'Unauthorized access.');
-        }
-
-        return view('images.edit', compact('image'));
-    }
-
-    // 画像の更新
-    public function update(Request $request, $id)
-    {
-        $image = $this->image->findOrFail($id);
-
-        if ($image->user_id !== auth()->id()) {
-            return redirect()->back()->with('error', 'Unauthorized access.');
-        }
-
-        $request->validate([
-            'caption' => 'nullable|string|max:255',
-            'status' => 'required|string|in:published,draft',
-        ]);
-
-        $image->caption = $request->input('caption');
-        $image->status = $request->input('status');
-        $image->save();
-
-        return redirect()->back()->with('success', 'Image updated successfully.');
-    }
-
-    // 画像の削除
     public function destroy($id)
-    {
-        
-        $image = $this->image->findOrFail($id);
+{
+    $image = Image::findOrFail($id);
+    $image->delete();
 
-        if ($image->user_id !== auth()->id()) {
-            return redirect()->back()->with('error', 'Unauthorized access.');
-        }
-
-        // 画像を削除
-        $image->delete();
-
-        return redirect()->back()->with('success', 'Image deleted successfully.');
-    }
-
+    return response()->json(['success' => true]);
+}
 
 }

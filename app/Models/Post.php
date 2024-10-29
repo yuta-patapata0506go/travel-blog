@@ -32,7 +32,7 @@ class Post extends Model
     
     public function images()
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Image::class, 'post_id'); // 'post_id'が外部キー
     }
 
     public function categories()
@@ -41,4 +41,10 @@ class Post extends Model
                     ->using(CategoryPost::class) // カスタムピボットモデルを指定
                     ->withPivot('status'); // 追加のピボット属性を指定
 }
+
+// 日付としてキャストする属性
+protected $casts = [
+    'start_date' => 'datetime',
+    'end_date' => 'datetime',
+];
 }

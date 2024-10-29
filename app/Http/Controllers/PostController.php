@@ -46,6 +46,7 @@ class PostController extends Controller
      {
         //  $post = $this->post->with('user', 'spot', 'comments')->findOrFail($id);
        $post = $this->post->with(['images','categories'])->findOrFail($id);
+
          return view('posts.show', compact('post'));
      }
 
@@ -59,7 +60,10 @@ class PostController extends Controller
             'title' => 'string|max:30',
             'type' => 'integer|in:0,1',
             'event_name' => 'nullable|string|max:30',
-            'fee' => 'nullable|numeric|min:0',
+            'adult_fee' => 'nullable|numeric|min:0',
+            'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
+            'child_fee' => 'nullable|numeric|min:0',
+            'child_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
             'comments' => 'nullable|string|max:255',
@@ -85,7 +89,12 @@ class PostController extends Controller
         $this->post->title = $request->title??'';
         $this->post->type = $request->type;
         $this->post->event_name = $request->input('event_name');
-        $this->post->fee = $request->fee;
+            
+        // Adult Fee and Child Fee
+        $this->post->adult_fee = $request->adult_fee;
+        $this->post->adult_currency = $request->adult_currency;
+        $this->post->child_fee = $request->child_fee;
+        $this->post->child_currency = $request->child_currency;
         $this->post->start_date = $request->start_date ?: null; // 空ならNULLを設定
         $this->post->end_date = $request->end_date ?: null; // 空ならNULLを設定
         $this->post->comments = $request->comments;
@@ -122,7 +131,11 @@ class PostController extends Controller
             return redirect()->route('posts.index')->with('error', 'Unauthorized access.');
         }
 
-        return view('posts.edit', compact('post'));
+        $type = $post->type; // Postモデルのtypeフィールドを取得
+        $startDate = $post->start_date ? $post->start_date->format('Y-m-d') : null;
+    $endDate = $post->end_date ? $post->end_date->format('Y-m-d') : null;
+
+        return view('posts.edit', compact('post', 'type', 'startDate', 'endDate'));
     }
 
     // 投稿の更新
