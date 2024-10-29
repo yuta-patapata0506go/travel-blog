@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class InquiriesController extends Controller
 {
     private $inquiry;
+    private $user;
 
     public function __construct(Inquiry $inquiry, User $user)
     {
