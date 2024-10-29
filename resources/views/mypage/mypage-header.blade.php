@@ -1,17 +1,16 @@
- 
 
-
+@include('mypage.modal.menu')
   <div class="container-mypage">
         <div class="row justify-content-center">
             <div class="col-4">
               @if ($user->avatar)
-                  <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle d-block mx-auto avatar-size">
-                  
+                  <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle d-block mx-auto avatar-size">                 
               @else
                   <i class="fa-regular fa-circle-user d-block text-end icon-big"></i>
                   
               @endif
             </div>
+       
           <div class="col-8">
             <div class="row mb-3">
               <div class="col-auto">
@@ -24,7 +23,7 @@
                 <button type="button" class="btn-green text-center" data-bs-toggle="modal" data-bs-target="#select-menu-{{ $user->id }}">
                   Menu
               </button>
-                @include('mypage.menu')
+          
                 
                   @else
                  @if ($user->isFollowed())

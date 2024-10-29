@@ -24,14 +24,15 @@
                         </div>
                      </div>
                   </div>   
-                     @foreach ($user->following as $following)
-                     <div class="row content-justify-center mt-5">
-                           <h2 class="text-center fw-bold">Following</h2>                     
-                     </div>
-
-                  <div class="col-4">         
+                  <div class="row content-justify-center mt-5">
+                        <h2 class="text-center fw-bold">Following</h2>                     
+                  </div>
+                  
+                  
+                  <div class="col-4"> 
+                     @foreach ($user->following as $following)        
                         <div class="row align-center mt-3">       
-                           <div class="col-auto">
+                           <div class="col-2">
                               <a href="{{ route('profile.show', $following->following->id)}}">
                                  @if ($following->following->avatar)
                                     <img src="{{ $following->following->avatar}}" alt="{{ $following->following->username }}" class="rounded-circle avatar-small">
@@ -40,10 +41,10 @@
                                  @endif
                               </a>
                            </div>
-                           <div class="col m-auto text-truncate">
+                           <div class="col-6 m-auto text-truncate">
                               <a href="{{route('profile.show', $following->following->id)}}" class="text-decoration-none text-dark text-s16 fw-bold">{{ $following->following->username }}</a>
                            </div>
-                           <div class="col-auto text-end">
+                           <div class="col-4 text-center mt-2">
                               @if ($following->following->id !== Auth::user()->id)
                                  @if ($following->following->isFollowed())
                                     <form action="{{ route('follow.destroy', $following->following->id)}}" method="post">
@@ -62,6 +63,7 @@
                         </div>                       
                      @endforeach
                   </div>
+                  
                </div>
             @else
                <h3 class="text-dark text-s32 text-center">No Following</h3>

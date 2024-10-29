@@ -8,6 +8,7 @@
 @endsection
 
 @section('content')
+
 <div class="mypage-bg">
     @include('mypage.mypage-header')
   <div class="container-mypage">
@@ -58,9 +59,9 @@
             </div> 
         </div>
       
-        {{--@else --}}
-        {{--<h3 class="text-muted text-center">No Posts Yet</h3>--}}
-        {{--@endif --}}
+        {{-- @else
+        <h3 class="text-muted text-center">No Posts Yet</h3>
+        @endif --}}
    
     </div> 
 </div>

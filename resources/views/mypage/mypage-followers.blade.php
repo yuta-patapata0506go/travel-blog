@@ -23,14 +23,14 @@
                            </div>
                         </div>
                      </div>   
-                        @foreach ($user->followers as $follower)
                         <div class="row content-justify-center mt-5">
                            <h2 class="text-center fw-bold">Followers</h2>                     
                         </div>
                         
                         <div class="col-4"> 
+                           @foreach ($user->followers as $follower) 
                            <div class="row align-center mt-3">
-                              <div class="col-auto">
+                              <div class="col-2">
                               <a href="{{ route('profile.show', $follower->follower->id)}}">
                                     @if ($follower->follower->avatar)
                                        <img src="{{ $follower->follower->avatar }}" alt="{{ $follower->follower->username }}" class="rounded-circle avatar-small">
@@ -39,10 +39,10 @@
                                     @endif
                                  </a>
                               </div>
-                              <div class="col m-auto text-truncate">
+                              <div class="col-6 m-auto text-truncate">
                                  <a href="{{ route('profile.show', $follower->follower->id)}}" class="text-decoration-none text-s16 text-dark fw-bold">{{ $follower->follower->username }}</a>
                               </div>
-                              <div class="col-auto text-end">
+                              <div class="col-4 text-center mt-2">
                                  @if ($follower->follower->id !== Auth::user()->id)
                                     @if ($follower->follower->isFollowed())
                                        <form action="{{ route('follow.destroy', $follower->follower->id)}}" method="post">

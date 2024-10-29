@@ -64,4 +64,9 @@ class ProfileController extends Controller
         $user = $this->user->findOrFail($id);
         return view('mypage.mypage-following')->with('user',$user);
       }
+
+      public function favorite(){
+        $user = $this->user->FindOrFail(Auth::user()->id);
+        return view('mypage.mypage-favorite')->with('user', $user);
+     }
 }
