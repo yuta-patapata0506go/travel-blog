@@ -25,7 +25,6 @@ class ContactController extends Controller
     {
         #1. Validate all form data
         $request->validate([
-            'email' => 'required|email|max:255',
             'body' => 'required|string|max:1000',
         ]);
 
