@@ -1,60 +1,73 @@
 @extends('layouts.app')
 
 <!--@section('css')
-    <link rel="stylesheet" href="{{ asset('css/spot.css') }}">
+<link href="{{ asset('css/spot.css') }}" rel="stylesheet">
 @endsection-->
-
-@section('title', 'Spot Page')
 
 @section('content')
 
-        <div class="post-container">
+@foreach($spots as $spot)
+        <iv class="post-container">
             <!-- Card of whole page -->
+        
         <div class="post-card">
             <!-- HEART BUTTON + no. of likes & FAVORITE BUTTON + no. of likes -->
             <div class="icons d-flex align-items-center">
-                <form action="#" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
-                        <i class="fa-solid fa-heart" id="like-icon"></i> <!-- Heart -->
-                        <span class="ms-1" id="like-count">10</span> <!-- no. of Like -->
-                    </button>
-                    @csrf
-                </form>
-                <form action="#" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
-                        <i class="fa-solid fa-star" id="favorite-icon"></i> <!-- Star -->
-                        <span class="ms-1" id="favorite-count">5</span> <!-- no. of Favorite -->
-                    </button>
-                    @csrf
-                </form>
+                @if ($spot->isLiked())
+                    <form action="{{ route('spot.like', $spot->id ?? 1) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
+                            <i class="fa-solid fa-heart" id="like-icon"></i>
+                            <span class="ms-1" id="like-count">{{ $spot->likes->count() }}</span>
+                        </button>
+                    </form>
+                @else
+                    <form action="{{ route('spot.like', $spot->id ?? 1) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
+                            <i class="fa-regular fa-heart" id="like-icon"></i>
+                            <!--<span class="ms-1" id="like-count"></span>-->
+                        </button>
+                    </form>
+                @endif
+                
+                @if ($spot->isFavorited)
+                    <form action="{{ route('spot.favorite', $spot->id ?? 1) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
+                            <i class="fa-solid fa-star" id="favorite-icon"></i>
+                            <span class="ms-1" id="favorite-count">{{ $spot->favorites->count() }}</span>
+                        </button>
+                    </form>
+                @else
+                    <form action="{{ route('spot.favorite', $spot->id ?? 1) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
+                            <i class="fa-regular fa-star" id="favorite-icon"></i>
+                            <!--<span class="ms-1" id="favorite-count"></span>-->
+                        </button>
+                    </form>
+                @endif
+        
             </div>
 
-
+        
             <!-- photos of spots　-->
-            <h2 class="">Spot Name</h2>
+            <h2>{{ $spot->name }}</h2>
             <div class="spot-container">
                 <!-- Image -->
                 <div class="card col mt-3" style="height: auto;">
-                    <!-- メイン画像表示 -->
+                    <!-- Main Image Carousel -->
                     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="{{ asset('/images/petra1.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 1">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('/images/petra2.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 2">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('/images/petra3.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 3">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('/images/city.jpg') }}" class="d-block w-100 main-carousel-img" alt="Beach Image">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('/images/beer.jpg') }}" class="d-block w-100 main-carousel-img" alt="Another Image">
-                            </div>
+                            @foreach ($spot->images as $index => $image)
+                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                    <!-- Base64エンコードされた画像データをsrc属性に設定 -->
+                                    <img src="{{ $image->image_url }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
+                                </div>
+                            @endforeach
                         </div>
-                        <!-- カルーセルのコントロール（前後に移動） -->
+                        <!-- Carousel Controls (Previous/Next) -->
                         <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
@@ -64,53 +77,15 @@
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
-                    <!-- サブ画像 (サムネイル) -->
+                    <!-- Thumbnail Images as Carousel Indicators -->
                     <div class="carousel-indicators-wrapper mt-3 d-flex justify-content-center gap-2 flex-wrap">
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1">
-                            <img src="{{ asset('images/petra1.jpg') }}" class="thumbnail-img" alt="Thumbnail 1">
-                        </button>
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2">
-                            <img src="{{ asset('images/petra2.jpg') }}" class="thumbnail-img" alt="Thumbnail 2">
-                        </button>
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2" aria-label="Slide 3">
-                            <img src="{{ asset('images/petra3.jpg') }}" class="thumbnail-img" alt="Thumbnail 3">
-                        </button>
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="3" aria-label="Slide 4">
-                            <img src="{{ asset('images/petra1.jpg') }}" class="thumbnail-img" alt="Thumbnail">
-                        </button>
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="4" aria-label="Slide 5">
-                            <img src="{{ asset('images/petra2.jpg') }}" class="thumbnail-img" alt="Thumbnail">
-                        </button>
+                        @foreach ($spot->images as $index => $image)
+                            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}" aria-label="Slide {{ $index + 1 }}">
+                                <img src="{{ $image->image_url }}" class="thumbnail-img" alt="Thumbnail {{ $index + 1 }}">
+                            </button>
+                        @endforeach
                     </div>
-                </div>
-            
-
-                <!-- Main -->
-                <!--<div class="main-image">
-                    <img id="featured" src="/images/castle.jpg" alt="main_image" class="img-fluid">
-                </div>
-                <h2 class="">Spot Name</h2>-->
-
-                <!-- Thumbnail Images -->
-                <!--<div class="thumbnails">
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image1" class="img-fluid">
-                    </div>
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image2" class="img-fluid">
-                    </div>
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image3" class="img-fluid">
-                    </div>
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image4" class="img-fluid">
-                    </div>
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image5" class="img-fluid">
-                    </div>-->
-
-                    <!-- Right Arrow Button for Additional Images -->
-                    <!--<button class="arrow-right text-dark" onclick="nextImage()"><i class="fa-regular fa-circle-right"></i></button>-->                
+                </div>                
             </div>
 
             <!-- Divider -->
@@ -274,16 +249,16 @@
 
                 
 
-                    <!-- Post display and jump to the Post Page-->
-                    <div class="small-post-container d-flex align-items-center">
-                        <button class="arrow-left" onclick="nextImage()">
-                            <i class="fa-solid fa-circle-left"></i>
-                        </button>
+                <!-- Post display and jump to the Post Page-->
+                <div class="small-post-container d-flex align-items-center">
+                    <button class="arrow-left" onclick="nextImage()">
+                        <i class="fa-solid fa-circle-left"></i>
+                    </button>
 
-                        @for($i = 0; $i < 4; $i++)
-                        <div class="card post shadow-card m-2" style="cursor: pointer; width: 18rem;" onclick="this.querySelector('form').submit();">
-                            <!-- カード内のフォーム -->
-                            <form action="/posts-event-post" method="GET">
+                    @for($i = 0; $i < 4; $i++)
+                    <div class="card post shadow-card m-2" style="cursor: pointer; width: 18rem;" onclick="this.querySelector('form').submit();">
+                        <!-- カード内のフォーム -->
+                        <form action="/posts-event-post" method="GET">
                                 <img src="{{ asset('images/beer.jpg') }}" class="card-img-top" alt="Post Image">
 
                                 <div class="card-body">
@@ -312,105 +287,20 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                        @endfor
-
-                        <button class="arrow-right" onclick="nextImage()">
-                            <i class="fa-solid fa-circle-right"></i>
-                        </button>
+                        </form>
                     </div>
+                    @endfor
 
-                    
-                    <!--<div class="post-container">
-                        <button class="arrow-left" onclick="nextImage()"><i class="fa-regular fa-circle-left"></i></button>
-                            @for($i = 0;$i < 4;$i++)-->
-                                <!-- カード全体をフォームで囲む -->
-                                <!--<form action="#" method="GET" class="card post shadow-card" style="cursor: pointer;" 
-                                    onclick="this.submit();">
-                                    <img src="{{ asset('images/beer.jpg') }}" class="img-fluid" alt="Post 1">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Title</h5>
-                                        <div class="row">
-                                            <div class="col-auto mb-1">
-                                                <span class="badge bg-opacity-50 rounded-pill">Category</span>
-                                                <span class="badge bg-opacity-50 rounded-pill">Category</span>
-                                            </div>
-                                        </div>
-                                        <p class="card-text">Short description of the tourism spot</p>
-                                        <button type="button" class="btn btn-comment-card">Read More</button>
-                                    </div>
-                                </form>
-                            @endfor
-                        <button class="arrow-right" onclick="nextImage()"><i class="fa-regular fa-circle-right"></i></button>
-                    </div>-->
-                            <!--<form action="#" method="GET" class="card post shadow-card" style="cursor: pointer;" 
-                                onclick="this.submit();">
-                                <div class="small_post">
-                                        <img src="{{ asset('images/map_samples/post_pc_sample.png') }}" class="card-img-top" alt="Tourism Image">
-                                        <div class="card-body">
-                                            <div class="col-auto">
-                                            <h5 class="fw-bolder">Title</h5>
-                                            <form action="#">
-                                                <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-heart"></i></button>
-                                            </form>
-                                            <form action="#">
-                                                <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-star"></i></button>
-                                            </form>
-                                            <div class="col-auto mb-1">
-                                                <span class="badge bg-opacity-50 rounded-pill">Category</span>
-                                                <span class="badge bg-opacity-50 rounded-pill">Category</span>
-                                            </div>
-                                            <button type="button" class="btn btn-comment-card">Read More</button>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-auto mb-1">
-                                            <span class="badge bg-opacity-50 rounded-pill">Category</span>
-                                            <span class="badge bg-opacity-50 rounded-pill">Category</span>
-                                            </div>
-                                        </div>
-                                        <div class="post_text">-->
-                                            <!--<p>text text text text text text text text text text text text text text text text text text text text</p>-->
-                                            <!--<button type="button" class="btn btn-comment-card">Read More</button>
-                                        </div>
-                                    
-                                        </div>
-                                    
-                                </div>
-                            </form>
-                        -->
-                        
-                        <!--<div class="post-container">
-                        <button class="arrow-left text-dark" onclick="nextImage()"><i class="fa-regular fa-circle-left"></i></button>
-                        <div class="post">
-                            <img src="/images/beer.jpg" alt="Post 1" class="img-fluid">
-                            <p>Post 1</p>
-                        </div>
-                        <div class="post">
-                            <img src="/images/beer.jpg" alt="Post 2" class="img-fluid">
-                            <p>Post 2</p>
-                        </div>
-                        <div class="post">
-                            <img src="/images/beer.jpg" alt="Post 3" class="img-fluid">
-                            <p>Post 3</p>
-                        </div>
-                        <div class="post">
-                            <img src="/images/beer.jpg" alt="Post 4" class="img-fluid">
-                            <p>Post 4</p>
-                        </div>
-                        <div class="post">
-                            <img src="/images/beer.jpg" alt="Post 5" class="img-fluid">
-                            <p>Post 5</p>
-                        </div>
-                        <button class="arrow-right text-dark" onclick="nextImage()"><i class="fa-regular fa-circle-right"></i></button>-->
-                    
+                    <button class="arrow-right" onclick="nextImage()">
+                        <i class="fa-solid fa-circle-right"></i>
+                    </button>
+                </div>
                 
-            </div>
         </div>
+        
     </div>
-        </div>
+</div>
+@endforeach
         
 
     <script>

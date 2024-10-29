@@ -22,17 +22,23 @@
         <!-- Email Address -->
         <div class="mb-3">
             <label for="email" class="form-label">Email Address</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ Auth::user()->email }}" required>
+            <input type="email" class="form-control" id="email" name="email" value="{{ Auth::user()->email }}" readonly>
+        </div>
+        <div>
+            <p class="text-brown">If you need to change your email address, please do so from your profile page. <a href=“#” class="link-blue btn-link">Update Email</a></p>
         </div>
 
         <!-- Content -->
         <div class="mb-3">
             <label for="content" class="form-label">Content</label>
-            <textarea class="form-control" id="body" name="body" rows="4" placeholder="text here..." required></textarea>
+            <textarea class="form-control" id="body" name="body" rows="4" placeholder="text here..." required>{{ old('body') }}</textarea>
+            @error('body') 
+	            <div class="text-danger small">{{ $message }}</div> 
+            @enderror
         </div>
 
         <!-- Send Button -->
-        <div class="row mb-4">
+        <div class="row mb-5">
             <div class="col text-center">
                 <button type="submit" class="btn btn-send w-50">Send</button>
             </div>
@@ -43,7 +49,7 @@
         <div class="alert alert-success text-center">
             {!! nl2br(e(session('success'))) !!}
         </div>
-        <div class="text-center mt-3">
+        <div class="text-center mt-3 mb-5">
             <a href="{{ route('contact.create') }}" class="btn btn-ok mt-2 w-50">OK</a>
         </div>
     @endif

@@ -2,10 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FollowController;
+use App\Http\Controllers\SpotController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\InquiriesController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\UsersController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -55,22 +62,20 @@ Route::get('/tourism', function () {
 Route::get('/events-tourism', function () {
     return view('display.events-tourism');
 });
+
 // My Page Routes
-Route::get('/mypage-show', function () {
-    return view('mypage.mypage-show');
-});
-Route::get('/mypage-edit', function () {
-    return view('mypage.mypage-edit');
-});
-Route::get('/mypage-following', function () {
-    return view('mypage.mypage-following');
-});
-Route::get('/mypage-followers', function () {
-    return view('mypage.mypage-followers');
-});
-Route::get('/mypage-favorite', function () {
-    return view('mypage.mypage-favorite');
-});
+
+Route::get('/mypage-show/{id}',[ProfileController::class,'show'])->name('profile.show');  //mypage-showに遷移
+
+Route::get('/mypage-edit',[ProfileController::class,'edit'])->name('profile.edit');  //editページに遷移
+Route::patch('/mypage-edit/update',[ProfileController::class,'update'])->name('profile.update');  //profile update   
+Route::get('/mypage-following/{id}',[ProfileController::class,'following'])->name('profile.following'); //mypage-followingに遷移
+Route::get('/mypage-followers/{id}',[ProfileController::class,'followers'])->name('profile.followers'); //mypage-followersに遷移
+Route::post('/follow/store/{user_id}',[FollowController::class,'store'])->name('follow.store'); //follow other users
+Route::delete('/Follow/destroy/{user_id}',[FollowController::class,'destroy'])->name('follow.destroy'); //unforrow
+Route::get('/mypage-favorite',[ProfileController::class,'favorite'])->name('profile.favorite');//mypage-favoriteに遷移
+
+
 
 Route::get('/navbar', function () {
     return view('navbar');
@@ -90,17 +95,41 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/contact/store', [ContactController::class, 'store'])->name('contact.store');
 });
 
-Route::get('/about', function () {
+Route::get('/about', function () {  
     return view('about');
 })->name('about');
 
 
-Route::get('/spot', function () {
-    return view('spot');
+//Spot
+Route::group(['prefix'=>'spot', 'as'=>'spot.'], function(){
+    Route::get('/', [SpotController::class, 'index'])->name('index');
+    Route::get('create', [SpotController::class, 'create'])->name('create');
+    Route::post('spot/store', [SpotController::class, 'store'])->name('store');
+    Route::get('/spot/{id}', [SpotController::class, 'show'])->name('spot.show'); 
+
+    // Like のルート
+    Route::post('/spot/{id}/like', [SpotController::class, 'like'])->name('like');
+    // Favorite のルート
+    Route::post('/spot/{id}/favorite', [SpotController::class, 'favorite'])->name('favorite');
+
 });
 
 
+
+
 // Admin　Routes
+Route::group(['middleware' => 'auth'], function () {
+    // Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
+        Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries
+            Route::get('/', [InquiriesController::class, 'index'])->name('index'); 
+            Route::get('/{id}/inquiry_details', [InquiriesController::class, 'show'])->name('inquiry_details');
+            Route::patch('/{id}/change-visibility', [InquiriesController::class, 'changeVisibility'])->name('changeVisibility');
+            Route::post('/{id}/change-status', [InquiriesController::class, 'changeStatus'])->name('changeStatus');
+        });
+    // });
+});
+
+
 Route::get('/admin/inquiries/create_reply', function () {
     return view('admin/inquiries/create_reply');
 });
@@ -133,9 +162,7 @@ Route::get('/admin-create-spot', function () {
     return view('admin.spots.create');
 });
 
-Route::get('/admin-users-index', function () {
-    return view('admin/users/users-index');
-});
+Route::get('/admin-users-index', [UsersController::class, 'index'])->name('admin.users.index');
 
 Route::get('/admin-posts-index', function () {
     return view('/admin/posts/posts-index');
@@ -149,9 +176,9 @@ Route::get('/admin-categories-index', function () {
     return view('/admin/categories/categories-index');
 });
 
-Route::get('/admin-inquiries-index', function () {
-    return view('/admin/inquiries/inquiries-index');
-});
+// Route::get('/admin-inquiries-index', function () {
+//     return view('/admin/inquiries/inquiries-index');
+// });
 
 Route::get('/admin-spot_applications-index', function () {
     return view('/admin/spot_applications/spot_applications-index');
@@ -166,6 +193,8 @@ Route::get('/admin-create_category', function () {
 });
 
 
+
+//  post-form
 Route::get('/select-post-form', function () {
     return view('select-post-form');
 });
