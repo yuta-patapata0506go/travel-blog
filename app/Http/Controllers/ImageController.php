@@ -36,6 +36,28 @@ class ImageController extends Controller
                 ]);
             }
         }
+        public function store(Request $request, $postId)
+        {
+            $request->validate([
+                'image.*' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+            ]);
+
+            // dd($request->image);
+            if ($request->hasFile('image')) {
+                foreach ($request->file('image') as $file) {
+                    // Convert the image to a Base64 string
+                    $base64Image = 'data:image/' . $file->extension() . ';base64,' . base64_encode(file_get_contents($file));
+                    $this->image->create([
+                        'image_url' => $base64Image,
+                        'post_id' => $postId,
+                        'spot_id' => $request->spot,
+                        'user_id' => auth()->id(),
+                        'caption' => 'new',
+                        'status' => 'new',
+                    ]);
+                }
+            }
+        }
     }
 
     // 画像の一覧表示
