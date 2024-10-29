@@ -6,9 +6,10 @@
 
 @section('content')
 
+@foreach($spots as $spot)
         <div class="post-container">
             <!-- Card of whole page -->
-        @foreach($spots as $spot)
+        
         <div class="post-card">
             <!-- HEART BUTTON + no. of likes & FAVORITE BUTTON + no. of likes -->
             <div class="icons d-flex align-items-center">
@@ -356,11 +357,12 @@
                         <i class="fa-solid fa-circle-right"></i>
                     </button>
                 </div>
+                
             </div>
-        @endforeach
         </div>
     </div>
-        </div>
+</div>
+@endforeach
         
 
     <script>

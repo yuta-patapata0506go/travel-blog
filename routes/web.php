@@ -9,6 +9,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\WeatherController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\UsersController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -107,9 +108,9 @@ Route::group(['prefix'=>'spot', 'as'=>'spot.'], function(){
     Route::get('/spot/{id}', [SpotController::class, 'show'])->name('show'); 
 
     // Like のルート
-    Route::post('/like/{spot}', [SpotController::class, 'like'])->name('like');
-    // Like のルート
-    Route::post('/favorite/{spot}', [SpotController::class, 'favorite'])->name('favorite');
+    Route::post('/spot/{id}/like', [SpotController::class, 'like'])->name('like');
+    // Favorite のルート
+    Route::post('/spot/{id}/favorite', [SpotController::class, 'favorite'])->name('favorite');
 
 });
 
@@ -149,9 +150,7 @@ Route::get('/admin-create-spot', function () {
     return view('admin.spots.create');
 });
 
-Route::get('/admin-users-index', function () {
-    return view('admin/users/users-index');
-});
+Route::get('/admin-users-index', [UsersController::class, 'index'])->name('admin.users.index');
 
 Route::get('/admin-posts-index', function () {
     return view('/admin/posts/posts-index');
@@ -180,6 +179,8 @@ Route::get('/admin-update_category', function () {
 Route::get('/admin-create_category', function () {
     return view('/admin/modals/create_category');
 });
+
+
 
 
 Route::get('/select-post-form', function () {
