@@ -100,12 +100,11 @@ Route::get('/about', function () {
 
 
 //Spot
-
 Route::group(['prefix'=>'spot', 'as'=>'spot.'], function(){
     Route::get('/', [SpotController::class, 'index'])->name('index');
     Route::get('create', [SpotController::class, 'create'])->name('create');
-    Route::post('store', [SpotController::class, 'store'])->name('store');
-    Route::get('/spot/{id}', [SpotController::class, 'show'])->name('show'); 
+    Route::post('spot/store', [SpotController::class, 'store'])->name('store');
+    Route::get('/spot/{id}', [SpotController::class, 'show'])->name('spot.show'); 
 
     // Like のルート
     Route::post('/spot/{id}/like', [SpotController::class, 'like'])->name('like');
@@ -194,7 +193,7 @@ Route::get('/admin-create_category', function () {
 
 
 
-
+//  post-form
 Route::get('/select-post-form', function () {
     return view('select-post-form');
 });
@@ -218,9 +217,6 @@ Route::get('/edit-event-post', function () {
 Route::get('/edit-tourism-post', function () {
     return view('edit-tourism-post');
 });
-
-Route::post('/like/{id}', [LikeController::class, 'store'])->name('like');
-Route::post('/favorite/{id}', [FavoriteController::class, 'store'])->name('favorite');
 
 // Authentication Routes
 
