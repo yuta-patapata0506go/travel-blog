@@ -114,6 +114,9 @@
             </div>
         </div>
 
+       
+
+
         @if ($type == 0)
         <div class="row">
           <div class="col-md-6">
@@ -202,9 +205,10 @@
 
 
         <div class="mb-3">
-            <label for="info" class="form-label">Useful Information:</label>
-            <input type="text" class="form-control" id="info" name="info"  value="{{ $post->helpful_info }}">
+            <label for="helpful_info" class="form-label">Useful Information:</label>
+            <input type="text" class="form-control" id="helpful_info" name="helpful_info" value="{{ old('helpful_info', $post->helpful_info) }}">
         </div>
+
         <div class="d-flex justify-content-center mt-4">
             <button type="submit" class="btn-post btn-lg-custom">Update</button>
             <button type="button" class="btn cancel-btn btn-lg-custom">Cancel</button>

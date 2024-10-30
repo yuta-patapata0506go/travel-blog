@@ -27,7 +27,7 @@ class PostController extends Controller
      public function create($type)
 {
     // Categoryモデルから全てのカテゴリを取得
-    $all_categories = Category::all();  // インスタンスではなく、直接モデルを呼び出す
+    $all_categories = Category::where('status', 1)->all();  // インスタンスではなく、直接モデルを呼び出す
 
     // $typeと$all_categoriesをビューに渡す
     return view('posts.create', compact('type', 'all_categories'));
@@ -137,83 +137,79 @@ class PostController extends Controller
 
     
     public function update(Request $request, $id)
-    {
-        \Log::info("Update method called for post ID: " . $id);
+{
+    \Log::info("Update method called for post ID: " . $id);
     
-        // バリデーションルールを定義
-        $rules = [
-            'title' => 'string|max:30',
-            'event_name' => 'nullable|string|max:30',
-            'adult_fee' => 'nullable|numeric|min:0',
-            'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
-            'child_fee' => 'nullable|numeric|min:0',
-            'child_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date',
-            'comments' => 'nullable|string|max:255',
-            'category' => 'required',  // 配列またはカンマ区切り文字列
-            'helpful_info' => 'nullable|string',
-            'image' => 'nullable|array',
-        ];
+    // バリデーションルール
+    $rules = [
+        'title' => 'string|max:30',
+        'event_name' => 'nullable|string|max:30',
+        'adult_fee' => 'nullable|numeric|min:0',
+        'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
+        'child_fee' => 'nullable|numeric|min:0',
+        'child_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
+        'start_date' => 'nullable|date',
+        'end_date' => 'nullable|date',
+        'comments' => 'nullable|string|max:255',
+        'category' => 'required',  // 配列またはカンマ区切り文字列
+        'helpful_info' => 'nullable|string',
+        'image' => 'nullable|array',
+    ];
     
-        $request->validate($rules);
+    $request->validate($rules);
     
-        $post = Post::findOrFail($id);
+    $post = Post::findOrFail($id);
     
-        if ($post->user_id !== auth()->id()) {
-            return redirect()->route('posts.index')->with('error', 'Unauthorized access.');
-        }
-    
-        $post->title = $request->title ?? '';
-        $post->event_name = $request->event_name;
-        $post->adult_fee = $request->adult_fee;
-        $post->adult_currency = $request->adult_currency;
-        $post->child_fee = $request->child_fee;
-        $post->child_currency = $request->child_currency;
-        $post->start_date = $request->start_date ?: null;
-        $post->end_date = $request->end_date ?: null;
-        $post->comments = $request->comments;
-        $post->helpful_info = $request->helpful_info;
-        $post->save();
-    
-        \Log::info("Post fields (including helpful_info) updated successfully for post ID: " . $id);
-    
-        // カテゴリIDを配列に変換
-        $categoryIds = is_array($request->category) 
-            ? array_map('intval', $request->category) 
-            : array_map('intval', explode(',', $request->category));
-    
-        \Log::info("Categories to save:", ['category_ids' => $categoryIds]);
-    
-        $post->CategoryPost()->delete();
-    
-        $category_post = [];
-        foreach ($categoryIds as $category_id) {
-            $category_post[] = [
-                "category_id" => $category_id,
-                "post_id" => $post->id,
-                "status" => 'updated',
-                "created_at" => now(),
-                "updated_at" => now(),
-            ];
-        }
-        $post->CategoryPost()->insert($category_post);
-        \Log::info("Received categories:", ['category' => $request->category]);
-
-        \Log::info("Categories updated successfully for post ID: " . $post->id . " with categories: " . implode(',', $categoryIds));
-    
-        if ($request->hasFile('image')) {
-            \Log::info("Updating images for post ID: " . $id);
-            foreach ($post->images as $image) {
-                app(ImageController::class)->destroy($image->id);
-            }
-            app(ImageController::class)->store($request, $post->id, null);
-            \Log::info("Images updated successfully for post ID: " . $id);
-        }
-    
-        \Log::info("Update process completed for post ID: " . $id . ". Redirecting to show page.");
-        return redirect()->route('post.show', $post->id)->with('success', 'Post updated successfully.');
+    if ($post->user_id !== auth()->id()) {
+        return redirect()->route('posts.index')->with('error', 'Unauthorized access.');
     }
+
+    // Postフィールドの更新
+    $post->title = $request->title ?? '';
+    $post->event_name = $request->event_name;
+    $post->adult_fee = $request->adult_fee;
+    $post->adult_currency = $request->adult_currency;
+    $post->child_fee = $request->child_fee;
+    $post->child_currency = $request->child_currency;
+    $post->start_date = $request->start_date ?: null;
+    $post->end_date = $request->end_date ?: null;
+    $post->comments = $request->comments;
+    $post->helpful_info = $request->helpful_info;
+    $post->save();
+
+    \Log::info("Post fields (including helpful_info) updated successfully for post ID: " . $id);
+
+    // カテゴリの更新
+    $categoryIds = is_array($request->category) 
+        ? array_map('intval', $request->category) 
+        : array_map('intval', explode(',', $request->category));
+    \Log::info("Categories to save:", ['category_ids' => $categoryIds]);
+
+    $post->CategoryPost()->delete();
+    $category_post = [];
+    foreach ($categoryIds as $category_id) {
+        $category_post[] = [
+            "category_id" => $category_id,
+            "post_id" => $post->id,
+            "status" => 'updated',
+            "created_at" => now(),
+            "updated_at" => now(),
+        ];
+    }
+    $post->CategoryPost()->insert($category_post);
+    \Log::info("Categories updated successfully for post ID: " . $post->id . " with categories: " . implode(',', $categoryIds));
+
+    // 新しい画像を追加し、既存画像は保持
+    if ($request->hasFile('image')) {
+        \Log::info("Adding new images for post ID: " . $id);
+        app(ImageController::class)->store($request, $post->id, null);
+        \Log::info("New images added successfully for post ID: " . $id);
+    }
+
+    \Log::info("Update process completed for post ID: " . $id . ". Redirecting to show page.");
+    return redirect()->route('post.show', $post->id)->with('success', 'Post updated successfully.');
+}
+
     
 
     
