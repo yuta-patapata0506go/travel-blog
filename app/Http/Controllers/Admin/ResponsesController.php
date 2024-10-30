@@ -9,6 +9,7 @@ use App\Models\Inquiry;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\ReplyMail;
 
 class ResponsesController extends Controller
 {
@@ -30,7 +31,8 @@ class ResponsesController extends Controller
         $myUsername = auth()->user()->username;
         return view('admin.inquiries.create_reply')
                 ->with('inquiry', $inquiry)
-                ->with('myUsername', $myUsername);
+                ->with('myUsername', $myUsername)
+                ->with('inquiry_id', $inquiry_id);
     }
 
     // store
@@ -38,25 +40,32 @@ class ResponsesController extends Controller
     {
         // Validate
         $request->validate([
+            'title' => 'required|min:1|max:255',
             'body' => 'required|min:1|max:1000',
         ]);
 
-        // save the reply
-        $this->response->user_id = Auth::user()->id;
-        $this->response->inquiry_id = $inquiry_id;
-        $this->response->body  =   $request->body;
-        $this->response->save();
-
-        // send mail
-        $inquiry = $this->inquiry->findOrFail($inquiry_id);
-        Mail::to($inquiry->user->email)->send(new ReplyMail($this->response->body));
-
-        // make status responsed
-        $inquiry->status = 'responsed';
-        $inquiry->save();
+        DB::transaction(function () use ($request, $inquiry_id) {
+            // save the reply
+            $this->response->user_id = Auth::user()->id;
+            $this->response->inquiry_id = $inquiry_id;
+            $this->response->title = $request->title;
+            $this->response->body = $request->body;
+            $this->response->save(); // Save changes
+        
+            // If an error occurs here, the transaction will be rolled back
+            
+            // send mail
+            $inquiry = $this->inquiry->findOrFail($inquiry_id);
+            Mail::to($inquiry->user->email)->send(new ReplyMail($this->response->title, $this->response->body));
+            
+            // make status responsed
+            // $inquiry->status = 'Responsed';
+            // $inquiry->save();
+        });
 
         // redirect
-        return redirect()->route('admin.inquiries.inquiry_details', $inquiry_id); // route
+        return redirect()->route('admin.inquiries.inquiry_details', $inquiry_id)
+                            ->with('success', 'Reply has been sent successfully!');
     }
 
 

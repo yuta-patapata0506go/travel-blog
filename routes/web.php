@@ -126,6 +126,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::patch('/{id}/change-visibility', [InquiriesController::class, 'changeVisibility'])->name('changeVisibility');
             Route::post('/{id}/change-status', [InquiriesController::class, 'changeStatus'])->name('changeStatus');
         });
+
+        Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries
+            Route::get('/{id}/create_reply', [ResponsesController::class, 'create'])->name('create_reply');
+        });
     // });
 });
 
