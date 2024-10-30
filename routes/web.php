@@ -7,6 +7,7 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\MapController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
 
@@ -79,9 +80,15 @@ Route::get('/navbar', function () {
     return view('navbar');
 });
 
-Route::get('/mappage', function () {
-    return view('map_page/map');
-});
+// Map
+// HTMLの表示用ルート(Route for displaying HTML)
+Route::get('/map', [MapController::class, 'showMapPage'])->name('map.page');
+
+// スポット情報のJSON取得用ルート(Route for retrieving spot information in JSON)
+Route::get('/api/map', [MapController::class, 'index'])->name('map.index');
+// Route::get('/mappage', function () {
+//     return view('map_page/map');
+// });
 
 Route::get('/footer', function () {
     return view('footer');

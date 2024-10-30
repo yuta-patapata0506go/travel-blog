@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('css')
+{{-- Mapbox CSS --}}
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css' rel='stylesheet' />
+{{-- CSS --}}
 <link rel="stylesheet" href="{{ asset('css/map.css') }}">
 @endsection
 
@@ -20,9 +23,10 @@
       </form>
   </div>
 
-  <div class="map">
-    <img src={{ asset('images/map_samples/map_sample.png') }} alt="#" class="map w-100">
-  </div>
+{{-- Map --}}
+
+    <div id="map" ></div>
+
   
 {{-- Sort Button --}}
   <form id="sort" class="sort_button">
@@ -44,6 +48,55 @@
   @include('map_page.contents.small_posts')
     
   </div>
+
+  {{-- Mapbox JavaScript --}}
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js'></script>
+  <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    mapboxgl.accessToken = '{{ env("MAPBOX_API_KEY") }}';
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const latitude = urlParams.get('latitude');
+    const longitude = urlParams.get('longitude');
+    // Only fetch geolocation if latitude and longitude are not in URL parameters
+    if (!latitude || !longitude) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const userLatitude = position.coords.latitude;
+            const userLongitude = position.coords.longitude;
+            // Redirect to the page with latitude and longitude only if not present
+            window.location.href = `{{ route('map.page') }}?latitude=${userLatitude}&longitude=${userLongitude}`;
+        });
+    } else {
+        // Initialize the map with the latitude and longitude from URL parameters
+        fetch(`{{ route('map.index') }}?latitude=${latitude}&longitude=${longitude}`)
+            .then(response => response.json())
+            .then(data => {
+                const map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/streets-v11',
+                    center: [longitude, latitude], // Use URL params for user location
+                    zoom: 10
+                });
+                new mapboxgl.Marker({ color: 'blue' })
+                    .setLngLat([longitude, latitude])
+                    .setPopup(new mapboxgl.Popup().setText('Your current location'))
+                    .addTo(map);
+                data.spots.forEach(spot => {
+                    if (spot.latitude && spot.longitude) {
+                        new mapboxgl.Marker()
+                            .setLngLat([spot.longitude, spot.latitude])
+                            .setPopup(new mapboxgl.Popup().setText(spot.name))
+                            .addTo(map);
+                    }
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+});
+
+
+
+</script>
 @endsection
 
 
