@@ -9,7 +9,7 @@ class Inquiry extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'body'];
+    protected $fillable = ['user_id', 'body', 'visibility', 'status',];
 
     // respnses - one to many
     public function responses()
