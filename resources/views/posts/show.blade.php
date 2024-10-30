@@ -15,8 +15,9 @@
                             </a>
                         </div>
                         <div class="col ps-0">
-                            <a href="#" class="text-decoration-none text-dark">NAME</a>
-                        </div>    
+                            <a href="#" class="text-decoration-none text-dark">{{ Auth::user()->username }}</a>
+                        </div>
+
                     <div class="col-auto ps-0 ">
                             <!-- IF you are the OWNER of the post, you can EDIT or DELETE the post -->                 
                                 <div class="dropdown">

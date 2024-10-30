@@ -12,9 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            //
-            $table->date('start_date')->nullable(); // 開始日 
-            $table->date('end_date')->nullable; // 終了日
+            $table->date('end_date')->nullable()->change(); // nullable() を追加して変更
         });
     }
 
@@ -24,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            //
+            $table->date('end_date')->nullable(false)->change(); // 変更を元に戻す
         });
     }
 };

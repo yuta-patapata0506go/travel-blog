@@ -49,7 +49,7 @@
         <div class="mb-3">
             <label for="image" class="form-label">Image <span class="text-danger">*</span>:</label>
             <input type="file" class="form-control form-shadow" id="image" name="image[]" accept="image/*" multiple>
-            <small class="form-text text-muted">The acceptable formats are .jpg, .jpeg, .png, .gif (max 2MB)</small>
+            <small class="form-text text-muted">The acceptable <span class="text-danger">multiple images</span> and formats are .jpg, .jpeg, .png, .gif (max 2MB)</small>
         </div>
 
         <div class="mb-3">
@@ -97,6 +97,7 @@
                         <input type="number" class="form-control form-shadow" id="adult_fee" name="adult_fee" placeholder="Enter adult fee amount" min="0" step="0.01">
                         <select class="form-select" id="adult_currency" name="adult_currency" style="width: 80px;">
                             <option value="" disabled selected>Select Currency</option>
+                            <option value="Free">Free</option>
                             <option value="JPY">Yen</option>
                             <option value="USD">USD</option>
                             <option value="EUR">Euro</option>
@@ -107,19 +108,25 @@
                             <option value="CNY">Chinese Yuan</option>
                             <option value="KRW">South Korean Won</option>
                             <option value="INR">Indian Rupee</option>
-                            <option value="Free">Free</option>
                         </select>
                     </div>      
                     <!-- Child Fee -->
                     <div class="input-group" style="flex: 1;">
                         <span class="input-group-text">Child</span>
-                        <input type="number" class="form-control form-shadow" id="adult_fee" name="adult_fee" placeholder="Enter adult fee amount" min="0" step="0.01">
+                        <input type="number" class="form-control form-shadow" id="child_fee" name="child_fee" placeholder="Enter child fee amount" min="0" step="0.01">
                         <select class="form-select" id="child_currency" name="child_currency" style="width: 80px;">
                             <option value="" disabled selected>Select Currency</option>
+                            <option value="Free">Free</option>
                             <option value="JPY">Yen</option>
                             <option value="USD">USD</option>
                             <option value="EUR">Euro</option>
-                            <option value="Free">Free</option>
+                            <option value="GBP">British Pound</option>
+                            <option value="AUD">Australian Dollar</option>
+                            <option value="CAD">Canadian Dollar</option>
+                            <option value="CHF">Swiss Franc</option>
+                            <option value="CNY">Chinese Yuan</option>
+                            <option value="KRW">South Korean Won</option>
+                            <option value="INR">Indian Rupee</option>
                         </select>
                     </div>         
                 </div>
@@ -169,7 +176,9 @@
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" id="category-input" name="selected_categories">
-                        <button type="button" id="selectedcategory-btn" class="btn btn-select btn-large">Select</button>
+                        <button type="button" id="selectedcategory-btn" class="btn btn-select btn-large" data-bs-dismiss="modal">
+                        Select
+                    </button>
                     </div>
                 </div>
             </div>
@@ -180,9 +189,7 @@
 @endsection
 
 @section('scripts')
-@if ($type == 0)
+
     <script src="{{ asset('js/event-post.js') }}"></script>
-@elseif ($type == 1)
-    <script src="{{ asset('js/tourism-post.js') }}"></script>
-@endif
+
 @endsection
