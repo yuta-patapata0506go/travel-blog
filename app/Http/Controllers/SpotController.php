@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Like;
 use App\Models\Favorite;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 
 class SpotController extends Controller
@@ -40,13 +41,14 @@ class SpotController extends Controller
     // 新しいスポットを保存する処理
     public function store(Request $request)
     {
+        try{
         // バリデーションの追加
         $request->validate([
             'name' => 'required|string|max:255',
             'postalcode' => 'required|string|max:10',
             'address' => 'required|string|max:255',
            
-            'image' => 'required|image|mimes:jpeg,jpg,png,gif|max:1048',
+            'image' => 'required|image|mimes:jpeg,jpg,png,gif',
         ]);
 
         // Geocoding APIを使って住所から緯度と経度を取得
@@ -57,6 +59,7 @@ class SpotController extends Controller
             'access_token' => $mapboxApiKey,
         ]);
 
+        
         if ($response->successful()) {
             $data = $response->json();
             $coordinates = $data['features'][0]['geometry']['coordinates'];
@@ -77,16 +80,17 @@ class SpotController extends Controller
         $this->spot->latitude = $latitude;
         $this->spot->longitude = $longitude;
 
-        /*// 画像をストレージに保存
-        $imagePath = $request->file('image')->store('images', 'public'); // 'public'ストレージに保存
-        $this->spot->image = $imagePath; // スポットに画像パスを設定*/
-
-
         $this->spot->save();
+        // / 画像の保存（ImageControllerで処理を行う）
+        app(ImageController::class)->store($request, null, $this->spot->id);
 
         return redirect()->route('home')->with('success', 'Pending approval by Admin.');
 
-        
+        } catch (\Exception $e) {
+            dd($e);
+            Log::error('Failed: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Failed']);
+        }
 
         // スポットを作成
         /*$spot = Spot::create([
@@ -100,11 +104,11 @@ class SpotController extends Controller
 
         
 
-        /*// 画像をストレージに保存
-        $imagePath = $request->file('image')->store('images', 'public'); // 'public'ストレージに保存
+        // 画像をストレージに保存
+        /*$imagePath = $request->file('image')->store('images', 'public'); // 'public'ストレージに保存*/
 
         // 画像情報を保存
-        Image::create([
+        /*Image::create([
             'image_url' => $imagePath,
             'spot_id' => $spot->id, // 作成したスポットに関連付け
             'user_id' => auth()->id(), // 認証されたユーザーのID
@@ -118,21 +122,16 @@ class SpotController extends Controller
     {
 
         // IDを使ってスポットデータを取得
-        $spot = Spot::findOrFail($id);
+        $spot = Spot::with('images')->findOrFail($id); // imagesリレーションを読み込む
         $userId = auth()->id();
 
-        // いいね済みかどうかを確認
+        // Like
         $liked = Like::where('user_id', $userId)->where('spot_id', $id)->exists();
-
-        // いいね数を取得
         $likesCount = Like::where('spot_id', $id)->count();
 
-            // お気に入りの状態と数を取得
+        // Favorite
         $favorited = $spot->isFavorited; // アクセサを使用
         $favoritesCount = Favorite::where('spot_id', $id)->count();
-
-        // デバッグ用: 取得したスポットデータを確認
-        //dd($spot);  // ここで変数の内容を出力して処理を中断します
 
         // スポットが見つからなかった場合のエラーハンドリング
         if (!$spot) {
@@ -142,11 +141,6 @@ class SpotController extends Controller
         // spot.blade.php に $spot 変数を渡す
         return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount'));
 
-        /*// ビューにスポットデータを渡す
-        return view('spot', [
-            'spot' => $spot,
-            'isDetail' => true, // 詳細表示かどうかを示すフラグ
-        ]);*/
     }
 
     public function like($id)

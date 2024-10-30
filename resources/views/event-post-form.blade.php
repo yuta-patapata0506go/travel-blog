@@ -16,8 +16,7 @@
         @csrf
         <div class="mb-3">
             <label for="type" class="form-label">Spot <span class="text-danger">*</span>:</label>
-            <!-- spot ができたら　require を入れる -->
-            <select class="form-select form-shadow" id="spot_id" name="spot_id">
+            <select class="form-select form-shadow" id="spot" name="spot" required>
                 <option value="">Please select a spot. If no spot is displayed here, you will need to go back to the previous page and register a spot first.</option>
                 <option value="public">Sapporo clock tower</option>
                 <option value="private">Tokyo tower</option>
@@ -26,10 +25,9 @@
 
         <div class="mb-3">
             <label for="image" class="form-label">Image <span class="text-danger">*</span>:</label>
-            <input type="file" class="form-control form-shadow" id="image" name="image[]" accept="image/*" multiple>
+            <input type="file" class="form-control form-shadow" id="image" name="image" accept="image/*">
             <small class="form-text text-muted">The acceptable formats are .jpg, .jpeg, .png, .gif (max 2MB)</small>
         </div>
-
 
         <div class="mb-3">
             <label for="event_name" class="form-label">Event name <span class="text-danger">*</span>:</label>
@@ -48,15 +46,15 @@
             <div id="selectedCategories" class="mt-2"></div>
         </div>
         <div class="row">
-          <div class="col-md-6">
-            <label for="start-date" class="form-label">Start Date <span class="text-danger">*</span>:</label>
-            <input type="date" id="start-date" name="start_date" class="form-control form-shadow">
-          </div>
-          <div class="col-md-6">
-            <label for="end-date" class="form-label">End Date <span class="text-danger">*</span>:</label>
-            <input type="date" id="end-date" name="end_date" class="form-control form-shadow">
-          </div>
-        </div>
+  <div class="col-md-6">
+    <label for="start-date" class="form-label">Start Date <span class="text-danger">*</span>:</label>
+    <input type="date" id="start-date" name="start_date" class="form-control form-shadow">
+  </div>
+  <div class="col-md-6">
+    <label for="end-date" class="form-label">End Date <span class="text-danger">*</span>:</label>
+    <input type="date" id="end-date" name="end_date" class="form-control form-shadow">
+  </div>
+</div>
        
         <div class="mb-3">
             <label for="fee" class="form-label">Fee:</label>
@@ -65,7 +63,7 @@
 
         <div class="mb-3">
             <label for="info" class="form-label">Useful Information:</label>
-            <input type="text" class="form-control form-shadow" id="helpful_info" name="helpful_info" placeholder="Enter any useful information">
+            <input type="text" class="form-control form-shadow" id="info" name="info" placeholder="Enter any useful information">
         </div>
         <div class="d-flex justify-content-center mt-4">
             <button type="submit" class="btn-post btn-lg-custom">Post</button>

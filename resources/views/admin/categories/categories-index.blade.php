@@ -76,7 +76,7 @@
     @foreach ($all_categories as $category)
     <tr>
         <td>{{$category->id}}</td>
-        <td>{{$category->title}}</td>
+        <td>{{$category->name}}</td>
         <td>
         {{ $category->created_at->format('Y-m-d H:i:s') }}
         </td>
@@ -93,7 +93,7 @@
             {{-- Dropdown for visibility --}}
             <div class="dropdown">
               <button class="btn btn-sm dropdown-toggle" data-bs-toggle="dropdown">
-                {{ $category->status === 0 ? 'Visible' : 'Hidden' }}
+                {{ $category->status === 0 ? 'Hidden' : 'Visible' }}
              </button>
 
                  <div class="dropdown-menu">

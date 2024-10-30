@@ -30,12 +30,12 @@ class CategoryController extends Controller
         try {
             
             $request->validate([
-                'title' => 'required|string|max:255',
+                'name' => 'required|string|max:255',
             ]);
     
             
             $category = $this->category->newInstance();
-            $category->title = $request->title;
+            $category->name = $request->name;
             $category->created_at = Carbon::now();
             $category->updated_at = Carbon::now();
             $category->user_id = Auth::id();
@@ -53,7 +53,7 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id) {
         $category = $this->category->findOrFail($id);
-        $category->title = $request->title;
+        $category->name = $request->name;
         $category->updated_at = Carbon::now();
         $category->save();
     

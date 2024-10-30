@@ -13,7 +13,7 @@
             <div class="container">
               <label for="category-name" class="form-label">Category Name</label>
               <br>
-              <input type="text" id="category-name" name="title" class="form-control" placeholder="Category Name here...">
+              <input type="text" id="category-name" name="name" class="form-control" placeholder="Category Name here...">
            </div>
            <br>
            <br>

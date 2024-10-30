@@ -18,7 +18,7 @@
    font-size: 3.5rem;
 }
 .icon-small{
-   font-size: 1.5rem;
+   font-size: 2.5rem;
 }
 h1{
    font-family: Lato, sans-serif;
@@ -34,7 +34,7 @@ body{
    z-index: -1;
    background-attachment: fixed;
    background-position: center center;
-}
+} 
 body::after{
    content: "";
    position: fixed;
@@ -45,7 +45,7 @@ body::after{
    left: 0;
    background-color: white;
    opacity: 0.5;
-}
+} 
 
 .container-mypage{
    position: relative;
@@ -138,3 +138,69 @@ textarea::placeholder{
    border-radius: 5px; /* 角を丸くする */
    cursor: pointer; /* カーソルをポインターに変更 */
  }
+ .avatar-size{
+   height: 150px;
+   width: 150px;
+   margin-bottom: 20px;
+ }
+ .avatar-small{
+   height: 45px;
+   width: 45px; 
+ }
+ .border-color{
+   border-color: #336B87;
+ }
+
+/* modal.css */
+
+.modal-dialog{
+   padding-top: 100px;
+} 
+.modal-header {
+   background-color: #336a80; 
+   color: white; 
+   border-bottom: none; 
+}
+
+.modal-title {
+   font-size: 1.25rem;
+   font-weight: bold;
+}
+
+.modal-body {
+   margin-bottom: 15px;
+}
+
+.modal-footer {
+   border-top: none;
+   justify-content: center;
+}
+
+
+.btn-modal {
+   background-color: #2A3132; 
+   color: #FBF4F4; 
+   border: none; 
+   border-radius: 5px; 
+   cursor: pointer; 
+   text-decoration: none; 
+}
+
+.btn-modal:hover {
+   background-color: #B3B3B3;
+   color: #2A3132; 
+   text-decoration: none; 
+}
+
+.btn-modal + .btn-modal {
+   margin-left: 30px; 
+}
+.btn-style{
+   color: #336a80;
+   font-size: 30px;
+}
+.btn-style:hover{
+   background-color: #90AFC5; 
+   color: #2A3132; 
+   border-radius: 15px;
+}
