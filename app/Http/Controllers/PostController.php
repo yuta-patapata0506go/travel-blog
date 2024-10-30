@@ -106,7 +106,7 @@ class PostController extends Controller
         $this->post->category_post()->createMany($category_post);
 
         // / 画像の保存（ImageControllerで処理を行う）
-        app(ImageController::class)->store($request, $post->id);
+        app(ImageController::class)->store($request, $this->post->id,null);
 
         return redirect()->back()->with('success', 'Post created successfully.');
     }
