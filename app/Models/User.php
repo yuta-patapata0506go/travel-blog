@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
@@ -45,6 +47,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function followers(){
+        return $this->hasMany(Follow::class, 'following_user_id');
+    }
+
+    public function following(){
+        return $this->hasMany(Follow::class, 'followed_user_id');
+    }
+    public function isFollowed(){
+        return $this->followers()->where('followed_user_id', Auth::user()->id)->exists();
+    }
+
+   
 
     // check if the role is admin
     public function isAdmin()
