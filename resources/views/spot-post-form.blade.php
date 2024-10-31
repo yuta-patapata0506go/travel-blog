@@ -2,7 +2,7 @@
 
 @extends('layouts.app')
 
-@section('title', 'Select-post-form')
+@section('title', 'Spot-post-form')
 
 @section('content')
 <div class="background"></div> <!-- 背景画像 -->
@@ -39,7 +39,7 @@
                 Image <span class="text-danger">*</span>:
             </label>
             <input type="file" id="image" name="image" class="form-control form-shadow" required>
-            <small class="form-text text-muted">The acceptable formats are jpeg, jpg, png, and gif only. Max file size is 1048kb.</small>
+            <small class="form-text text-muted">The acceptable formats are jpeg, jpg, png, and gif only. (Max file size is 1048kb.)</small>
         </div>
         <br>
         

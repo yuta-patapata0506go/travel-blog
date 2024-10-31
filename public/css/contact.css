@@ -50,3 +50,17 @@ body.contact textarea, body.contact input {
     background-color: #90AFC5; /* Hover background color */
     color: #2A3132; /* Hover text color */
 }
+
+.link-blue {
+    color: #336B87; /* text */
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+.link-blue:hover {
+    background-color: #90AFC5; 
+    color: #2A3132; 
+}
+
+.text-brown {
+    color: #50312F;
+}

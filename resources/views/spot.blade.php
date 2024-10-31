@@ -1,13 +1,16 @@
 @extends('layouts.app')
 
-<!--@section('css')
-    <link rel="stylesheet" href="{{ asset('css/spot.css') }}">
-@endsection-->
+@section('css')
+    <link href="{{ asset('css/spot.css') }}" rel="stylesheet">
+@endsection
+
+@section('title', 'Spot')
 
 @section('content')
 
 @foreach($spots as $spot)
-        <div class="post-container">
+    <div class="post-container">
+        
             <!-- Card of whole page -->
         
         <div class="post-card">
@@ -30,13 +33,7 @@
                         </button>
                     </form>
                 @endif
-                <!--<form action="#" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
-                        <i class="fa-solid fa-heart" id="like-icon"></i> --><!-- Heart -->
-                        <!--<span class="ms-1" id="like-count">10</span>--> <!-- no. of Like -->
-                    <!--</button>
-                    @csrf
-                </form>-->
+                
                 @if ($spot->isFavorited)
                     <form action="{{ route('spot.favorite', $spot->id ?? 1) }}" method="POST">
                         @csrf
@@ -54,13 +51,6 @@
                         </button>
                     </form>
                 @endif
-                <!--<form action="#" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
-                        <i class="fa-solid fa-star" id="favorite-icon"></i>--> <!-- Star -->
-                        <!--<span class="ms-1" id="favorite-count">5</span>--> <!-- no. of Favorite -->
-                    <!--</button>
-                    @csrf
-                </form>-->
         
             </div>
 
@@ -70,26 +60,17 @@
             <div class="spot-container">
                 <!-- Image -->
                 <div class="card col mt-3" style="height: auto;">
-                    <!-- メイン画像表示 -->
+                    <!-- Main Image Carousel -->
                     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="{{ asset('/images/petra1.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 1">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('/images/petra2.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 2">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('/images/petra3.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 3">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('/images/city.jpg') }}" class="d-block w-100 main-carousel-img" alt="Beach Image">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('/images/beer.jpg') }}" class="d-block w-100 main-carousel-img" alt="Another Image">
-                            </div>
+                            @foreach ($spot->images as $index => $image)
+                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                    <!-- Base64エンコードされた画像データをsrc属性に設定 -->
+                                    <img src="{{ $image->image_url }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
+                                </div>
+                            @endforeach
                         </div>
-                        <!-- カルーセルのコントロール（前後に移動） -->
+                        <!-- Carousel Controls (Previous/Next) -->
                         <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
@@ -99,53 +80,15 @@
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
-                    <!-- サブ画像 (サムネイル) -->
+                    <!-- Thumbnail Images as Carousel Indicators -->
                     <div class="carousel-indicators-wrapper mt-3 d-flex justify-content-center gap-2 flex-wrap">
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1">
-                            <img src="{{ asset('images/petra1.jpg') }}" class="thumbnail-img" alt="Thumbnail 1">
-                        </button>
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2">
-                            <img src="{{ asset('images/petra2.jpg') }}" class="thumbnail-img" alt="Thumbnail 2">
-                        </button>
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2" aria-label="Slide 3">
-                            <img src="{{ asset('images/petra3.jpg') }}" class="thumbnail-img" alt="Thumbnail 3">
-                        </button>
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="3" aria-label="Slide 4">
-                            <img src="{{ asset('images/petra1.jpg') }}" class="thumbnail-img" alt="Thumbnail">
-                        </button>
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="4" aria-label="Slide 5">
-                            <img src="{{ asset('images/petra2.jpg') }}" class="thumbnail-img" alt="Thumbnail">
-                        </button>
+                        @foreach ($spot->images as $index => $image)
+                            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}" aria-label="Slide {{ $index + 1 }}">
+                                <img src="{{ $image->image_url }}" class="thumbnail-img" alt="Thumbnail {{ $index + 1 }}">
+                            </button>
+                        @endforeach
                     </div>
-                </div>
-            
-
-                <!-- Main -->
-                <!--<div class="main-image">
-                    <img id="featured" src="/images/castle.jpg" alt="main_image" class="img-fluid">
-                </div>
-                <h2 class="">Spot Name</h2>-->
-
-                <!-- Thumbnail Images -->
-                <!--<div class="thumbnails">
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image1" class="img-fluid">
-                    </div>
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image2" class="img-fluid">
-                    </div>
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image3" class="img-fluid">
-                    </div>
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image4" class="img-fluid">
-                    </div>
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image5" class="img-fluid">
-                    </div>-->
-
-                    <!-- Right Arrow Button for Additional Images -->
-                    <!--<button class="arrow-right text-dark" onclick="nextImage()"><i class="fa-regular fa-circle-right"></i></button>-->                
+                </div>                
             </div>
 
             <!-- Divider -->
@@ -153,10 +96,9 @@
 
                 <!-- Map and Weather Display -->
                 <div class="info-container">
-
-                <!-- Mapへの遷移用フォーム -->
-                <form action="/mappage" method="GET" class="map-form" onclick="this.parentElement.submit()">
-                    <div class="map" onclick="this.parentElement.submit()">
+                    <!-- Mapへの遷移用フォーム -->
+                    <form action="/mappage" method="GET" class="map-form" onclick="this.parentElement.submit()">
+                        <div class="map" onclick="this.parentElement.submit()">
                         <h5>Map</h5>
                         <i class="fa-regular fa-map"></i>
                         <img src="/images/map.png" alt="">
@@ -164,20 +106,17 @@
                         <h6>Address</h6>
                         <p>000-0000</p>
                         <p>Petra - Wadi Musa, Jordan</p>
+                        </div>
+                    </form>
+                    <!-- Weather -->
+                    <div class="weather">
+                        <h5>Weather</h5>
+                        <i class="fa-solid fa-cloud-sun"></i>
+                        <img src="/images/weather.png" alt="">
+                        <p>Weather information will be displayed here.</p>
+                        <!-- Embed weather code here -->
                     </div>
-                </form>
-
-                <!-- Weather -->
-                <div class="weather">
-                    <h5>Weather</h5>
-                    <i class="fa-solid fa-cloud-sun"></i>
-                    <img src="/images/weather.png" alt="">
-                    <p>Weather information will be displayed here.</p>
-                    <!-- Embed weather code here -->
                 </div>
-
-            </div>
-
 
                 <!-- Comments -->
                             <div class="comments-section my-2">
@@ -266,19 +205,19 @@
                     </form>
                 </div>
 
-
-                <!-- Posts Gallery -->
-                <h4 class="post-gallery mt-5">POST related to "SPOT NAME"</h4>
-                <!-- Sort by dropdown -->
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle rounded-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <!-- Posts Gallery -->
+            <h4 class="post-gallery mt-5">POST related to "SPOT NAME"</h4>
+            <!-- Sort by dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle rounded-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         Sort by
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     
                         <li class="text-end pe-3">
                             <span class="text-primary cursor-pointer" id="clearCheckboxes">Clear</span>
                         </li>
+                        <li>
                             <label class="dropdown-item">
                                 <input type="checkbox" value="Newest Post" class="form-check-input me-1"> Newest Post
                             </label>
@@ -304,13 +243,11 @@
                                 <button type="submit" class="btn-done">Done</button>
                             </form>
                         </li>
-                    </ul>
-                </div>
-
-                
+                </ul>
+            </div>
 
                 <!-- Post display and jump to the Post Page-->
-                <div class="small-post-container d-flex align-items-center">
+            <div class="small-post-container d-flex align-items-center">
                     <button class="arrow-left" onclick="nextImage()">
                         <i class="fa-solid fa-circle-left"></i>
                     </button>
@@ -354,15 +291,11 @@
                     <button class="arrow-right" onclick="nextImage()">
                         <i class="fa-solid fa-circle-right"></i>
                     </button>
-                </div>
-                
-            </div>
-        </div>
+            </div>    
+        </div>   
     </div>
-</div>
 @endforeach
         
-
     <script>
         function switchImage(imagePath) {
             document.getElementById('featured').src = imagePath;
