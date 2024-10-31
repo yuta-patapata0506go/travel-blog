@@ -100,18 +100,16 @@ Route::get('/about', function () {
 })->name('about');
 
 
-//Spot
-Route::group(['prefix'=>'spot', 'as'=>'spot.'], function(){
+Route::group(['prefix' => 'spot', 'as' => 'spot.'], function() {
     Route::get('/', [SpotController::class, 'index'])->name('index');
     Route::get('create', [SpotController::class, 'create'])->name('create');
-    Route::post('spot/store', [SpotController::class, 'store'])->name('store');
-    Route::get('/spot/{id}', [SpotController::class, 'show'])->name('spot.show'); 
+    Route::post('store', [SpotController::class, 'store'])->name('store'); 
+    Route::get('{id}', [SpotController::class, 'show'])->name('show'); 
 
     // Like のルート
-    Route::post('/spot/{id}/like', [SpotController::class, 'like'])->name('like');
+    Route::post('{id}/like', [SpotController::class, 'like'])->name('like');
     // Favorite のルート
-    Route::post('/spot/{id}/favorite', [SpotController::class, 'favorite'])->name('favorite');
-
+    Route::post('{id}/favorite', [SpotController::class, 'favorite'])->name('favorite');
 });
 
 /*Route::get('/spot-post-form', function () {
