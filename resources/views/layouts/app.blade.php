@@ -22,6 +22,9 @@
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
         <!-- Custom CSS -->
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+        <!-- Mapbox CSS -->
+        <link href="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.css" rel="stylesheet">
+        <script src="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.js"></script>
     
         <!-- JavaScript -->
         <!-- jQuery -->

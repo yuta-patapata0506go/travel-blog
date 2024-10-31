@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-{{-- Mapbox CSS --}}
-<link href='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css' rel='stylesheet' />
+
 {{-- CSS --}}
 <link rel="stylesheet" href="{{ asset('css/map.css') }}">
 @endsection
@@ -25,7 +24,7 @@
 
 {{-- Map --}}
 
-    <div id="map" ></div>
+    <div id="map" class="map"></div>
 
   
 {{-- Sort Button --}}
@@ -50,7 +49,7 @@
   </div>
 
   {{-- Mapbox JavaScript --}}
-  <script src='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js'></script>
+  {{-- <script src='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js'></script> --}}
   <script>
         document.addEventListener("DOMContentLoaded", () => {
     mapboxgl.accessToken = '{{ env("MAPBOX_API_KEY") }}';
@@ -75,17 +74,36 @@
                     container: 'map',
                     style: 'mapbox://styles/mapbox/streets-v11',
                     center: [longitude, latitude], // Use URL params for user location
-                    zoom: 10
+                    zoom: 9
                 });
+
+                // Marker and Popup of User's Current Location
+                const userLocationPopup = `
+                            <div class="current_locaiton_popup">
+                                <p>Your current location</p>
+                            </div>
+                        `;
                 new mapboxgl.Marker({ color: 'blue' })
                     .setLngLat([longitude, latitude])
-                    .setPopup(new mapboxgl.Popup().setText('Your current location'))
+                    .setPopup(new mapboxgl.Popup().setHTML(userLocationPopup))
                     .addTo(map);
+
+                // Marker and Popup of Spots
                 data.spots.forEach(spot => {
                     if (spot.latitude && spot.longitude) {
+                        const popupContent = `
+                            <div class="spot_popup">
+                                <a href="#" class="small_spot">
+                                    <img src="{{ asset('images/map_samples/spot_pc_sample.png') }}" alt="#" >
+                                 </a>
+                                <a href="#" class="spot_name">
+                                    <p>${spot.name}</p>
+                                </a>
+                            </div>
+                        `;
                         new mapboxgl.Marker()
                             .setLngLat([spot.longitude, spot.latitude])
-                            .setPopup(new mapboxgl.Popup().setText(spot.name))
+                            .setPopup(new mapboxgl.Popup().setHTML(popupContent))  // HTML形式でポップアップを設定
                             .addTo(map);
                     }
                 });
