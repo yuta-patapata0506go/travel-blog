@@ -18,7 +18,7 @@ class ImageController extends Controller
             try {
                 foreach ($request->file('image') as $file) {
                     // 画像をストレージに保存
-                    $path = $file->store('images'); // imagesフォルダに保存
+                    $path = $file->store('images', 'public'); // imagesフォルダに保存
                     // データベースに保存
                     $this->image->create([
                         'image_url' => $path,
