@@ -113,6 +113,10 @@ Route::group(['prefix'=>'spot', 'as'=>'spot.'], function(){
 
 });
 
+/*Route::get('/spot-post-form', function () {
+    return view('spot-post-form');
+});*/
+
 
 
 
@@ -198,9 +202,7 @@ Route::get('/select-post-form', function () {
     return view('select-post-form');
 });
 
-Route::get('/spot-post-form', function () {
-    return view('spot-post-form');
-});
+
 
 Route::get('/event-post-form', function () {
     return view('event-post-form');
