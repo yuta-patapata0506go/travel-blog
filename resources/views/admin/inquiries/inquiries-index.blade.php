@@ -1,10 +1,11 @@
-<link rel="stylesheet" href="{{asset('css/admin/main.css')}}">
-
 @extends('layouts.app')
 
 @section('title', 'Admin: Inquiries')
 
 @section('content')
+
+<link rel="stylesheet" href="{{asset('css/admin/main.css')}}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +27,7 @@
         <div class="text-end mb-3">
             {{-- <button class="btn btn-outline-dark">Recommended Posts</button> --}}
             {{-- modal button --}}
-            <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#category-modal"> {{-- Updated this line --}}
+            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#category-modal"> {{-- Updated this line --}}
                 Recommended Posts Setting {{-- {{ $categoryModalLabel->id }} --}}
             </button>
 

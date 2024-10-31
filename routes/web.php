@@ -150,6 +150,9 @@ Route::get('/admin-create-spot', function () {
 });
 
 Route::get('/admin-users-index', [UsersController::class, 'index'])->name('admin.users.index');
+Route::patch('/admin-users-unhide/{id}', [UsersController::class, 'unhide'])->name('admin.users.unhide');
+Route::delete('/admin-users-hide/{id}', [UsersController::class, 'hide'])->name('admin.users.hide');
+
 
 Route::get('/admin-posts-index', function () {
     return view('/admin/posts/posts-index');
@@ -159,9 +162,9 @@ Route::get('/admin-spots-index', function () {
     return view('/admin/spots/spots-index');
 });
 
-Route::get('/admin-categories-index', function () {
-    return view('/admin/categories/categories-index');
-});
+// Route::get('/admin-categories-index', function () {
+//     return view('/admin/categories/categories-index');
+// });
 
 Route::get('/admin-inquiries-index', function () {
     return view('/admin/inquiries/inquiries-index');
