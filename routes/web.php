@@ -8,6 +8,7 @@ use App\Http\Controllers\SpotController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\InquiriesController;
 use Illuminate\Support\Facades\Auth;
@@ -200,7 +201,7 @@ Route::get('/admin-create_category', function () {
 //  post-form
 Route::get('/select-post-form', function () {
     return view('select-post-form');
-});
+})->name('select-post-form');
 
 
 
@@ -227,12 +228,14 @@ Auth::routes();
 Route::group(["middleware"=> "auth"], function(){
 
     Route::group(['prefix' => 'post', 'as' =>'post.'],function(){
-        Route::get('posts/create/{type}', [PostController::class, 'create'])->name('create');
+        Route::get('create/{type}', [PostController::class, 'create'])->name('create');
         Route::post('store', [PostController::class, 'store'])->name('store');
         Route::get('show/{id}', [PostController::class, 'show'])->name('show');
         Route::get('edit/{id}', [PostController::class, 'edit'])->name('edit');
         Route::patch('update/{id}', [PostController::class, 'update'])->name('update');
-        Route::delete('destroy/{id}', [PostController::class, 'destroy'])->name('destroy');
+        // Route::delete('destroy/{id}', [PostController::class, 'destroy'])->name('destroy');
     
        });
+
+       Route::delete('/images/{id}', [ImageController::class, 'destroy'])->name('images.destroy');
  });
