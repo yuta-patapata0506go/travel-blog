@@ -175,6 +175,9 @@ Route::get('/admin-create-spot', function () {
 });
 
 Route::get('/admin-users-index', [UsersController::class, 'index'])->name('admin.users.index');
+Route::patch('/admin-users-unhide/{id}', [UsersController::class, 'unhide'])->name('admin.users.unhide');
+Route::delete('/admin-users-hide/{id}', [UsersController::class, 'hide'])->name('admin.users.hide');
+
 
 Route::get('/admin-posts-index', function () {
     return view('/admin/posts/posts-index');
