@@ -40,15 +40,15 @@
                 </div>
             
 
-                <!-- Image -->
-                <div class="card col mt-3" style="height: auto;">
+                <!-- Image Display Section -->
+<div class="card col mt-3" style="height: auto;">
     <!-- Main Image Carousel -->
     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
         <div class="carousel-inner">
             @foreach ($post->images as $index => $image)
                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                    <!-- Base64エンコードされた画像データをsrc属性に設定 -->
-                    <img src="{{ $image->image_url }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
+                    <!-- Storageパスを解決して画像を表示 -->
+                    <img src="{{ asset('storage/' . $image->image_url) }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
                 </div>
             @endforeach
         </div>
@@ -68,7 +68,7 @@
     <div class="carousel-indicators-wrapper mt-3 d-flex justify-content-center gap-2 flex-wrap">
         @foreach ($post->images as $index => $image)
             <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}" aria-label="Slide {{ $index + 1 }}">
-                <img src="{{ $image->image_url }}" class="thumbnail-img" alt="Thumbnail {{ $index + 1 }}">
+                <img src="{{ asset('storage/' . $image->image_url) }}" class="thumbnail-img" alt="Thumbnail {{ $index + 1 }}">
             </button>
         @endforeach
     </div>
@@ -164,8 +164,8 @@
                                 src="https://www.google.com/maps?q= &output=embed"
                                 width="100%" height="200" frameborder="0" style="border:0;" allowfullscreen="">
                             </iframe>
-                            <p>〒123-4567</p>
-                            <p>730 Nagi, Narita City, Chiba Prefecture, Japan</p>
+                            <p>〒{{ $post->spot->postalcode ?? 'N/A' }}</p>
+        <p>{{ $post->spot->address ?? 'N/A' }}</p>
                         </div>
                      </div>
                 </div>
@@ -308,7 +308,8 @@
                                     </div>
                                 </div>
                             </div>
-                <p class="">No, comments </p>    
+
+              
       </div>        
    </div>
 </div>

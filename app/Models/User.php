@@ -57,6 +57,14 @@ class User extends Authenticatable
         return $this->followers()->where('followed_user_id', Auth::user()->id)->exists();
     }
 
+    // app/Models/User.php
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+
    
 
     // check if the role is admin

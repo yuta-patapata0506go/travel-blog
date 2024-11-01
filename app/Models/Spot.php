@@ -54,4 +54,9 @@ class Spot extends Model
         return $this->favorites()->where('user_id', auth()->user()->id)->exists();
     }
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
 }

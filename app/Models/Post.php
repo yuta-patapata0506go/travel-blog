@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Spot;
 use App\Models\CategoryPost;
 use App\Models\Image;
-
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -25,10 +25,16 @@ class Post extends Model
     }
 
     
-    // public function spot()
-    // {
-    //     return $this->belongsTo(Spot::class);
-    // }
+    public function spot()
+    {
+        return $this->belongsTo(Spot::class, 'spot_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     
     public function images()
     {
@@ -48,3 +54,7 @@ protected $casts = [
     'end_date' => 'datetime',
 ];
 }
+
+// app/Models/Post.php
+
+

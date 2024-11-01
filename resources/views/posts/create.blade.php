@@ -40,9 +40,10 @@
         <div class="mb-3">
             <label for="spot" class="form-label">Spot <span class="text-danger">*</span>:</label>
             <select class="form-select form-shadow" id="spot" name="spot" required>
-                <option value="">Please select a spot...</option>
-                <option value="1">Sapporo clock tower</option>
-                <option value="private">Tokyo tower</option>
+                <option value="">Please select a spot. If no spot is displayed here, you will need to go back to the previous page and register a spot first.</option>
+                @foreach ($spots as $spot)
+                    <option value="{{ $spot->id }}">{{ $spot->name }}</option>
+                @endforeach
             </select>
         </div>
 

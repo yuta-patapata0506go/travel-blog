@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Spot;
 use App\Models\Category; 
 use App\Models\Image;   
 use Illuminate\Http\Request;
@@ -14,12 +15,15 @@ class PostController extends Controller
     private $category;
     private $image;
 
-    public function __construct(Post $post, Category $category, Image $image)
+    private $spot;
+
+    public function __construct(Post $post, Category $category, Image $image, Spot $spot)
 
     {
         $this->post = $post;
         $this->category = $category;
         $this->image = $image;
+        $this->spot = $spot;
     }
 
 
@@ -27,21 +31,39 @@ class PostController extends Controller
      public function create($type)
 {
     // Categoryモデルから全てのカテゴリを取得
-    $all_categories = Category::where('status', 1)->all();  // インスタンスではなく、直接モデルを呼び出す
+    $all_categories = Category::all();  // z
+    // $all_categories = Category::where('status', 1)->all();  // インスタンスではなく、直接モデルを呼び出す
+
+    $spots = Spot::all(); // 全てのスポットデータを取得
 
     // $typeと$all_categoriesをビューに渡す
-    return view('posts.create', compact('type', 'all_categories'));
+    return view('posts.create', compact('type', 'all_categories', 'spots'));
 }
 
      
-     // 投稿の詳細表示
-     public function show($id)
-     {
-        //  $post = $this->post->with('user', 'spot', 'comments')->findOrFail($id);
-       $post = $this->post->with(['images','categories'])->findOrFail($id);
+public function show($id)
+{
+    $post = $this->post->with(['images', 'categories', 'spot', 'comments.user'])->findOrFail($id);
 
-         return view('posts.show', compact('post'));
-     }
+    // デバッグ: コメントが正しく取得されているかを確認
+   
+
+    // Spot ID のデバッグログを記録
+    \Log::info("Spot ID for post ID {$post->id}: " . $post->spot_id);
+
+    // 最初の画像を取得
+    $firstImage = $post->images->first();
+
+    if (!$post->spot) {
+        \Log::warning("Spot not found for post ID: {$post->id}, spot ID: {$post->spot_id}");
+        $spotName = 'Location not available';
+    } else {
+        $spotName = $post->spot->name;
+    }
+
+    return view('posts.show', compact('post', 'firstImage', 'spotName'));
+}
+
 
    
 
@@ -117,6 +139,7 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::with(['CategoryPost', 'images'])->findOrFail($id);
+        $spots = Spot::all();          
 
         // 投稿者であるか確認
         if ($post->user_id !== auth()->id()) {
@@ -130,9 +153,9 @@ class PostController extends Controller
     // 全てのカテゴリを取得
     $all_categories = Category::all(); // これで$all_categoriesがビューに渡されます
     $selectedCategories = $post->CategoryPost->pluck('category_id')->toArray(); // 選択済みのカテゴリID
-    
 
-        return view('posts.edit', compact('post', 'type', 'startDate', 'endDate','all_categories', 'selectedCategories'));
+   
+        return view('posts.edit', compact('post','spots', 'type', 'startDate', 'endDate','all_categories', 'selectedCategories'));
     }
 
     
@@ -197,14 +220,21 @@ class PostController extends Controller
         ];
     }
     $post->CategoryPost()->insert($category_post);
-    \Log::info("Categories updated successfully for post ID: " . $post->id . " with categories: " . implode(',', $categoryIds));
-
-    // 新しい画像を追加し、既存画像は保持
+    \Log::info("Checking if new images need to be added for post ID: " . $id);
     if ($request->hasFile('image')) {
         \Log::info("Adding new images for post ID: " . $id);
-        app(ImageController::class)->store($request, $post->id, null);
-        \Log::info("New images added successfully for post ID: " . $id);
+        $imageAdded = app(ImageController::class)->store($request, $post->id, null);
+    
+        if ($imageAdded) {
+            \Log::info("New images added successfully for post ID: " . $id);
+        } else {
+            \Log::error("Failed to add new images for post ID: " . $id);
+            return redirect()->back()->withErrors(['error' => 'Failed to add new images.']);
+        }
     }
+    
+
+
 
     \Log::info("Update process completed for post ID: " . $id . ". Redirecting to show page.");
     return redirect()->route('post.show', $post->id)->with('success', 'Post updated successfully.');
@@ -221,16 +251,8 @@ class PostController extends Controller
     // 投稿の削除
     public function destroy($id)
     {
-        $post = Post::findOrFail($id);
+       $this->post->destroy($id);
 
-        // 投稿者であるか確認
-        if ($post->user_id !== auth()->id()) {
-            return redirect()->route('posts.index')->with('error', 'Unauthorized access.');
-        }
-
-        // 投稿を削除
-        $post->delete();
-
-        return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
+       return redirect()->route('home')->with('success', 'Post deleted successfully.');
     }
 }
