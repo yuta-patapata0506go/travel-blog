@@ -1,13 +1,16 @@
 @extends('layouts.app')
 
-<!--@section('css')
-<link href="{{ asset('css/spot.css') }}" rel="stylesheet">
-@endsection-->
+@section('css')
+    <link href="{{ asset('css/spot.css') }}" rel="stylesheet">
+@endsection
+
+@section('title', 'Spot')
 
 @section('content')
 
 @foreach($spots as $spot)
-        <iv class="post-container">
+    <div class="post-container">
+        
             <!-- Card of whole page -->
         
         <div class="post-card">
@@ -93,10 +96,9 @@
 
                 <!-- Map and Weather Display -->
                 <div class="info-container">
-
-                <!-- Mapへの遷移用フォーム -->
-                <form action="/mappage" method="GET" class="map-form" onclick="this.parentElement.submit()">
-                    <div class="map" onclick="this.parentElement.submit()">
+                    <!-- Mapへの遷移用フォーム -->
+                    <form action="/mappage" method="GET" class="map-form" onclick="this.parentElement.submit()">
+                        <div class="map" onclick="this.parentElement.submit()">
                         <h5>Map</h5>
                         <i class="fa-regular fa-map"></i>
                         <img src="/images/map.png" alt="">
@@ -104,20 +106,17 @@
                         <h6>Address</h6>
                         <p>000-0000</p>
                         <p>Petra - Wadi Musa, Jordan</p>
+                        </div>
+                    </form>
+                    <!-- Weather -->
+                    <div class="weather">
+                        <h5>Weather</h5>
+                        <i class="fa-solid fa-cloud-sun"></i>
+                        <img src="/images/weather.png" alt="">
+                        <p>Weather information will be displayed here.</p>
+                        <!-- Embed weather code here -->
                     </div>
-                </form>
-
-                <!-- Weather -->
-                <div class="weather">
-                    <h5>Weather</h5>
-                    <i class="fa-solid fa-cloud-sun"></i>
-                    <img src="/images/weather.png" alt="">
-                    <p>Weather information will be displayed here.</p>
-                    <!-- Embed weather code here -->
                 </div>
-
-            </div>
-
 
                 <!-- Comments -->
                             <div class="comments-section my-2">
@@ -206,19 +205,19 @@
                     </form>
                 </div>
 
-
-                <!-- Posts Gallery -->
-                <h4 class="post-gallery mt-5">POST related to "SPOT NAME"</h4>
-                <!-- Sort by dropdown -->
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle rounded-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <!-- Posts Gallery -->
+            <h4 class="post-gallery mt-5">POST related to "SPOT NAME"</h4>
+            <!-- Sort by dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle rounded-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         Sort by
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     
                         <li class="text-end pe-3">
                             <span class="text-primary cursor-pointer" id="clearCheckboxes">Clear</span>
                         </li>
+                        <li>
                             <label class="dropdown-item">
                                 <input type="checkbox" value="Newest Post" class="form-check-input me-1"> Newest Post
                             </label>
@@ -244,13 +243,11 @@
                                 <button type="submit" class="btn-done">Done</button>
                             </form>
                         </li>
-                    </ul>
-                </div>
-
-                
+                </ul>
+            </div>
 
                 <!-- Post display and jump to the Post Page-->
-                <div class="small-post-container d-flex align-items-center">
+            <div class="small-post-container d-flex align-items-center">
                     <button class="arrow-left" onclick="nextImage()">
                         <i class="fa-solid fa-circle-left"></i>
                     </button>
@@ -294,15 +291,11 @@
                     <button class="arrow-right" onclick="nextImage()">
                         <i class="fa-solid fa-circle-right"></i>
                     </button>
-                </div>
-                
-        </div>
-        
+            </div>    
+        </div>   
     </div>
-</div>
 @endforeach
         
-
     <script>
         function switchImage(imagePath) {
             document.getElementById('featured').src = imagePath;

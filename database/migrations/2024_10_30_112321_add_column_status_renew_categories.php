@@ -11,17 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();  // Primary key
-            $table->string('title', 255);  // Title field with varchar(255)
+        Schema::table('renew_categories', function (Blueprint $table) {
+            //
             $table->text('body')->nullable()->comment('Content of the post');  // Body field with note
             $table->unsignedBigInteger('user_id');  // Foreign key for users
-            $table->string('status', 255);  // Status field with varchar(255)
-            $table->timestamp('created_at')->useCurrent();  // Timestamp for created_at
-            $table->softDeletes(); // Soft delete column
-            // 外部キー制約
+            $table->tinyInteger('status')->default(1);
+            $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+
     }
 
     /**
@@ -29,6 +27,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::table('renew_categories', function (Blueprint $table) {
+            //
+            $table->dropColumn('status');
+            $table->dropSoftDeletes();
+            $table->dropColumn('body');
+            $table->dropColumn('user_id');
+        });
     }
 };

@@ -12,9 +12,11 @@ use App\Http\Controllers\PostImageController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\Admin\InquiriesController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\admin\CategoryController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -36,9 +38,16 @@ Route::get('/admin-spots-index', function () {
     return view('/admin/spots/spots-index');
 });
 
-Route::get('/admin-categories-index', function () {
-    return view('/admin/categories/categories-index');
-});
+// admin category feature
+Route::get('/admin-categories-index',[CategoryController::class,'index'])->name('admin.categories.index');
+Route::post('/admin-categories-store',[CategoryController::class,'store'])->name('admin.categories.store');
+
+Route::get('/admin-categories-edit/{id}',[CategoryController::class,'edit'])->name('admin.categories.edit');
+
+Route::patch('/admin-categories-update/{id}',[CategoryController::class,'update'])->name('admin.categories.update');
+Route::patch('/admin/categories/{id}/changeVisibility', [CategoryController::class, 'changeVisibility'])->name('admin.categories.changeVisibility');
+
+
 
 Route::get('/admin-inquiries-index', function () {
     return view('/admin/inquiries/inquiries-index');
@@ -83,9 +92,15 @@ Route::get('/navbar', function () {
     return view('navbar');
 });
 
-Route::get('/mappage', function () {
-    return view('map_page/map');
-});
+// Map
+// HTMLの表示用ルート(Route for displaying HTML)
+Route::get('/map', [MapController::class, 'showMapPage'])->name('map.page');
+
+// スポット情報のJSON取得用ルート(Route for retrieving spot information in JSON)
+Route::get('/api/map', [MapController::class, 'index'])->name('map.index');
+// Route::get('/mappage', function () {
+//     return view('map_page/map');
+// });
 
 Route::get('/footer', function () {
     return view('footer');
@@ -115,6 +130,10 @@ Route::group(['prefix'=>'spot', 'as'=>'spot.'], function(){
     Route::post('/spot/{id}/favorite', [SpotController::class, 'favorite'])->name('favorite');
 
 });
+
+/*Route::get('/spot-post-form', function () {
+    return view('spot-post-form');
+});*/
 
 
 
@@ -165,6 +184,9 @@ Route::get('/admin-create-spot', function () {
 });
 
 Route::get('/admin-users-index', [UsersController::class, 'index'])->name('admin.users.index');
+Route::patch('/admin-users-unhide/{id}', [UsersController::class, 'unhide'])->name('admin.users.unhide');
+Route::delete('/admin-users-hide/{id}', [UsersController::class, 'hide'])->name('admin.users.hide');
+
 
 Route::get('/admin-posts-index', function () {
     return view('/admin/posts/posts-index');
@@ -174,9 +196,6 @@ Route::get('/admin-spots-index', function () {
     return view('/admin/spots/spots-index');
 });
 
-Route::get('/admin-categories-index', function () {
-    return view('/admin/categories/categories-index');
-});
 
 // Route::get('/admin-inquiries-index', function () {
 //     return view('/admin/inquiries/inquiries-index');
@@ -190,6 +209,7 @@ Route::get('/admin-update_category', function () {
     return view('/admin/modals/update_category');
 });
 
+
 Route::get('/admin-create_category', function () {
     return view('/admin/modals/create_category');
 });
@@ -201,9 +221,7 @@ Route::get('/select-post-form', function () {
     return view('select-post-form');
 })->name('select-post-form');
 
-Route::get('/spot-post-form', function () {
-    return view('spot-post-form');
-});
+
 
 Route::get('/event-post-form', function () {
     return view('event-post-form');

@@ -7,6 +7,7 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Models\Like;
 use App\Models\Favorite;
+use App\Models\Category;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -14,21 +15,31 @@ use Illuminate\Support\Facades\Log;
 class SpotController extends Controller
 {
     private $spot;
-    public function __construct(Spot $spot) {
+    private $category;
+    private $image;
+
+    public function __construct(Spot $spot, category $category, image $image) {
         $this->spot = $spot;
+        $this->category = $category;
+        $this->image = $image;
     
     }
     // スポット一覧を表示するメソッド
-    public function index()
+    public function index($id = null)
     {
+        // 特定のスポットIDが指定されている場合、そのIDのスポットのみを取得
+        if ($id) {
+            $spots = Spot::where('id', $id)->get();
+        } else {
         // spotsテーブルから全データを取得
         $spots = Spot::all();
 
         // ビューにデータを渡して表示
         return view('spot', [
             'spots' => $spots,
-            'isDetail' => false, // 一覧表示かどうかを示すフラグ
+            'isDetail' => $id ? true : false, // 一覧表示かどうかを示すフラグ
         ]);
+    }
     }
 
     
@@ -55,7 +66,9 @@ class SpotController extends Controller
         $address = $request->address;
         $mapboxApiKey = env('MAPBOX_API_KEY'); // 環境変数にAPIキーを設定
 
-        $response = Http::withOptions([ 'verify' => false, ])->get("https://api.mapbox.com/geocoding/v5/mapbox.places/{$address}.json", [ 'access_token' => $mapboxApiKey, ]);
+        $response = Http::withOptions([ 'verify' => false, ])->get("https://api.mapbox.com/geocoding/v5/mapbox.places/{$address}.json", [
+            'access_token' => $mapboxApiKey,
+        ]);
 
         
         if ($response->successful()) {
@@ -85,7 +98,7 @@ class SpotController extends Controller
         return redirect()->route('home')->with('success', 'Pending approval by Admin.');
 
         } catch (\Exception $e) {
-            // dd($e);
+            dd($e);
             Log::error('Failed: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'Failed']);
         }
