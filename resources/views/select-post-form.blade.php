@@ -15,7 +15,7 @@
             <div class="d-flex justify-content-center">
                 <div class="position-relative">
                     <img src="images/whereToGo_navbar_sample.png" alt="Your Image" class="img-fluid rounded-image">
-                    <a href="your-link.html" class="overlay-text">Register <span class="red-text">New</span> Spot</a>
+                    <a href="{{ route('spot.create') }}" class="overlay-text">Register <span class="red-text">New</span> Spot</a>
                 </div>
             </div>
             <br>

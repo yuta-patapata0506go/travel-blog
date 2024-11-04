@@ -19,11 +19,12 @@ class FavoriteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $spot_id)
+    public function store(Request $request, $spot_id, $post_id)
     {
         //
         $this->favorite->user_id = auth()->user()->id;
         $this->favorite->spot_id = $spot_id;
+        $this->favorite->poat_id = $post_id; 
         $this->favorite->save();
 
         return back();

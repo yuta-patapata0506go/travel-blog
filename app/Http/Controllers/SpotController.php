@@ -69,7 +69,6 @@ class SpotController extends Controller
         $response = Http::withOptions([ 'verify' => false, ])->get("https://api.mapbox.com/geocoding/v5/mapbox.places/{$address}.json", [
             'access_token' => $mapboxApiKey,
         ]);
-
         
         if ($response->successful()) {
             $data = $response->json();
@@ -93,12 +92,12 @@ class SpotController extends Controller
 
         $this->spot->save();
         // / 画像の保存（ImageControllerで処理を行う）
-        app(ImageController::class)->store($request, null, $this->spot->id);
+        app(ImageController::class)->store($request, null, spotId: $this->spot->id);
 
         return redirect()->route('home')->with('success', 'Pending approval by Admin.');
 
         } catch (\Exception $e) {
-            /*dd($e);*/
+            dd($e);
             Log::error('Failed: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'Failed']);
         }
