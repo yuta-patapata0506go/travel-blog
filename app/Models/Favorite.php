@@ -24,4 +24,15 @@ class Favorite extends Model
          'created_at',
      ];
 
+     public function user(){
+        return $this->belogsTo(User::class, 'id');
+     }
+     public function favoritePostsDetail(){
+        return $this->hasOne(Post::class, 'id');
+    }
+    public function favoriteSpotsDetail(){
+        return $this->hasOne(Spot::class, 'id');
+    }
+
+
 }

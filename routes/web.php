@@ -63,7 +63,7 @@ Route::get('/events-tourism', function () {
 });
 
 // My Page Routes
-
+Route::group(['middleware' => 'auth'], function () {
 Route::get('/mypage-show/{id}',[ProfileController::class,'show'])->name('profile.show');  //mypage-showに遷移
 
 Route::get('/mypage-edit',[ProfileController::class,'edit'])->name('profile.edit');  //editページに遷移
@@ -74,7 +74,7 @@ Route::post('/follow/store/{user_id}',[FollowController::class,'store'])->name('
 Route::delete('/Follow/destroy/{user_id}',[FollowController::class,'destroy'])->name('follow.destroy'); //unforrow
 Route::get('/mypage-favorite',[ProfileController::class,'favorite'])->name('profile.favorite');//mypage-favoriteに遷移
 
-
+});
 
 Route::get('/navbar', function () {
     return view('navbar');

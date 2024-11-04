@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Favorite;
 
 class ProfileController extends Controller
 {
@@ -69,4 +70,16 @@ class ProfileController extends Controller
         $user = $this->user->FindOrFail(Auth::user()->id);
         return view('mypage.mypage-favorite')->with('user', $user);
      }
+
+    // public function showFavoritePosts(User $user, Favorite $favorite){
+    //   $favoritePosts = $user->favoritePosts;
+    //   return view('mypage.mypage-favorite')->with('FavoritePosts', $favoritePosts);
+
+    //   $favoritePostsDetail = $favorite->favoritePostsDetail;
+    //   return view('mypage.mypage-favorite')->with('favoritePostsDetail', $favoritePostsDetail);
+    // }
+    // public function showFavoriteSpots(User $user){
+    //   $favoriteSpots = $user->showFavoriteSpots;
+    //   return view('mypage.mypage-favorite')->with('FavoriteSpots', $favoriteSpots);
+    // }
 }

@@ -57,6 +57,14 @@ class User extends Authenticatable
         return $this->followers()->where('followed_user_id', Auth::user()->id)->exists();
     }
 
+    public function favoritePosts(){
+        return $this->hasMany(Favorite::class, 'user_id')
+        ->whereNotNull('post_id');
+    }
+    public function favoriteSpots(){
+        return $this->hasMany(Favorite::class, 'user_id')
+        ->whereNotNull('spot_id');
+    }
    
 
     // check if the role is admin

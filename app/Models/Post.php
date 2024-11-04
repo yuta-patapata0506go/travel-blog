@@ -27,4 +27,8 @@ class Post extends Model
     {
         return $this->hasMany(Image::class);
     }
+
+    public function favorite(){
+        return $this->belongsTo(Favorite::class);
+    }
 }
