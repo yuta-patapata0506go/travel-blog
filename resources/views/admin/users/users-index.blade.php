@@ -64,7 +64,13 @@
                 @foreach ($all_users as $user)
                 <tr>
                     <td>{{ $user->id }}</td>
-                    <td><img src="https://via.placeholder.com/40" alt="User Icon" class="icon-image"></td>
+                    <td><div class="user-profile">
+                        {{-- @if($user->image)  --}}
+                            {{-- <img src="{{ asset('storage/' . $user->image) }}" alt="User Image" class="user-image"> --}}
+                        {{-- @else --}}
+                            <i class="fas fa-user-circle fa-4x"></i>
+                        {{-- @endif --}}
+                    </div></td>
                     <td>{{ $user->username }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->created_at->format('Y-m-d H:i:s') }}</td>
@@ -101,7 +107,7 @@
         </table>
 
         <!-- Pagination -->    
-        <nav aria-label="Page navigation">
+        {{-- <nav aria-label="Page navigation">
             <ul class="pagination">
                 <!-- Previous Page Link -->
                 @if ($all_users->onFirstPage())
@@ -124,7 +130,10 @@
                     <li class="page-item disabled"><a class="page-link" href="#">></a></li>
                 @endif
             </ul>
-        </nav>
+        </nav> --}}
+        <div class="d-flex justify-content-center">
+            {{ $all_users->links() }}
+        </div>
     </div>
 
     <!-- Footer -->
