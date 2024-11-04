@@ -24,7 +24,7 @@ class Like extends Model
         'spot_id',
         'created_at',
     ];
-/*
+
     // ユーザーとのリレーション (1対多の「多」側)
     public function user()
     {
@@ -41,5 +41,5 @@ class Like extends Model
     public function spot()
     {
         return $this->belongsTo(Spot::class);
-    }*/
+    }
 }

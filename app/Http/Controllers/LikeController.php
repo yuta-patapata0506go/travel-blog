@@ -19,11 +19,12 @@ class LikeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $spot_id)
+    public function store(Request $request, $spot_id, $post_id)
     {
         //
         $this->like->user_id = auth()->user()->id;
         $this->like->spot_id = $spot_id;
+        $this->like->spot_id = $post_id;
         $this->like->save();
 
         return back();

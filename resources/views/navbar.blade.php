@@ -24,8 +24,11 @@
                 @if(Auth::user() && Auth::user()->isAdmin())
                     <!-- Admin -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-circle-plus"></i></a> <!-- Plus icon -->
+                        <a class="nav-link" href="{{ route('select-post-form') }}">
+                            <i class="fa-solid fa-circle-plus"></i>
+                        </a> <!-- Plus icon -->
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fas fa-language"></i></a> <!-- Language icon -->
                     </li>
@@ -59,7 +62,7 @@
                 @elseif(Auth::check())
                     <!-- Logged-in user -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-circle-plus"></i></a> <!-- Plus icon -->
+                        <a class="nav-link" href="{{ route('select-post-form') }}"><i class="fa-solid fa-circle-plus"></i></a> <!-- Plus icon -->
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fas fa-language"></i></a> <!-- Language icon -->

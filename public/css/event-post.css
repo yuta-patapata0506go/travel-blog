@@ -194,5 +194,15 @@ main {
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-    
+.input-group {
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.small-image {
+    width: 100px;  /*  幅を100pxに設定 */
+    height: 60px;  /* 高さは自動調整 */
+    margin-right: 10px; /* 画像間の余白を設定 */
+    border-radius: 10px;
+}
     

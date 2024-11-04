@@ -1,10 +1,10 @@
-<link rel="stylesheet" href="{{asset('css/admin/main.css')}}">
-
 @extends('layouts.app')
 
 @section('title', 'Admin: Posts')
 
 @section('content')
+
+<link rel="stylesheet" href="{{asset('css/admin/main.css')}}">
 
 <body>
     <!-- Navbar -->
@@ -22,7 +22,7 @@
         <div class="text-end mb-3">
             {{-- <button class="btn btn-outline-dark">Recommended Posts</button> --}}
             {{-- modal button --}}
-            <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#category-modal"> {{-- Updated this line --}}
+            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#category-modal"> {{-- Updated this line --}}
                 Recommended Posts Setting {{-- {{ $categoryModalLabel->id }} --}}
             </button>
 
@@ -85,7 +85,7 @@
 {{-- Dropdown for visibility --}}
 <div class="dropdown">
     <button class="btn btn-sm" data-bs-toggle="dropdown">
-        Visible
+        Visibility
     </button>
   
     <div class="dropdown-menu">
@@ -372,4 +372,5 @@
 
 </body>
 @endsection
+
 
