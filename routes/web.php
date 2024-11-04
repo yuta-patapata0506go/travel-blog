@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\InquiriesController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\Admin\ResponsesController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -146,6 +147,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/{id}/inquiry_details', [InquiriesController::class, 'show'])->name('inquiry_details');
             Route::patch('/{id}/change-visibility', [InquiriesController::class, 'changeVisibility'])->name('changeVisibility');
             Route::post('/{id}/change-status', [InquiriesController::class, 'changeStatus'])->name('changeStatus');
+        });
+
+        Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries
+            Route::get('/{id}/create_reply', [ResponsesController::class, 'create'])->name('create_reply');
+            Route::post('/{id}/reply', [ResponsesController::class, 'store'])->name('reply');
         });
     // });
 });
