@@ -8,7 +8,9 @@ use App\Http\Controllers\SpotController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostImageController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\Admin\InquiriesController;
@@ -157,17 +159,6 @@ Route::get('/admin/inquiries/inquiry_details', function () {
     return view('admin/inquiries/inquiry_details');
 });
 
-Route::get('/posts-event-post', function () {
-    return view('posts.event-post');
-});
-Route::get('/posts-tourism-post', function () {
-    return view('posts.tourism-post');
-});
-
-Route::get('/posts-modal-post-delete', function () {
-    return view('posts.modal-post-delete');
-});
-
 
 Route::get('/admin-allow-spot', function () {
     return view('admin.spot_applications.allowCreate');
@@ -220,27 +211,10 @@ Route::get('/select-post-form', function () {
 })->name('select-post-form');
 
 
-
-Route::get('/event-post-form', function () {
-    return view('event-post-form');
-});
-
-Route::get('/tourism-post-form', function () {
-    return view('tourism-post-form');
-});
-
-Route::get('/edit-event-post', function () {
-    return view('edit-event-post');
-});
-
-Route::get('/edit-tourism-post', function () {
-    return view('edit-tourism-post');
-});
-
 // Authentication Routes
 
 Auth::routes();
-
+// POST routes
 Route::group(["middleware"=> "auth"], function(){
 
     Route::group(['prefix' => 'post', 'as' =>'post.'],function(){
@@ -249,9 +223,16 @@ Route::group(["middleware"=> "auth"], function(){
         Route::get('show/{id}', [PostController::class, 'show'])->name('show');
         Route::get('edit/{id}', [PostController::class, 'edit'])->name('edit');
         Route::patch('update/{id}', [PostController::class, 'update'])->name('update');
-        // Route::delete('destroy/{id}', [PostController::class, 'destroy'])->name('destroy');
+        Route::delete('destroy/{id}', [PostController::class, 'destroy'])->name('destroy');
+        Route::post('{id}/like', [PostController::class, 'like'])->name('like');
+        Route::post('{id}/favorite', [PostController::class, 'favorite'])->name('favorite');
     
        });
 
-       Route::delete('/images/{id}', [ImageController::class, 'destroy'])->name('images.destroy');
+       
  });
+
+ // コメントの保存ルート (POST)
+Route::post('post/{id}/comment', [CommentController::class, 'store'])->name('comment.store');
+Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+

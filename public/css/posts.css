@@ -17,10 +17,30 @@
 
 }
 
+
+
+/* Likeされた状態の色 */
+#like-icon.active {
+    color: red;
+}
+
+/* Favoriteされた状態の色 */
+#favorite-icon.active {
+    color: gold;
+}
+
+
 body {
     font-family: 'Lato', sans-serif;
 }
 
+#like-icon:hover {
+    color:red;  /* ハートが赤くなる */
+}
+
+#favorite-icon:hover {
+    color: #ffd700;  /* 星が金色になる */
+}
 
 /* カードのスタイル */
 .card {
