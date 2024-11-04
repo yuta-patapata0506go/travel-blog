@@ -86,7 +86,10 @@
 
 
 
-
+        <div class="mb-3">
+            <label for="comments" class="form-label">Title:<span class="text-danger">*</span>:</label>
+            <input type="text" class="form-control" id="title" name="title"  value="{{ $post->title }}" required>
+        </div>
         @if ($type == 0)
         <div class="mb-3">
             <label for="event_name" class="form-label">Event name <span class="text-danger">*</span>:</label>

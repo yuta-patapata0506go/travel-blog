@@ -27,8 +27,9 @@ class Post extends Model
     
     public function spot()
     {
-        return $this->belongsTo(Spot::class, 'spot_id');
+        return $this->belongsTo(Spot::class, 'spots_id', 'id');
     }
+    
 
     public function comments()
     {
@@ -45,8 +46,28 @@ class Post extends Model
     {
         return $this->belongsToMany(Category::class, 'category_post_pivot', 'post_id', 'category_id')
                     ->using(CategoryPost::class) // カスタムピボットモデルを指定
-                    ->withPivot('status'); // 追加のピボット属性を指定
-}
+                    ->withPivot('status'); // 追加のピボット属性を指定  
+    }
+
+    public function likes(){
+        // select * from likes
+        return $this->hasMany(Like::class);
+    }
+    public function isLiked(){
+        // CHECK IF YOU LIKED THE POST ALREADY
+       return $this->likes()->where('user_id', auth()->user()->id)->exists();
+    }
+    // select * from likes where post_id = 15 and user_id = 2 ???? == TRUE
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+    // アクセサとしてisFavoritedを定義
+    public function getIsFavoritedAttribute()
+    {
+        return $this->favorites()->where('user_id', auth()->user()->id)->exists();
+    }
 
 // 日付としてキャストする属性
 protected $casts = [

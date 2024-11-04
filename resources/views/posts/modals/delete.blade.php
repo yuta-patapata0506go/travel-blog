@@ -12,7 +12,8 @@
 
             <div class="modal-body text-center">
                 <div class="mt-3">
-                    <img src="{{ $firstImage ? $firstImage->image_url : '' }}" alt="Post Image" class="image-lg">
+                    <!-- 画像の表示 -->
+                    <img src="{{ $firstImage ? asset('storage/' . $firstImage->image_url) : '' }}" alt="Post Image" class="image-lg">
                     <p class="mt-1 text-muted">Title: {{ $post->title }}</p>
                 </div>
                 <div class="mt-1">

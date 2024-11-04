@@ -69,7 +69,6 @@ class SpotController extends Controller
         $response = Http::withOptions([ 'verify' => false, ])->get("https://api.mapbox.com/geocoding/v5/mapbox.places/{$address}.json", [
             'access_token' => $mapboxApiKey,
         ]);
-
         
         if ($response->successful()) {
             $data = $response->json();

@@ -6,6 +6,9 @@ use App\Models\Post;
 use App\Models\Spot;
 use App\Models\Category; 
 use App\Models\Image;   
+use App\Models\Comment;
+use App\Models\Like;
+use App\Models\Favorite;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -30,9 +33,8 @@ class PostController extends Controller
      // 新規投稿フォームの表示
      public function create($type)
 {
-    // Categoryモデルから全てのカテゴリを取得
-    $all_categories = Category::all();  // z
-    // $all_categories = Category::where('status', 1)->all();  // インスタンスではなく、直接モデルを呼び出す
+    // Categoryモデルから全てのカテゴリを取
+    $all_categories = Category::where('status', 1)->get();  // インスタンスではなく、直接モデルを呼び出す
 
     $spots = Spot::all(); // 全てのスポットデータを取得
 
@@ -43,10 +45,9 @@ class PostController extends Controller
      
 public function show($id)
 {
-    $post = $this->post->with(['images', 'categories', 'spot', 'comments.user'])->findOrFail($id);
-
-    // デバッグ: コメントが正しく取得されているかを確認
-   
+    $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'comments.replies.user', 'comments'])->findOrFail($id);
+  
+    $userId = auth()->id();
 
     // Spot ID のデバッグログを記録
     \Log::info("Spot ID for post ID {$post->id}: " . $post->spot_id);
@@ -61,7 +62,23 @@ public function show($id)
         $spotName = $post->spot->name;
     }
 
-    return view('posts.show', compact('post', 'firstImage', 'spotName'));
+      // ポストに関連するコメント（親コメントとリプライ）を取得
+      $comments = Comment::where('post_id', $id)
+      ->whereNull('parent_id')
+      ->with(['user', 'replies.user']) // user と replies.user を明示的にロード
+      ->get();
+
+      $commentCount = $post->comments()->count();
+
+       // Like
+       $liked = Like::where('user_id', $userId)->where('post_id', $id)->exists();
+       $likesCount = Like::where('post_id', $id)->count();
+
+       // Favorite
+       $favorited = $post->isFavorited; // アクセサを使用
+       $favoritesCount = Favorite::where('post_id', $id)->count();
+
+    return view('posts.show', compact('post', 'firstImage','spotName',  'comments',  'commentCount' ,'liked', 'likesCount','favorited', 'favoritesCount'));
 }
 
 
@@ -72,7 +89,7 @@ public function show($id)
     {
        // バリデーションルールを定義
         $rules = [
-            'title' => 'string|max:30',
+            'title' => 'string|max:50',
             'type' => 'integer|in:0,1',
             'event_name' => 'nullable|string|max:30',
             'adult_fee' => 'nullable|numeric|min:0',
@@ -135,6 +152,46 @@ public function show($id)
         ->with('success', 'Post created successfully.');
     }
 
+    public function like($id)
+    {
+        $userId = auth()->id();
+        $existingLike = Like::where('user_id', $userId)->where('post_id', $id)->first();
+
+        if ($existingLike) {
+            // すでに「いいね」している場合は削除して、いいねを取り消し
+            $existingLike->delete();
+        } else {
+            // 新しく「いいね」を追加
+            Like::create([
+                'user_id' => $userId,
+                'post_id' => $id
+            ]);
+        }
+
+        // リダイレクトしてページを再読み込み
+        return redirect()->back();
+    }
+
+    public function favorite($id)
+    {
+        $userId = auth()->id();
+        $existingFavorite = Favorite::where('user_id', $userId)->where('post_id', $id)->first();
+
+        if ($existingFavorite) {
+            // すでに「いいね」している場合は削除して、いいねを取り消し
+            $existingFavorite->delete();
+        } else {
+            // 新しく「いいね」を追加
+            Favorite::create([
+                'user_id' => $userId,
+                'post_id' => $id
+            ]);
+        }
+
+        // リダイレクトしてページを再読み込み
+        return redirect()->back();
+    }
+
     // 投稿編集フォームの表示
     public function edit($id)
     {
@@ -165,7 +222,7 @@ public function show($id)
     
     // バリデーションルール
     $rules = [
-        'title' => 'string|max:30',
+        'title' => 'string|max:50',
         'event_name' => 'nullable|string|max:30',
         'adult_fee' => 'nullable|numeric|min:0',
         'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
@@ -221,17 +278,17 @@ public function show($id)
     }
     $post->CategoryPost()->insert($category_post);
     \Log::info("Checking if new images need to be added for post ID: " . $id);
-    if ($request->hasFile('image')) {
-        \Log::info("Adding new images for post ID: " . $id);
-        $imageAdded = app(ImageController::class)->store($request, $post->id, null);
-    
-        if ($imageAdded) {
-            \Log::info("New images added successfully for post ID: " . $id);
-        } else {
-            \Log::error("Failed to add new images for post ID: " . $id);
-            return redirect()->back()->withErrors(['error' => 'Failed to add new images.']);
-        }
+if ($request->hasFile('image')) {
+    \Log::info("Adding new images for post ID: " . $id);
+    $imageAdded = app(ImageController::class)->store($request, $post->id, null);
+
+    if ($imageAdded) {
+        \Log::info("New images added successfully for post ID: " . $id);
+    } else {
+        \Log::error("Failed to add new images for post ID: " . $id);
+        return redirect()->back()->withErrors(['error' => 'Failed to add new images.']);
     }
+}
     
 
 
