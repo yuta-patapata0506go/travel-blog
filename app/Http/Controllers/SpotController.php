@@ -109,7 +109,7 @@ class SpotController extends Controller
     {
 
         // IDを使ってスポットデータを取得
-        $spot = Spot::with('images')->findOrFail($id); // imagesリレーションを読み込む
+        $spot = Spot::with('images','likes','favorites')->findOrFail($id); // imagesリレーションを読み込む
         $userId = auth()->id();
 
         // Like

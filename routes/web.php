@@ -101,10 +101,9 @@ Route::get('/about', function () {
 
 
 Route::group(['prefix' => 'spot', 'as' => 'spot.'], function() {
-    Route::get('/', [SpotController::class, 'index'])->name('index');
     Route::get('create', [SpotController::class, 'create'])->name('create');
     Route::post('store', [SpotController::class, 'store'])->name('store'); 
-    Route::get('{id}', [SpotController::class, 'show'])->name('show'); 
+    Route::get('/{id}', [SpotController::class, 'show'])->name('show'); 
 
     // Like のルート
     Route::post('{id}/like', [SpotController::class, 'like'])->name('like');

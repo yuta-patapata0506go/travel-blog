@@ -44,7 +44,7 @@
                 <div class="card col mt-3" style="height: auto;">
     <!-- Main Image Carousel -->
     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
-        <div class="carousel-inner">asdfghjkl
+        <div class="carousel-inner">
             @foreach ($post->images as $index => $image)
                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                     <!-- Base64エンコードされた画像データをsrc属性に設定 -->

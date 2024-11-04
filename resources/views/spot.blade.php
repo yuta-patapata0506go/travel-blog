@@ -16,9 +16,9 @@
         <div class="post-card">
             <!-- HEART BUTTON + no. of likes & FAVORITE BUTTON + no. of likes -->
             <div class="icons d-flex align-items-center">
-            @foreach($spots as $spot)
+            
                 @if ($spot->isLiked())
-                    <form action="{{ route('spot.like', $spot->id ?? 1) }}" method="POST">
+                    <form action="{{ route('spot.like', $spot->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
                             <i class="fa-solid fa-heart" id="like-icon"></i>
@@ -26,7 +26,7 @@
                         </button>
                     </form>
                 @else
-                    <form action="{{ route('spot.like', $spot->id ?? 1) }}" method="POST">
+                    <form action="{{ route('spot.like', $spot->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
                             <i class="fa-regular fa-heart" id="like-icon"></i>
@@ -36,7 +36,7 @@
                 @endif
                 
                 @if ($spot->isFavorited)
-                    <form action="{{ route('spot.favorite', $spot->id ?? 1) }}" method="POST">
+                    <form action="{{ route('spot.favorite', $spot->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
                             <i class="fa-solid fa-star" id="favorite-icon"></i>
@@ -44,7 +44,7 @@
                         </button>
                     </form>
                 @else
-                    <form action="{{ route('spot.favorite', $spot->id ?? 1) }}" method="POST">
+                    <form action="{{ route('spot.favorite', $spot->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
                             <i class="fa-regular fa-star" id="favorite-icon"></i>
@@ -52,15 +52,14 @@
                         </button>
                     </form>
                 @endif
-            @endforeach
+            
             </div>
 
         
             <!-- スポットの写真 -->
             <h2>{{ $spot->name }}</h2>
             <div class="spot-container">
-            @foreach($spots as $spot)
-                <!-- 画像 -->asdfghjk
+                <!-- 画像 -->
                 <div class="card col mt-3" style="height: auto;">
                     <!-- メイン画像カルーセル -->
                     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
@@ -89,8 +88,7 @@
                             </button>
                         @endforeach
                     </div>
-                </div>
-            @endforeach
+                </div>            
             </div>
 
 
