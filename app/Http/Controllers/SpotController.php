@@ -59,7 +59,7 @@ class SpotController extends Controller
             'postalcode' => 'required|string|max:10',
             'address' => 'required|string|max:255',
            
-            'image' => 'required|image|mimes:jpeg,jpg,png,gif',
+            'image' => 'required|array',
         ]);
 
         // Geocoding APIを使って住所から緯度と経度を取得
@@ -101,38 +101,14 @@ class SpotController extends Controller
             Log::error('Failed: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'Failed']);
         }
-
-        // スポットを作成
-        /*$spot = Spot::create([
-            'name' => $request->input('name'),
-            'postalcode' => $request->input('postalcode'),
-            'address' => $request->input('address'),
-            'user_id' => auth()->id(), // ユーザーIDを追加
-            'latitude' => $request->input('latitude'), // 緯度を追加
-            'longitude' => $request->input('longitude'), // 経度を追加
-        ]);*/
-
-        
-
-        // 画像をストレージに保存
-        /*$imagePath = $request->file('image')->store('images', 'public'); // 'public'ストレージに保存*/
-
-        // 画像情報を保存
-        /*Image::create([
-            'image_url' => $imagePath,
-            'spot_id' => $spot->id, // 作成したスポットに関連付け
-            'user_id' => auth()->id(), // 認証されたユーザーのID
-        ]);
-
-        // 保存後、一覧ページにリダイレクト
-        return redirect()->route('index')->with('success', 'スポットが追加されました。'); */
     }
 
+    
     public function show($id)
     {
 
         // IDを使ってスポットデータを取得
-        $spot = Spot::with('images')->findOrFail($id); // imagesリレーションを読み込む
+        $spot = Spot::with('images','likes','favorites')->findOrFail($id); // imagesリレーションを読み込む
         $userId = auth()->id();
 
         // Like
