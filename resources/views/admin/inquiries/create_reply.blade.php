@@ -43,7 +43,7 @@ If you have any additional information to share, please feel free to reply to th
 Best regards,
 Admin: {{ auth()->user()->username }}
 Where To Go
-Email: wheretogo@mail.com
+Email: where25.inquiry@gmail.com
 Phone: 0123456789
             </textarea>
             @error('body') 
