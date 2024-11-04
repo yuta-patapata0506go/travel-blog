@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Favorite;
+use App\Models\Image;
 
 class Spot extends Model
 {
@@ -52,6 +53,11 @@ class Spot extends Model
     public function getIsFavoritedAttribute()
     {
         return $this->favorites()->where('user_id', auth()->user()->id)->exists();
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 
 }

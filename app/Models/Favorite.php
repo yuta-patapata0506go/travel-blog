@@ -34,5 +34,22 @@ class Favorite extends Model
         return $this->hasOne(Spot::class, 'id');
     }
 
+      // ユーザーとのリレーション (1対多の「多」側)
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
+
+    // ポストとのリレーション (1対多の「多」側)
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    // スポットとのリレーション (1対多の「多」側)
+    public function spot()
+    {
+        return $this->belongsTo(Spot::class);
+    }
 
 }
