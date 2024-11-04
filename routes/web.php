@@ -8,12 +8,16 @@ use App\Http\Controllers\SpotController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostImageController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\Admin\InquiriesController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\Admin\ResponsesController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -89,9 +93,15 @@ Route::get('/navbar', function () {
     return view('navbar');
 });
 
-Route::get('/mappage', function () {
-    return view('map_page/map');
-});
+// Map
+// HTMLの表示用ルート(Route for displaying HTML)
+Route::get('/map', [MapController::class, 'showMapPage'])->name('map.page');
+
+// スポット情報のJSON取得用ルート(Route for retrieving spot information in JSON)
+Route::get('/api/map', [MapController::class, 'index'])->name('map.index');
+// Route::get('/mappage', function () {
+//     return view('map_page/map');
+// });
 
 Route::get('/footer', function () {
     return view('footer');
@@ -108,19 +118,20 @@ Route::get('/about', function () {
 })->name('about');
 
 
-//Spot
-Route::group(['prefix'=>'spot', 'as'=>'spot.'], function(){
-    Route::get('/', [SpotController::class, 'index'])->name('index');
+Route::group(['prefix' => 'spot', 'as' => 'spot.'], function() {
     Route::get('create', [SpotController::class, 'create'])->name('create');
-    Route::post('spot/store', [SpotController::class, 'store'])->name('store');
-    Route::get('/spot/{id}', [SpotController::class, 'show'])->name('spot.show'); 
+    Route::post('store', [SpotController::class, 'store'])->name('store'); 
+    Route::get('/{id}', [SpotController::class, 'show'])->name('show'); 
 
     // Like のルート
-    Route::post('/spot/{id}/like', [SpotController::class, 'like'])->name('like');
+    Route::post('{id}/like', [SpotController::class, 'like'])->name('like');
     // Favorite のルート
-    Route::post('/spot/{id}/favorite', [SpotController::class, 'favorite'])->name('favorite');
-
+    Route::post('{id}/favorite', [SpotController::class, 'favorite'])->name('favorite');
 });
+
+/*Route::get('/spot-post-form', function () {
+    return view('spot-post-form');
+});*/
 
 
 
@@ -134,6 +145,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::patch('/{id}/change-visibility', [InquiriesController::class, 'changeVisibility'])->name('changeVisibility');
             Route::post('/{id}/change-status', [InquiriesController::class, 'changeStatus'])->name('changeStatus');
         });
+
+        Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries
+            Route::get('/{id}/create_reply', [ResponsesController::class, 'create'])->name('create_reply');
+            Route::post('/{id}/reply', [ResponsesController::class, 'store'])->name('reply');
+        });
     // });
 });
 
@@ -144,17 +160,6 @@ Route::get('/admin/inquiries/create_reply', function () {
 
 Route::get('/admin/inquiries/inquiry_details', function () {
     return view('admin/inquiries/inquiry_details');
-});
-
-Route::get('/posts-event-post', function () {
-    return view('posts.event-post');
-});
-Route::get('/posts-tourism-post', function () {
-    return view('posts.tourism-post');
-});
-
-Route::get('/posts-modal-post-delete', function () {
-    return view('posts.modal-post-delete');
 });
 
 
@@ -208,30 +213,11 @@ Route::get('/select-post-form', function () {
     return view('select-post-form');
 })->name('select-post-form');
 
-Route::get('/spot-post-form', function () {
-    return view('spot-post-form');
-});
-
-Route::get('/event-post-form', function () {
-    return view('event-post-form');
-});
-
-Route::get('/tourism-post-form', function () {
-    return view('tourism-post-form');
-});
-
-Route::get('/edit-event-post', function () {
-    return view('edit-event-post');
-});
-
-Route::get('/edit-tourism-post', function () {
-    return view('edit-tourism-post');
-});
 
 // Authentication Routes
 
 Auth::routes();
-
+// POST routes
 Route::group(["middleware"=> "auth"], function(){
 
     Route::group(['prefix' => 'post', 'as' =>'post.'],function(){
@@ -240,9 +226,16 @@ Route::group(["middleware"=> "auth"], function(){
         Route::get('show/{id}', [PostController::class, 'show'])->name('show');
         Route::get('edit/{id}', [PostController::class, 'edit'])->name('edit');
         Route::patch('update/{id}', [PostController::class, 'update'])->name('update');
-        // Route::delete('destroy/{id}', [PostController::class, 'destroy'])->name('destroy');
+        Route::delete('destroy/{id}', [PostController::class, 'destroy'])->name('destroy');
+        Route::post('{id}/like', [PostController::class, 'like'])->name('like');
+        Route::post('{id}/favorite', [PostController::class, 'favorite'])->name('favorite');
     
        });
 
-       Route::delete('/images/{id}', [ImageController::class, 'destroy'])->name('images.destroy');
+       
  });
+
+ // コメントの保存ルート (POST)
+Route::post('post/{id}/comment', [CommentController::class, 'store'])->name('comment.store');
+Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+

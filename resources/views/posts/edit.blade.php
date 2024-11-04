@@ -16,13 +16,16 @@
         @csrf
         @method('PATCH')
         <div class="mb-3">
-            <label for="type" class="form-label">Spot <span class="text-danger">*</span>:</label>
+            <label for="spot" class="form-label">Spot <span class="text-danger">*</span>:</label>
             <select class="form-select" id="spot" name="spot" required>
-                <option value="">Please select a spot. If no spot is displayed here, you will need to go back to the previous page and register a spot first.</option>
-                <option value="1">Sapporo clock tower</option>
-                <option value="private">Tokyo tower</option>
+                @foreach ($spots as $spot)
+                    <option value="{{ $spot->id }}" {{ $spot->id == $post->spot_id ? 'selected' : '' }}>
+                        {{ $spot->name }}
+                    </option>
+                @endforeach
             </select>
         </div>
+
 
  
     
@@ -45,12 +48,14 @@
     <div class="d-flex mb-2">
         @foreach ($post->images as $image)
             <div class="position-relative me-2">
-                <img src="{{ $image->image_url }}" class="img-responsive small-image" style="width: 100px; height: auto;">
+                <!-- 正しいパスで画像を表示 -->
+                <img src="{{ asset('storage/' . $image->image_url) }}" class="img-responsive small-image" style="width: 100px; height: auto;">
                 <!-- 削除ボタン -->
                 <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0" onclick="confirmDelete({{ $image->id }})">-</button>
             </div>
         @endforeach
     </div>
+
 
     <!-- ファイル選択フィールド -->
     <input type="file" class="form-control" id="image" name="image[]" accept="image/*" multiple>
@@ -81,7 +86,10 @@
 
 
 
-
+        <div class="mb-3">
+            <label for="comments" class="form-label">Title:<span class="text-danger">*</span>:</label>
+            <input type="text" class="form-control" id="title" name="title"  value="{{ $post->title }}" required>
+        </div>
         @if ($type == 0)
         <div class="mb-3">
             <label for="event_name" class="form-label">Event name <span class="text-danger">*</span>:</label>
@@ -113,6 +121,9 @@
                 @endforeach
             </div>
         </div>
+
+       
+
 
         @if ($type == 0)
         <div class="row">
@@ -202,12 +213,14 @@
 
 
         <div class="mb-3">
-            <label for="info" class="form-label">Useful Information:</label>
-            <input type="text" class="form-control" id="info" name="info"  value="{{ $post->helpful_info }}">
+            <label for="helpful_info" class="form-label">Useful Information:</label>
+            <input type="text" class="form-control" id="helpful_info" name="helpful_info" value="{{ old('helpful_info', $post->helpful_info) }}">
         </div>
+
         <div class="d-flex justify-content-center mt-4">
             <button type="submit" class="btn-post btn-lg-custom">Update</button>
-            <button type="button" class="btn cancel-btn btn-lg-custom">Cancel</button>
+            <button type="button" class="btn cancel-btn btn-lg-custom" onclick="window.location.href='{{ route('post.show', $post->id) }}'">Cancel</button>
+
         </div>       
     </form>
 </div>

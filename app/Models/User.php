@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes;
@@ -56,6 +57,14 @@ class User extends Authenticatable
     public function isFollowed(){
         return $this->followers()->where('followed_user_id', Auth::user()->id)->exists();
     }
+
+    // app/Models/User.php
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 
    
 
