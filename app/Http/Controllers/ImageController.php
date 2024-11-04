@@ -32,15 +32,15 @@ class ImageController extends Controller
                        'status' => 'new',
                    ]);
                }
-               return true;
-           } catch (\Exception $e) {
-               \Log::error('Failed to save the image: ' . $e->getMessage());
-               return false;
-           }
-       }
-       \Log::error("No image file found in request");
-       return false;
-   }
+               return redirect()->back()->with('success', 'Images saved successfully.');
+            } catch (\Exception $e) {
+                \Log::error('Failed to save the image: ' . $e->getMessage());
+                return redirect()->back()->withErrors(['error' => 'Failed to save the image: ' . $e->getMessage()]);
+            }
+        } else {
+            return redirect()->back()->withErrors(['error' => 'Image file not selected.']);
+        }
+    }
 public function destroy($id)
 {
     $image = Image::findOrFail($id);

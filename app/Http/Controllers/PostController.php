@@ -14,12 +14,9 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     private $post;
-
     private $category;
     private $image;
-
     private $spot;
-
     public function __construct(Post $post, Category $category, Image $image, Spot $spot)
 
     {
@@ -91,7 +88,7 @@ public function show($id)
         $rules = [
             'title' => 'string|max:50',
             'type' => 'integer|in:0,1',
-            'event_name' => 'nullable|string|max:30',
+            'event_name' => 'nullable|string|max:50',
             'adult_fee' => 'nullable|numeric|min:0',
             'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
             'child_fee' => 'nullable|numeric|min:0',
@@ -223,14 +220,14 @@ public function show($id)
     // バリデーションルール
     $rules = [
         'title' => 'string|max:50',
-        'event_name' => 'nullable|string|max:30',
+        'event_name' => 'nullable|string|max:50',
         'adult_fee' => 'nullable|numeric|min:0',
         'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
         'child_fee' => 'nullable|numeric|min:0',
         'child_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
         'start_date' => 'nullable|date',
         'end_date' => 'nullable|date',
-        'comments' => 'nullable|string|max:255',
+        'comments' => 'nullable|string|max:500',
         'category' => 'required',  // 配列またはカンマ区切り文字列
         'helpful_info' => 'nullable|string',
         'image' => 'nullable|array',
