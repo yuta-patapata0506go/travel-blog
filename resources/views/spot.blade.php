@@ -8,16 +8,17 @@
 
 @section('content')
 
-@foreach($spots as $spot)
+
     <div class="post-container">
-        
+
             <!-- Card of whole page -->
         
         <div class="post-card">
             <!-- HEART BUTTON + no. of likes & FAVORITE BUTTON + no. of likes -->
             <div class="icons d-flex align-items-center">
+            
                 @if ($spot->isLiked())
-                    <form action="{{ route('spot.like', $spot->id ?? 1) }}" method="POST">
+                    <form action="{{ route('spot.like', $spot->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
                             <i class="fa-solid fa-heart" id="like-icon"></i>
@@ -25,7 +26,7 @@
                         </button>
                     </form>
                 @else
-                    <form action="{{ route('spot.like', $spot->id ?? 1) }}" method="POST">
+                    <form action="{{ route('spot.like', $spot->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
                             <i class="fa-regular fa-heart" id="like-icon"></i>
@@ -35,7 +36,7 @@
                 @endif
                 
                 @if ($spot->isFavorited)
-                    <form action="{{ route('spot.favorite', $spot->id ?? 1) }}" method="POST">
+                    <form action="{{ route('spot.favorite', $spot->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
                             <i class="fa-solid fa-star" id="favorite-icon"></i>
@@ -43,7 +44,7 @@
                         </button>
                     </form>
                 @else
-                    <form action="{{ route('spot.favorite', $spot->id ?? 1) }}" method="POST">
+                    <form action="{{ route('spot.favorite', $spot->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
                             <i class="fa-regular fa-star" id="favorite-icon"></i>
@@ -51,26 +52,25 @@
                         </button>
                     </form>
                 @endif
-        
+            
             </div>
 
         
-            <!-- photos of spots　-->
+            <!-- スポットの写真 -->
             <h2>{{ $spot->name }}</h2>
             <div class="spot-container">
-                <!-- Image -->
+                <!-- 画像 -->
                 <div class="card col mt-3" style="height: auto;">
-                    <!-- Main Image Carousel -->
+                    <!-- メイン画像カルーセル -->
                     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
                         <div class="carousel-inner">
                             @foreach ($spot->images as $index => $image)
                                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                    <!-- Base64エンコードされた画像データをsrc属性に設定 -->
-                                    <img src="{{ $image->image_url }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
+                                    <img src="{{ asset('storage/' . $image->image_url) }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
                                 </div>
                             @endforeach
                         </div>
-                        <!-- Carousel Controls (Previous/Next) -->
+                        <!-- カルーセルコントロール（前/次） -->
                         <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
@@ -80,16 +80,17 @@
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
-                    <!-- Thumbnail Images as Carousel Indicators -->
+                    <!-- サムネイル画像のカルーセルインジケーター -->
                     <div class="carousel-indicators-wrapper mt-3 d-flex justify-content-center gap-2 flex-wrap">
                         @foreach ($spot->images as $index => $image)
                             <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}" aria-label="Slide {{ $index + 1 }}">
-                                <img src="{{ $image->image_url }}" class="thumbnail-img" alt="Thumbnail {{ $index + 1 }}">
+                                <img src="{{ asset('storage/' . $image->image_url) }}" class="thumbnail-img" alt="Thumbnail {{ $index + 1 }}">
                             </button>
                         @endforeach
                     </div>
-                </div>                
+                </div>            
             </div>
+
 
             <!-- Divider -->
             <hr class="divider">
@@ -294,7 +295,7 @@
             </div>    
         </div>   
     </div>
-@endforeach
+
         
     <script>
         function switchImage(imagePath) {
