@@ -129,6 +129,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries
             Route::get('/{id}/create_reply', [ResponsesController::class, 'create'])->name('create_reply');
+            Route::post('/{id}/reply', [ResponsesController::class, 'store'])->name('reply');
         });
     // });
 });

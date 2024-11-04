@@ -41,10 +41,9 @@ class ResponsesController extends Controller
         // Validate
         $request->validate([
             'title' => 'required|min:1|max:255',
-            'body' => 'required|min:1|max:1000',
+            'body' => 'required|min:1|max:10000',
         ]);
 
-        DB::transaction(function () use ($request, $inquiry_id) {
             // save the reply
             $this->response->user_id = Auth::user()->id;
             $this->response->inquiry_id = $inquiry_id;
@@ -59,9 +58,8 @@ class ResponsesController extends Controller
             Mail::to($inquiry->user->email)->send(new ReplyMail($this->response->title, $this->response->body));
             
             // make status responsed
-            // $inquiry->status = 'Responsed';
-            // $inquiry->save();
-        });
+            $inquiry->status = 'Responded';
+            $inquiry->save();
 
         // redirect
         return redirect()->route('admin.inquiries.inquiry_details', $inquiry_id)

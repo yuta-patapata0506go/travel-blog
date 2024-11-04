@@ -10,7 +10,7 @@
 <div class="container w-75">
     <h1 class="text-center my-5">Create Reply</h1>
 
-    <form action="#" method="POST">
+    <form action="{{ route('admin.inquiries.reply', $inquiry->id) }}" method="POST">
         @csrf
 
         <!-- Inquiry ID -->

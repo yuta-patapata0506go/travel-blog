@@ -29,7 +29,7 @@ class ReplyMail extends Mailable
     {
         return $this->from('where25.inquiry@gmail.com', 'Where To Go')
                     ->subject($this->responseTitle)
-                    ->view('emails.reply') // ビュー名を指定
+                    ->view('admin.inquiries.emails.reply')
                     ->with([
                         'responseBody' => $this->responseBody,
                     ]);
@@ -51,7 +51,7 @@ class ReplyMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'admin.inquiries.emails.reply',
         );
     }
 
