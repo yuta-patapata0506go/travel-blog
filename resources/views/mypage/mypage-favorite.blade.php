@@ -16,7 +16,7 @@
                     {{-- favorite posts --}}
                       
                         @if ($user->favoritePosts->isNotEmpty())
-                            <h1>Your favorite Posts</h1>
+                            <h2>Your favorite Posts</h2>
                             <div class="show_posts">    
                                 <div class="row">
                                     @foreach ($user->favoritePosts as $favorite)
@@ -38,7 +38,7 @@
                                                                         class="fa-regular fa-heart"></i></button>
                                                             </form>
                                                         </div>
-                                                        <div class="col-autp p-0">
+                                                        <div class="col-auto p-0">
                                                             <form action="#">
                                                                 <button type="submit" class="btn btn-sm shadow-none p-0"><i
                                                                         class="fa-regular fa-star"></i></button>
@@ -48,10 +48,10 @@
 
                                                     <div class="row">
                                                         <div class="col-auto mb-1">
-                                                            <span
-                                                                class="badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
-                                                            <span
-                                                                class="badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
+                                                             @foreach ($favorite->favoritePostsDetail->categories as $cats)
+                                                                  <span
+                                                                class="badge bg-secondary bg-opacity-50 rounded-pill">{{$cats->name}}</span>
+                                                             @endforeach                                                           
                                                         </div>
                                                     </div>
                                                     <div class="post_text">
@@ -65,7 +65,7 @@
                                 </div>
                             </div>
                             @else   
-                            <h3 class="text-end">No Favorite Posts Yet</h3> 
+                            <h2 class="text-end">No Favorite Posts Yet</h2> 
                         @endif
                     
                 </div>
@@ -76,11 +76,10 @@
 
                     <div class="col-auto">
                         @if ($user->favoriteSpots->isNotEmpty())
-                        <h1>Your favorite Spots</h1>
+                        <h2>Your favorite Spots</h2>
                         <div class="show_posts">
                             <div class="row">
                                 @foreach ($user->favoriteSpots as $favorite)
-                                {{-- @foreach ($user->favorites as $post) --}}
                                     <div class="small_post col-md-3">
                                         <div class="card">
                                             {{-- <a href="{{ route('post.show', $favorite->post_id)}}">
@@ -91,7 +90,7 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-auto">
-                                                        <h5 class="fw-bolder">{{ $favorite->spots_id }}</h5>
+                                                        <h5 class="fw-bolder">{{ $favorite->favoriteSpotsDetail->name }}</h5>
                                                     </div>
                                                     <div class="col-auto">
                                                         <form action="#">
@@ -106,20 +105,6 @@
                                                         </form>
                                                     </div>
                                                 </div>
-
-                                                <div class="row">
-                                                    <div class="col-auto mb-1">
-                                                        <span
-                                                            class="badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
-                                                        <span
-                                                            class="badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
-                                                    </div>
-                                                </div>
-                                                <div class="post_text">
-                                                    <p>text text text text text text text text text text text text text text
-                                                        text text text text text text</p>
-                                                    <button class="btn comment-card">Learn More</button>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -128,7 +113,7 @@
                         </div>
                         @else 
                         <div class="justify-content-center">
-                            <h3 class="text-end">No Favorite Spots Yet</h3>
+                            <h2 class="text-end">No Favorite Spots Yet</h2>
                         </div>
                  </div>
             </div>

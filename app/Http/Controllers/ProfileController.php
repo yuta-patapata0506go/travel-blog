@@ -6,13 +6,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Favorite;
+use App\Models\Post;
+use App\Models\Category;
 
 class ProfileController extends Controller
 {
      private $user;
 
-    public function __construct(User $user){
+    public function __construct(User $user, Post $post, Favorite $favorite){
         $this->user = $user;
+        $this->post = $post;
+        $this->favorite = $favorite;
     }
     
     public function show($id){
@@ -51,7 +55,6 @@ class ProfileController extends Controller
             $user->avatar = 'data:image/' . $request->avatar->extension() . ';base64,' . base64_encode(file_get_contents($request->avatar));
         }
 
-        #save
         $user->save();
         return redirect()->route('profile.show', Auth::user()->id);
       }
@@ -68,18 +71,9 @@ class ProfileController extends Controller
 
       public function favorite(){
         $user = $this->user->FindOrFail(Auth::user()->id);
-        return view('mypage.mypage-favorite')->with('user', $user);
+        $favoritePosts = $user->favoritePosts();
+        return view('mypage.mypage-favorite', compact('favoritePosts'))->with('user', $user);
      }
 
-    // public function showFavoritePosts(User $user, Favorite $favorite){
-    //   $favoritePosts = $user->favoritePosts;
-    //   return view('mypage.mypage-favorite')->with('FavoritePosts', $favoritePosts);
-
-    //   $favoritePostsDetail = $favorite->favoritePostsDetail;
-    //   return view('mypage.mypage-favorite')->with('favoritePostsDetail', $favoritePostsDetail);
-    // }
-    // public function showFavoriteSpots(User $user){
-    //   $favoriteSpots = $user->showFavoriteSpots;
-    //   return view('mypage.mypage-favorite')->with('FavoriteSpots', $favoriteSpots);
-    // }
+    
 }

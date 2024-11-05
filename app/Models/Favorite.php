@@ -28,10 +28,12 @@ class Favorite extends Model
         return $this->belogsTo(User::class, 'id');
      }
      public function favoritePostsDetail(){
-        return $this->hasOne(Post::class, 'id');
+        return $this->hasOne(Post::class, 'id')
+        ->with('categories');
     }
     public function favoriteSpotsDetail(){
-        return $this->hasOne(Spot::class, 'id');
+        return $this->hasOne(Spot::class, 'id')
+        ->with('categories');
     }
 
       // ユーザーとのリレーション (1対多の「多」側)

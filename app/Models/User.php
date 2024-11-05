@@ -60,10 +60,12 @@ class User extends Authenticatable
 
     public function favoritePosts(){
         return $this->hasMany(Favorite::class, 'user_id')
+        ->with('favoritePostsDetail')
         ->whereNotNull('post_id');
     }
     public function favoriteSpots(){
         return $this->hasMany(Favorite::class, 'user_id')
+        ->with('favoriteSpotsDetail')
         ->whereNotNull('spot_id');
     }
     // app/Models/User.php
