@@ -124,7 +124,7 @@
     <a name="comment">
         <h5>Question & Comment</h5>
     </a>
-    <form action="{{ route('comment.store', ['id' => $spot->id]) }}" method="POST" class="mt-3">
+    <form action="{{ route('spot.comment.store', ['id' => $spot->id]) }}" method="POST" class="mt-3">
         @csrf
         <input type="hidden" name="spot_id" value="{{ $spot->id }}"> <!-- spot_id を追加 -->
         <div class="input-group mb-3">
@@ -170,7 +170,7 @@
                         </div>
                     </div>
                     <div class="reply-form mt-3" id="reply-form-{{ $comment->id }}" style="display: none;">
-                        <form action="{{ route('comment.store', ['id' => $spot->id]) }}" method="POST" class="d-flex align-items-center">
+                        <form action="{{ route('spot.comment.store', ['id' => $spot->id]) }}" method="POST" class="d-flex align-items-center">
                             @csrf
                             <input type="hidden" name="parent_id" value="{{ $comment->id }}">
                             <textarea name="comment" rows="1" class="form-control flex-grow-1 me-2" placeholder="Reply here..."></textarea>
@@ -347,6 +347,10 @@
         const replyForm = document.getElementById(`reply-form-${commentId}`);
         replyForm.style.display = replyForm.style.display === "none" ? "block" : "none";
     }
+    document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault(); // ページ遷移を防ぐ
+    // フォームデータを送信する処理
+    });
     </script>
 @endsection
 

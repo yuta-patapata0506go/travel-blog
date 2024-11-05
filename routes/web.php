@@ -235,3 +235,7 @@ Route::group(["middleware"=> "auth"], function(){
 Route::post('post/{id}/comment', [CommentController::class, 'store'])->name('comment.store');
 Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
 
+// コメントの保存ルート (SPOT)
+Route::post('spot/{id}/comment', [CommentController::class, 'store'])->name('spot.comment.store');
+Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+

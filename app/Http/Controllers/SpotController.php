@@ -19,7 +19,7 @@ class SpotController extends Controller
     private $category;
     private $image;
 
-    public function __construct(Spot $spot, category $category, image $image, Comment $comment) {
+    public function __construct(Spot $spot, category $category, image $image) {
         $this->spot = $spot;
         $this->category = $category;
         $this->image = $image;
@@ -122,7 +122,13 @@ class SpotController extends Controller
         $favoritesCount = Favorite::where('spot_id', $id)->count();
 
         // Comment
-        $comments = $spot->comments; // 関連するコメントを取得
+        // ポストに関連するコメント（親コメントとリプライ）を取得
+        $comments = Comment::where('spot_id', $id)
+        ->whereNull('parent_id')
+        ->with(['user', 'replies.user']) // user と replies.user を明示的にロード
+        ->get();
+
+        $commentCount = $spot->comments()->count();
 
         // スポットが見つからなかった場合のエラーハンドリング
         if (!$spot) {
