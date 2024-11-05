@@ -193,7 +193,7 @@
                         <div class="card-body">
                            <a href="{{ route('spot.show', ['id' => $post->spot->id]) }}">
                             @if ($post->spot)
-                                <a href="{{ route('spot.spot.show', ['id' => $post->spot->id]) }}">
+                                <a href="{{ route('spot.show', ['id' => $post->spot->id]) }}">
                                     <h3><i class="fa-solid fa-location-dot"></i> {{ $post->spot->name }}</h3>
                                 </a>
                             @else
