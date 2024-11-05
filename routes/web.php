@@ -186,3 +186,6 @@ Route::get('/edit-tourism-post', function () {
 // Authentication Routes
 
 Auth::routes();
+
+// Serch function
+Route::get('/search', [SearchController::class, 'search'])->name('search');
