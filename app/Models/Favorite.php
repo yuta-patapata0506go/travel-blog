@@ -41,4 +41,7 @@ class Favorite extends Model
     {
         return $this->belongsTo(Spot::class);
     }
+
+
+
 }
