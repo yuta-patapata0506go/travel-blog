@@ -13,11 +13,17 @@
             {{-- Search Bar --}}
             <div class="d-flex justify-content-center mt-4">
                 <div class="search-container d-flex justify-content-left mb-4">
-                    <form class="d-flex mb-4" role="search">
+                    {{-- <form class="d-flex mb-4" role="search">
                         <input class="form-control form-control-lg me-2" type="search" aria-label="Search">
                         <i class="fas fa-search icon_size"></i>
                         <button class="btn fs-3 fw-bold" type="submit">Search</button>
+                    </form> --}}
+                    <form class="d-flex mb-4" role="search" action="{{ route('search') }}" method="GET">
+                        <input class="form-control form-control-lg me-2" type="search" name="query" placeholder="Search here..." aria-label="Search">
+                        <i class="fas fa-search icon_size"></i>
+                        <button class="btn fs-3 fw-bold" type="submit">Search</button>
                     </form>
+                    
                 </div>
             </div>
                         
