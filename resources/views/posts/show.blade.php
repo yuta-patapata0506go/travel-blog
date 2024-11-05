@@ -285,3 +285,5 @@
     <script src="{{ asset('js/share.js') }}"></script>
 
 @endsection
+
+

@@ -26,9 +26,6 @@
                 @endforeach
             </select>
         </div>
-
-
- 
     
      <!-- 保存されている画像のサムネイル表示部分 
     <div class="d-flex mb-2">

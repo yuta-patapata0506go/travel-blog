@@ -239,3 +239,6 @@ Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('comm
 Route::post('spot/{id}/comment', [CommentController::class, 'store'])->name('spot.comment.store');
 Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
 
+
+// Serch function
+Route::get('/search', [SearchController::class, 'search'])->name('search');
