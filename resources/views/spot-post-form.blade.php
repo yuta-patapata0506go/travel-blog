@@ -38,7 +38,7 @@
             <label for="image" class="form-label">
                 Image <span class="text-danger">*</span>:
             </label>
-            <input type="file" id="image" name="image" class="form-control form-shadow" required>
+            <input type="file" class="form-control form-shadow" id="image" name="image[]" accept="image/*" multiple>
             <small class="form-text text-muted">The acceptable formats are jpeg, jpg, png, and gif only. (Max file size is 1048kb.)</small>
         </div>
         <br>
