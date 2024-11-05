@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Like;
 use App\Models\Favorite;
 use App\Models\Category;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -18,7 +19,7 @@ class SpotController extends Controller
     private $category;
     private $image;
 
-    public function __construct(Spot $spot, category $category, image $image) {
+    public function __construct(Spot $spot, category $category, image $image, Comment $comment) {
         $this->spot = $spot;
         $this->category = $category;
         $this->image = $image;
@@ -60,6 +61,7 @@ class SpotController extends Controller
             'address' => 'required|string|max:255',
            
             'image' => 'required|array',
+            
         ]);
 
         // Geocoding APIを使って住所から緯度と経度を取得
@@ -108,7 +110,7 @@ class SpotController extends Controller
     {
 
         // IDを使ってスポットデータを取得
-        $spot = Spot::with('images','likes','favorites')->findOrFail($id); // imagesリレーションを読み込む
+        $spot = Spot::with('images','likes','favorites', 'comments.replies')->findOrFail($id); // imagesリレーションを読み込む
         $userId = auth()->id();
 
         // Like
@@ -119,13 +121,16 @@ class SpotController extends Controller
         $favorited = $spot->isFavorited; // アクセサを使用
         $favoritesCount = Favorite::where('spot_id', $id)->count();
 
+        // Comment
+        $comments = $spot->comments; // 関連するコメントを取得
+
         // スポットが見つからなかった場合のエラーハンドリング
         if (!$spot) {
             return redirect('/spot')->with('error', 'Spot not found');
         }
 
         // spot.blade.php に $spot 変数を渡す
-        return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount'));
+        return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount', 'comments'));
 
     }
 
