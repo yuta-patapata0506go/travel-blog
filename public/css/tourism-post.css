@@ -31,8 +31,9 @@
 }
 
 .container {
-    margin-left: 15px; /* 両側のマージンを15pxに設定 */
-    margin-right: 15px; /* 必要に応じて調整 */
+    margin-left: auto; /* 両側のマージンを15pxに設定 */
+    margin-right: auto; /* 必要に応じて調整 */
+    
 }
 
 .btn-category {
@@ -260,3 +261,10 @@ main {
     border-radius: 10px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
+
+.input-group {
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+    

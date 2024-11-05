@@ -9,13 +9,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Lato', sans-serif; /* 見出しにLatoフォントを設定 */
 }
 
-/* ナビゲーションバーとフッターのスタイル */
-.navbar, .footer {
-  background-color: #333; /* 背景色 */
-  color: white; /* 文字色 */
-  border-radius: 10px; /* 角を10pxに丸める */
-}
-
 /* 管理画面タイトルのスタイル */
 .admin-title {
   font-size: 32px;
@@ -54,31 +47,31 @@ tbody tr:hover {
 }
 
 /* ページネーションのスタイル */
-.pagination {
-  justify-content: center; /* 中央に配置 */
-  background-color: #FBF4F4; /* 背景色 */
-  padding: 10px; /* パディング */
-  border-radius: 10px; /* 角を丸める */
-}
+/* .pagination { */
+  /* justify-content: center; 中央に配置 */
+  /* background-color: #FBF4F4; 背景色 */
+  /* padding: 10px; パディング */
+  /* border-radius: 10px; 角を丸める */
+/* } */
 
 /* アクティブなページアイテムのスタイル */
-.pagination .page-item.active .page-link {
-  background-color: #2A3132; /* 背景色 */
-  color: white; /* 文字色 */
-}
+/* .pagination .page-item.active .page-link { */
+  /* background-color: #2A3132; 背景色 */
+  /* color: white; 文字色 */
+/* } */
 
 /* ページリンクのスタイル */
-.pagination .page-link {
-  color: #000; /* 文字色 */
-  background-color: #FFFFFF; /* 背景色 */
-  border: 1px solid #ddd; /* 薄い枠線 */
-  border-radius: 10px; /* 角を丸く */
-}
+/* .pagination .page-link { */
+  /* color: #000; 文字色 */
+  /* background-color: #FFFFFF; 背景色 */
+  /* border: 1px solid #ddd; 薄い枠線 */
+  /* border-radius: 10px; 角を丸く */
+/* } */
 
 /* ページリンクのホバー時のスタイル */
-.pagination .page-link:hover {
-  background-color: #B3B3B3; /* ホバー時の背景色 */
-}
+/* .pagination .page-link:hover { */
+  /* background-color: #B3B3B3; ホバー時の背景色 */
+/* } */
 
 /* アイコンタブのスタイル */
 .icon-tab {
@@ -166,6 +159,21 @@ tbody tr:hover {
   transition: background-color 0.3s;
 }
 
+.btn-dark {
+  background-color: #2A3132; 
+  color: #D9D9D9; /* text */
+  border: none; 
+  padding: 10px 20px; 
+  text-decoration: none; 
+  border-radius: 10px; 
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+.btn-dark:hover {
+  background-color: #D9D9D9; 
+  color: #2A3132; 
+}
+
 .btn-outline-dark:hover {
   background-color: #B3B3B3 !important; /* ホバー時の背景色を強制適用 */
   color: black !important; /* ホバー時の文字色を強制適用 */
@@ -185,4 +193,33 @@ tbody tr:hover {
   height: 40px; /* 高さ */
   border-radius: 50%; /* 丸くする */
   object-fit: cover; /* 枠にフィットさせる */
+}
+
+
+
+/* index dropdown-item (Please Do not remove!) */
+.dropdown-item.active {
+  background-color: #90afc5; 
+  color: white;
+}
+
+.dropdown-item:hover {
+  background-color: #2A3132; 
+  color: white; 
+}
+
+/* pagination (Please Do not remove!) */
+.pagination .page-link {
+  background-color: #2A3132;
+  color: #ffffff;
+}
+
+.pagination .page-link:hover {
+  background-color: #D9D9D9;
+  color: #000000;
+}
+
+.pagination .active .page-link {
+  background-color: #90afc5;
+  color: #000000;
 }
