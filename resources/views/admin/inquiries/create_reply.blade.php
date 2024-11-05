@@ -22,7 +22,7 @@
         <!-- Title -->
         <div class="mb-4">
             <label for="title" class="form-label">Title:</label>
-            <input type="text" name="title" id="title" class="form-control" value="Thank you for your inquiry, {{ $inquiry->user->username }}!"> 
+            <input type="text" name="title" id="title" class="form-control" value="{{ old('title', 'Thank you for your inquiry, ' . $inquiry->user->username . '!') }}"> 
             @error('title') 
                 <div class="text-danger small">{{ $message }}</div> 
             @enderror
@@ -31,21 +31,7 @@
         <!-- Body -->
         <div class="mb-5">
             <label for="body" class="form-label">Body:</label>
-            <textarea name="body" id="body" class="form-control" rows="10">
-Dear {{ $inquiry->user->username }}, 
-
-Thank you for reaching out to us!
-
-[Message here...]
-
-If you have any additional information to share, please feel free to reply to this email.
-
-Best regards,
-Admin: {{ auth()->user()->username }}
-Where To Go
-Email: where25.inquiry@gmail.com
-Phone: 0123456789
-            </textarea>
+            <textarea name="body" id="body" class="form-control" rows="10">{{ old('body', "Dear {$inquiry->user->username},\n\nThank you for reaching out to us!\n\n[Message here...]\n\nIf you have any additional information to share, please feel free to reply to this email.\n\nBest regards,\nAdmin: " . auth()->user()->username . "\nWhere To Go\nEmail: where25.inquiry@gmail.com\nPhone: 0123456789") }}</textarea>
             @error('body') 
                 <div class="text-danger small">{{ $message }}</div> 
             @enderror
@@ -57,13 +43,6 @@ Phone: 0123456789
             <button type="submit" class="btn btn-submit w-25">Submit</button>
         </div>
     
-        <!-- Success Message -->
-        @if(session('success'))
-            <div class="alert alert-success" role="alert">
-                {{ session('success') }}
-            </div>
-        @endif
-
     </form>    
 
 </div>
