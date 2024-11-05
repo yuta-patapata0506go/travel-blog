@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    
     private $post;
     private $category;
     private $image;
