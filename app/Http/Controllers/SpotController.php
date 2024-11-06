@@ -9,6 +9,7 @@ use App\Models\Like;
 use App\Models\Favorite;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -18,29 +19,29 @@ class SpotController extends Controller
     private $spot;
     private $category;
     private $image;
+    private $post;
 
-    public function __construct(Spot $spot, category $category, image $image) {
+    public function __construct(Spot $spot, category $category, image $image, Post $post) {
         $this->spot = $spot;
         $this->category = $category;
         $this->image = $image;
+        $this->post = $post;
     
     }
     // スポット一覧を表示するメソッド
-    public function index($id = null)
+    public function index($id)
     {
-        // 特定のスポットIDが指定されている場合、そのIDのスポットのみを取得
-        if ($id) {
-            $spots = Spot::where('id', $id)->get();
-        } else {
-        // spotsテーブルから全データを取得
-        $spots = Spot::all();
+        // 指定されたIDのスポットを取得（1つのみ）
+        $spot = Spot::findOrFail($id);
 
-        // ビューにデータを渡して表示
+        // 指定されたスポットIDに関連する全てのポストを取得
+        $posts = Post::where('spot_id', $id)->get();
+
+        // スポットとポストをビューに渡して表示
         return view('spot', [
-            'spots' => $spots,
-            'isDetail' => $id ? true : false, // 一覧表示かどうかを示すフラグ
+            'spot' => $spot,
+            'posts' => $posts,
         ]);
-    }
     }
 
     
