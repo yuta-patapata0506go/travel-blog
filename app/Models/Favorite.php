@@ -32,11 +32,10 @@ class Favorite extends Model
         ->with('categories');
     }
     public function favoriteSpotsDetail(){
-        return $this->hasOne(Spot::class, 'id')
-        ->with('categories');
+        return $this->hasOne(Spot::class, 'id');
     }
 
-      // ユーザーとのリレーション (1対多の「多」側)
+      // ユーザーとのリレーション (1対多の「多」側) 
     // public function user()
     // {
     //     return $this->belongsTo(User::class);

@@ -72,6 +72,8 @@ class ProfileController extends Controller
       public function favorite(){
         $user = $this->user->FindOrFail(Auth::user()->id);
         $favoritePosts = $user->favoritePosts();
+        // dd($user->favoritePosts);
+        $favoriteSpots = $user->favoriteSpots();
         return view('mypage.mypage-favorite', compact('favoritePosts'))->with('user', $user);
      }
 
