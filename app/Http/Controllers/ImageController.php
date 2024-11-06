@@ -1,33 +1,27 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Image;
 use Illuminate\Http\Request;
-
 class ImageController extends Controller
 {
     private $image;
-
     public function __construct(Image $image)
     {
         $this->image = $image;
     }
-
-    
-        public function store(Request $request, $postId, $spotId)
-        {
-            $request->validate([
-                'image.*' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
-            ]);
-
-            // dd($request->image);
-            if ($request->hasFile('image')) {
+    public function store(Request $request, $postId, $spotId)
+    {
+        $request->validate([
+            'image.*' => 'required|image|mimes:jpg,jpeg,png,gif',
+        ]);
+        if ($request->hasFile('image')) {
+            try {
                 foreach ($request->file('image') as $file) {
-                    // Convert the image to a Base64 string
-                    $base64Image = 'data:image/' . $file->extension() . ';base64,' . base64_encode(file_get_contents($file));
+                    // 画像をストレージに保存
+                    $path = $file->store('images', 'public'); // imagesフォルダに保存
+                    // データベースに保存
                     $this->image->create([
-                        'image_url' => $base64Image,
+                        'image_url' => $path,
                         'post_id' => $postId,
                         'spot_id' => $spotId,
                         'user_id' => auth()->id(),
@@ -35,74 +29,20 @@ class ImageController extends Controller
                         'status' => 'new',
                     ]);
                 }
+                return redirect()->back()->with('success', 'Images saved successfully.');
+            } catch (\Exception $e) {
+                \Log::error('Failed to save the image: ' . $e->getMessage());
+                return redirect()->back()->withErrors(['error' => 'Failed to save the image: ' . $e->getMessage()]);
             }
+        } else {
+            return redirect()->back()->withErrors(['error' => 'Image file not selected.']);
         }
-    
-
-    // 画像の一覧表示
-    public function index()
-    {
-        $images = $this->image->with('user', 'post', 'spot')->paginate(10);
-
-        return view('images.index', compact('images'));
     }
-
-    // 画像の詳細表示
-    public function show($id)
-    {
-        $image = $this->image->with('user', 'post', 'spot')->findOrFail($id);
-
-        return view('images.show', compact('image'));
-    }
-
-    // 画像の編集
-    public function edit($id)
-    {
-        $image = $this->image->findOrFail($id);
-
-        if ($image->user_id !== auth()->id()) {
-            return redirect()->back()->with('error', 'Unauthorized access.');
-        }
-
-        return view('images.edit', compact('image'));
-    }
-
-    // 画像の更新
-    public function update(Request $request, $id)
-    {
-        $image = $this->image->findOrFail($id);
-
-        if ($image->user_id !== auth()->id()) {
-            return redirect()->back()->with('error', 'Unauthorized access.');
-        }
-
-        $request->validate([
-            'caption' => 'nullable|string|max:255',
-            'status' => 'required|string|in:published,draft',
-        ]);
-
-        $image->caption = $request->input('caption');
-        $image->status = $request->input('status');
-        $image->save();
-
-        return redirect()->back()->with('success', 'Image updated successfully.');
-    }
-
-    // 画像の削除
-    public function destroy($id)
-    {
-        
-        $image = $this->image->findOrFail($id);
-
-        if ($image->user_id !== auth()->id()) {
-            return redirect()->back()->with('error', 'Unauthorized access.');
-        }
-
-        // 画像を削除
-        $image->delete();
-
-        return redirect()->back()->with('success', 'Image deleted successfully.');
-    }
-
-
+// ImageController.php
+public function destroy($id)
+{
+    $image = Image::findOrFail($id);
+    $image->delete();
+    return response()->json(['success' => true], 200);
+}
 }

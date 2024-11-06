@@ -12,8 +12,9 @@
 
             <div class="modal-body text-center">
                 <div class="mt-3">
-                    <img src="" alt="Post ID " class="image-lg">
-                    <p class="mt-1 text-muted"></p>
+                    <!-- 画像の表示 -->
+                    <img src="{{ $firstImage ? asset('storage/' . $firstImage->image_url) : '' }}" alt="Post Image" class="image-lg">
+                    <p class="mt-1 text-muted">Title: {{ $post->title }}</p>
                 </div>
                 <div class="mt-1">
                     <i class="fa-solid fa-triangle-exclamation fa-4x"></i>
@@ -22,16 +23,18 @@
             </div>
 
             <div class="modal-footer border-0 justify-content-center">
-                <form action="#" method="post">
+                 <form action="{{ route('post.destroy', $post->id) }}" method="post">
+
                     @csrf
                     @method('DELETE')
 
-                    <button type="submit" class="btn btn-modal btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-modal btn-sm" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-modal btn-sm">Delete</button>
 
-                </form>
+                </form>  
             </div>
         </div>
        
    </div>
 </div>
+

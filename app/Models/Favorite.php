@@ -23,5 +23,26 @@ class Favorite extends Model
          'spot_id',
          'created_at',
      ];
+    
+     
+     // ユーザーとのリレーション (1対多の「多」側)
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // ポストとのリレーション (1対多の「多」側)
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    // スポットとのリレーション (1対多の「多」側)
+    public function spot()
+    {
+        return $this->belongsTo(Spot::class);
+    }
+
+
 
 }

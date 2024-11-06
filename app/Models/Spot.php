@@ -4,6 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+<<<<<<< HEAD
+=======
+use App\Models\Favorite;
+use App\Models\Image;
+>>>>>>> main
 
 class Spot extends Model
 {
@@ -23,7 +28,7 @@ class Spot extends Model
     // 画像とのリレーション
     public function images()
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Image::class, 'spot_id'); // 'post_id'が外部キー
     }
     public function user(){
         return $this->belongsTo(User::class);
@@ -43,4 +48,22 @@ class Spot extends Model
     }
     // select * from likes where post_id = 15 and user_id = 2 ???? == TRUE
 
+<<<<<<< HEAD
+=======
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+    // アクセサとしてisFavoritedを定義
+    public function getIsFavoritedAttribute()
+    {
+        return $this->favorites()->where('user_id', auth()->user()->id)->exists();
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+>>>>>>> main
 }

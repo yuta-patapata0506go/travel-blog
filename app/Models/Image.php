@@ -12,15 +12,18 @@ class Image extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['post_id','image_url','spot_id', 'user_id', 'caption', 'status'];
+
     public function post()
 {
     return $this->belongsTo(Post::class);
 }
 
-public function spot()
+    public function spot()
 {
     return $this->belongsTo(Spot::class);
 }
+
 
 public function user()
 {

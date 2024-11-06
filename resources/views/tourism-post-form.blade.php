@@ -22,10 +22,9 @@
 
         <div class="mb-3">
             <label for="image" class="form-label">Image <span class="text-danger">*</span>:</label>
-            <input type="file" class="form-control form-shadow" id="image" name="image[]" accept="image/*" multiple>
+            <input type="file" class="form-control form-shadow" id="image" name="image" accept="image/*">
             <small class="form-text text-muted">The acceptable formats are .jpg, .jpeg, .png, .gif (max 2MB)</small>
         </div>
-
 
         <div class="mb-3">
             <label for="event_name" class="form-label">Event name <span class="text-danger">*</span>:</label>
@@ -51,7 +50,7 @@
 
         <div class="mb-3">
             <label for="info" class="form-label">Useful Information:</label>
-            <input type="text" class="form-control form-shadow" id="helpful_info" name="helpful_info" placeholder="Enter any useful information">
+            <input type="text" class="form-control form-shadow" id="info" name="info" placeholder="Enter any useful information">
         </div>
         <div class="d-flex justify-content-center mt-4">
             <button type="submit" class="btn-post btn-lg-custom">Post</button>
