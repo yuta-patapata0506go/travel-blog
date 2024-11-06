@@ -40,9 +40,10 @@
         <div class="mb-3">
             <label for="spot" class="form-label">Spot <span class="text-danger">*</span>:</label>
             <select class="form-select form-shadow" id="spot" name="spot" required>
-                <option value="">Please select a spot...</option>
-                <option value="1">Sapporo clock tower</option>
-                <option value="private">Tokyo tower</option>
+                <option value="">Please select a spot. If no spot is displayed here, you will need to go back to the previous page and register a spot first.</option>
+                @foreach ($spots as $spot)
+                    <option value="{{ $spot->id }}">{{ $spot->name }}</option>
+                @endforeach
             </select>
         </div>
 
@@ -60,17 +61,17 @@
         @if ($type == 0)
             <div class="mb-3">
                 <label for="event_name" class="form-label">Event name <span class="text-danger">*</span>:</label>
-                <input type="text" class="form-control form-shadow" id="event_name" name="event_name" placeholder="Enter event name" required>
+                <input type="text" class="form-control form-shadow" id="event_name" name="event_name" placeholder="e.g.) Sumida River Fireworks Festival" required>
             </div>
         @endif
 
         <div class="mb-3">
             <label for="comments" class="form-label">Comments:</label>
-            <textarea class="form-control form-shadow" id="comments" name="comments" rows="3" placeholder="Enter comments"></textarea>
+            <textarea class="form-control form-shadow" id="comments" name="comments" rows="3" placeholder="e.g)Experience the dazzling lights and vibrant atmosphere of the Sumida River Fireworks Festival!... "></textarea>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Category:</label>
+            <label class="form-label">Category:<span class="text-danger">*</span>:</label>
             <button type="button" class="btn-category" data-bs-toggle="modal" data-bs-target="#categoryModal2">Choose a category</button>
             <div id="selectedCategories" class="mt-2"></div>
         </div>

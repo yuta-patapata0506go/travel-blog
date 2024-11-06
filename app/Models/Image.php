@@ -19,10 +19,11 @@ class Image extends Model
     return $this->belongsTo(Post::class);
 }
 
-// public function spot()
-// {
-//     return $this->belongsTo(Spot::class);
-// }
+    public function spot()
+{
+    return $this->belongsTo(Spot::class);
+}
+
 
 public function user()
 {

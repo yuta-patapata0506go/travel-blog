@@ -10,69 +10,77 @@
                 <div class="row align-items-center">
                         <div class="col-auto">
                             <!-- if user has avatar should display -->
-                            <a href="#">
+                            <a href="{{ route('profile.show', ['id' => $post->user->id]) }}">
+                            @if ($post->user->avatar)
+                                <img src="{{ $post->user->avatar }}" alt="User Avatar" class="rounded-circle" style="width: 40px; height: 40px;">
+                            @else
                                 <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
-                            </a>
+                            @endif
+                        </a>
                         </div>
                         <div class="col ps-0">
-                            <a href="#" class="text-decoration-none text-dark">{{ Auth::user()->username }}</a>
+                            <a href="{{ route('profile.show', ['id' => $post->user->id]) }}" class="text-decoration-none text-dark">
+                                {{ $post->user->username }}
+                            </a>
                         </div>
-
-                    <div class="col-auto ps-0 ">
-                            <!-- IF you are the OWNER of the post, you can EDIT or DELETE the post -->                 
+                        <div class="col-auto ps-0">
+                            <!-- 投稿の所有者のみ表示 -->
+                            @if (Auth::id() === $post->user_id)
                                 <div class="dropdown">
-                                        <button class="btn btn-sm shadow-none"  data-bs-toggle="dropdown">
-                                            <i class="fa-solid fa-ellipsis"></i>
-                                        </button>
+                                    <button class="btn btn-sm shadow-none" data-bs-toggle="dropdown">
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    </button>
                                     
-                                        <div class="dropdown-menu">
-                                            <a href="{{ route('post.edit', $post->id) }}" class="dropdown-item">
-                                                <i class="fa-regular fa-edit"></i>Edit
-                                            </a>
-                                            <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#delete-post">
-                                                <i class="fa-regular fa-trash-can"></i> Delete
-                                            </button>
-                                        </div>
-                                        {{-- Include MODAL here --}}
-                                        @include('posts.modals.delete')
-                            </div>
-                    </div>
+                                    <div class="dropdown-menu">
+                                        <a href="{{ route('post.edit', $post->id) }}" class="dropdown-item">
+                                            <i class="fa-regular fa-edit"></i> Edit
+                                        </a>
+                                        <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#delete-post">
+                                            <i class="fa-regular fa-trash-can"></i> Delete
+                                        </button>
+                                    </div>
+                                    
+                                    {{-- Delete モーダルを含む --}}
+                                    @include('posts.modals.delete')
+                                </div>
+                            @endif
+                        </div>
                 </div>
             
 
-                <!-- Image -->
-                <div class="card col mt-3" style="height: auto;">
-    <!-- Main Image Carousel -->
-    <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
-        <div class="carousel-inner">
-            @foreach ($post->images as $index => $image)
-                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                    <!-- Base64エンコードされた画像データをsrc属性に設定 -->
-                    <img src="{{ $image->image_url }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
+                <!-- Image Display Section -->
+            <div class="card col mt-3" style="height: auto;">
+                <!-- Main Image Carousel -->
+                <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
+                    <div class="carousel-inner">
+                        @foreach ($post->images as $index => $image)
+                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                <!-- Storageパスを解決して画像を表示 -->
+                                <img src="{{ asset('storage/' . $image->image_url) }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Carousel Controls (Previous/Next) -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
-            @endforeach
-        </div>
 
-        <!-- Carousel Controls (Previous/Next) -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-
-    <!-- Thumbnail Images as Carousel Indicators -->
-    <div class="carousel-indicators-wrapper mt-3 d-flex justify-content-center gap-2 flex-wrap">
-        @foreach ($post->images as $index => $image)
-            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}" aria-label="Slide {{ $index + 1 }}">
-                <img src="{{ $image->image_url }}" class="thumbnail-img" alt="Thumbnail {{ $index + 1 }}">
-            </button>
-        @endforeach
-    </div>
-</div>
+                <!-- Thumbnail Images as Carousel Indicators -->
+                <div class="carousel-indicators-wrapper mt-3 d-flex justify-content-center gap-2 flex-wrap">
+                    @foreach ($post->images as $index => $image)
+                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}" aria-label="Slide {{ $index + 1 }}">
+                            <img src="{{ asset('storage/' . $image->image_url) }}" class="thumbnail-img" alt="Thumbnail {{ $index + 1 }}">
+                        </button>
+                    @endforeach
+                </div>
+            </div>
 
 
             <div class="row align-items-center">
@@ -88,7 +96,7 @@
                 <!-- Category Group -->
                 <div class="col d-flex justify-content-end">
                 @foreach ($post->categories as $category)
-                    <div class="badge bg-secondary bg-opacity-50 me-2">{{ $category->name }}</div>
+                    <div class="badge bg-secondary bg-opacity-50 m-2">{{ $category->name }}</div>
                 @endforeach
                 </div>
             </div>
@@ -112,35 +120,67 @@
                                 <a href="#comment" class="no-link-style">
                                     <i class="fa-regular fa-comment"></i>
                                 </a>
-                                <span class="count-text ms-1">3</span>
+                                <span class="count-text ms-1">{{ $commentCount }}</span>
                             </div>
 
-                            <!-- Heart Count -->
+                           <!-- Heart Count -->
                             <div class="d-flex align-items-center me-3 mt-3">
-                                <form action="#" method="post" class="d-flex align-items-center">
+                                <form action="{{ route('post.like', $post->id ?? 1) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="いいね">
-                                        <i class="fa-regular fa-heart"></i>
+                                    <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
+                                        <i class="fa-regular fa-heart {{ $post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
                                     </button>
-                                    <span class="count-text ms-1">3</span>
+                                    <span class="count-text ms-1" id="like-count">{{ $post->likes->count() }}</span>
                                 </form>
                             </div>
 
-                            <!-- Star count-->
+                            <!-- Star Count -->
                             <div class="d-flex align-items-center me-3 mt-3">
-                                <form action="#" method="post" class="d-flex align-items-center">
+                                <form action="{{ route('post.favorite', $post->id ?? 1) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="スター">
-                                        <i class="fa-regular fa-star"></i>
+                                    <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="star">
+                                        <i class="fa-regular fa-star {{ $post->isFavorited ? 'active' : '' }}" id="favorite-icon"></i>
                                     </button>
-                                    <span class="count-text ms-1">3</span>
+                                    <span class="count-text ms-1" id="favorite-count">{{ $post->favorites->count() }}</span>
                                 </form>
                             </div>
 
-                            <!-- Share-->
-                            <div class="d-flex align-items-center">
-                                <i class="fa-solid fa-share"></i>
-                            </div>
+                            <!-- Share Button -->
+<div class="d-flex align-items-center">
+    <i class="fa-solid fa-share" data-bs-toggle="modal" data-bs-target="#shareModal"></i>
+</div>
+
+<!-- Share Modal -->
+<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="shareModalLabel">Share This Post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Share this post on social media or copy the link:</p>
+                
+                <!-- Social Media Links -->
+                <div class="d-flex justify-content-around mb-3">
+                    <a href="#" class="btn btn-primary" id="facebookShare"><i class="fa-brands fa-facebook"></i> Facebook</a>
+                    <a href="#" class="btn btn-info" id="twitterShare"><i class="fa-brands fa-twitter"></i> Twitter</a>
+                    <a href="#" class="btn btn-danger" id="instagramShare"><i class="fa-brands fa-instagram"></i> Instagram</a>
+                </div>
+                
+                <!-- Copy Link Section -->
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="shareLink" readonly>
+                    <button class="btn btn-outline-secondary" onclick="copyLink()">Copy Link</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
                         </div>
                     </div>
                 </div>
@@ -151,9 +191,9 @@
                 <div class="col-6 map ">
                      <div class="card3 border-0  bg-white" style="height: 20rem;">
                         <div class="card-body">
-                            <a href="#" class="">
-                            @if (!empty($post->spot))
-                                <a href="#" class="">
+                           <a href="{{ route('spot.show', ['id' => $post->spot->id]) }}">
+                            @if ($post->spot)
+                                <a href="{{ route('spot.show', ['id' => $post->spot->id]) }}">
                                     <h3><i class="fa-solid fa-location-dot"></i> {{ $post->spot->name }}</h3>
                                 </a>
                             @else
@@ -161,11 +201,11 @@
                             @endif
                             </a>                
                             <iframe 
-                                src="https://www.google.com/maps?q= &output=embed"
+                                src="https://www.google.com/maps?q={{ $post->spot->latitude ?? 0 }},{{ $post->spot->longitude ?? 0 }}&output=embed"
                                 width="100%" height="200" frameborder="0" style="border:0;" allowfullscreen="">
                             </iframe>
-                            <p>〒123-4567</p>
-                            <p>730 Nagi, Narita City, Chiba Prefecture, Japan</p>
+                            <p class="mt-1">Postal/Zip code:{{ $post->spot->postalcode ?? 'N/A' }}</p>
+                            <p>{{ $post->spot->address ?? 'N/A' }}</p>
                         </div>
                      </div>
                 </div>
@@ -233,83 +273,17 @@
            <hr>
 
 
-                            <!-- Comments -->
-                            <div class="comments-section my-2">
-                            <a name="comment"> <h5>Question & Comment</h5></a> 
-                                <form action="#" method="post" class="mt-3">
-                                    <a href="comment"></a>
-                                    @csrf
-                                    <div class="input-group mb-3">
-                                        <input type="text" name="comment" class="form-control form-control-sm" id="comment" placeholder="Write a question or comment">
-                                        <button type="submit" class="btn">Add</button>
-                                    </div>
-                                </form>  
+           @include('posts.comment')
 
-                                <!-- コメントセクションにスクロールバーを付与 -->
-                                <div class="card comments-container" style=" max-height: 400px; overflow-y: auto;"> 
-                                    <!-- 各コメントをカードで表示 -->
-                                    <div class="card comment-card ">
-                                        <div class="card-body bg-white">
-                                            <!-- 名前と日付を左右に配置 -->
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="col-auto">
-                                                        <a href="#">
-                                                            <i class="fa-solid fa-circle-user text-secondary icon-sm"></i>
-                                                        </a>
-                                                    </div>         
-                                                    <div class="ps-2">
-                                                        <a href="#" class="text-decoration-none text-dark fw-bold">NAME</a>
-                                                    </div>
-                                                </div>
-                                                <small class="text-muted">2024.10.8</small> <!-- 日付を右側に配置 -->
-                                            </div>
-
-                                            <!-- コメントとリプライボタンを左右に配置 -->
-                                            <div class="d-flex align-items-center justify-content-between mt-2">
-                                                <p class="card-text mb-0">comment</p>
-                                                <button class="btn btn-reply btn-sm" data-comment-id="">reply</button>
-                                            </div>
-
-                                            <!-- Reply Form -->
-                                            <div class="reply-form mt-3" id="reply-form-" style="display: none;">
-                                                <form action="#" method="POST">
-                                                    @csrf
-                                                    <div class="mb-2">
-                                                        <textarea name="comment" rows="2" class="form-control" placeholder="reply here....."></textarea>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-outline-secondary btn-sm">Post</button>
-                                                </form>
-                                            </div>
-
-                                            <!-- Replies (Nested Comments) -->
-                                            <div class="card mt-2">
-                                                <div class="card-body">
-                                                    <div class="d-flex align-items-center justify-content-between">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="col-auto">
-                                                                <a href="#">
-                                                                    <i class="fa-solid fa-circle-user text-secondary icon-sm"></i>
-                                                                </a>
-                                                            </div>         
-                                                            <div class="ps-2">
-                                                                <a href="#" class="text-decoration-none text-dark fw-bold">NAME</a>
-                                                            </div>
-                                                        </div>
-                                                        <!-- 日付を右側に配置 -->
-                                                        <small class="text-muted">2024.10.8</small>
-                                                    </div>
-                                                    <div class="mt-2">
-                                                        <p class="mb-0 text-muted">reply comment here</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                <p class="">No, comments </p>    
+              
       </div>        
    </div>
 </div>
 @endsection
+@section('scripts')
+
+    <script src="{{ asset('js/share.js') }}"></script>
+
+@endsection
+
+

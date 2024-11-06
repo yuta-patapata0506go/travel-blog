@@ -38,7 +38,7 @@ function confirmDelete(imageId) {
     deleteModal.show();
 }
 
-d// 画像削除処理
+// 画像削除処理
 document.getElementById('confirmDeleteButton').addEventListener('click', function () {
     if (imageIdToDelete) {
         fetch(`/images/${imageIdToDelete}`, {
@@ -72,7 +72,6 @@ document.getElementById('confirmDeleteButton').addEventListener('click', functio
     }
 });
 
-// カテゴリ選択処理
 document.getElementById('selectedcategory-btn').addEventListener('click', function () {
     const selectedCategories = [];
     document.querySelectorAll('#cat-form-div .form-check-input:checked').forEach((checkbox) => {
@@ -82,7 +81,6 @@ document.getElementById('selectedcategory-btn').addEventListener('click', functi
         });
     });
 
-    // 表示エリアを更新
     const categoryContainer = document.getElementById('selectedCategories');
     categoryContainer.innerHTML = '';
     selectedCategories.forEach((category) => {
@@ -94,7 +92,11 @@ document.getElementById('selectedcategory-btn').addEventListener('click', functi
 
     // 隠しフィールドを更新
     const categoryInputsContainer = document.getElementById('category-inputs');
-    categoryInputsContainer.innerHTML = '';
+    if (!categoryInputsContainer) {
+        console.error("Element with ID 'category-inputs' not found.");
+        return; // エラーが発生したら処理を中断
+    }
+    categoryInputsContainer.innerHTML = ''; // Clear old inputs
     selectedCategories.forEach((category) => {
         const input = document.createElement('input');
         input.type = 'hidden';
@@ -102,6 +104,8 @@ document.getElementById('selectedcategory-btn').addEventListener('click', functi
         input.value = category.id;
         categoryInputsContainer.appendChild(input);
     });
+
+    console.log("Updated hidden category inputs:", selectedCategories);
 });
 
 

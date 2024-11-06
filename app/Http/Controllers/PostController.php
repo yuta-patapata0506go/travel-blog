@@ -3,45 +3,82 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Spot;
 use App\Models\Category; 
 use App\Models\Image;   
+use App\Models\Comment;
+use App\Models\Like;
+use App\Models\Favorite;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    
     private $post;
-
     private $category;
     private $image;
-
-    public function __construct(Post $post, Category $category, Image $image)
+    private $spot;
+    public function __construct(Post $post, Category $category, Image $image, Spot $spot)
 
     {
         $this->post = $post;
         $this->category = $category;
         $this->image = $image;
+        $this->spot = $spot;
     }
 
 
      // 新規投稿フォームの表示
      public function create($type)
 {
-    // Categoryモデルから全てのカテゴリを取得
-    $all_categories = Category::all();  // インスタンスではなく、直接モデルを呼び出す
+    // Categoryモデルから全てのカテゴリを取
+    $all_categories = Category::where('status', 1)->get();  // インスタンスではなく、直接モデルを呼び出す
+
+    $spots = Spot::all(); // 全てのスポットデータを取得
 
     // $typeと$all_categoriesをビューに渡す
-    return view('posts.create', compact('type', 'all_categories'));
+    return view('posts.create', compact('type', 'all_categories', 'spots'));
 }
 
      
-     // 投稿の詳細表示
-     public function show($id)
-     {
-        //  $post = $this->post->with('user', 'spot', 'comments')->findOrFail($id);
-       $post = $this->post->with(['images','categories'])->findOrFail($id);
+public function show($id)
+{
+    $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'comments.replies.user', 'comments'])->findOrFail($id);
+  
+    $userId = auth()->id();
 
-         return view('posts.show', compact('post'));
-     }
+    // Spot ID のデバッグログを記録
+    \Log::info("Spot ID for post ID {$post->id}: " . $post->spot_id);
+
+    // 最初の画像を取得
+    $firstImage = $post->images->first();
+
+    if (!$post->spot) {
+        \Log::warning("Spot not found for post ID: {$post->id}, spot ID: {$post->spot_id}");
+        $spotName = 'Location not available';
+    } else {
+        $spotName = $post->spot->name;
+    }
+
+      // ポストに関連するコメント（親コメントとリプライ）を取得
+      $comments = Comment::where('post_id', $id)
+      ->whereNull('parent_id')
+      ->with(['user', 'replies.user']) // user と replies.user を明示的にロード
+      ->get();
+
+      $commentCount = $post->comments()->count();
+
+       // Like
+       $liked = Like::where('user_id', $userId)->where('post_id', $id)->exists();
+       $likesCount = Like::where('post_id', $id)->count();
+
+       // Favorite
+       $favorited = $post->isFavorited; // アクセサを使用
+       $favoritesCount = Favorite::where('post_id', $id)->count();
+
+    return view('posts.show', compact('post', 'firstImage','spotName',  'comments',  'commentCount' ,'liked', 'likesCount','favorited', 'favoritesCount'));
+}
+
 
    
 
@@ -50,9 +87,9 @@ class PostController extends Controller
     {
        // バリデーションルールを定義
         $rules = [
-            'title' => 'string|max:30',
+            'title' => 'string|max:50',
             'type' => 'integer|in:0,1',
-            'event_name' => 'nullable|string|max:30',
+            'event_name' => 'nullable|string|max:50',
             'adult_fee' => 'nullable|numeric|min:0',
             'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
             'child_fee' => 'nullable|numeric|min:0',
@@ -113,10 +150,51 @@ class PostController extends Controller
         ->with('success', 'Post created successfully.');
     }
 
+    public function like($id)
+    {
+        $userId = auth()->id();
+        $existingLike = Like::where('user_id', $userId)->where('post_id', $id)->first();
+
+        if ($existingLike) {
+            // すでに「いいね」している場合は削除して、いいねを取り消し
+            $existingLike->delete();
+        } else {
+            // 新しく「いいね」を追加
+            Like::create([
+                'user_id' => $userId,
+                'post_id' => $id
+            ]);
+        }
+
+        // リダイレクトしてページを再読み込み
+        return redirect()->back();
+    }
+
+    public function favorite($id)
+    {
+        $userId = auth()->id();
+        $existingFavorite = Favorite::where('user_id', $userId)->where('post_id', $id)->first();
+
+        if ($existingFavorite) {
+            // すでに「いいね」している場合は削除して、いいねを取り消し
+            $existingFavorite->delete();
+        } else {
+            // 新しく「いいね」を追加
+            Favorite::create([
+                'user_id' => $userId,
+                'post_id' => $id
+            ]);
+        }
+
+        // リダイレクトしてページを再読み込み
+        return redirect()->back();
+    }
+
     // 投稿編集フォームの表示
     public function edit($id)
     {
         $post = Post::with(['CategoryPost', 'images'])->findOrFail($id);
+        $spots = Spot::all();          
 
         // 投稿者であるか確認
         if ($post->user_id !== auth()->id()) {
@@ -130,90 +208,93 @@ class PostController extends Controller
     // 全てのカテゴリを取得
     $all_categories = Category::all(); // これで$all_categoriesがビューに渡されます
     $selectedCategories = $post->CategoryPost->pluck('category_id')->toArray(); // 選択済みのカテゴリID
-    
 
-        return view('posts.edit', compact('post', 'type', 'startDate', 'endDate','all_categories', 'selectedCategories'));
+   
+        return view('posts.edit', compact('post','spots', 'type', 'startDate', 'endDate','all_categories', 'selectedCategories'));
     }
 
     
     public function update(Request $request, $id)
-    {
-        \Log::info("Update method called for post ID: " . $id);
+{
+    \Log::info("Update method called for post ID: " . $id);
     
-        // バリデーションルールを定義
-        $rules = [
-            'title' => 'string|max:30',
-            'event_name' => 'nullable|string|max:30',
-            'adult_fee' => 'nullable|numeric|min:0',
-            'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
-            'child_fee' => 'nullable|numeric|min:0',
-            'child_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date',
-            'comments' => 'nullable|string|max:255',
-            'category' => 'required',  // 配列またはカンマ区切り文字列
-            'helpful_info' => 'nullable|string',
-            'image' => 'nullable|array',
-        ];
+    // バリデーションルール
+    $rules = [
+        'title' => 'string|max:50',
+        'event_name' => 'nullable|string|max:50',
+        'adult_fee' => 'nullable|numeric|min:0',
+        'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
+        'child_fee' => 'nullable|numeric|min:0',
+        'child_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
+        'start_date' => 'nullable|date',
+        'end_date' => 'nullable|date',
+        'comments' => 'nullable|string|max:500',
+        'category' => 'required',  // 配列またはカンマ区切り文字列
+        'helpful_info' => 'nullable|string',
+        'image' => 'nullable|array',
+    ];
     
-        $request->validate($rules);
+    $request->validate($rules);
     
-        $post = Post::findOrFail($id);
+    $post = Post::findOrFail($id);
     
-        if ($post->user_id !== auth()->id()) {
-            return redirect()->route('posts.index')->with('error', 'Unauthorized access.');
-        }
-    
-        $post->title = $request->title ?? '';
-        $post->event_name = $request->event_name;
-        $post->adult_fee = $request->adult_fee;
-        $post->adult_currency = $request->adult_currency;
-        $post->child_fee = $request->child_fee;
-        $post->child_currency = $request->child_currency;
-        $post->start_date = $request->start_date ?: null;
-        $post->end_date = $request->end_date ?: null;
-        $post->comments = $request->comments;
-        $post->helpful_info = $request->helpful_info;
-        $post->save();
-    
-        \Log::info("Post fields (including helpful_info) updated successfully for post ID: " . $id);
-    
-        // カテゴリIDを配列に変換
-        $categoryIds = is_array($request->category) 
-            ? array_map('intval', $request->category) 
-            : array_map('intval', explode(',', $request->category));
-    
-        \Log::info("Categories to save:", ['category_ids' => $categoryIds]);
-    
-        $post->CategoryPost()->delete();
-    
-        $category_post = [];
-        foreach ($categoryIds as $category_id) {
-            $category_post[] = [
-                "category_id" => $category_id,
-                "post_id" => $post->id,
-                "status" => 'updated',
-                "created_at" => now(),
-                "updated_at" => now(),
-            ];
-        }
-        $post->CategoryPost()->insert($category_post);
-        \Log::info("Received categories:", ['category' => $request->category]);
-
-        \Log::info("Categories updated successfully for post ID: " . $post->id . " with categories: " . implode(',', $categoryIds));
-    
-        if ($request->hasFile('image')) {
-            \Log::info("Updating images for post ID: " . $id);
-            foreach ($post->images as $image) {
-                app(ImageController::class)->destroy($image->id);
-            }
-            app(ImageController::class)->store($request, $post->id, null);
-            \Log::info("Images updated successfully for post ID: " . $id);
-        }
-    
-        \Log::info("Update process completed for post ID: " . $id . ". Redirecting to show page.");
-        return redirect()->route('post.show', $post->id)->with('success', 'Post updated successfully.');
+    if ($post->user_id !== auth()->id()) {
+        return redirect()->route('posts.index')->with('error', 'Unauthorized access.');
     }
+
+    // Postフィールドの更新
+    $post->title = $request->title ?? '';
+    $post->event_name = $request->event_name;
+    $post->adult_fee = $request->adult_fee;
+    $post->adult_currency = $request->adult_currency;
+    $post->child_fee = $request->child_fee;
+    $post->child_currency = $request->child_currency;
+    $post->start_date = $request->start_date ?: null;
+    $post->end_date = $request->end_date ?: null;
+    $post->comments = $request->comments;
+    $post->helpful_info = $request->helpful_info;
+    $post->save();
+
+    \Log::info("Post fields (including helpful_info) updated successfully for post ID: " . $id);
+
+    // カテゴリの更新
+    $categoryIds = is_array($request->category) 
+        ? array_map('intval', $request->category) 
+        : array_map('intval', explode(',', $request->category));
+    \Log::info("Categories to save:", ['category_ids' => $categoryIds]);
+
+    $post->CategoryPost()->delete();
+    $category_post = [];
+    foreach ($categoryIds as $category_id) {
+        $category_post[] = [
+            "category_id" => $category_id,
+            "post_id" => $post->id,
+            "status" => 'updated',
+            "created_at" => now(),
+            "updated_at" => now(),
+        ];
+    }
+    $post->CategoryPost()->insert($category_post);
+    \Log::info("Checking if new images need to be added for post ID: " . $id);
+if ($request->hasFile('image')) {
+    \Log::info("Adding new images for post ID: " . $id);
+    $imageAdded = app(ImageController::class)->store($request, $post->id, null);
+
+    if ($imageAdded) {
+        \Log::info("New images added successfully for post ID: " . $id);
+    } else {
+        \Log::error("Failed to add new images for post ID: " . $id);
+        return redirect()->back()->withErrors(['error' => 'Failed to add new images.']);
+    }
+}
+    
+
+
+
+    \Log::info("Update process completed for post ID: " . $id . ". Redirecting to show page.");
+    return redirect()->route('post.show', $post->id)->with('success', 'Post updated successfully.');
+}
+
     
 
     
@@ -225,16 +306,8 @@ class PostController extends Controller
     // 投稿の削除
     public function destroy($id)
     {
-        $post = Post::findOrFail($id);
+       $this->post->destroy($id);
 
-        // 投稿者であるか確認
-        if ($post->user_id !== auth()->id()) {
-            return redirect()->route('posts.index')->with('error', 'Unauthorized access.');
-        }
-
-        // 投稿を削除
-        $post->delete();
-
-        return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
+       return redirect()->route('home')->with('success', 'Post deleted successfully.');
     }
 }
