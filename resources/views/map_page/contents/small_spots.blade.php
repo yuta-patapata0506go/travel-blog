@@ -3,9 +3,15 @@
     @forelse ($spots as $spot)
         <div class="small_spot col-md-4 mb-4">
             <div class="card">
-                <a href="#" >
-                  <img src="{{ asset('images/map_samples/spot_pc_sample.png') }}" class="card-img-top " alt="Tourism Image">
-                </a>
+              @if ($spot->images->isNotEmpty())
+              <a href="#">
+                  <img src="{{ asset('storage/' . $spot->images->first()->image_url) }}" class="card-img-top" alt="{{ $spot->name }}">
+              </a>
+              @else
+                  <a href="#">
+                      <img src="{{ asset('images/map_samples/spot_pc_sample.png') }}" class="card-img-top" alt="Default Image">
+                  </a>
+              @endif
                 
                 <div class="card-body">
 
@@ -29,7 +35,7 @@
                         </div>
                     </div>
 
-                    <p class="card-text text-truncate">{{ $spot->address }}</p>
+                    {{-- <p class="card-text text-truncate">{{ $spot->address }}</p> --}}
                     
                   </div>
                   

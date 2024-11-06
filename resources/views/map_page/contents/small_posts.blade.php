@@ -2,18 +2,23 @@
 
 <div class="show_posts">
   <div class="row">
-    @for ($i = 0; $i < 8; $i++)
+    @foreach($spots as $spot) <!-- 各スポットをループ -->
+        @foreach($spot->posts as $post) <!-- 各スポットに紐づくポストをループ -->
         <div class="small_post col-md-3">
             <div class="card">
-                <a href="#" >
-                  <img src="{{ asset('images/map_samples/post_pc_sample.png') }}" class="card-img-top" alt="Tourism Image">
-                </a>
+              <a href="#">
+                @if ($post->images->isNotEmpty() && $post->images->first())
+                    <img src="{{ asset($post->images->first()->image_url) }}" class="card-img-top" alt="Tourism Image">
+                @else
+                    <img src="{{ asset('images/map_samples/post_pc_sample.png') }}" class="card-img-top" alt="Default Image">
+                @endif
+              </a>
 
                 <div class="card-body">
 
                   <div class="row">
                     <div class="col-auto">
-                      <h5 class="fw-bolder">Title</h5>
+                      <h5 class="fw-bolder">{{ $post->title }}</h5>
                     </div>
                     <div class="col-auto">
                       <form action="#">
@@ -27,14 +32,17 @@
                     </div>
                   </div>
 
+                  <!-- Category表示部分 -->
                   <div class="row">
                     <div class="col-auto mb-1">
-                      <span class="badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
-                      <span class="badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
+                      @foreach($post->categories as $category)
+                        <span class="badge bg-secondary bg-opacity-50 rounded-pill">{{ $category->name }}</span>
+                      @endforeach
                     </div>
                   </div>
+
                   <div class="post_text">
-                    <p>text text text text text text text text text text text text text text text text text text text text</p>
+                    <p>{{ $post->comments ?? '' }}</p>
                     <button class="btn comment-card">Learn More</button>
                    
                   </div>
@@ -42,6 +50,9 @@
                 </div>
             </div>
         </div>
-    @endfor
+        @endforeach
+    @endforeach
   </div>
 </div>
+
+

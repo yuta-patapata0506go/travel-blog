@@ -43,21 +43,21 @@ class Favorite extends Model
     }
 
       // ユーザーとのリレーション (1対多の「多」側)
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
 
     // ポストとのリレーション (1対多の「多」側)
-    public function post()
-    {
-        return $this->belongsTo(Post::class);
-    }
+    // public function post()
+    // {
+    //     return $this->belongsTo(Post::class);
+    // }
 
     // スポットとのリレーション (1対多の「多」側)
-    public function spot()
-    {
-        return $this->belongsTo(Spot::class);
-    }
+    // public function spot()
+    // {
+    //     return $this->belongsTo(Spot::class);
+    // }
 
 }
