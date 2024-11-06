@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Spot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,8 +20,8 @@ class CommentController extends Controller
     $comment = new Comment();
     $comment->body = $request->comment;
     $comment->user_id = Auth::id();
-    $comment->post_id = $id; // `post_id` に対応
-    $comment->spot_id = $request->spot_id ?? null; // 必要であれば
+    $comment->post_id =  $request->post_id ?? null; // `post_id` に対応
+    $comment->spot_id = $request->spot_id ?? null;// $idがspotのID
     $comment->parent_id = $request->parent_id ?? null; // リプライがある場合
 
     if ($comment->save()) {
@@ -28,6 +29,14 @@ class CommentController extends Controller
     } else {
         return redirect()->back()->with('error', 'コメントの保存に失敗しました。');
     }
+}
+
+public function show($id)
+{
+    $spot = Spot::findOrFail($id);
+    $comments = Comment::where('spot_id', $id)->with('user', 'replies.user')->get();
+
+    return view('spot.show', compact('spot', 'comments'));
 }
 
 public function destroy($id)
