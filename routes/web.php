@@ -216,25 +216,6 @@ Route::get('/select-post-form', function () {
 // Authentication Routes
 
 Auth::routes();
-// POST routes
-Route::group(["middleware"=> "auth"], function(){
 
-    Route::group(['prefix' => 'post', 'as' =>'post.'],function(){
-        Route::get('create/{type}', [PostController::class, 'create'])->name('create');
-        Route::post('store', [PostController::class, 'store'])->name('store');
-        Route::get('show/{id}', [PostController::class, 'show'])->name('show');
-        Route::get('edit/{id}', [PostController::class, 'edit'])->name('edit');
-        Route::patch('update/{id}', [PostController::class, 'update'])->name('update');
-        Route::delete('destroy/{id}', [PostController::class, 'destroy'])->name('destroy');
-        Route::post('{id}/like', [PostController::class, 'like'])->name('like');
-        Route::post('{id}/favorite', [PostController::class, 'favorite'])->name('favorite');
-    
-       });
-
-       
- });
-
- // コメントの保存ルート (POST)
-Route::post('post/{id}/comment', [CommentController::class, 'store'])->name('comment.store');
-Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
-
+// Serch function
+Route::get('/search', [SearchController::class, 'search'])->name('search');
