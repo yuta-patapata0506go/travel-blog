@@ -37,6 +37,9 @@ Route::get('/admin-spots-index', function () {
 
 // admin category feature
 Route::get('/admin-categories-index',[CategoryController::class,'index'])->name('admin.categories.index');
+
+Route::get('/admin-categories-create',[CategoryController::class,'create'])->name('admin.categories.create');
+
 Route::post('/admin-categories-store',[CategoryController::class,'store'])->name('admin.categories.store');
 
 Route::get('/admin-categories-edit/{id}',[CategoryController::class,'edit'])->name('admin.categories.edit');
