@@ -500,4 +500,23 @@ button:focus {
     font-size: 0.8em;
     color: #007bff;
     cursor: pointer;
-}z
+}
+
+.weather-icon { 
+    display: flex; align-items: center; /* アイコンとテキストを縦に中央揃え */ 
+}
+
+.weather-icon img {
+    width: 70px; /* アイコンの幅を50pxに設定 */
+    height: 70px; /* アイコンの高さを50pxに設定 */
+}
+
+.weather-icon .temperature { 
+    font-size: 50px; /* 温度の文字サイズを画像と同じくらい大きくする */ 
+    font-weight: bold; /* 太字にして目立たせる */ 
+    margin-left: 20px; /* アイコンと温度の間にスペースを追加する */ 
+}
+
+.weather-condition {
+    font-size: 18px; /* 文字サイズを調整 */
+}

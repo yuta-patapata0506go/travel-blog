@@ -2,12 +2,13 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/spot.css') }}">
+
 @endsection
 
 @section('content')
 
 @foreach($spots as $spot)
-        <div class="post-container">
+        <iv class="post-container">
             <!-- Card of whole page -->
         
         <div class="post-card">
@@ -30,13 +31,7 @@
                         </button>
                     </form>
                 @endif
-                <!--<form action="#" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
-                        <i class="fa-solid fa-heart" id="like-icon"></i> --><!-- Heart -->
-                        <!--<span class="ms-1" id="like-count">10</span>--> <!-- no. of Like -->
-                    <!--</button>
-                    @csrf
-                </form>-->
+                
                 @if ($spot->isFavorited)
                     <form action="{{ route('spot.favorite', $spot->id ?? 1) }}" method="POST">
                         @csrf
@@ -54,13 +49,6 @@
                         </button>
                     </form>
                 @endif
-                <!--<form action="#" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
-                        <i class="fa-solid fa-star" id="favorite-icon"></i>--> <!-- Star -->
-                        <!--<span class="ms-1" id="favorite-count">5</span>--> <!-- no. of Favorite -->
-                    <!--</button>
-                    @csrf
-                </form>-->
         
             </div>
 
@@ -70,26 +58,17 @@
             <div class="spot-container">
                 <!-- Image -->
                 <div class="card col mt-3" style="height: auto;">
-                    <!-- メイン画像表示 -->
+                    <!-- Main Image Carousel -->
                     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="{{ asset('/images/petra1.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 1">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('/images/petra2.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 2">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('/images/petra3.jpg') }}" class="d-block w-100 main-carousel-img" alt="Firework Image 3">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('/images/city.jpg') }}" class="d-block w-100 main-carousel-img" alt="Beach Image">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('/images/beer.jpg') }}" class="d-block w-100 main-carousel-img" alt="Another Image">
-                            </div>
+                            @foreach ($spot->images as $index => $image)
+                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                    <!-- Base64エンコードされた画像データをsrc属性に設定 -->
+                                    <img src="{{ $image->image_url }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
+                                </div>
+                            @endforeach
                         </div>
-                        <!-- カルーセルのコントロール（前後に移動） -->
+                        <!-- Carousel Controls (Previous/Next) -->
                         <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
@@ -99,60 +78,22 @@
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
-                    <!-- サブ画像 (サムネイル) -->
+                    <!-- Thumbnail Images as Carousel Indicators -->
                     <div class="carousel-indicators-wrapper mt-3 d-flex justify-content-center gap-2 flex-wrap">
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1">
-                            <img src="{{ asset('images/petra1.jpg') }}" class="thumbnail-img" alt="Thumbnail 1">
-                        </button>
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2">
-                            <img src="{{ asset('images/petra2.jpg') }}" class="thumbnail-img" alt="Thumbnail 2">
-                        </button>
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2" aria-label="Slide 3">
-                            <img src="{{ asset('images/petra3.jpg') }}" class="thumbnail-img" alt="Thumbnail 3">
-                        </button>
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="3" aria-label="Slide 4">
-                            <img src="{{ asset('images/petra1.jpg') }}" class="thumbnail-img" alt="Thumbnail">
-                        </button>
-                        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="4" aria-label="Slide 5">
-                            <img src="{{ asset('images/petra2.jpg') }}" class="thumbnail-img" alt="Thumbnail">
-                        </button>
+                        @foreach ($spot->images as $index => $image)
+                            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}" aria-label="Slide {{ $index + 1 }}">
+                                <img src="{{ $image->image_url }}" class="thumbnail-img" alt="Thumbnail {{ $index + 1 }}">
+                            </button>
+                        @endforeach
                     </div>
-                </div>
-            
-
-                <!-- Main -->
-                <!--<div class="main-image">
-                    <img id="featured" src="/images/castle.jpg" alt="main_image" class="img-fluid">
-                </div>
-                <h2 class="">Spot Name</h2>-->
-
-                <!-- Thumbnail Images -->
-                <!--<div class="thumbnails">
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image1" class="img-fluid">
-                    </div>
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image2" class="img-fluid">
-                    </div>
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image3" class="img-fluid">
-                    </div>
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image4" class="img-fluid">
-                    </div>
-                    <div class="thumbnail" onclick="switchImage('/images/castle.jpg')">
-                        <img src="/images/castle.jpg" alt="Image5" class="img-fluid">
-                    </div>-->
-
-                    <!-- Right Arrow Button for Additional Images -->
-                    <!--<button class="arrow-right text-dark" onclick="nextImage()"><i class="fa-regular fa-circle-right"></i></button>-->                
+                </div>                
             </div>
 
             <!-- Divider -->
             <hr class="divider">
 
                 <!-- Map and Weather Display -->
-                <div class="info-container">
+            <div class="info-container">
 
                 <!-- Mapへの遷移用フォーム -->
                 <form action="/mappage" method="GET" class="map-form" onclick="this.parentElement.submit()">
@@ -168,20 +109,35 @@
                 </form>
 
                 <!-- Weather -->
-                
                 <div class="weather"> 
-                     <h2>Weather Information</h2>
-                     <br>
-                     <br>
-                      <p>Weather Conditon: {{ $spot->weather_condition }}</p>
-                      <p>Temperature: {{ $spot->temperature }}°C</p>
-                      <p>Humidity: {{ $spot->humidity }}%</p>
-                      <p>Wind Speed: {{ $spot->wind_speed }} m/s</p>
-                      <p>Precipitation: {{ $spot->precipitation }} mm</p>
-                      <p>UV Index: {{ $spot->uv_index }}</p>
-                </div>
-            </div>
+                    <h2>Weather Information</h2>                
+                    <!-- Weather Condition Icon -->                     
+                    <br>
+                    <p class="weather-condition">{{ ucfirst($spot->weather_condition) }}</p>
+                    <div class="weather-icon">
+                    @if($spot->weather_condition == 'clear sky')
+                     <img src="{{asset("images/weather/clearsky.png")}}" alt="clear sky">
+                    @elseif($spot->weather_condition == 'overcast clouds')
+                     <img src="/images/weather/overcastclouds.png" alt="overcast clouds">
+                    @elseif($spot->weather_condition == 'light intensity shower rain'|| $spot->weather_condition == 'light rain')
+                     <img src="/images/weather/light-rain.png" alt="light Intensity shower rain">
+                    {{-- @elseif($spot->weather_condition == 'Snow')
+                     <img src="/images/weather/snow.png" alt="Snow">
+                    @elseif($spot->weather_condition == 'Thunderstorm')
+                     <img src="/images/weather/thunderstorm.png" alt="Thunderstorm"> --}}
+                    {{-- @else
+                     <img src="/images/weather/default_icon.png" alt="Default"> --}} 
+                    @endif
+                   <span class="temperature">{{ $spot->temperature }}°C</span>
+                   </div>
+               <br>
+                <p>Humidity:&nbsp {{ $spot->humidity }}%</p>
+                <p>Wind Speed:&nbsp {{ $spot->wind_speed }} m/s</p>
+                <p>Precipitation:&nbsp {{ $spot->precipitation }} mm</p>
+                <p>UV Index:&nbsp {{ $spot->uv_index }}</p>
 
+               </div>
+            </div>
 
                 <!-- Comments -->
                             <div class="comments-section my-2">
@@ -360,8 +316,8 @@
                     </button>
                 </div>
                 
-            </div>
         </div>
+        
     </div>
 </div>
 @endforeach
