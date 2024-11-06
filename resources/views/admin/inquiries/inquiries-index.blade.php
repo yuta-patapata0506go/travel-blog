@@ -28,9 +28,13 @@
         <div class="text-end mb-3">
             {{-- <button class="btn btn-outline-dark">Recommended Posts</button> --}}
             {{-- modal button --}}
-            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#category-modal"> {{-- Updated this line --}}
-                Recommended Posts Setting {{-- {{ $categoryModalLabel->id }} --}}
+            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#category-modal">
+                Recommended Posts Setting
             </button>
+
+            {{-- <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#category-modal" data-url="{{ route('admin.recommendations.modal') }}">
+                Recommended Posts Setting
+            </button> --}}
 
             @include('admin.modals.recommended_post')
         </div>

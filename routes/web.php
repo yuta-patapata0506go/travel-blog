@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\Admin\ResponsesController;
+use App\Http\Controllers\Admin\RecommendationsController;
+use App\Http\Controllers\RecommendationController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -134,6 +136,10 @@ Route::group(['prefix' => 'spot', 'as' => 'spot.'], function() {
 });*/
 
 
+// Recommendation Route
+Route::group(['prefix' => 'recommendation', 'as' => 'recommendation.'], function() {
+    Route::get('/', [RecommendationController::class, 'showRecommendations'])->name('showRecommendations');
+});
 
 
 // Admin　Routes
@@ -149,6 +155,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries
             Route::get('/{id}/create_reply', [ResponsesController::class, 'create'])->name('create_reply');
             Route::post('/{id}/reply', [ResponsesController::class, 'store'])->name('reply');
+        });
+
+        Route::group(['prefix' => 'admin/recommendations', 'as' => 'admin.recommendations.'], function() { // /admin/recommendations
+            Route::get('/modal', [RecommendationsController::class, 'showModal'])->name('modal');
+            Route::post('/save', [RecommendationsController::class, 'saveRecommendations'])->name('save');
+            // Route::get('/', [RecommendationController::class, 'showRecommendations'])->name('show');
         });
     // });
 });
