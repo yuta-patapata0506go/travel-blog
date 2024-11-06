@@ -1,16 +1,10 @@
 @extends('layouts.app')
 
 @section('css')
-<<<<<<< HEAD
-    <link rel="stylesheet" href="{{ asset('css/spot.css') }}">
-
-@endsection
-=======
     <link href="{{ asset('css/spot.css') }}" rel="stylesheet">
 @endsection
 
 @section('title', 'Spot')
->>>>>>> main
 
 @section('content')
 
@@ -102,18 +96,10 @@
             <hr class="divider">
 
                 <!-- Map and Weather Display -->
-<<<<<<< HEAD
-            <div class="info-container">
-
-                <!-- Mapへの遷移用フォーム -->
-                <form action="/mappage" method="GET" class="map-form" onclick="this.parentElement.submit()">
-                    <div class="map" onclick="this.parentElement.submit()">
-=======
                 <div class="info-container">
                     <!-- Mapへの遷移用フォーム -->
                     <form action="/mappage" method="GET" class="map-form" onclick="this.parentElement.submit()">
                         <div class="map" onclick="this.parentElement.submit()">
->>>>>>> main
                         <h5>Map</h5>
                         <i class="fa-regular fa-map"></i>
                         <img src="/images/map.png" alt="">
@@ -131,7 +117,6 @@
                         <p>Weather information will be displayed here.</p>
                         <!-- Embed weather code here -->
                     </div>
-<<<<<<< HEAD
                 </form>
 
                 <!-- Weather -->
@@ -165,10 +150,6 @@
                </div>
             </div>
 
-=======
-                </div>
-
->>>>>>> main
                 <!-- Comments -->
                             <div class="comments-section my-2">
                                 <h5>Question & Comment</h5>
