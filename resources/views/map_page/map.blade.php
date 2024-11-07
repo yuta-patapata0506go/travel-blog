@@ -91,10 +91,15 @@
                 // Marker and Popup of Spots
                 data.spots.forEach(spot => {
                     if (spot.latitude && spot.longitude) {
+
+                        const imageUrl = spot.images && spot.images.length > 0 
+                                ? spot.images[0].image_url 
+                                : 'images/map_samples/spot_pc_sample.png';
+
                         const popupContent = `
                             <div class="spot_popup">
                                 <a href="#" class="small_spot">
-                                    <img src="{{ asset('images/map_samples/spot_pc_sample.png') }}" alt="#" >
+                                    <img src="{{ asset('storage/') }}/${imageUrl}" alt="Spot Name" >
                                  </a>
                                 <a href="#" class="spot_name">
                                     <p>${spot.name}</p>
@@ -111,7 +116,6 @@
             .catch(error => console.error('Error:', error));
     }
 });
-
 
 
 </script>

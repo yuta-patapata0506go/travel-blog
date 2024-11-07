@@ -8,7 +8,7 @@
             <div class="card">
               <a href="#">
                 @if ($post->images->isNotEmpty() && $post->images->first())
-                    <img src="{{ asset($post->images->first()->image_url) }}" class="card-img-top" alt="Tourism Image">
+                    <img src="{{ asset('storage/' . $post->images->first()->image_url) }}" class="card-img-top" alt="Tourism Image">
                 @else
                     <img src="{{ asset('images/map_samples/post_pc_sample.png') }}" class="card-img-top" alt="Default Image">
                 @endif
