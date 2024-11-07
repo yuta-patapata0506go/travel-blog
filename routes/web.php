@@ -119,20 +119,18 @@ Route::get('/about', function () {
 })->name('about');
 
 
+//Spot
 Route::group(['prefix' => 'spot', 'as' => 'spot.'], function() {
     Route::get('create', [SpotController::class, 'create'])->name('create');
     Route::post('store', [SpotController::class, 'store'])->name('store'); 
-    Route::get('/{id}', [SpotController::class, 'show'])->name('show'); 
-
+    Route::get('{id}', [SpotController::class, 'show'])->name('show'); 
+    
     // Like のルート
     Route::post('{id}/like', [SpotController::class, 'like'])->name('like');
     // Favorite のルート
     Route::post('{id}/favorite', [SpotController::class, 'favorite'])->name('favorite');
-});
 
-/*Route::get('/spot-post-form', function () {
-    return view('spot-post-form');
-});*/
+});
 
 
 
@@ -220,6 +218,32 @@ Route::get('/spot/{spot_id}', [WeatherController::class, 'show']);
 // Authentication Routes
 
 Auth::routes();
+// POST routes
+Route::group(["middleware"=> "auth"], function(){
+
+    Route::group(['prefix' => 'post', 'as' =>'post.'],function(){
+        Route::get('create/{type}', [PostController::class, 'create'])->name('create');
+        Route::post('store', [PostController::class, 'store'])->name('store');
+        Route::get('show/{id}', [PostController::class, 'show'])->name('show');
+        Route::get('edit/{id}', [PostController::class, 'edit'])->name('edit');
+        Route::patch('update/{id}', [PostController::class, 'update'])->name('update');
+        Route::delete('destroy/{id}', [PostController::class, 'destroy'])->name('destroy');
+        Route::post('{id}/like', [PostController::class, 'like'])->name('like');
+        Route::post('{id}/favorite', [PostController::class, 'favorite'])->name('favorite');
+    
+       });
+
+       
+ });
+
+ // コメントの保存ルート (POST)
+Route::post('post/{id}/comment', [CommentController::class, 'store'])->name('comment.store');
+Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+
+// コメントの保存ルート (SPOT)
+Route::post('spot/{id}/comment', [CommentController::class, 'store'])->name('spot.comment.store');
+Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+
 
 // Serch function
 Route::get('/search', [SearchController::class, 'search'])->name('search');
