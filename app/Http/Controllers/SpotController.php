@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Like;
 use App\Models\Favorite;
 use App\Models\Category;
+use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -17,29 +19,29 @@ class SpotController extends Controller
     private $spot;
     private $category;
     private $image;
+    private $post;
 
-    public function __construct(Spot $spot, category $category, image $image) {
+    public function __construct(Spot $spot, category $category, image $image, Post $post) {
         $this->spot = $spot;
         $this->category = $category;
         $this->image = $image;
+        $this->post = $post;
     
     }
     // スポット一覧を表示するメソッド
-    public function index($id = null)
+    public function index($id)
     {
-        // 特定のスポットIDが指定されている場合、そのIDのスポットのみを取得
-        if ($id) {
-            $spots = Spot::where('id', $id)->get();
-        } else {
-        // spotsテーブルから全データを取得
-        $spots = Spot::all();
+        // 指定されたIDのスポットを取得（1つのみ）
+        $spot = Spot::findOrFail($id);
 
-        // ビューにデータを渡して表示
+        // 指定されたスポットIDに関連する全てのポストを取得
+        $posts = Post::where('spot_id', $id)->get();
+
+        // スポットとポストをビューに渡して表示
         return view('spot', [
-            'spots' => $spots,
-            'isDetail' => $id ? true : false, // 一覧表示かどうかを示すフラグ
+            'spot' => $spot,
+            'posts' => $posts,
         ]);
-    }
     }
 
     
@@ -60,6 +62,7 @@ class SpotController extends Controller
             'address' => 'required|string|max:255',
            
             'image' => 'required|array',
+            
         ]);
 
         // Geocoding APIを使って住所から緯度と経度を取得
@@ -108,7 +111,7 @@ class SpotController extends Controller
     {
 
         // IDを使ってスポットデータを取得
-        $spot = Spot::with('images','likes','favorites')->findOrFail($id); // imagesリレーションを読み込む
+        $spot = Spot::with('images','likes','favorites', 'comments.replies')->findOrFail($id); // imagesリレーションを読み込む
         $userId = auth()->id();
 
         // Like
@@ -119,13 +122,22 @@ class SpotController extends Controller
         $favorited = $spot->isFavorited; // アクセサを使用
         $favoritesCount = Favorite::where('spot_id', $id)->count();
 
+        // Comment
+        // ポストに関連するコメント（親コメントとリプライ）を取得
+        $comments = Comment::where('spot_id', $id)
+        ->whereNull('parent_id')
+        ->with(['user', 'replies.user']) // user と replies.user を明示的にロード
+        ->get();
+
+        $commentCount = $spot->comments()->count();
+
         // スポットが見つからなかった場合のエラーハンドリング
         if (!$spot) {
             return redirect('/spot')->with('error', 'Spot not found');
         }
 
         // spot.blade.php に $spot 変数を渡す
-        return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount'));
+        return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount', 'comments'));
 
     }
 

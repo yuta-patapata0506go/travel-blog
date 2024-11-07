@@ -95,7 +95,16 @@ Route::group(['prefix' => 'spot', 'as' => 'spot.'], function() {
     Route::post('{id}/like', [SpotController::class, 'like'])->name('like');
     // Favorite のルート
     Route::post('{id}/favorite', [SpotController::class, 'favorite'])->name('favorite');
+
 });
+
+/*Route::get('/spot-post-form', function () {
+    return view('spot-post-form');
+});*/
+
+
+
+
 // Admin　Routes
 Route::group(['middleware' => 'auth'], function () {
     // Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){

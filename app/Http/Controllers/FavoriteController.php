@@ -24,7 +24,7 @@ class FavoriteController extends Controller
         //
         $this->favorite->user_id = auth()->user()->id;
         $this->favorite->spot_id = $spot_id;
-        $this->favorite->poat_id = $post_id; 
+        $this->favorite->post_id = $post_id; 
         $this->favorite->save();
 
         return back();
