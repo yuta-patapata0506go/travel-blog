@@ -4,11 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-<<<<<<< HEAD
-=======
 use App\Models\Favorite;
 use App\Models\Image;
->>>>>>> main
 
 class Spot extends Model
 {
@@ -52,8 +49,6 @@ class Spot extends Model
     }
     // select * from likes where post_id = 15 and user_id = 2 ???? == TRUE
 
-<<<<<<< HEAD
-=======
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
@@ -69,5 +64,4 @@ class Spot extends Model
         return $this->hasMany(Post::class);
     }
 
->>>>>>> main
 }
