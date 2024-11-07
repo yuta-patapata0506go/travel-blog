@@ -147,6 +147,7 @@ public function show($id)
 
         return redirect()->route('post.show', ['id' => $this->post->id])
         ->with('success', 'Post created successfully.');
+    
     }
 
     public function like($id)

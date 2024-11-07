@@ -166,7 +166,7 @@ Auth::routes();
 Route::group(["middleware"=> "auth"], function(){
     Route::group(['prefix' => 'post', 'as' =>'post.'],function(){
         Route::get('create/{type}', [PostController::class, 'create'])->name('create');
-        Route::post('store', [PostController::class, 'store'])->name('store');
+        Route::post('store', action: [PostController::class, 'store'])->name('store');
         Route::get('show/{id}', [PostController::class, 'show'])->name('show');
         Route::get('edit/{id}', [PostController::class, 'edit'])->name('edit');
         Route::patch('update/{id}', [PostController::class, 'update'])->name('update');
@@ -177,10 +177,13 @@ Route::group(["middleware"=> "auth"], function(){
  });
 
 
- Route::get('/post/{id}', [CommentController::class, 'show'])->name('post.show');
- Route::get('/spot/{id}', [CommentController::class, 'show'])->name('spot.show');
+
+ Route::get('/{type}/{id}', [CommentController::class, 'show'])->name('comment.show');
  Route::post('/comment/store/{id}', [CommentController::class, 'store'])->name('comment.store');
  Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
  
+
+
+ 
 // Serch function
-Route::get('/search', [SearchController::class, 'search'])->name('search');
+// Route::get('/search', [SearchController::class, 'search'])->name('search');
