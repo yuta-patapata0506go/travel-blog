@@ -75,6 +75,7 @@ class Post extends Model
     {
         return $this->favorites()->where('user_id', auth()->user()->id)->exists();
     }
+    
 
 // 日付としてキャストする属性
 protected $casts = [

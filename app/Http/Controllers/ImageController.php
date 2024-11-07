@@ -9,38 +9,36 @@ class ImageController extends Controller
     {
         $this->image = $image;
     }
-   // ImageControllerの修正public function store(Request $request, $postId, $spotId)
-   public function store(Request $request, $postId, $spotId)
-   {
-       // ログをメソッド内に記述する
-       \Log::info("ImageController@store called for post ID: " . $postId);
-       $request->validate([
-           'image.*' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
-       ]);
-       if ($request->hasFile('image')) {
-           try {
-               foreach ($request->file('image') as $file) {
-                   \Log::info("Saving image for post ID: " . $postId); // 画像保存処理に入っているか確認
-                   // 画像をストレージに保存
-                   $path = $file->store('images', 'public');
-                   $this->image->create([
-                       'image_url' => $path,
-                       'post_id' => $postId,
-                       'spot_id' => $spotId,
-                       'user_id' => auth()->id(),
-                       'caption' => 'new',
-                       'status' => 'new',
-                   ]);
-               }
-               return true;
-           } catch (\Exception $e) {
-               \Log::error('Failed to save the image: ' . $e->getMessage());
-               return false;
-           }
-       }
-       \Log::error("No image file found in request");
-       return false;
-   }
+    public function store(Request $request, $postId, $spotId)
+    {
+        $request->validate([
+            'image.*' => 'required|image|mimes:jpg,jpeg,png,gif',
+        ]);
+        if ($request->hasFile('image')) {
+            try {
+                foreach ($request->file('image') as $file) {
+                    // 画像をストレージに保存
+                    $path = $file->store('images', 'public'); // imagesフォルダに保存
+                    // データベースに保存
+                    $this->image->create([
+                        'image_url' => $path,
+                        'post_id' => $postId,
+                        'spot_id' => $spotId,
+                        'user_id' => auth()->id(),
+                        'caption' => 'new',
+                        'status' => 'new',
+                    ]);
+                }
+                return redirect()->back()->with('success', 'Images saved successfully.');
+            } catch (\Exception $e) {
+                \Log::error('Failed to save the image: ' . $e->getMessage());
+                return redirect()->back()->withErrors(['error' => 'Failed to save the image: ' . $e->getMessage()]);
+            }
+        } else {
+            return redirect()->back()->withErrors(['error' => 'Image file not selected.']);
+        }
+    }
+// ImageController.php
 public function destroy($id)
 {
     $image = Image::findOrFail($id);

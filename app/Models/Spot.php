@@ -25,7 +25,7 @@ class Spot extends Model
     // 画像とのリレーション
     public function images()
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Image::class, 'spot_id'); // 'post_id'が外部キー
     }
     public function user(){
         return $this->belongsTo(User::class);
@@ -34,6 +34,10 @@ class Spot extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+    public function replies()
+    {
+        return $this->hasMany(Comment::class, 'parent_id'); // parent_idでリプライを取得
     }
     public function likes(){
         // select * from likes

@@ -38,8 +38,17 @@
     <!-- Back and Reply Buttons -->
     <div class="text-center my-5">
         <a href="{{ route('admin.inquiries.index') }}" class="btn btn-back w-25">Back</a>
-        <a href="#" class="btn btn-reply w-25">Reply</a> {{-- {{ route('inquiries.reply', ['id' => 123]) }} --}}
+        <a href="{{ route('admin.inquiries.create_reply', $inquiry->id) }}" class="btn btn-reply w-25">Reply</a>
+
     </div>
+
+    <!-- Success Message -->
+    @if(session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+
 </div>
 
 @endsection

@@ -14,9 +14,11 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\Admin\InquiriesController;
+use App\Http\Controllers\WeatherController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\Admin\ResponsesController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -40,6 +42,9 @@ Route::get('/admin-spots-index', function () {
 
 // admin category feature
 Route::get('/admin-categories-index',[CategoryController::class,'index'])->name('admin.categories.index');
+
+Route::get('/admin-categories-create',[CategoryController::class,'create'])->name('admin.categories.create');
+
 Route::post('/admin-categories-store',[CategoryController::class,'store'])->name('admin.categories.store');
 
 Route::get('/admin-categories-edit/{id}',[CategoryController::class,'edit'])->name('admin.categories.edit');
@@ -118,22 +123,17 @@ Route::get('/about', function () {
 
 
 //Spot
-Route::group(['prefix'=>'spot', 'as'=>'spot.'], function(){
-    Route::get('/', [SpotController::class, 'index'])->name('index');
+Route::group(['prefix' => 'spot', 'as' => 'spot.'], function() {
     Route::get('create', [SpotController::class, 'create'])->name('create');
-    Route::post('spot/store', [SpotController::class, 'store'])->name('store');
-    Route::get('/spot/{id}', [SpotController::class, 'show'])->name('spot.show'); 
-
+    Route::post('store', [SpotController::class, 'store'])->name('store'); 
+    Route::get('{id}', [SpotController::class, 'show'])->name('show'); 
+    
     // Like のルート
-    Route::post('/spot/{id}/like', [SpotController::class, 'like'])->name('like');
+    Route::post('{id}/like', [SpotController::class, 'like'])->name('like');
     // Favorite のルート
-    Route::post('/spot/{id}/favorite', [SpotController::class, 'favorite'])->name('favorite');
+    Route::post('{id}/favorite', [SpotController::class, 'favorite'])->name('favorite');
 
 });
-
-/*Route::get('/spot-post-form', function () {
-    return view('spot-post-form');
-});*/
 
 
 
@@ -146,6 +146,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/{id}/inquiry_details', [InquiriesController::class, 'show'])->name('inquiry_details');
             Route::patch('/{id}/change-visibility', [InquiriesController::class, 'changeVisibility'])->name('changeVisibility');
             Route::post('/{id}/change-status', [InquiriesController::class, 'changeStatus'])->name('changeStatus');
+        });
+
+        Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries
+            Route::get('/{id}/create_reply', [ResponsesController::class, 'create'])->name('create_reply');
+            Route::post('/{id}/reply', [ResponsesController::class, 'store'])->name('reply');
         });
     // });
 });
@@ -211,6 +216,8 @@ Route::get('/select-post-form', function () {
 })->name('select-post-form');
 
 
+Route::get('/spot/{spot_id}', [WeatherController::class, 'show']);
+
 // Authentication Routes
 
 Auth::routes();
@@ -236,3 +243,10 @@ Route::group(["middleware"=> "auth"], function(){
 Route::post('post/{id}/comment', [CommentController::class, 'store'])->name('comment.store');
 Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
 
+// コメントの保存ルート (SPOT)
+Route::post('spot/{id}/comment', [CommentController::class, 'store'])->name('spot.comment.store');
+Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+
+
+// Serch function
+Route::get('/search', [SearchController::class, 'search'])->name('search');

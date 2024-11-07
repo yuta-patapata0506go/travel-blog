@@ -8,69 +8,69 @@
 
 @section('content')
 
-@foreach($spots as $spot)
+
     <div class="post-container">
-        
+
             <!-- Card of whole page -->
         
         <div class="post-card">
             <!-- HEART BUTTON + no. of likes & FAVORITE BUTTON + no. of likes -->
             <div class="icons d-flex align-items-center">
+            
                 @if ($spot->isLiked())
-                    <form action="{{ route('spot.like', $spot->id ?? 1) }}" method="POST">
+                    <form action="{{ route('spot.like', $spot->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
                             <i class="fa-solid fa-heart" id="like-icon"></i>
-                            <span class="ms-1" id="like-count">{{ $spot->likes->count() }}</span>
+                            <span class="ms-1" id="like-count">{{ $likesCount }}</span>
                         </button>
                     </form>
                 @else
-                    <form action="{{ route('spot.like', $spot->id ?? 1) }}" method="POST">
+                    <form action="{{ route('spot.like', $spot->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
                             <i class="fa-regular fa-heart" id="like-icon"></i>
-                            <!--<span class="ms-1" id="like-count"></span>-->
+                            <span class="ms-1" id="like-count">{{ $likesCount }}</span>
                         </button>
                     </form>
                 @endif
                 
                 @if ($spot->isFavorited)
-                    <form action="{{ route('spot.favorite', $spot->id ?? 1) }}" method="POST">
+                    <form action="{{ route('spot.favorite', $spot->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
                             <i class="fa-solid fa-star" id="favorite-icon"></i>
-                            <span class="ms-1" id="favorite-count">{{ $spot->favorites->count() }}</span>
+                            <span class="ms-1" id="favorite-count">{{ $favoritesCount }}</span>
                         </button>
                     </form>
                 @else
-                    <form action="{{ route('spot.favorite', $spot->id ?? 1) }}" method="POST">
+                    <form action="{{ route('spot.favorite', $spot->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-sm shadow-none p-0 d-flex align-items-center">
                             <i class="fa-regular fa-star" id="favorite-icon"></i>
-                            <!--<span class="ms-1" id="favorite-count"></span>-->
+                            <span class="ms-1" id="favorite-count">{{ $favoritesCount }}</span>
                         </button>
                     </form>
                 @endif
-        
+            
             </div>
 
         
-            <!-- photos of spots　-->
+            <!-- スポットの写真 -->
             <h2>{{ $spot->name }}</h2>
             <div class="spot-container">
-                <!-- Image -->
+                <!-- 画像 -->
                 <div class="card col mt-3" style="height: auto;">
-                    <!-- Main Image Carousel -->
+                    <!-- メイン画像カルーセル -->
                     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 500px;">
                         <div class="carousel-inner">
                             @foreach ($spot->images as $index => $image)
                                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                    <!-- Base64エンコードされた画像データをsrc属性に設定 -->
-                                    <img src="{{ $image->image_url }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
+                                    <img src="{{ asset('storage/' . $image->image_url) }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
                                 </div>
                             @endforeach
                         </div>
-                        <!-- Carousel Controls (Previous/Next) -->
+                        <!-- カルーセルコントロール（前/次） -->
                         <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
@@ -80,16 +80,17 @@
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
-                    <!-- Thumbnail Images as Carousel Indicators -->
+                    <!-- サムネイル画像のカルーセルインジケーター -->
                     <div class="carousel-indicators-wrapper mt-3 d-flex justify-content-center gap-2 flex-wrap">
-                        @foreach ($spot->images as $index => $image)
-                            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}" aria-label="Slide {{ $index + 1 }}">
-                                <img src="{{ $image->image_url }}" class="thumbnail-img" alt="Thumbnail {{ $index + 1 }}">
+                        @foreach ($spot->images as $show => $image)
+                            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="{{ $show }}" class="{{ $show === 0 ? 'active' : '' }}" aria-label="Slide {{ $show + 1 }}">
+                                <img src="{{ asset('storage/' . $image->image_url) }}" class="thumbnail-img" alt="Thumbnail {{ $show + 1 }}">
                             </button>
                         @endforeach
                     </div>
-                </div>                
+                </div>            
             </div>
+
 
             <!-- Divider -->
             <hr class="divider">
@@ -97,17 +98,27 @@
                 <!-- Map and Weather Display -->
                 <div class="info-container">
                     <!-- Mapへの遷移用フォーム -->
-                    <form action="/mappage" method="GET" class="map-form" onclick="this.parentElement.submit()">
-                        <div class="map" onclick="this.parentElement.submit()">
-                        <h5>Map</h5>
-                        <i class="fa-regular fa-map"></i>
-                        <img src="/images/map.png" alt="">
-                        <p>Map will be displayed here.</p>
-                        <h6>Address</h6>
-                        <p>000-0000</p>
-                        <p>Petra - Wadi Musa, Jordan</p>
+                    <div class="map">
+                     <div class="card3 border-0  bg-white" style="height: 20rem;">
+                        <div class="card-body">
+                           <a href="{{ route('spot.show', ['id' => $spot->id]) }}">
+                            @if ($spot->spot)
+                                <a href="{{ route('spot.show', ['id' => $spot->id]) }}">
+                                    <h3><i class="fa-solid fa-location-dot"></i> {{ $spot->name }}</h3>
+                                </a>
+                            @else
+                                <p><i class="fa-solid fa-location-dot"></i> Location not available</p>
+                            @endif
+                            </a>                
+                            <iframe 
+                                src="https://www.google.com/maps?q={{ $spot->latitude ?? 0 }},{{ $spot->longitude ?? 0 }}&output=embed"
+                                width="100%" height="200" frameborder="0" style="border:0;" allowfullscreen="">
+                            </iframe>
+                            <p class="mt-1">Postal/Zip code:{{ $spot->postalcode ?? 'N/A' }}</p>
+                            <p>{{ $spot->address ?? 'N/A' }}</p>
                         </div>
-                    </form>
+                     </div>
+                </div>
                     <!-- Weather -->
                     <div class="weather">
                         <h5>Weather</h5>
@@ -116,79 +127,135 @@
                         <p>Weather information will be displayed here.</p>
                         <!-- Embed weather code here -->
                     </div>
-                </div>
+                </form>
+
+                <!-- Weather -->
+                <div class="weather"> 
+                    <h2>Weather Information</h2>                
+                    <!-- Weather Condition Icon -->                     
+                    <br>
+                    <p class="weather-condition">{{ ucfirst($spot->weather_condition) }}</p>
+                    <div class="weather-icon">
+                    @if($spot->weather_condition == 'clear sky')
+                     <img src="{{asset("images/weather/clearsky.png")}}" alt="clear sky">
+                    @elseif($spot->weather_condition == 'overcast clouds')
+                     <img src="/images/weather/overcastclouds.png" alt="overcast clouds">
+                    @elseif($spot->weather_condition == 'light intensity shower rain'|| $spot->weather_condition == 'light rain')
+                     <img src="/images/weather/light-rain.png" alt="light Intensity shower rain">
+                    {{-- @elseif($spot->weather_condition == 'Snow')
+                     <img src="/images/weather/snow.png" alt="Snow">
+                    @elseif($spot->weather_condition == 'Thunderstorm')
+                     <img src="/images/weather/thunderstorm.png" alt="Thunderstorm"> --}}
+                    {{-- @else
+                     <img src="/images/weather/default_icon.png" alt="Default"> --}} 
+                    @endif
+                   <span class="temperature">{{ $spot->temperature }}°C</span>
+                   </div>
+               <br>
+                <p>Humidity:&nbsp {{ $spot->humidity }}%</p>
+                <p>Wind Speed:&nbsp {{ $spot->wind_speed }} m/s</p>
+                <p>Precipitation:&nbsp {{ $spot->precipitation }} mm</p>
+                <p>UV Index:&nbsp {{ $spot->uv_index }}</p>
+
+               </div>
+            </div>
 
                 <!-- Comments -->
-                            <div class="comments-section my-2">
-                                <h5>Question & Comment</h5>
-                                <form action="#" method="post" class="mt-3">
-                                    <a href="comment"></a>
-                                    @csrf
-                                    <div class="input-group mb-3">
-                                        <input type="text" name="comment" class="form-control form-control-sm" id="comment" placeholder="Write a question or comment">
-                                        <button type="submit" class="btn">Add</button>
+                <div class="comments-section my-2">
+                <a name="comment">
+                    <h5>Question & Comment</h5>
+                </a>
+                <form action="{{ route('spot.comment.store', ['id' => $spot->id]) }}" method="POST" class="mt-3">
+                    @csrf
+                    <input type="hidden" name="spot_id" value="{{ $spot->id }}"> <!-- spot_id を追加 -->
+                    <div class="input-group mb-3">
+                        <input type="text" name="comment" class="form-control form-control-sm" id="comment" placeholder="Write a question or comment">
+                        <button type="submit" class="btn btn-primary btn-sm">Add</button>
+                    </div>
+                </form>
+                <div class="card comments-container" style="max-height: 400px; overflow-y: auto;">
+                    @foreach ($comments as $comment)
+                        <div class="card comment-card mt-2 border-top-0">
+                            <div class="card-body bg-light">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-auto">
+                                            <a href="{{ route('profile.show', ['id' => $comment->user->id]) }}">
+                                                @if ($comment->user->avatar)
+                                                    <img src="{{ $comment->user->avatar }}" alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px;">
+                                                @else
+                                                    <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
+                                                @endif
+                                            </a>
+                                        </div>
+                                        <div class="ps-2">
+                                            <a href="{{ route('profile.show', ['id' => $comment->user->id]) }}" class="text-decoration-none text-dark fw-bold">
+                                                {{ $comment->user->username ?? 'Unknown User' }}
+                                            </a>
+                                        </div>
                                     </div>
-                                </form>
-                                <!-- コメントセクションにスクロールバーを付与 -->
-                                <div class="card comments-container" style=" max-height: 400px; overflow-y: auto;">
-                                    <!-- 各コメントをカードで表示 -->
-                                    <div class="card comment-card ">
-                                        <div class="card-body bg-white">
-                                            <!-- 名前と日付を左右に配置 -->
+                                    <small class="text-muted">{{ $comment->created_at->format('Y.m.d') }}</small>
+                                </div>
+                                <!-- コメント内容とリプライボタン、削除ボタンを左右に配置 -->
+                                <div class="d-flex justify-content-between mt-2">
+                                    <p class="card-text mb-0">{{ $comment->body }}</p>
+                                    <div>
+                                        <button class="btn btn-reply btn-sm btn-link" onclick="toggleReplyForm({{ $comment->id }})">Reply</button>
+                                        @if (Auth::id() === $comment->user_id)
+                                            <form action="{{ route('comment.destroy', $comment->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-reply btn-sm">Delete</button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="reply-form mt-3" id="reply-form-{{ $comment->id }}" style="display: none;">
+                                    <form action="{{ route('spot.comment.store', ['id' => $spot->id]) }}" method="POST" class="d-flex align-items-center">
+                                        @csrf
+                                        <input type="hidden" name="parent_id" value="{{ $comment->id }}">
+                                        <textarea name="comment" rows="1" class="form-control flex-grow-1 me-2" placeholder="Reply here..."></textarea>
+                                        <button type="submit" class="btn btn-outline-secondary btn-reply btn-sm">Add</button>
+                                    </form>
+                                </div>
+                                @foreach ($comment->replies as $reply)
+                                    <div class="card mt-2 ms-4">
+                                        <div class="card-body">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div class="d-flex align-items-center">
                                                     <div class="col-auto">
-                                                        <a href="#">
-                                                            <i class="fa-solid fa-circle-user text-secondary icon-sm"></i>
+                                                        <a href="{{ route('profile.show', ['id' => $reply->user->id]) }}">
+                                                            @if ($reply->user->avatar)
+                                                                <img src="{{ $reply->user->avatar }}" alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px;">
+                                                            @else
+                                                                <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
+                                                            @endif
                                                         </a>
                                                     </div>
                                                     <div class="ps-2">
-                                                        <a href="#" class="text-decoration-none text-dark fw-bold">NAME</a>
+                                                        <a href="{{ route('profile.show', ['id' => $reply->user->id]) }}" class="text-decoration-none text-dark fw-bold">{{ $reply->user->username }}</a>
                                                     </div>
                                                 </div>
-                                                <small class="text-muted">2024.10.8</small> <!-- 日付を右側に配置 -->
+                                                <small class="text-muted">{{ $reply->created_at->format('Y.m.d') }}</small>
                                             </div>
-                                            <!-- コメントとリプライボタンを左右に配置 -->
-                                            <div class="d-flex align-items-center justify-content-between mt-2">
-                                                <p class="card-text mb-0">comment</p>
-                                                <button class="btn btn-reply btn-sm" data-comment-id="">reply</button>
-                                            </div>
-                                            <!-- Reply Form -->
-                                            <div class="reply-form mt-3" id="reply-form-" style="display: none;">
-                                                <form action="#" method="POST">
-                                                    @csrf
-                                                    <div class="mb-2">
-                                                        <textarea name="comment" rows="2" class="form-control" placeholder="reply here....."></textarea>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-outline-secondary btn-sm">Post</button>
-                                                </form>
-                                            </div>
-                                            <!-- Replies (Nested Comments) -->
-                                            <div class="card mt-2">
-                                                <div class="card-body">
-                                                    <div class="d-flex align-items-center justify-content-between">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="col-auto">
-                                                                <a href="#">
-                                                                    <i class="fa-solid fa-circle-user text-secondary icon-sm"></i>
-                                                                </a>
-                                                            </div>
-                                                            <div class="ps-2">
-                                                                <a href="#" class="text-decoration-none text-dark fw-bold">NAME</a>
-                                                            </div>
-                                                        </div>
-                                                        <!-- 日付を右側に配置 -->
-                                                        <small class="text-muted">2024.10.8</small>
-                                                    </div>
-                                                    <div class="mt-2">
-                                                        <p class="mb-0 text-muted">reply comment here</p>
-                                                    </div>
-                                                </div>
+                                            <div class="mt-2 d-flex justify-content-between">
+                                                <p class="mb-0 text-muted">{{ $reply->body }}</p>
+                                                @if (Auth::id() === $reply->user_id)
+                                                    <form action="{{ route('comment.destroy', $reply->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-reply btn-sm r">Delete</button>
+                                                    </form>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
 
                 <!-- Event and Tourism Display -->
                 <div class="event-tourism-container mt-5">
@@ -256,8 +323,13 @@
                     <div class="card post shadow-card m-2" style="cursor: pointer; width: 18rem;" onclick="this.querySelector('form').submit();">
                         <!-- カード内のフォーム -->
                         <form action="/posts-event-post" method="GET">
-                                <img src="{{ asset('images/beer.jpg') }}" class="card-img-top" alt="Post Image">
-
+                            <div class="carousel-inner">
+                                @foreach ($spot->images as $index => $image)
+                                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                        <img src="{{ asset('storage/' . $image->image_url) }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
+                                    </div>
+                                @endforeach
+                            </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="">
@@ -294,7 +366,7 @@
             </div>    
         </div>   
     </div>
-@endforeach
+
         
     <script>
         function switchImage(imagePath) {
@@ -314,6 +386,17 @@
         checkbox.checked = false;
             });
         });
+    </script>
+
+    <script>
+    function toggleReplyForm(commentId) {
+        const replyForm = document.getElementById(`reply-form-${commentId}`);
+        replyForm.style.display = replyForm.style.display === "none" ? "block" : "none";
+    }
+    document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault(); // ページ遷移を防ぐ
+    // フォームデータを送信する処理
+    });
     </script>
 @endsection
 
