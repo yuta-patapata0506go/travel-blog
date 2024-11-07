@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Favorite;
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\Comment;
+use App\Models\Like;
 
 class ProfileController extends Controller
 {
@@ -21,9 +23,42 @@ class ProfileController extends Controller
     
     public function show($id){
         $user = $this->user->findOrFail($id);
-        return view('mypage.mypage-show')->with('user', $user);
-        
-    }
+
+        $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'comments.replies.user', 'comments'])->findOrFail($id);
+       
+         $userId = auth()->id();
+     
+         // Spot ID のデバッグログを記録
+         \Log::info("Spot ID for post ID {$post->id}: " . $post->spot_id);
+     
+         // 最初の画像を取得
+         $firstImage = $post->images->first();
+     
+         if (!$post->spot) {
+             \Log::warning("Spot not found for post ID: {$post->id}, spot ID: {$post->spot_id}");
+             $spotName = 'Location not available';
+         } else {
+             $spotName = $post->spot->name;
+         }
+     
+          //  // ポストに関連するコメント（親コメントとリプライ）を取得
+          //  $comments = Comment::where('post_id', $id)
+          //  ->whereNull('parent_id')
+          //  ->with(['user', 'replies.user']) // user と replies.user を明示的にロード
+          //  ->get();
+     
+          //  $commentCount = $post->comments()->count();
+     
+            // Like
+            $liked = Like::where('user_id', $userId)->where('post_id', $id)->exists();
+            $likesCount = Like::where('post_id', $id)->count();
+     
+            // Favorite
+            $favorited = $post->isFavorited; // アクセサを使用
+            $favoritesCount = Favorite::where('post_id', $id)->count();
+     
+         return view('mypage.mypage-show', compact('post', 'firstImage','spotName', 'liked', 'likesCount','favorited', 'favoritesCount'))->with('user', $user);
+     }
 
     /**
      * method to open edit page
@@ -76,6 +111,5 @@ class ProfileController extends Controller
         $favoriteSpots = $user->favoriteSpots();
         return view('mypage.mypage-favorite', compact('favoritePosts'))->with('user', $user);
      }
-
-    
+     
 }

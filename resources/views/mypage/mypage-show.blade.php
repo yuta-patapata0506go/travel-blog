@@ -13,10 +13,10 @@
     @include('mypage.mypage-header')
   <div class="container-mypage">
         <div style="margin-top: 50px, margin-bottom: 50px">
-            {{-- @if($user->posts->isNotEmpty()) --}}
+            @if($user->posts->isNotEmpty())
             <div class="show_posts">
                     <div class="row">
-                            @for ($i = 0; $i < 8; $i++)
+                        @foreach ($user->posts as $posts)
                                 <div class="small_post col-md-3">
                                     <div class="card">
                                         <a href="#" >
@@ -26,7 +26,7 @@
                                         <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-auto">
-                                                        <h5 class="fw-bolder">Title</h5>
+                                                        <h5 class="fw-bolder">{{$posts->title}}</h5>
                                                     </div>
                                                     <div class="col-auto">
                                                         <form action="#">
@@ -42,26 +42,27 @@
                         
                                                 <div class="row">
                                                     <div class="col-auto mb-1">
-                                                        <span class="badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
-                                                        <span class="badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
+                                                        @foreach ($posts->categories as $categories)
+                                                        <span class="badge bg-secondary bg-opacity-50 rounded-pill">{{$categories->name}}</span>
+                                                        @endforeach
                                                     </div>
                                                 </div>
                                                 <div class="post_text">
-                                                <p>text text text text text text text text text text text text text text text text text text text text</p>
+                                                <p>{{$posts->comments}}</p>
                                                 <button class="btn comment-card">Learn More</button>
                                                 </div>
                                             </div>
                                         </div>
                                 </div>
-                            @endfor
+                            @endforeach
                     </div>
                 </div>  
             </div> 
         </div>
       
-        {{-- @else
+        @else
         <h3 class="text-muted text-center">No Posts Yet</h3>
-        @endif --}}
+        @endif
    
     </div> 
 </div>

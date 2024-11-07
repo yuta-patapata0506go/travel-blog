@@ -16,7 +16,7 @@
                     {{-- favorite posts --}}
                       
                         @if ($user->favoritePosts->isNotEmpty())
-                        {{$user->favoritePosts}}
+                      
                             <h3>Your favorite Posts</h3>
                             <div class="show_posts">    
                                 <div class="row">
