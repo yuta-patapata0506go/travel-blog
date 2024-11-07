@@ -14,6 +14,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\Admin\InquiriesController;
+use App\Http\Controllers\WeatherController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\admin\CategoryController;
@@ -211,6 +212,8 @@ Route::get('/select-post-form', function () {
     return view('select-post-form');
 })->name('select-post-form');
 
+
+Route::get('/spot/{spot_id}', [WeatherController::class, 'show']);
 
 // Authentication Routes
 

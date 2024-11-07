@@ -127,7 +127,38 @@
                         <p>Weather information will be displayed here.</p>
                         <!-- Embed weather code here -->
                     </div>
-                </div>
+                </form>
+
+                <!-- Weather -->
+                <div class="weather"> 
+                    <h2>Weather Information</h2>                
+                    <!-- Weather Condition Icon -->                     
+                    <br>
+                    <p class="weather-condition">{{ ucfirst($spot->weather_condition) }}</p>
+                    <div class="weather-icon">
+                    @if($spot->weather_condition == 'clear sky')
+                     <img src="{{asset("images/weather/clearsky.png")}}" alt="clear sky">
+                    @elseif($spot->weather_condition == 'overcast clouds')
+                     <img src="/images/weather/overcastclouds.png" alt="overcast clouds">
+                    @elseif($spot->weather_condition == 'light intensity shower rain'|| $spot->weather_condition == 'light rain')
+                     <img src="/images/weather/light-rain.png" alt="light Intensity shower rain">
+                    {{-- @elseif($spot->weather_condition == 'Snow')
+                     <img src="/images/weather/snow.png" alt="Snow">
+                    @elseif($spot->weather_condition == 'Thunderstorm')
+                     <img src="/images/weather/thunderstorm.png" alt="Thunderstorm"> --}}
+                    {{-- @else
+                     <img src="/images/weather/default_icon.png" alt="Default"> --}} 
+                    @endif
+                   <span class="temperature">{{ $spot->temperature }}°C</span>
+                   </div>
+               <br>
+                <p>Humidity:&nbsp {{ $spot->humidity }}%</p>
+                <p>Wind Speed:&nbsp {{ $spot->wind_speed }} m/s</p>
+                <p>Precipitation:&nbsp {{ $spot->precipitation }} mm</p>
+                <p>UV Index:&nbsp {{ $spot->uv_index }}</p>
+
+               </div>
+            </div>
 
                 <!-- Comments -->
                 <div class="comments-section my-2">
