@@ -12,6 +12,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\Admin\InquiriesController;
+use App\Http\Controllers\WeatherController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\admin\CategoryController;
@@ -33,6 +34,9 @@ Route::get('/admin-spots-index', function () {
 });
 // admin category feature
 Route::get('/admin-categories-index',[CategoryController::class,'index'])->name('admin.categories.index');
+
+Route::get('/admin-categories-create',[CategoryController::class,'create'])->name('admin.categories.create');
+
 Route::post('/admin-categories-store',[CategoryController::class,'store'])->name('admin.categories.store');
 Route::get('/admin-categories-edit/{id}',[CategoryController::class,'edit'])->name('admin.categories.edit');
 Route::patch('/admin-categories-update/{id}',[CategoryController::class,'update'])->name('admin.categories.update');
@@ -160,6 +164,10 @@ Route::get('/admin-create_category', function () {
 Route::get('/select-post-form', function () {
     return view('select-post-form');
 })->name('select-post-form');
+
+
+Route::get('/spot/{spot_id}', [WeatherController::class, 'show']);
+
 // Authentication Routes
 Auth::routes();
 // POST routes
@@ -185,5 +193,5 @@ Route::group(["middleware"=> "auth"], function(){
 
 
  
-// Serch function
-// Route::get('/search', [SearchController::class, 'search'])->name('search');
+Serch function
+Route::get('/search', [SearchController::class, 'search'])->name('search');
