@@ -74,14 +74,15 @@ Route::get('/mypage-favorite',[ProfileController::class,'favorite'])->name('prof
 Route::get('/navbar', function () {
     return view('navbar');
 });
-// Map
+
+// Routes for Map Page
 // HTMLの表示用ルート(Route for displaying HTML)
 Route::get('/map', [MapController::class, 'showMapPage'])->name('map.page');
 // スポット情報のJSON取得用ルート(Route for retrieving spot information in JSON)
 Route::get('/api/map', [MapController::class, 'index'])->name('map.index');
-// Route::get('/mappage', function () {
-//     return view('map_page/map');
-// });
+
+
+
 Route::get('/footer', function () {
     return view('footer');
 });
