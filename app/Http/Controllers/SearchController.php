@@ -39,8 +39,6 @@ class SearchController extends Controller
         $results = $resultsQuery->get();
         
         // 検索結果をビューに渡して表示
-        return view('search.results', compact('results', 'query', 'sort'));
-
-        //　ビュ
+        return view('events-tourism', compact('results', 'query', 'sort'));
     }
 }
