@@ -3,7 +3,7 @@
 @section('title', 'Home')
 
 @section('content')
-<div class="background-overlay" ></div> <!-- 背景画像の透過オーバーレイ -->
+<div class="background-overlay" style="opacity: 0.5;"></div> <!-- 背景画像の透過オーバーレイ -->
     <div class="container position-relative" style="background-image: url('{{ asset('images/christmas.png') }}'); background-size: cover; background-position: center;">
        
         <!-- Header with Image -->
@@ -13,8 +13,8 @@
             {{-- Search Bar --}}
             <div class="d-flex justify-content-center mt-4">
                 <div class="search-container d-flex justify-content-left mb-4">
-                    <form class="d-flex mb-4" role="search">
-                        <input class="form-control form-control-lg me-2" type="search" aria-label="Search">
+                    <form class="d-flex mb-4" role="search" action="{{ route('search') }}" method="GET">
+                        <input class="form-control form-control-lg me-2" type="search" name="query" placeholder="Search here..." aria-label="Search">
                         <i class="fas fa-search icon_size"></i>
                         <button class="btn fs-3 fw-bold" type="submit">Search</button>
                     </form>
@@ -24,20 +24,24 @@
             <!-- Event and Tourism Page -->
             <div class="row mt-5">
                 <div class="col-md-6">
-                    <div class="card page-link-card shadow-card">
-                        <img src="{{ asset('images/event.jpg') }}" class="card-img-top" alt="Event Page Image">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Event Page</h5>
+                    <a href="{{ route('events') }}"> <!-- イベントページへのリンク -->
+                        <div class="card page-link-card shadow-card">
+                            <img src="{{ asset('images/event.jpg') }}" class="card-img-top" alt="Event Page Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Event Page</h5>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-6">
-                    <div class="card page-link-card shadow-card">
-                        <img src="{{ asset('images/tourism.jpg') }}" class="card-img-top" alt="Tourism Page Image">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Tourism Page</h5>
+                    <a href="{{ route('tourism') }}"> <!-- ツーリズムページへのリンク -->
+                        <div class="card page-link-card shadow-card">
+                            <img src="{{ asset('images/tourism.jpg') }}" class="card-img-top" alt="Tourism Page Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Tourism Page</h5>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
 
@@ -81,7 +85,7 @@
                 </div>
             </div>
 
-            {{-- <!-- Footer -->
+            <!-- Footer -->
             <footer class="text-center mt-5 p-3 footer">
                 <div class="social-icons">
                     <a href="#"><i class="fab fa-instagram"></i></a>
@@ -94,7 +98,7 @@
                         <a href="#">Contact</a> | <a href="#">About</a>
                     </div>
                 </div>
-            </footer> --}}
+            </footer>
         </div>
     </div>
 @endsection

@@ -59,30 +59,28 @@ class SpotController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'postalcode' => 'required|string|max:10',
-            'address' => 'required|string|max:255',
-           
-            'image' => 'required|array',
-            
+            'address' => 'required|string|max:255',           
+            'image' => 'required|image|mimes:jpeg,jpg,png,gif',
         ]);
 
         // Geocoding APIを使って住所から緯度と経度を取得
         $address = $request->address;
         $mapboxApiKey = env('MAPBOX_API_KEY'); // 環境変数にAPIキーを設定
 
+
         $response = Http::withOptions([ 'verify' => false, ])->get("https://api.mapbox.com/geocoding/v5/mapbox.places/{$address}.json", [
             'access_token' => $mapboxApiKey,
         ]);
+
         
         if ($response->successful()) {
             $data = $response->json();
             $coordinates = $data['features'][0]['geometry']['coordinates'];
             $latitude = $coordinates[1];
             $longitude = $coordinates[0];
-        } else {
-            // エラーハンドリング
+        } else { 
             return back()->withErrors(['error' => 'The retrieval of latitude and longitude for the address has failed.']);
-        }
-
+        }        
 
         $this->spot->name = $request->name;
         // this code converts the image into a text;
@@ -99,8 +97,7 @@ class SpotController extends Controller
 
         return redirect()->route('home')->with('success', 'Pending approval by Admin.');
 
-        } catch (\Exception $e) {
-            dd($e);
+        } catch (\Exception $e) { 
             Log::error('Failed: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'Failed']);
         }

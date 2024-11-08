@@ -15,6 +15,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+    <!-- Success message display -->
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+
     <!-- Admin Page Title -->
     <div class="container mt-5">
         <div style="text-align: center;">
@@ -26,10 +34,9 @@
 
         <!-- Recommend Setting Button -->
         <div class="text-end mb-3">
-            {{-- <button class="btn btn-outline-dark">Recommended Posts</button> --}}
             {{-- modal button --}}
-            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#category-modal"> {{-- Updated this line --}}
-                Recommended Posts Setting {{-- {{ $categoryModalLabel->id }} --}}
+            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#category-modal">
+                Recommended Posts Setting
             </button>
 
             @include('admin.modals.recommended_post')
