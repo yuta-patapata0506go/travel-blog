@@ -33,6 +33,13 @@ class Category extends Model
                     ->withPivot('status'); // 追加のピボット属性を指定
     }
 
+    // category - recommendation: one to many
+    public function recommendations()
+    {
+        return $this->hasMany(Recommendation::class);
+    }
+
+
 }
 
 
