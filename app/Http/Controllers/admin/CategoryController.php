@@ -7,7 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
+
 
 class CategoryController extends Controller
 {
@@ -20,38 +20,41 @@ class CategoryController extends Controller
     }
 
     public function index(){
-        $all_categories = $this->category->paginate(10);
-        return view('admin.categories.categories-index', compact('all_categories')); 
+        $categories = Category::whereNull('parent_id')->with('children')->paginate(2   );
+
+        $parentCategories = Category::whereNull('parent_id')->get(); 
+
+        return view('admin.categories.categories-index', compact('categories', 'parentCategories')); 
     }
 
-    
-
     public function store(Request $request) {
-        try {
+     
             
             $request->validate([
                 'name' => 'required|string|max:255',
+                
             ]);
     
-            
+           
             $category = $this->category->newInstance();
             $category->name = $request->name;
+            $category->parent_id = $request->parent_id ?: null;
             $category->created_at = Carbon::now();
             $category->updated_at = Carbon::now();
             $category->user_id = Auth::id();
-            $category->save();
-    
-          
-            return redirect('admin-categories-index');
-    
-        } catch (\Exception $e) {
             
-            Log::error('Failed: ' . $e->getMessage());
-            return redirect()->back()->withErrors(['error' => 'Failed']);
-        }
+            $category->save();
+            
+            return redirect('admin-categories-index');
+        
     }
 
     public function update(Request $request, $id) {
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+       
         $category = $this->category->findOrFail($id);
         $category->name = $request->name;
         $category->updated_at = Carbon::now();
