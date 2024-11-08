@@ -33,18 +33,6 @@ class Category extends Model
                     ->withPivot('status'); // 追加のピボット属性を指定
     }
 
-    // parent - children : one to many
-    public function children()
-    {
-        return $this->hasMany(Category::class, 'parent_id');
-    }
-
-    // children - parent : many to one
-    public function parent()
-    {
-        return $this->belongsTo(Category::class, 'parent_id');
-    }
-
     // category - recommendation: one to many
     public function recommendations()
     {
