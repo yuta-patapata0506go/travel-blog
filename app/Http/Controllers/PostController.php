@@ -88,7 +88,7 @@ public function show($id)
         $rules = [
             'title' => 'string|max:50',
             'type' => 'integer|in:0,1',
-            'event_name' => 'nullable|string|max:50',
+            'event_name' => 'nullable|string|max:30',
             'adult_fee' => 'nullable|numeric|min:0',
             'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
             'child_fee' => 'nullable|numeric|min:0',
@@ -147,6 +147,7 @@ public function show($id)
 
         return redirect()->route('post.show', ['id' => $this->post->id])
         ->with('success', 'Post created successfully.');
+    
     }
 
     public function like($id)
@@ -220,14 +221,14 @@ public function show($id)
     // バリデーションルール
     $rules = [
         'title' => 'string|max:50',
-        'event_name' => 'nullable|string|max:50',
+        'event_name' => 'nullable|string|max:30',
         'adult_fee' => 'nullable|numeric|min:0',
         'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
         'child_fee' => 'nullable|numeric|min:0',
         'child_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
         'start_date' => 'nullable|date',
         'end_date' => 'nullable|date',
-        'comments' => 'nullable|string|max:500',
+        'comments' => 'nullable|string|max:255',
         'category' => 'required',  // 配列またはカンマ区切り文字列
         'helpful_info' => 'nullable|string',
         'image' => 'nullable|array',
@@ -310,3 +311,4 @@ if ($request->hasFile('image')) {
        return redirect()->route('home')->with('success', 'Post deleted successfully.');
     }
 }
+

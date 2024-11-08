@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Category extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table ="renew_categories";
 
@@ -17,12 +18,27 @@ class Category extends Model
         return $this->hasMany(CategoryPost::class);
     }
 
+    public function parent() {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    public function children() {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
     public function posts()
     {
         return $this->belongsToMany(Post::class, 'category_post_pivot', 'category_id', 'post_id')
                     ->using(CategoryPost::class) // カスタムピボットモデルを指定
                     ->withPivot('status'); // 追加のピボット属性を指定
     }
+
+    // category - recommendation: one to many
+    public function recommendations()
+    {
+        return $this->hasMany(Recommendation::class);
+    }
+
 
 }
 
