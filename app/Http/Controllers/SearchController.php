@@ -40,5 +40,7 @@ class SearchController extends Controller
         
         // 検索結果をビューに渡して表示
         return view('search.results', compact('results', 'query', 'sort'));
+
+        //　ビュ
     }
 }
