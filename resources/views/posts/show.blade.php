@@ -146,37 +146,37 @@
                             </div>
 
                             <!-- Share Button -->
-<div class="d-flex align-items-center">
-    <i class="fa-solid fa-share" data-bs-toggle="modal" data-bs-target="#shareModal"></i>
-</div>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-share" data-bs-toggle="modal" data-bs-target="#shareModal"></i>
+                        </div>
 
-<!-- Share Modal -->
-<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="shareModalLabel">Share This Post</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Share this post on social media or copy the link:</p>
-                
-                <!-- Social Media Links -->
-                <div class="d-flex justify-content-around mb-3">
-                    <a href="#" class="btn btn-primary" id="facebookShare"><i class="fa-brands fa-facebook"></i> Facebook</a>
-                    <a href="#" class="btn btn-info" id="twitterShare"><i class="fa-brands fa-twitter"></i> Twitter</a>
-                    <a href="#" class="btn btn-danger" id="instagramShare"><i class="fa-brands fa-instagram"></i> Instagram</a>
-                </div>
-                
-                <!-- Copy Link Section -->
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" id="shareLink" readonly>
-                    <button class="btn btn-outline-secondary" onclick="copyLink()">Copy Link</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                        <!-- Share Modal -->
+                        <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="shareModalLabel">Share This Post</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Share this post on social media or copy the link:</p>
+                                        
+                                        <!-- Social Media Icons -->
+                                        <div class="d-flex justify-content-center mb-3">
+                                            <a href="#" id="facebookShare" class="me-3"><i class="fa-brands fa-facebook fa-2x" style="color: #3b5998;"></i></a>
+                                            <a href="#" id="twitterShare" class="me-3"><i class="fa-brands fa-x-twitter fa-2x" style="color: #000000;"></i></a>
+                                            <a href="https://instagram.com/" id="instagramShare"><i class="fa-brands fa-instagram fa-2x" style="color: #C13584;"></i></a>
+                                        </div>
+                                        
+                                        <!-- Copy Link Section -->
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" id="shareLink" readonly>
+                                            <button class="btn btn-outline-secondary" onclick="copyLink()">Copy Link</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
 

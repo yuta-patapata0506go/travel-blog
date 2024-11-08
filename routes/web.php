@@ -193,5 +193,3 @@ Route::group(["middleware"=> "auth"], function(){
 
 
  
-Serch function
-Route::get('/search', [SearchController::class, 'search'])->name('search');
