@@ -6,7 +6,7 @@
         @foreach($spot->posts as $post) <!-- 各スポットに紐づくポストをループ -->
         <div class="small_post col-md-3">
             <div class="card">
-              <a href="#">
+              <a href="{{ route('post.show', $post->id )}}">
                 @if ($post->images->isNotEmpty() && $post->images->first())
                     <img src="{{ asset('storage/' . $post->images->first()->image_url) }}" class="card-img-top" alt="Tourism Image">
                 @else
@@ -18,19 +18,42 @@
 
                   <div class="row">
                     <div class="col-auto">
-                      <h5 class="fw-bolder">{{ $post->title }}</h5>
-                    </div>
-                    <div class="col-auto">
-                      <form action="#">
-                        <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-heart"></i></button>
-                      </form>
-                    </div>
-                    <div class="col-auto p-0">
-                      <form action="#">
-                        <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-star"></i></button>
-                      </form>
+                      <h5 class="fw-bolder post_title">{{ $post->title }}</h5>
                     </div>
                   </div>
+
+
+                  <div class="row d-flex justify-content-end pe-2">
+                      {{-- Likes --}}
+                    <div class="col-auto">
+                      <form action="{{ route('post.like', $post->id ?? 1) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
+                            <i class="fa-regular fa-heart {{ $post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
+                        </button>
+                        <span class="count-text ms-1" id="like-count">{{ $post->likes->count() }}</span>
+                    </form>
+                      {{-- <form action="#">
+                        <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-heart"></i></button>
+                      </form> --}}
+                    </div>
+
+                    {{-- Favorites --}}
+                    <div class="col-auto p-0">
+                      <form action="{{ route('post.favorite', $post->id ?? 1) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="star">
+                            <i class="fa-regular fa-star {{ $post->isFavorited ? 'active' : '' }}" id="favorite-icon"></i>
+                        </button>
+                        <span class="count-text ms-1" id="favorite-count">{{ $post->favorites->count() }}</span>
+                      </form>
+                      {{-- <form action="#">
+                        <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-star"></i></button>
+                      </form> --}}
+                    </div>
+                  </div>
+                    
+                  
 
                   <!-- Category表示部分 -->
                   <div class="row">
@@ -43,7 +66,9 @@
 
                   <div class="post_text">
                     <p>{{ $post->comments ?? '' }}</p>
-                    <button class="btn comment-card">Learn More</button>
+                    <a href="{{ route('post.show', $post->id )}}">
+                      <button class="btn comment-card">Learn More</button>
+                    </a>
                    
                   </div>
               

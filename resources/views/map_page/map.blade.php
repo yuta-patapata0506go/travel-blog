@@ -8,6 +8,14 @@
 
 @section('title', 'Map View')
 
+{{-- @php
+    // Blade内で画像のURLを生成
+    $imageUrl = isset($spot->images) && count($spot->images) > 0 
+        ? asset('storage/' . $spot->images[0]->image_url) 
+        : asset('images/map_samples/spot_pc_sample.png');
+@endphp --}}
+
+
 @section('content')
 <div class="map_container">
   <h2 class="fs-1 fw-bolder mb-4">Search from the map</h2>
@@ -49,14 +57,18 @@
   </div>
 
   {{-- Mapbox JavaScript --}}
-  {{-- <script src='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js'></script> --}}
   <script>
-        document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
     mapboxgl.accessToken = '{{ env("MAPBOX_API_KEY") }}';
+
+    //Pre-generate the image URL path within Blade and pass it to JavaScript.
+    // const storagePath = "{{ asset('storage/images') }}";
+
     
     const urlParams = new URLSearchParams(window.location.search);
     const latitude = urlParams.get('latitude');
     const longitude = urlParams.get('longitude');
+
     // Only fetch geolocation if latitude and longitude are not in URL parameters
     if (!latitude || !longitude) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -92,14 +104,23 @@
                 data.spots.forEach(spot => {
                     if (spot.latitude && spot.longitude) {
 
+                        // const imageUrl = spot.images && spot.images.length > 0 
+                        //         ? `${storagePath}/${spot.images[0].image_url}`
+                        //         : 'images/map_samples/spot_pc_sample.png';
                         const imageUrl = spot.images && spot.images.length > 0 
-                                ? spot.images[0].image_url 
-                                : 'images/map_samples/spot_pc_sample.png';
+                        ? `{{ asset('storage/images') }}/${spot.images[0].image_url}`
+                        : '{{ asset('images/map_samples/spot_pc_sample.png') }}';
+
+                        
+                        //  console.log('Generated Image URL:', imageUrl);
+                        // console.log('Spot Data:', spot);
+                        // console.log('Image URL:', spot.images ? spot.images[0].image_url : 'No image');
+
 
                         const popupContent = `
                             <div class="spot_popup">
                                 <a href="#" class="small_spot">
-                                    <img src="{{ asset('storage/') }}/${imageUrl}" alt="Spot Name" >
+                                    <img src="${imageUrl}" alt="Spot Name" >
                                  </a>
                                 <a href="#" class="spot_name">
                                     <p>${spot.name}</p>
