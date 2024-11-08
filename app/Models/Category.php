@@ -36,6 +36,13 @@ class Category extends Model
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
+    // category - recommendation: one to many
+    public function recommendations()
+    {
+        return $this->hasMany(Recommendation::class);
+    }
+
+
 }
 
 

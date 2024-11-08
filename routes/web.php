@@ -159,8 +159,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['prefix' => 'admin/recommendations', 'as' => 'admin.recommendations.'], function() { // /admin/recommendations
             Route::get('/modal', [RecommendationsController::class, 'showModal'])->name('modal');
-            Route::post('/save', [RecommendationsController::class, 'saveRecommendations'])->name('save');
-            // Route::get('/', [RecommendationController::class, 'showRecommendations'])->name('show');
+            Route::patch('/save', [RecommendationsController::class, 'saveRecommendations'])->name('save');
         });
     // });
 });

@@ -14,7 +14,7 @@ class Recommendation extends Model
         'post_id',
     ];
 
-    // categories - many to one
+    // categories (recommendation - category: ) - many to one
     public function category()
     {
         return $this->belongsTo(Category::class);

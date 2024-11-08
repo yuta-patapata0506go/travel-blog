@@ -11,6 +11,7 @@
             <div class="modal-body">
                 <form method="POST" action="{{ route('admin.recommendations.save') }}">
                     @csrf
+                    @method('PATCH')
                     <p class="text-center">Please choose 1 category to display recommendations.</p>
                     @foreach($categories as $category)
                         @if (is_null($category->parent_id))
@@ -18,13 +19,17 @@
                             <h5 class="text-center">{{ $category->name }}</h5>
                         @else
                             <div class="form-check d-flex justify-content-center">
-                                <input class="form-check-input" type="radio" name="category_id" id="category{{ $category->id }}" value="{{ $category->id }}">
+                                <input class="form-check-input" type="radio" name="category_id" id="category{{ $category->id }}" value="{{ $category->id }}" @if (!empty($existingRecommendation) && $existingRecommendation->category_id == $category->id)
+                                checked @endif>
                                 <label class="form-check-label" for="category{{ $category->id }}">
                                     {{ $category->name }}
                                 </label>
                             </div>
                         @endif
                     @endforeach
+                    @error('category_id') 
+	                    <div class="text-danger small">{{ $message }}</div> 
+                    @enderror
                     <div class="modal-footer justify-content-center">
                         <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-dark">Save</button>
