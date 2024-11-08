@@ -71,9 +71,8 @@ Route::get('/admin-create_category', function () {
 });
 
 
-Route::get('/tourism', function () {
-    return view('display.tourism');
-});
+Route::get('/tourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
+
 
 Route::get('/events-tourism', function () {
     return view('display.events-tourism');

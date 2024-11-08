@@ -203,6 +203,7 @@ opacity: 0.8; /* 不透明度を下げる */
   margin-bottom: 60px;
   overflow: hidden;
   border-radius: 10px; /* 角を丸くする */
+  height: 100%;
 }
 
 .small_post img {

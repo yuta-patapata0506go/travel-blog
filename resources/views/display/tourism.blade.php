@@ -66,6 +66,7 @@
            
 
     {{-- Posts Section --}}
+    
     @include('post-spot.tourism-posts')
 @endsection
   

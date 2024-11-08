@@ -310,4 +310,11 @@ if ($request->hasFile('image')) {
 
        return redirect()->route('home')->with('success', 'Post deleted successfully.');
     }
+
+    public function showTourismPosts()
+{
+    $posts = Post::with('images')->where('type', 1)->get();
+    return view('display.tourism', compact('posts'));
+
+}
 }
