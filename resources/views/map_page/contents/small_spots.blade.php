@@ -1,4 +1,4 @@
-<div class="show_spot mt-4 bg-white">
+<div class="show_spot mt-5 bg-white">
   <div class="row">
     @forelse ($spots as $spot)
         <div class="small_spot col-md-4 mb-4">
@@ -33,9 +33,7 @@
                               </button>
                               <span class="count-text ms-1" id="like-count">{{ $spot->likes->count() }}</span>
                              </form>
-                          {{-- <form action="#">
-                            <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-heart"></i></button>
-                          </form> --}}
+                         
                         </div>
 
                         {{-- Favorites --}}
@@ -48,11 +46,6 @@
                               <span class="count-text ms-1" id="favorite-count">{{ $spot->favorites->count() }}</span>
                             </form>
 
-
-
-                          {{-- <form action="#">
-                            <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-star"></i></button>
-                          </form> --}}
                         </div>
                     </div>
 
