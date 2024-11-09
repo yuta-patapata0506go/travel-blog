@@ -37,7 +37,7 @@
                                 <a href="admin-categories-index" class="icon-item">
                                     <i class="fa-solid fa-shapes"></i>
                                 </a>
-                                <a href="admin-inquiries-index" class="icon-item">
+                                <a href="{{ route('admin.inquiries.index') }}" class="icon-item">
                                     <i class="fa-solid fa-address-card"></i>
                                 </a>
                                 <a href="admin-spot_applications-index" class="icon-item">
