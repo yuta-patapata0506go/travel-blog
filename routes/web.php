@@ -251,7 +251,7 @@ Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('comm
 
 
 // Serch function
-Route::get('/search', [SearchController::class, 'search'])->name('search');
+//Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 
 
