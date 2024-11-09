@@ -27,6 +27,7 @@ class SpotController extends Controller
     {
         // 指定されたIDのスポットを取得（1つのみ）
         $spot = Spot::findOrFail($id);
+        
         // 指定されたスポットIDに関連する全てのポストを取得
         $posts = Post::where('spot_id', $id)->get();
         // スポットとポストをビューに渡して表示
@@ -48,7 +49,7 @@ class SpotController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'postalcode' => 'required|string|max:10',
-            'address' => 'required|string|max:255',
+            'address' => 'required|string|max:255',           
             'image' => 'required|array',
         ]);
         // Geocoding APIを使って住所から緯度と経度を取得
@@ -57,6 +58,7 @@ class SpotController extends Controller
         $response = Http::withOptions([ 'verify' => false, ])->get("https://api.mapbox.com/geocoding/v5/mapbox.places/{$address}.json", [
             'access_token' => $mapboxApiKey,
         ]);
+
         if ($response->successful()) {
             $data = $response->json();
             $coordinates = $data['features'][0]['geometry']['coordinates'];
@@ -100,15 +102,18 @@ class SpotController extends Controller
         ->with(['user', 'replies.user']) // user と replies.user を明示的にロード
         ->get();
         $commentCount = $spot->comments()->count();
+
         // 指定されたIDのスポットを取得（1つのみ）
         $spot = Spot::findOrFail($id);
         // spot_id に一致する post 情報を取得
         $posts = Post::where('spots_id', $id)->get();
+        
         //天気機能
         $apiKey = env('OPENWEATHERMAP_API_KEY');
         $url = "http://api.openweathermap.org/data/2.5/weather?lat={$spot->latitude}&lon={$spot->longitude}&appid={$apiKey}&units=metric";
         $response = Http::get($url);
         $data = $response->json();
+
         // 必要なキーが存在するか確認し、存在しない場合はデフォルト値を設定
         if (isset($data['weather'][0]['description'], $data['main']['temp'], $data['main']['humidity'], $data['wind']['speed'])) {
             $spot->weather_condition = $data['weather'][0]['description'];
@@ -116,7 +121,7 @@ class SpotController extends Controller
             $spot->humidity = $data['main']['humidity'];
             $spot->wind_speed = $data['wind']['speed'];
             $spot->precipitation = $data['rain']['1h'] ?? 0; // 降水量のデータが存在しない場合は0に設定
-            $spot->uv_index = $this->getUVIndex($spot->latitude, $spot->longitude);
+            $spot->uv_index = $this->getUVIndex($spot->latitude, $spot->longitude);  
             $spot->weather_icon = $data['weather'][0]['icon']; // 追加
         } else {
         // エラーの場合のデフォルト値を設定
@@ -133,13 +138,18 @@ class SpotController extends Controller
         } catch (\Exception $e) {
             $spot->uv_index = 0; // UVインデックスが取得できなかった場合のデフォルト値
         }
-        $spot->save();
+
+        $spot->save(); 
+        
+        
+
         // スポットが見つからなかった場合のエラーハンドリング
         if (!$spot) {
             return redirect('/spot')->with('error', 'Spot not found');
         }
         // spot.blade.php に $spot 変数を渡す
         return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount', 'comments','posts'));
+
     }
     private function getUVIndex($lat, $lon)
     {
@@ -148,7 +158,8 @@ class SpotController extends Controller
         $response = Http::get($url);
         $data = $response->json();
         // "value" キーが存在するか確認し、存在しない場合はデフォルト値（例：0）を返す
-        return $data['value'] ?? 0;
+        // "value" キーが存在するか確認し、存在しない場合はデフォルト値（例：0）を返す
+        return $data['value'] ?? 0 ?? 0;
     }
     public function like($id)
     {
