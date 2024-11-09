@@ -68,7 +68,7 @@ class User extends Authenticatable
         ->with('favoriteSpotsDetail')
         ->whereNotNull('spot_id');
     }
-    // app/Models/User.php
+    
 
     public function comments()
     {
@@ -78,6 +78,7 @@ class User extends Authenticatable
     public function posts(){
         return $this->hasMany(Post::class, 'user_id');
     }
+    
 
 
     

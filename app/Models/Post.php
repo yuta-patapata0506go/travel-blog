@@ -47,7 +47,7 @@ class Post extends Model
     }
 
     public function favorite(){
-        return $this->belongsTo(Favorite::class);
+        return $this->belongsTo(Favorite::class, 'post_id');
     }
     public function categories()
     {

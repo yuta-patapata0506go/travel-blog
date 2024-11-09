@@ -29,7 +29,8 @@ class Favorite extends Model
      }
      public function favoritePostsDetail(){
         return $this->hasOne(Post::class, 'id')
-        ->with('categories');
+        ->with('categories', 'images');
+
     }
     public function favoriteSpotsDetail(){
         return $this->hasOne(Spot::class, 'id');

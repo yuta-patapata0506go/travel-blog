@@ -10,15 +10,19 @@ use App\Models\Post;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Like;
+use App\Models\Spot;
+use App\Models\Image;
 
 class ProfileController extends Controller
 {
      private $user;
 
-    public function __construct(User $user, Post $post, Favorite $favorite){
+    public function __construct(User $user, Post $post, Favorite $favorite, Spot $spot, Image $image){
         $this->user = $user;
         $this->post = $post;
         $this->favorite = $favorite;
+        $this->spot = $spot;
+        $this->image = $image;
     }
     
     public function show($id){
@@ -56,6 +60,8 @@ class ProfileController extends Controller
             // Favorite
             $favorited = $post->isFavorited; // アクセサを使用
             $favoritesCount = Favorite::where('post_id', $id)->count();
+
+            // $likedPost = $user->likedPost();
      
          return view('mypage.mypage-show', compact('post', 'firstImage','spotName', 'liked', 'likesCount','favorited', 'favoritesCount'))->with('user', $user);
      }
@@ -107,9 +113,8 @@ class ProfileController extends Controller
       public function favorite(){
         $user = $this->user->FindOrFail(Auth::user()->id);
         $favoritePosts = $user->favoritePosts();
-        // dd($user->favoritePosts);
-        $favoriteSpots = $user->favoriteSpots();
-        return view('mypage.mypage-favorite', compact('favoritePosts'))->with('user', $user);
+        $favoriteSpots = Favorite::where('user_id', Auth::user()->id)->whereNotNull('spot_id')->with('spot')->get();
+        return view('mypage.mypage-favorite', compact('favoritePosts', 'favoriteSpots'))->with('user', $user);
      }
      
 }

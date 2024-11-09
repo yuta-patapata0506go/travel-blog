@@ -19,9 +19,9 @@
                         @foreach ($user->posts as $posts)
                                 <div class="small_post col-md-3">
                                     <div class="card">
-                                        <a href="#" >
-                                            <img src="{{ asset('images/map_samples/post_pc_sample.png') }}" class="card-img-top" alt="Tourism Image">
-                                        </a>
+                                        {{-- <a href="#" >写真のリンクを残すかどうか--}} 
+                                            <img src="{{ asset('/storage/'. $posts->images->first()->image_url)}}" class="card-img-top" alt="Tourism Image">
+                                        {{--</a>--}}
                         
                                         <div class="card-body">
                                                 <div class="row">
@@ -30,11 +30,16 @@
                                                     </div>
                                                     <div class="col-auto">
                                                         <form action="#">
-                                                        <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-heart"></i></button>
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm shadow-none p-0">
+                                                                {{-- <i class="fa-regular fa-heart"></i>{{ $user->likedPost->count() }} --}}
+                                                            </button>
                                                         </form>
+                                
                                                     </div>
                                                     <div class="col-auto p-0">
                                                         <form action="#">
+                                                            @csrf
                                                         <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-star"></i></button>
                                                         </form>
                                                     </div>
@@ -49,7 +54,7 @@
                                                 </div>
                                                 <div class="post_text">
                                                 <p>{{$posts->comments}}</p>
-                                                <button class="btn comment-card">Learn More</button>
+                                                <a href={{route('post.show', $posts->id)}} class="btn btn-green">Read More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -61,10 +66,9 @@
         </div>
       
         @else
-        <h3 class="text-muted text-center">No Posts Yet</h3>
+        <h3 class="text-center">No Posts Yet</h3>
         @endif
    
     </div> 
-</div>
 
 @endsection
