@@ -1,0 +1,231 @@
+body {
+    background-image: url(../images/map_samples/search_bg.webp) !important;
+  
+  
+    /* 背景画像のサイズを調整 */
+    background-size: cover; /* 画像を全体にフィットさせる */
+    background-position: center; /* 画像を中央に配置 */
+  
+    /* 背景をホワイトアウトする */
+    background-color: rgba(255, 255, 255, 0.6); /* 白色と透明度を設定 */
+    background-blend-mode: lighten; /* 白色と画像をブレンド */
+  
+    /* 背景のその他の調整 */
+    background-repeat: no-repeat; /* 背景画像を繰り返さない */
+  }
+  
+  
+  /* Search Bar ------------------------------------------------*/
+  
+  .search-container {
+    position: relative;
+    width: 600px;
+    max-width: 100%;
+  }
+  
+  .search-container input {
+    /* width: 40vw;   */
+    width: 100%;
+    padding: 10px;
+    padding-right: 40px; /* アイコンが重ならないように右側に余白を作成 */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+  }
+  
+  .search-container i {
+    position: absolute;
+    right: 55%;
+    top: 50%;
+    transform: translateY(-90%);
+    color: #888;
+  }
+  
+  .icon_size {
+    font-size: 30px;
+  }
+  
+  .search-container button {
+    background-color: #336B87;
+    color: #ffffff;
+    border: none;
+    width: 150px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+  }
+  
+  .search-container button:hover {
+    background-color: #90AFC5;
+    color: #2A3132;
+  }
+  
+  body {
+    position: relative;
+    width: 100%;
+    min-height: 100vh; /* 最低でもビューポートの高さに */
+    margin: 0;
+    overflow-x: hidden; /* 横スクロールを無効化 */
+  }
+  
+  /* background of page */
+  .background-image::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/197a83081ab1acc3e4fd0ac385546aae_1200x1200.webp');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    opacity: 0.5; /* ここで背景画像のみ透明化 */
+    z-index: -1; /* 背景が他のコンテンツの背面に表示されるように */
+  }
+  
+  /* .container {
+    display: flex;
+    flex-direction: column;
+  }
+   */
+  /* images */
+  
+  .tourism-img {
+    height: 100px;
+    margin-bottom: 80px;
+  }
+  
+  .tourism-img img {
+    width: 100%; /* 画像のサイズを調整 */
+    height: auto; /* アスペクト比を維持 */
+  }
+    
+  /* eventlink tourismlink */
+  .image-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+  
+  .image-item {
+    position: relative;
+    width: 48%; /* Adjust width to fit two images side by side */
+  text-align: center;
+  }
+  
+  .image-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 5px; /* 角を丸くする */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+  }
+  
+  .image-item:hover img {
+    transform: scale(1.1); /* hover時に画像を少し拡大 */
+  }
+  
+  .overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  }
+  
+  /* Sort Button ------------------------------------------------*/
+  .sort_button {
+    text-align: right; 
+    position: relative;
+    margin: 0em 0em 0em 0em;
+  }
+  
+  .sort_button i {
+    pointer-events: none; 
+    position: absolute;
+    color: #666666;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+  }
+  
+  :focus {
+    outline: none;
+  }
+  
+  .sort_button select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 12em;
+    height: 2.5em;
+    border-radius: 50px;
+    font-size: 1.2em;
+    padding: 0em 1em 0em 1em;
+    margin: 20px 0;
+    cursor: pointer;
+  }
+  
+  .sort_button select:hover {
+    background-color: #90AFC5;
+  }
+  
+  
+  
+  /* Spots Section ------------------------------------------------*/
+  
+  .show_spot {
+    border-radius: 20px;
+    padding: 40px 80px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+    margin-bottom: 90px;
+  }
+  
+  .small_spot .card{
+    /* height: 300px; */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+    border-radius: 10px; /* 角を丸くする */
+  }
+  
+  .small_spot img {
+    height: 150px; 
+    display: block; /* 中央寄せに備えてブロック要素に */
+    margin: 0 auto; /* 画像をカード内で中央寄せ */
+    object-fit: cover;
+  }
+  
+  /* Posts Section------------------------------------------------*/
+  
+  .small_post .card{
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+    margin-bottom: 60px;
+    overflow: hidden;
+    border-radius: 10px; /* 角を丸くする */
+  }
+  
+  .small_post img {
+    height: 200px; 
+    display: block; /* 中央寄せに備えてブロック要素に */
+    margin: 0 auto; /* 画像をカード内で中央寄せ */
+    object-fit: cover
+  }
+  
+  .post_text p {
+    position: relative;
+    max-height: 50px; /* 開く前に見せたい高さを指定 */
+    margin-bottom: 0;
+    overflow: hidden;
+    /* transition: max-height 1s; */
+  }
+  
+  
+  .post_text button {
+    height: 40px; /* 高さを調整 */
+    padding: 10px 15px; /* ボタンの内側の余白 */
+    background-color: #336B87 !important; /* ボタンの背景色 */
+    color: #ffffff; /* ボタンのテキスト色 */
+    border: none; /* ボタンの境界線を無効にする */
+    border-radius: 5px; /* 角を丸くする */
+    cursor: pointer; /* カーソルをポインターに変更 */
+  }
