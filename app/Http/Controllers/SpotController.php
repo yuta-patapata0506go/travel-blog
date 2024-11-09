@@ -132,6 +132,21 @@ class SpotController extends Controller
         // spot_id に一致する post 情報を取得
         $posts = Post::where('spots_id', $id)->get();
         
+        //天気機能
+        $apiKey = env('OPENWEATHERMAP_API_KEY');
+        $url = "http://api.openweathermap.org/data/2.5/weather?lat={$spot->latitude}&lon={$spot->longitude}&appid={$apiKey}&units=metric";
+        $response = Http::get($url);
+        $data = $response->json();
+
+        $spot->weather_condition = $data['weather'][0]['description'];
+        $spot->temperature = $data['main']['temp'];
+        $spot->humidity = $data['main']['humidity'];
+        $spot->wind_speed = $data['wind']['speed'];
+        $spot->precipitation = $data['rain']['1h'] ?? 0; // 降水量のデータが存在しない場合は0に設定
+        $spot->uv_index = $this->getUVIndex($spot->latitude, $spot->longitude);  
+        $spot->weather_icon = $data['weather'][0]['icon']; // 追加      
+        $spot->save();        
+
         // スポットが見つからなかった場合のエラーハンドリング
         if (!$spot) {
             return redirect('/spot')->with('error', 'Spot not found');
@@ -140,6 +155,15 @@ class SpotController extends Controller
         // spot.blade.php に $spot 変数を渡す
         return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount', 'comments','posts'));
 
+    }
+
+    private function getUVIndex($lat, $lon)
+    {
+        $apiKey = env('OPENWEATHERMAP_API_KEY');
+        $url = "http://api.openweathermap.org/data/2.5/uvi?lat={$lat}&lon={$lon}&appid={$apiKey}";
+        $response = Http::get($url);
+        $data = $response->json();
+        return $data['value'];
     }
 
     public function like($id)

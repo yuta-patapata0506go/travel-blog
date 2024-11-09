@@ -119,45 +119,29 @@
                         </div>
                      </div>
                 </div>
-                    <!-- Weather -->
-                    <div class="weather">
-                        <h5>Weather</h5>
-                        <i class="fa-solid fa-cloud-sun"></i>
-                        <img src="/images/weather.png" alt="">
-                        <p>Weather information will be displayed here.</p>
-                        <!-- Embed weather code here -->
-                    </div>
+                    
                 </form>
 
                 <!-- Weather -->
                 <div class="weather"> 
-                    <h2>Weather Information</h2>                
-                    <!-- Weather Condition Icon -->                     
-                    <br>
-                    <p class="weather-condition">{{ ucfirst($spot->weather_condition) }}</p>
-                    <div class="weather-icon">
-                    @if($spot->weather_condition == 'clear sky')
-                     <img src="{{asset("images/weather/clearsky.png")}}" alt="clear sky">
-                    @elseif($spot->weather_condition == 'overcast clouds')
-                     <img src="/images/weather/overcastclouds.png" alt="overcast clouds">
-                    @elseif($spot->weather_condition == 'light intensity shower rain'|| $spot->weather_condition == 'light rain')
-                     <img src="/images/weather/light-rain.png" alt="light Intensity shower rain">
-                    {{-- @elseif($spot->weather_condition == 'Snow')
-                     <img src="/images/weather/snow.png" alt="Snow">
-                    @elseif($spot->weather_condition == 'Thunderstorm')
-                     <img src="/images/weather/thunderstorm.png" alt="Thunderstorm"> --}}
-                    {{-- @else
-                     <img src="/images/weather/default_icon.png" alt="Default"> --}} 
-                    @endif
-                   <span class="temperature">{{ $spot->temperature }}°C</span>
-                   </div>
-               <br>
-                <p>Humidity:&nbsp {{ $spot->humidity }}%</p>
-                <p>Wind Speed:&nbsp {{ $spot->wind_speed }} m/s</p>
-                <p>Precipitation:&nbsp {{ $spot->precipitation }} mm</p>
-                <p>UV Index:&nbsp {{ $spot->uv_index }}</p>
-
-               </div>
+                    <h3>Weather Information</h3>
+                    <br>               
+                    <!-- Weather Condition Icon -->
+                    <div class="weather-icon-container"> 
+                        <div class="weather-icon"> <img src="http://openweathermap.org/img/wn/{{ $spot->weather_icon }}.png" alt="{{ $spot->weather_condition }}"> 
+                        </div> 
+                        <div class="weather-info"> 
+                            <p class="weather-condition">{{ ucfirst($spot->weather_condition) }}</p> 
+                            <span class="temperature">{{ $spot->temperature }}°C</span> 
+                        </div> 
+                    </div> 
+                    <div class="weather-details"> 
+                        <p>Humidity: <span class="large-number">{{ $spot->humidity }}%</span></p> 
+                        <p>Wind Speed: <span class="large-number">{{ $spot->wind_speed }}m/s</span></p> 
+                        <p>Precipitation: <span class="large-number">{{ $spot->precipitation }}mm</span></p> 
+                        <p>UV Index: <span class="large-number">{{ $spot->uv_index }}</span></p> 
+                    </div> 
+                </div> 
             </div>
 
                 <!-- Comments -->

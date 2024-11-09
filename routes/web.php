@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\Admin\ResponsesController;
+use App\Http\Controllers\Admin\RecommendationsController;
+use App\Http\Controllers\RecommendationController;
+
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
 // Events and Tourism Routes
@@ -71,14 +74,15 @@ Route::get('/mypage-favorite',[ProfileController::class,'favorite'])->name('prof
 Route::get('/navbar', function () {
     return view('navbar');
 });
-// Map
+
+// Routes for Map Page
 // HTMLの表示用ルート(Route for displaying HTML)
 Route::get('/map', [MapController::class, 'showMapPage'])->name('map.page');
 // スポット情報のJSON取得用ルート(Route for retrieving spot information in JSON)
 Route::get('/api/map', [MapController::class, 'index'])->name('map.index');
-// Route::get('/mappage', function () {
-//     return view('map_page/map');
-// });
+
+
+
 Route::get('/footer', function () {
     return view('footer');
 });
@@ -108,6 +112,10 @@ Route::group(['prefix' => 'spot', 'as' => 'spot.'], function() {
 });*/
 
 
+// Recommendation Route
+Route::group(['prefix' => 'recommendation', 'as' => 'recommendation.'], function() {
+    Route::get('/', [RecommendationController::class, 'showRecommendations'])->name('showRecommendations');
+});
 
 
 // Admin　Routes
@@ -122,6 +130,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries
             Route::get('/{id}/create_reply', [ResponsesController::class, 'create'])->name('create_reply');
             Route::post('/{id}/reply', [ResponsesController::class, 'store'])->name('reply');
+        });
+
+        Route::group(['prefix' => 'admin/recommendations', 'as' => 'admin.recommendations.'], function() { // /admin/recommendations
+            Route::get('/modal', [RecommendationsController::class, 'showModal'])->name('modal');
+            Route::patch('/save', [RecommendationsController::class, 'saveRecommendations'])->name('save');
         });
     // });
 });
@@ -167,8 +180,6 @@ Route::get('/select-post-form', function () {
 })->name('select-post-form');
 
 
-Route::get('/spot/{spot_id}', [WeatherController::class, 'show']);
-
 // Authentication Routes
 Auth::routes();
 // POST routes
@@ -185,6 +196,18 @@ Route::group(["middleware"=> "auth"], function(){
        });
  });
 
+// Search Routes
+Route::get('/search', [SearchController::class, 'index'])->name('search');
+
+Route::get('/events', function () {
+    return view('display.events'); // 実際のビューのパスに合わせて修正してください
+})->name('events'); // 名前を付けることで、route('events') で参照可能になります。
+
+Route::get('/tourism', function () {
+    return view('display.tourism'); // 実際のビューのパスに合わせて修正してください
+})->name('tourism'); // 名前を付けることで、route('tourism') で参照可能になります。
+// Serch function
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 
  Route::get('/{type}/{id}', [CommentController::class, 'show'])->name('comment.show');
