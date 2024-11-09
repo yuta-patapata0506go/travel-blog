@@ -45,6 +45,7 @@ class MapController extends Controller
         if ($userLatitude && $userLongitude) {
             // 近くの6つのスポットを取得（Haversine formulaを利用）//Retrieve the 6 nearest spots using the Haversine formula
             $spots = $this->spot
+                ->with(['posts', 'images']) //各スポットに紐づくポストも取得(Retrieve posts associated with each spot)
                 ->selectRaw(
                     '*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance',
                     [$userLatitude, $userLongitude, $userLatitude]
