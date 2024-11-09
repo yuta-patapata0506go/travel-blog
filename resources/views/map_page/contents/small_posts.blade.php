@@ -5,20 +5,21 @@
     @foreach($spots as $spot) <!-- 各スポットをループ -->
         @foreach($spot->posts as $post) <!-- 各スポットに紐づくポストをループ -->
         <div class="small_post col-md-3">
+          <a href="{{ route('post.show', $post->id )}}" class="text-decoration-none text-black">
             <div class="card">
-              <a href="{{ route('post.show', $post->id )}}">
+              
                 @if ($post->images->isNotEmpty() && $post->images->first())
                     <img src="{{ asset('storage/' . $post->images->first()->image_url) }}" class="card-img-top" alt="Tourism Image">
                 @else
                     <img src="{{ asset('images/map_samples/post_pc_sample.png') }}" class="card-img-top" alt="Default Image">
                 @endif
-              </a>
+              
 
                 <div class="card-body">
 
                   <div class="row">
                     <div class="col-auto">
-                      <h5 class="fw-bolder post_title">{{ $post->title }}</h5>
+                      <h5 class="fw-bolder post_title text-truncate">{{ $post->title }}</h5>
                     </div>
                   </div>
 
@@ -64,9 +65,10 @@
                     </div>
                   </div>
 
+                  <!-- comments部分 & Buttno -->
                   <div class="post_text">
-                    <p>{{ $post->comments ?? '' }}</p>
-                    <a href="{{ route('post.show', $post->id )}}">
+                    <p class="mb-2">{{ $post->comments ?? '' }}</p>
+                    <a href="{{ route('post.show', $post->id )}}" >
                       <button class="btn comment-card">Learn More</button>
                     </a>
                    
@@ -74,8 +76,20 @@
               
                 </div>
             </div>
+          </a>
         </div>
         @endforeach
+
+
+
+        <script>
+          document.querySelector('form').addEventListener('submit', function(event) {
+          event.preventDefault(); // ページ遷移を防ぐ
+          // フォームデータを送信する処理
+          });
+        </script>
+
+
     @endforeach
   </div>
 </div>
