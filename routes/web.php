@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\Admin\ResponsesController;
 use App\Http\Controllers\Admin\RecommendationsController;
+use App\Http\Controllers\Admin\SpotApplicationsController;
 use App\Http\Controllers\RecommendationController;
 
 // Home Route
@@ -44,12 +45,12 @@ Route::post('/admin-categories-store',[CategoryController::class,'store'])->name
 Route::get('/admin-categories-edit/{id}',[CategoryController::class,'edit'])->name('admin.categories.edit');
 Route::patch('/admin-categories-update/{id}',[CategoryController::class,'update'])->name('admin.categories.update');
 Route::patch('/admin/categories/{id}/changeVisibility', [CategoryController::class, 'changeVisibility'])->name('admin.categories.changeVisibility');
-Route::get('/admin-inquiries-index', function () {
-    return view('/admin/inquiries/inquiries-index');
-});
-Route::get('/admin-spot_applications-index', function () {
-    return view('/admin/spot_applications/spot_applications-index');
-});
+// Route::get('/admin-inquiries-index', function () {
+//     return view('/admin/inquiries/inquiries-index');
+// });
+// Route::get('/admin-spot_applications-index', function () {
+//     return view('/admin/spot_applications/spot_applications-index');
+// });
 Route::get('/admin-update_category', function () {
     return view('/admin/modals/update_category');
 });
@@ -135,14 +136,20 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/modal', [RecommendationsController::class, 'showModal'])->name('modal');
             Route::patch('/save', [RecommendationsController::class, 'saveRecommendations'])->name('save');
         });
+
+        Route::group(['prefix' => 'admin/spot_applications', 'as' => 'admin.spot_applications.'], function() { 
+            Route::get('/', [SpotApplicationsController::class, 'index'])->name('index');
+        });
     // });
 });
-Route::get('/admin/inquiries/create_reply', function () {
-    return view('admin/inquiries/create_reply');
-});
-Route::get('/admin/inquiries/inquiry_details', function () {
-    return view('admin/inquiries/inquiry_details');
-});
+
+
+// Route::get('/admin/inquiries/create_reply', function () {
+//     return view('admin/inquiries/create_reply');
+// });
+// Route::get('/admin/inquiries/inquiry_details', function () {
+//     return view('admin/inquiries/inquiry_details');
+// });
 Route::get('/admin-allow-spot', function () {
     return view('admin.spot_applications.allowCreate');
 });

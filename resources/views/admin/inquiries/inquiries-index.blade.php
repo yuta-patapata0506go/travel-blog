@@ -8,12 +8,6 @@
 
 @section('content')
 
-<link rel="stylesheet" href="{{asset('css/admin/main.css')}}">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
 <body>
     <!-- Success message display -->
     @if (session('success'))
@@ -63,7 +57,7 @@
                         <a href="{{ route('admin.inquiries.index') }}" class="icon-item active">
                             <i class="fa-solid fa-address-card"></i>
                         </a>
-                        <a href="admin-spot_applications-index" class="icon-item">
+                        <a href="{{ route('admin.spot_applications.index') }}" class="icon-item">
                             <i class="fa-solid fa-photo-film"></i>
                         </a>
                     </div>
