@@ -15,10 +15,12 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\Admin\InquiriesController;
 use App\Http\Controllers\WeatherController;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\Admin\ResponsesController;
+
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -36,7 +38,7 @@ Route::get('/admin-posts-index', function () {
     return view('/admin/posts/posts-index');
 });
 
-Route::get('/admin-spots-index', function () {
+Route::get('/admin-spots-index', function (): Factory|View {
     return view('/admin/spots/spots-index');
 });
 
@@ -250,3 +252,9 @@ Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('comm
 
 // Serch function
 Route::get('/search', [SearchController::class, 'search'])->name('search');
+
+
+
+// Route::get('/events/search', [EventController::class, 'searchByDate'])->name('events.search');
+Route::get('/posts', [EventController::class, 'examplePostUsage'])->name('posts.index');
+

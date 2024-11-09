@@ -1,5 +1,3 @@
-import 'bootstrap';
-
 document.addEventListener("DOMContentLoaded", function() {
   const weeks = ['日', '月', '火', '水', '木', '金', '土'];
   const date = new Date();
@@ -8,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let today = date.getDate();
 
   const renderCalendar = () => {
-    console.log("Calender"); // この行を追加
+    console.log("Calender-event"); // この行を追加
       const startDate = new Date(year, month - 1, 1);
       const endDate = new Date(year, month, 0);
       const endDayCount = endDate.getDate();
@@ -78,9 +76,13 @@ function searchEvents(year, month, day) {
 }
 
 function fetchEvents(selectedDate) {
-    fetch(`/events/search?date=${selectedDate}`)
-        .then(response => response.json())
-        .then(data => displayEvents(data))
+    fetch(`/api/events/search?date=${selectedDate}`)
+        .then(response => {
+            console.log(response); 
+            response.json()})        
+        .then(data => {
+             console.log(data); 
+            displayEvents(data)})
         .catch(error => console.error('Error fetching events:', error));
 }
 

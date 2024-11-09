@@ -14,7 +14,8 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-
+    'providers' => [
+        App\Providers\RouteServiceProvider::class, ],
     /*
     |--------------------------------------------------------------------------
     | Application Environment
