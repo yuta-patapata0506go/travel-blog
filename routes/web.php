@@ -179,8 +179,6 @@ Route::get('/select-post-form', function () {
 })->name('select-post-form');
 
 
-Route::get('/spot/{spot_id}', [WeatherController::class, 'show']);
-
 // Authentication Routes
 Auth::routes();
 // POST routes
