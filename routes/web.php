@@ -20,6 +20,9 @@ use App\Http\Controllers\Admin\ResponsesController;
 use App\Http\Controllers\Admin\RecommendationsController;
 use App\Http\Controllers\Admin\SpotApplicationsController;
 use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\TourismController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -77,7 +80,7 @@ Route::get('/navbar', function () {
 });
 
 // Routes for Map Page
-// HTMLの表示用ルート(Route for displaying HTML)
+// HTMLの表示用ルート(Route for displaying HTML) *Use this route to display the map page
 Route::get('/map', [MapController::class, 'showMapPage'])->name('map.page');
 // スポット情報のJSON取得用ルート(Route for retrieving spot information in JSON)
 Route::get('/api/map', [MapController::class, 'index'])->name('map.index');
@@ -95,6 +98,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('/about', function () {
     return view('about');
 })->name('about');
+
 //Spot
 Route::group(['prefix' => 'spot', 'as' => 'spot.'], function() {
     Route::get('create', [SpotController::class, 'create'])->name('create');
@@ -221,5 +225,11 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
  Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
  
 
+// イベントページへのルート
+Route::get('/events', [EventController::class, 'index'])->name('events');
 
+// ツーリズムページへのルート
+Route::get('/tourism', [TourismController::class, 'index'])->name('tourism');
  
+//Serch function
+Route::get('/search', [SearchController::class, 'search'])->name('search');
