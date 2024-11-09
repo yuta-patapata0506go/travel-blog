@@ -149,7 +149,7 @@
                 <a name="comment">
                     <h5>Question & Comment</h5>
                 </a>
-                <form action="{{ route('spot.comment.store', ['id' => $spot->id]) }}" method="POST" class="mt-3">
+                <form action="{{ route('comment.store', ['id' => $spot->id]) }}" method="POST" class="mt-3">
                     @csrf
                     <input type="hidden" name="spot_id" value="{{ $spot->id }}"> <!-- spot_id を追加 -->
                     <div class="input-group mb-3">
@@ -195,7 +195,7 @@
                                     </div>
                                 </div>
                                 <div class="reply-form mt-3" id="reply-form-{{ $comment->id }}" style="display: none;">
-                                    <form action="{{ route('spot.comment.store', ['id' => $spot->id]) }}" method="POST" class="d-flex align-items-center">
+                                    <form action="{{ route('comment.store', ['id' => $spot->id]) }}" method="POST" class="d-flex align-items-center">
                                         @csrf
                                         <input type="hidden" name="parent_id" value="{{ $comment->id }}">
                                         <textarea name="comment" rows="1" class="form-control flex-grow-1 me-2" placeholder="Reply here..."></textarea>
@@ -299,54 +299,50 @@
 
                 <!-- Post display and jump to the Post Page-->
             <div class="small-post-container d-flex align-items-center">
-                    <button class="arrow-left" onclick="nextImage()">
-                        <i class="fa-solid fa-circle-left"></i>
-                    </button>
+                <button class="arrow-left" onclick="nextImage()">
+                    <i class="fa-solid fa-circle-left"></i>
+                </button>
 
-                    @for($i = 0; $i < 4; $i++)
-                    <div class="card post shadow-card m-2" style="cursor: pointer; width: 18rem;" onclick="this.querySelector('form').submit();">
-                        <!-- カード内のフォーム -->
-                        <form action="/posts-event-post" method="GET">
-                            <div class="carousel-inner">
-                                @foreach ($spot->images as $index => $image)
-                                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                        <img src="{{ asset('storage/' . $image->image_url) }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
-                                    </div>
-                                @endforeach
-                            </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="">
-                                            <div class="col-auto title-line">
-                                                <h5 class="card-title">Title {{ $i + 1 }}</h5>
-                                                <div class="col-auto">
-                                                    <form action="#">
-                                                        <button type="submit" class="btn shadow-none p-0"><i class="fa-solid fa-heart"></i></button>
-                                                    </form>
-                                                    <form action="#">
-                                                        <button type="submit" class="btn shadow-none p-0"><i class="fa-solid fa-star"></i></button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="row mb-2">
-                                                <span class="col badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
-                                                <span class="col badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
-                                            </div>
-                                            
-                                            <p class="card-text">Short description of the tourism spot.</p>
-                                            
-                                            <button type="button" class="btn-small-post-card">Read More</button>
+                
+            @foreach ($posts as $post)
+            <div class="card post shadow-card m-2" style="cursor: pointer; width: 18rem;" onclick="this.querySelector('form').submit();">
+                <!-- カード内のフォーム -->                                                
+                <div class="carousel-inner">
+                    @foreach ($post->images as $index => $image)
+                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                            <img src="{{ asset('storage/' . $image->image_url) }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
+                        </div>
+                    @endforeach
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="">
+                                    <div class="col-auto title-line">
+                                        <h5 class="card-title">{{ $post->title }}</h5>
+                                        <div class="col-auto">
+                                            <form action="#">
+                                                <button type="submit" class="btn shadow-none p-0"><i class="fa-solid fa-heart"></i></button>
+                                            </form>
+                                            <form action="#">
+                                                <button type="submit" class="btn shadow-none p-0"><i class="fa-solid fa-star"></i></button>
+                                            </form>
                                         </div>
+                                    </div>                                            
+                                    <div class="row mb-2">
+                                        <span class="col badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
+                                        <span class="col badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
                                     </div>
+                                            
+                                    <p class="card-text">Short description of the tourism spot.</p>                                            
+                                        <button type="button" class="btn-small-post-card">Read More</button>
                                 </div>
-                        </form>
+                            </div>
+                        </div>                                                       
                     </div>
-                    @endfor
-
-                    <button class="arrow-right" onclick="nextImage()">
-                        <i class="fa-solid fa-circle-right"></i>
-                    </button>
+                @endforeach
+                <button class="arrow-right" onclick="nextImage()">
+                    <i class="fa-solid fa-circle-right"></i>
+                </button>
             </div>    
         </div>   
     </div>
