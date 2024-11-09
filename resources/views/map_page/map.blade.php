@@ -23,20 +23,24 @@
   {{-- Search Bar --}}
 
   <div class="search-container d-flex justify-content-left">
-      <form class="d-flex mb-4" role="search">
-          <input class="form-control form-control-lg me-2" type="search" aria-label="Search">
+      <form class="d-flex mb-4" role="search" method="GET" action="{{ route('map.page') }}">
+          <input type="hidden" name="latitude" value="{{ request('latitude') }}">
+          <input type="hidden" name="longitude" value="{{ request('longitude') }}">
+          <input class="form-control form-control-lg me-2" type="search" aria-label="Search" name="keyword" aria-label="Search" value="{{ request('keyword') }}">
           <i class="fas fa-search icon_size"></i>
           <button class="btn fs-3 fw-bold" type="submit">Search</button>
       </form>
   </div>
 
+ 
+
 {{-- Map --}}
 
-    <div id="map" class="map"></div>
+    <div id="map" class="map mb-5"></div>
 
   
 {{-- Sort Button --}}
-  <form id="sort" class="sort_button">
+  {{-- <form id="sort" class="sort_button">
     <label for="sortOptions" class="fs-4">Sort by</label>
     <select name="price" id="sortOptions" class="fs-4">
         <option value="1">Recommended</option>
@@ -46,7 +50,7 @@
         <option value="5">Many Views</option>
     </select>
     <i class="fa-solid fa-chevron-down icon_size"></i>
-  </form>
+  </form> --}}
                
   {{-- Spots Section --}}
   @include('map_page.contents.small_spots')
@@ -68,18 +72,23 @@
     const urlParams = new URLSearchParams(window.location.search);
     const latitude = urlParams.get('latitude');
     const longitude = urlParams.get('longitude');
+    const keyword = urlParams.get('keyword'); // 検索キーワードも取得
 
     // Only fetch geolocation if latitude and longitude are not in URL parameters
     if (!latitude || !longitude) {
         navigator.geolocation.getCurrentPosition(function(position) {
             const userLatitude = position.coords.latitude;
             const userLongitude = position.coords.longitude;
+            
+            // 現在の検索ワードが存在すればURLに追加
+            const searchKeyword = keyword ? `&keyword=${encodeURIComponent(keyword)}` : '';
+
             // Redirect to the page with latitude and longitude only if not present
-            window.location.href = `{{ route('map.page') }}?latitude=${userLatitude}&longitude=${userLongitude}`;
+            window.location.href = `{{ route('map.page') }}?latitude=${userLatitude}&longitude=${userLongitude}${searchKeyword}`;
         });
     } else {
         // Initialize the map with the latitude and longitude from URL parameters
-        fetch(`{{ route('map.index') }}?latitude=${latitude}&longitude=${longitude}`)
+        fetch(`{{ route('map.index') }}?latitude=${latitude}&longitude=${longitude}&keyword=${encodeURIComponent(keyword || '')}`)
             .then(response => response.json())
             .then(data => {
                 const map = new mapboxgl.Map({

@@ -79,7 +79,7 @@ Route::get('/navbar', function () {
 });
 
 // Routes for Map Page
-// HTMLの表示用ルート(Route for displaying HTML)
+// HTMLの表示用ルート(Route for displaying HTML) *Use this route to display the map page
 Route::get('/map', [MapController::class, 'showMapPage'])->name('map.page');
 // スポット情報のJSON取得用ルート(Route for retrieving spot information in JSON)
 Route::get('/api/map', [MapController::class, 'index'])->name('map.index');
