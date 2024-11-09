@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link href="{{ asset('css/select-post.css') }}" rel="stylesheet">
+@endsection
+
 @section('title', 'Select-post-form')
 
 @section('content')
@@ -11,7 +15,7 @@
             <div class="d-flex justify-content-center">
                 <div class="position-relative">
                     <img src="images/whereToGo_navbar_sample.png" alt="Your Image" class="img-fluid rounded-image">
-                    <a href="your-link.html" class="overlay-text">Register <span class="red-text">New</span> Spot</a>
+                    <a href="{{ route('spot.create') }}" class="overlay-text">Register <span class="red-text">New</span> Spot</a>
                 </div>
             </div>
             <br>
@@ -22,11 +26,11 @@
             <div class="d-flex justify-content-center">
                 <div class="position-relative post-option mx-3">
                     <img src="images/left.png" alt="Event" class="img-fluid rounded-image">
-                    <a href="your-link.html" class="overlay-text">Create Event Post</a>
+                    <a href="{{ route('post.create', ['type' => 0]) }}" class="overlay-text">Create Event Post</a>
                 </div>
                 <div class="position-relative post-option mx-3">
                     <img src="images/right.png" alt="Tourism" class="img-fluid rounded-image lightened-image">
-                    <a href="your-link.html" class="overlay-text">Create Tourism Post</a>
+                    <a href="{{ route('post.create', ['type' => 1]) }}" class="overlay-text">Create Tourism Post</a>
                 </div>
             </div>
             <br> 

@@ -4,12 +4,15 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +20,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
     ];
@@ -43,5 +46,32 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function followers(){
+        return $this->hasMany(Follow::class, 'following_user_id');
+    }
+
+    public function following(){
+        return $this->hasMany(Follow::class, 'followed_user_id');
+    }
+    public function isFollowed(){
+        return $this->followers()->where('followed_user_id', Auth::user()->id)->exists();
+    }
+
+    // app/Models/User.php
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+
+    
+   
+
+    // check if the role is admin
+    public function isAdmin()
+    {
+        return $this->role === 1; // Check if the role is admin (1)
     }
 }

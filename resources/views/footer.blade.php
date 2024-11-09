@@ -1,5 +1,5 @@
 {{-- Footer --}}
-<footer class="footer text-center">
+<footer class="footer text-center {{ Auth::check() && Auth::user()->isAdmin() ? 'footer-admin' : '' }}">
     <div class="container">
         <div class="row">
             <div class="col">
@@ -10,7 +10,7 @@
                     <i class="fab fa-instagram"></i>
                 </a>
                 <a href="https://twitter.com" target="_blank" class="social-icon">
-                    <i class="fab fab fa-twitter "></i>
+                    <i class="fab fa-twitter"></i>
                 </a>
             </div>
 
@@ -20,20 +20,15 @@
 
             <div class="col">
                 @guest
-                    <!-- Guest footer only -->
-                    <a href="#" class="footer-link">Contact</a> {{-- {{ url('/contact') }} --}}
-                    <a href="#" class="footer-link">About</a> {{-- {{ url('/about') }} --}}
+                    <a href="{{ route('about') }}" class="footer-link">About</a>
                 @else
-                    {{-- 
                     @if (!Auth::user()->isAdmin())
-                        <a href="#" class="footer-link">Contact</a> {{-- {{ url('/contact') }} --}}
-                    {{-- @endif  --}}
-                    {{-- Admin and logged-in users will not see these links for now --}}
-                    {{-- <a href="#" class="footer-link">Contact</a> --}}
-                    <a href="#" class="footer-link">About</a> {{-- {{ url('/about') }} --}}
+                        <a href="{{ route('contact.create') }}" class="footer-link">Contact</a>
+                    @endif
+                    <a href="{{ route('about') }}" class="footer-link">About</a>
                 @endguest
             </div>
         </div>
-    </div>
+    </div>    
 </footer>
 

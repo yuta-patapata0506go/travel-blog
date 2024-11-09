@@ -60,7 +60,53 @@ body {
 .map {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
   border-radius: 20px;
+  height: 600px;
 }
+
+.current_locaiton_popup {
+  width: 150px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border-radius: 20px !important;
+  background-color: transparent !important; */
+}
+
+.current_locaiton_popup p {
+  font-size: 12px;
+  width: 200px;
+  margin: 10px;
+  font-weight: bold;
+}
+
+.spot_popup {
+  width: 250px;
+}
+
+.spot_popup a {
+  text-decoration: none;
+  color: #2A3132;
+  margin: 0 auto;
+}
+
+.spot_popup .small_spot img {
+  height: 100px;
+  width: 200px;
+  margin: 10px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.spot_popup .spot_name p {
+  font-size: 16px;
+  width: 200px;
+  margin: 10px;
+}
+
+
+
+
 
 /* Sort Button ------------------------------------------------*/
 .sort_button {
@@ -123,6 +169,14 @@ body {
   object-fit: cover;
 }
 
+.small_spot img:hover {
+  opacity: 0.7;
+}
+
+.spot_name:hover {
+  color: #90AFC5;
+}
+
 
 /* Posts Section------------------------------------------------*/
 
@@ -139,6 +193,11 @@ body {
   margin: 0 auto; /* 画像をカード内で中央寄せ */
   object-fit: cover
 }
+
+.small_post img:hover {
+  opacity: 0.7;
+}
+
 
 .post_text p {
   position: relative;
@@ -157,4 +216,20 @@ body {
   border: none; /* ボタンの境界線を無効にする */
   border-radius: 5px; /* 角を丸くする */
   cursor: pointer; /* カーソルをポインターに変更 */
+}
+
+/* 後でbuttonをaに変更、hover修正 */
+
+
+
+/* Icons ------------------------------------------------*/
+
+/* Likeされた状態の色 */
+#like-icon.active {
+  color: red;
+}
+
+/* Favoriteされた状態の色 */
+#favorite-icon.active {
+  color: gold;
 }

@@ -27,7 +27,7 @@
                                     </button>
                                 
                                     <div class="dropdown-menu">
-                                        <a href="" class="dropdown-item">
+                                        <a href="{{ route('post.edit', $post->id) }}" class="dropdown-item">
                                             <i class="fa-regular fa-edit"></i>Edit
                                         </a>
                                         <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#delete-post">
