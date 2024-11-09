@@ -19,6 +19,9 @@ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\Admin\ResponsesController;
 use App\Http\Controllers\Admin\RecommendationsController;
 use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\TourismController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -216,5 +219,9 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
  Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
  
 
+// イベントページへのルート
+Route::get('/events', [EventController::class, 'index'])->name('events');
 
+// ツーリズムページへのルート
+Route::get('/tourism', [TourismController::class, 'index'])->name('tourism');
  
