@@ -138,14 +138,34 @@ class SpotController extends Controller
         $response = Http::get($url);
         $data = $response->json();
 
-        $spot->weather_condition = $data['weather'][0]['description'];
-        $spot->temperature = $data['main']['temp'];
-        $spot->humidity = $data['main']['humidity'];
-        $spot->wind_speed = $data['wind']['speed'];
-        $spot->precipitation = $data['rain']['1h'] ?? 0; // 降水量のデータが存在しない場合は0に設定
-        $spot->uv_index = $this->getUVIndex($spot->latitude, $spot->longitude);  
-        $spot->weather_icon = $data['weather'][0]['icon']; // 追加      
-        $spot->save();        
+        // 必要なキーが存在するか確認し、存在しない場合はデフォルト値を設定
+        if (isset($data['weather'][0]['description'], $data['main']['temp'], $data['main']['humidity'], $data['wind']['speed'])) {
+            $spot->weather_condition = $data['weather'][0]['description'];
+            $spot->temperature = $data['main']['temp'];
+            $spot->humidity = $data['main']['humidity'];
+            $spot->wind_speed = $data['wind']['speed'];
+            $spot->precipitation = $data['rain']['1h'] ?? 0; // 降水量のデータが存在しない場合は0に設定
+            $spot->uv_index = $this->getUVIndex($spot->latitude, $spot->longitude);  
+            $spot->weather_icon = $data['weather'][0]['icon']; // 追加
+        } else {
+        // エラーの場合のデフォルト値を設定
+            $spot->weather_condition = 'N/A';
+            $spot->temperature = null; // 数値型のカラムにはnullを設定
+            $spot->humidity = null; // 数値型のカラムにはnullを設定
+            $spot->wind_speed = null; // 数値型のカラムにはnullを設定
+            $spot->precipitation = 0; // 数値なので0を設定
+            $spot->weather_icon = 'N/A';
+        }
+        // UVインデックスの取得もエラー処理を追加
+        try {
+            $spot->uv_index = $this->getUVIndex($spot->latitude, $spot->longitude);
+        } catch (\Exception $e) {
+            $spot->uv_index = 0; // UVインデックスが取得できなかった場合のデフォルト値
+        }
+
+        $spot->save(); 
+        
+        
 
         // スポットが見つからなかった場合のエラーハンドリング
         if (!$spot) {
@@ -163,7 +183,8 @@ class SpotController extends Controller
         $url = "http://api.openweathermap.org/data/2.5/uvi?lat={$lat}&lon={$lon}&appid={$apiKey}";
         $response = Http::get($url);
         $data = $response->json();
-        return $data['value'];
+        // "value" キーが存在するか確認し、存在しない場合はデフォルト値（例：0）を返す
+        return $data['value'] ?? 0;
     }
 
     public function like($id)
