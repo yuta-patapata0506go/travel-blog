@@ -18,7 +18,7 @@
             <ul class="navbar-nav ms-auto">
                 <!-- Home icon -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-home"></i></a>
+                    <a class="nav-link" href="{{ route('home') }}"><i class="fas fa-home"></i></a>
                 </li>
 
                 @if(Auth::user() && Auth::user()->isAdmin())
@@ -34,8 +34,8 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            @if(Auth::user()->profile_image)
-                                <img src="{{ asset('storage/profile_images/' . Auth::user()->profile_image) }}" width="30" height="30" class="rounded-circle" alt="Admin User">
+                            @if(Auth::user()->avatar)
+                                <img src="data:image/{{ explode(';', Auth::user()->avatar)[0] }};base64,{{ explode(',', Auth::user()->avatar)[1] }}" width="30" height="30" class="rounded-circle" alt="Admin User">
                             @else
                                 <i class="fas fa-user-circle" style="font-size: 30px;"></i>
                             @endif
@@ -54,7 +54,7 @@
                                 <i class="fa-solid fa-arrow-right-from-bracket me-1"></i>{{ __('Logout') }}
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('admin.inquiries.index') }}">
                                 <i class="fa-solid fa-user-tie me-1"></i>{{ __('Admin Page') }}
                             </a>
                         </div>
@@ -73,8 +73,8 @@
                     <!-- User Icon Dropdown -->
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            @if(Auth::user()->profile_image)
-                                <img src="{{ asset('storage/profile_images/' . Auth::user()->profile_image) }}" width="30" height="30" class="rounded-circle" alt="User">
+                            @if(Auth::user()->avatar)
+                                <img src="data:image/{{ explode(';', Auth::user()->avatar)[0] }};base64,{{ explode(',', Auth::user()->avatar)[1] }}" width="30" height="30" class="rounded-circle" alt="User">
                             @else
                                 <i class="fas fa-user-circle" style="font-size: 30px;"></i>
                             @endif
