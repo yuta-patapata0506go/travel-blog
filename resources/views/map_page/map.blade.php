@@ -23,12 +23,14 @@
   {{-- Search Bar --}}
 
   <div class="search-container d-flex justify-content-left">
-      <form class="d-flex mb-4" role="search">
-          <input class="form-control form-control-lg me-2" type="search" aria-label="Search">
+      <form class="d-flex mb-4" role="search" method="GET" action="{{ route('map.page') }}">
+          <input class="form-control form-control-lg me-2" type="search" aria-label="Search" name="keyword" placeholder="Search by title or comment" aria-label="Search" value="{{ request('keyword') }}">
           <i class="fas fa-search icon_size"></i>
           <button class="btn fs-3 fw-bold" type="submit">Search</button>
       </form>
   </div>
+
+ 
 
 {{-- Map --}}
 
