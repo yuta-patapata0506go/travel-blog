@@ -143,6 +143,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['prefix' => 'admin/spot_applications', 'as' => 'admin.spot_applications.'], function() { 
             Route::get('/', [SpotApplicationsController::class, 'index'])->name('index');
+            Route::post('/{id}/update-status', [SpotApplicationsController::class, 'updateStatus'])->name('updateStatus');
+
         });
     // });
 });

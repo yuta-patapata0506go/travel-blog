@@ -16,6 +16,13 @@
         </div>
     @endif
 
+    <!-- Error message display -->
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <!-- Admin Page Title -->
     <div class="container mt-5">
         <div style="text-align: center;">
@@ -29,10 +36,10 @@
                 Recommended Posts Setting
             </button>
 
-            {{-- @include('admin.modals.recommended_post') --}}
-            @include('admin.modals.recommended_post', ['categories' => $categories])
+            {{-- Include recommended_post modal --}}
+            @include('admin.modals.recommended_post')
 
-            {{-- <button class="btn btn-outline-dark">Create New Spot</button> --}}
+            {{-- Create New Spot Button --}}
             <a href="#" class="btn btn-outline-dark">Create New Spot</a>
         </div>
 
@@ -69,83 +76,57 @@
                     <th>Address</th>
                     <th>Create</th>
                     <th>Status</th>
-                    <th>Visibility</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($pendingSpots as $spot) <!-- Loop through each pending spot -->
+                <!-- Check if there are any pending spots -->
+                @if ($pendingSpots->isEmpty())
                     <tr>
-                        <td>{{ $spot->id }}</td>
-                        <td>{{ $spot->name }}</td>
-                        <td>{{ $spot->address }}</td>
-                        <td>{{ $spot->created_at->format('Y-m-d') }}</td>
-                        
-                        <!-- Status Dropdown -->
-                        <td>
-                            <div class="dropdown">
-                                <button class="dropdown-toggle" type="button" id="statusDropdown{{ $spot->id }}" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ $spot->pivot->status }}
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="statusDropdown{{ $spot->id }}">
-                                    <li>
-                                        <form action="#" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="status" value="0">
-                                            <button type="submit" class="dropdown-item {{ $spot->pivot->status == 0 ? 'active' : '' }}">Pending</button>
-                                        </form>
-                                    </li>
-                                    <li>
-                                        <form action="#" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="status" value="1">
-                                            <button type="submit" class="dropdown-item {{ $spot->pivot->status == 1 ? 'active' : '' }}">Approved</button>
-                                        </form>
-                                    </li>
-                                    <li>
-                                        <form action="#" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="status" value="2">
-                                            <button type="submit" class="dropdown-item {{ $spot->pivot->status == 2 ? 'active' : '' }}">Denied</button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                        
-                        <!-- Visibility Dropdown -->
-                        <td>
-                            <div class="dropdown">
-                                <button class="btn btn-sm" data-bs-toggle="dropdown">
-                                    {{ $spot->visibility === 'Visible' ? 'Visible' : 'Hidden' }}
-                                </button>
-                                <div class="dropdown-menu">
-                                    @if ($spot->visibility === 'Visible')
-                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#hide-spot-{{ $spot->id }}">
-                                            <i class="fa-solid fa-eye-slash"></i> Hide
-                                        </button>
-                                    @else
-                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#unhide-spot-{{ $spot->id }}">
-                                            <i class="fa-solid fa-eye"></i> Unhide
-                                        </button>
-                                    @endif
+                        <td colspan="7">No pending spots available.</td>
+                    </tr>
+                @else
+                    @foreach ($pendingSpots as $spot)
+                        <tr>
+                            <td>{{ $spot->id }}</td>
+                            <td>{{ $spot->name }}</td>
+                            <td>{{ $spot->address }}</td>
+                            <td>{{ $spot->created_at->format('Y-m-d') }}</td>
+                            
+                            <!-- Status Dropdown -->
+                            <td>
+                                <div class="dropdown">
+                                    <button class="dropdown-toggle" type="button" id="statusDropdown{{ $spot->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ $spot->status }}
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="statusDropdown{{ $spot->id }}">
+                                        <li>
+                                            <form action="{{ route('admin.spot_applications.updateStatus', $spot->id) }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="status" value="approved">
+                                                <button type="submit" class="dropdown-item {{ $spot->status == 'approved' ? 'active' : '' }}">Approved</button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form action="{{ route('admin.spot_applications.updateStatus', $spot->id) }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="status" value="denied">
+                                                <button type="submit" class="dropdown-item {{ $spot->status == 'denied' ? 'active' : '' }}">Denied</button>
+                                            </form>
+                                        </li>
+                                    </ul>
                                 </div>
-                            </div>
-                            @include('admin.spots.modals.visibility', ['spot' => $spot]) <!-- Pass spot to the modal -->
-                        </td>
+                            </td>
 
-                        <!-- Details Button -->
-                        <td>
-                            <a href="#" class="btn btn-sm">
-                                <i class="fa-regular fa-newspaper"></i>
-                            </a>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="7">No pending spots found.</td> <!-- Show a message when no data is available -->
-                    </tr>
-                @endforelse
+                            <!-- Details Button -->
+                            <td>
+                                <a href="{{ route('spot.show', $spot->id) }}" class="btn btn-sm">
+                                    <i class="fa-regular fa-newspaper"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
             </tbody>
         </table>
 

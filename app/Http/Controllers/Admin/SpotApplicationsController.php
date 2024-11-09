@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Models\Spot;
 use App\Models\SpotUserPivot;
 use App\Models\Category;
@@ -12,14 +11,12 @@ use Illuminate\Http\Request;
 
 class SpotApplicationsController extends Controller
 {
-    private $user;
     private $spot;
     private $category;
     private $recommendation;
 
-    public function __construct(User $user, Spot $spot, Category $category, Recommendation $recommendation)
+    public function __construct(Spot $spot, Category $category, Recommendation $recommendation)
     {
-        $this->user = $user;
         $this->spot = $spot;
         $this->category = $category;
         $this->recommendation = $recommendation;
@@ -28,39 +25,41 @@ class SpotApplicationsController extends Controller
     // Display pending spots
     public function index()
     {
-        // get spots status = 0 (pending) with pagination
-        $pendingSpots = $this->spot
-            ->select('spots.*')
-            ->join('spot_user_pivot', 'spots.id', '=', 'spot_user_pivot.spot_id')
-            ->where('spot_user_pivot.status', 0)  // ピボットテーブルのstatusが0のものを条件に
-            ->paginate(10);
-    
+        $pendingSpots = $this->spot->where('status', 'pending')->paginate(10);
+
         $categories = $this->category->all();
         $existingRecommendation = $this->recommendation->first();
-    
+
         return view('admin.spot_applications.spot_applications-index')
             ->with('pendingSpots', $pendingSpots)
             ->with('categories', $categories)
             ->with('existingRecommendation', $existingRecommendation);
     }
-    
 
-//     public function index()
-// {
-//     $pendingSpots = $this->spot->whereHas('users', function($query) {
-//         $query->wherePivot('status', 0);
-//     })->paginate(10);
+    // Update the status of a spot
+    public function updateStatus(Request $request, $id)
+    {
+        // Validate the request
+        $validated = $request->validate([
+            'status' => 'required|in:approved,denied',  // Only allowed values are 'approved' or 'denied'
+        ]);
 
-//     $categories = $this->category->all();
-//     $existingRecommendation = $this->recommendation->first();
+        // Find the spot by ID
+        $spot = $this->spot->findOrFail($id);
 
-//     return view('admin.spot_applications.spot_applications-index')
-//         ->with('pendingSpots', $pendingSpots)
-//         ->with('categories', $categories)
-//         ->with('existingRecommendation', $existingRecommendation);
-// }
+        // Check if the status is already approved
+    if ($spot->status === 'approved') {
+        return redirect()->route('admin.spot_applications.index')
+            ->with('error', 'Approved spots cannot be changed.');
+    }
 
+        // Update the status of the spot
+        $spot->status = $validated['status'];
+        $spot->save();
 
-
+        // Redirect back to the index with a success message
+        return redirect()->route('admin.spot_applications.index')
+            ->with('success', 'Spot status updated successfully!');
+    }
 
 }

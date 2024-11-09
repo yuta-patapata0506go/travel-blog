@@ -16,6 +16,13 @@
         </div>
     @endif
 
+    <!-- Error message display -->
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
 
     <!-- Admin Page Title -->
     <div class="container mt-5">
