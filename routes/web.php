@@ -90,6 +90,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('/about', function () {
     return view('about');
 })->name('about');
+
 //Spot
 Route::group(['prefix' => 'spot', 'as' => 'spot.'], function() {
     Route::get('create', [SpotController::class, 'create'])->name('create');
@@ -193,5 +194,5 @@ Route::group(["middleware"=> "auth"], function(){
 
 
  
-Serch function
+//Serch function
 Route::get('/search', [SearchController::class, 'search'])->name('search');

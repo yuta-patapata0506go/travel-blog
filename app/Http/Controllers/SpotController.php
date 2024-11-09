@@ -33,7 +33,7 @@ class SpotController extends Controller
     {
         // 指定されたIDのスポットを取得（1つのみ）
         $spot = Spot::findOrFail($id);
-
+        
         // 指定されたスポットIDに関連する全てのポストを取得
         $posts = Post::where('spot_id', $id)->get();
 
@@ -60,7 +60,7 @@ class SpotController extends Controller
             'name' => 'required|string|max:255',
             'postalcode' => 'required|string|max:10',
             'address' => 'required|string|max:255',           
-            'image' => 'required|image|mimes:jpeg,jpg,png,gif',
+            'image' => 'required|array',
         ]);
 
         // Geocoding APIを使って住所から緯度と経度を取得
@@ -72,7 +72,6 @@ class SpotController extends Controller
             'access_token' => $mapboxApiKey,
         ]);
 
-        
         if ($response->successful()) {
             $data = $response->json();
             $coordinates = $data['features'][0]['geometry']['coordinates'];
@@ -108,7 +107,7 @@ class SpotController extends Controller
     {
 
         // IDを使ってスポットデータを取得
-        $spot = Spot::with('images','likes','favorites', 'comments.replies')->findOrFail($id); // imagesリレーションを読み込む
+        $spot = Spot::with('images','likes','favorites', 'comments.replies','posts')->findOrFail($id); // imagesリレーションを読み込む
         $userId = auth()->id();
 
         // Like
@@ -128,13 +127,18 @@ class SpotController extends Controller
 
         $commentCount = $spot->comments()->count();
 
+        // 指定されたIDのスポットを取得（1つのみ）
+        $spot = Spot::findOrFail($id);
+        // spot_id に一致する post 情報を取得
+        $posts = Post::where('spots_id', $id)->get();
+        
         // スポットが見つからなかった場合のエラーハンドリング
         if (!$spot) {
             return redirect('/spot')->with('error', 'Spot not found');
         }
 
         // spot.blade.php に $spot 変数を渡す
-        return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount', 'comments'));
+        return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount', 'comments','posts'));
 
     }
 
