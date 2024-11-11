@@ -22,7 +22,6 @@ use App\Http\Controllers\Admin\RecommendationsController;
 use App\Http\Controllers\Admin\SpotApplicationsController;
 use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\EventController;
 use App\Http\Controllers\TourismController;
 
 
