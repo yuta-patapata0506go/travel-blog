@@ -49,6 +49,29 @@
         <table class="table table-hover table-bordered text-center">
             <thead class="table-dark">
                 <tr>
+                    <div class="icon-container">
+                        <a href="admin-users-index" class="icon-item">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+                        <a href="admin-posts-index" class="icon-item">
+                            <i class="fa-solid fa-newspaper"></i>
+                        </a>
+                        <a href="admin-spots-index" class="icon-item active">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </a>
+                        <a href="admin-categories-index" class="icon-item">
+                            <i class="fa-solid fa-shapes"></i>
+                        </a>
+                        <a href="{{ route('admin.inquiries.index') }}" class="icon-item">
+                            <i class="fa-solid fa-address-card"></i>
+                        </a>
+                        <a href="{{ route('admin.spot_applications.index') }}" class="icon-item">
+                            <i class="fa-solid fa-photo-film"></i>
+                        </a>
+                    </div>
+                </tr>
+                <br>
+                <tr>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Image</th>

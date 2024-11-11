@@ -14,12 +14,9 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     private $post;
-
     private $category;
     private $image;
-
     private $spot;
-
     public function __construct(Post $post, Category $category, Image $image, Spot $spot)
 
     {
@@ -150,6 +147,7 @@ public function show($id)
 
         return redirect()->route('post.show', ['id' => $this->post->id])
         ->with('success', 'Post created successfully.');
+    
     }
 
     public function like($id)
@@ -313,3 +311,4 @@ if ($request->hasFile('image')) {
        return redirect()->route('home')->with('success', 'Post deleted successfully.');
     }
 }
+

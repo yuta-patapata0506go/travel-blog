@@ -66,6 +66,7 @@ class User extends Authenticatable
     }
 
 
+    
    
 
     // check if the role is admin

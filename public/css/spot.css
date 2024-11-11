@@ -449,3 +449,137 @@ button:focus {
     color: #336B87;
 }
 /* -----------------------------------------------------------*/
+
+.weather-card {
+    max-width: 400px;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    position: relative;
+    color: #333;
+}
+.weather-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+}
+.temperature {
+    font-size: 2.5em;
+    font-weight: bold;
+}
+.condition {
+    font-size: 1.2em;
+    color: #666;
+}
+.weather-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    margin-top: 15px;
+}
+.detail-item {
+    text-align: left;
+}
+.detail-item p {
+    margin: 0;
+}
+.detail-label {
+    font-size: 0.8em;
+    color: #888;
+}
+.icon {
+    font-size: 2.5em;
+    color: #ffcc00;
+}
+.more-details {
+    font-size: 0.8em;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.info-container { 
+    display: flex; 
+    justify-content: space-between;
+    align-items: stretch; 
+} 
+
+.map {
+     flex: 2; /* 地図の幅を広くする */ 
+     margin: 10px; display: flex; 
+     flex-direction: column; 
+     justify-content: space-between;
+}
+
+.weather { 
+    flex: 1; 
+    margin: 10px; 
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-between; /* 高さを揃えるために追加 */ 
+    padding: 20px; 
+    text-align: center;
+}
+
+.weather h3 {
+    margin-bottom: 10px;
+}
+
+.weather-condition {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.weather-icon-container { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    margin-bottom: 10px; /* マージンを追加して下部スペースを調整 */
+}
+
+.weather-icon img {
+    background-color: #add8e6; /* 背景色を水色に設定 */
+    padding: 5px;
+    width: 100px;
+    height: 100px;
+    margin-right: 15px; /* アイコンと気温の間にスペースを追加 */
+}
+
+.temperature {
+    font-size: 48px
+}
+
+.weather-info { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start; 
+} 
+
+.weather-info p {
+     margin: 0; 
+    }
+
+.weather-details {
+    font-size: 20px;
+    margin-top: 15px; /* マージンを調整 */
+}
+
+.weather-details p {
+    margin: 5px 0;
+}
+
+.large-number { 
+    font-size: 25px; /* 特定の部分のフォントサイズを大きく設定 */ 
+    font-weight: bold; /* 強調表示 */ 
+}
+
+.card3 { 
+    flex: 1; /* 高さを揃えるために追加 */ 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+}

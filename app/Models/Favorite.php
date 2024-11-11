@@ -24,6 +24,7 @@ class Favorite extends Model
          'created_at',
      ];
     
+     
      // ユーザーとのリレーション (1対多の「多」側)
     public function user()
     {

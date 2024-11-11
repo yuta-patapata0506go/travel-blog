@@ -41,6 +41,14 @@
         <a href="{{ route('admin.inquiries.create_reply', $inquiry->id) }}" class="btn btn-reply w-25">Reply</a>
 
     </div>
+
+    <!-- Success Message -->
+    @if(session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+
 </div>
 
 @endsection
