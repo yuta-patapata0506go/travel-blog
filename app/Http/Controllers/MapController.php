@@ -88,6 +88,17 @@ class MapController extends Controller
         // getSpots() を呼び出してスポット情報を取得
         $spots = $this->getSpots($userLatitude, $userLongitude, $keyword);
 
+        // 各スポットの画像URLを生成
+        foreach ($spots as $spot) {
+            if ($spot->images->isNotEmpty()) {
+                // 最初の画像のURLを生成
+                $spot->image_url = asset('storage/' . $spot->images->first()->image_url);
+            } else {
+                // デフォルト画像のURLを設定
+                $spot->image_url = asset('images/map_samples/spot_pc_sample.png');
+            }
+        }
+
         // スポット情報をビューに渡して表示
         return view('map_page.map', compact('spots')); //->bladeファイル内でspotを表示
                                                        //->$spotsからposts()を呼び出しpostを表示

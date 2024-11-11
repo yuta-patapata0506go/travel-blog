@@ -98,6 +98,8 @@
                     zoom: 9
                 });
 
+                console.log(data)
+
                 // Marker and Popup of User's Current Location
                 const userLocationPopup = `
                             <div class="current_locaiton_popup">
@@ -113,29 +115,39 @@
                 data.spots.forEach(spot => {
                     if (spot.latitude && spot.longitude) {
 
-                        // const imageUrl = spot.images && spot.images.length > 0 
-                        //         ? `${storagePath}/${spot.images[0].image_url}`
-                        //         : 'images/map_samples/spot_pc_sample.png';
-                        const imageUrl = spot.images && spot.images.length > 0 
-                        ? `{{ asset('storage/images') }}/${spot.images[0].image_url}`
-                        : '{{ asset('images/map_samples/spot_pc_sample.png') }}';
-
-                        
-                        //  console.log('Generated Image URL:', imageUrl);
-                        // console.log('Spot Data:', spot);
-                        // console.log('Image URL:', spot.images ? spot.images[0].image_url : 'No image');
-
+                        const spotUrl = `{{ url('/spot') }}/${spot.id}`; // 'spot.show' ルートに対応するURLを生成
 
                         const popupContent = `
                             <div class="spot_popup">
-                                <a href="#" class="small_spot">
-                                    <img src="${imageUrl}" alt="Spot Name" >
-                                 </a>
-                                <a href="#" class="spot_name">
+                                <a href="${spotUrl}" class="small_spot">
+                                    <img src="${spot.images.length>0?"storage/"+spot.images[0].image_url:"images/map_samples/spot_pc_sample.png"}" alt="Spot Image" >
+                                </a>
+                                <a href="${spotUrl}" class="spot_name">
                                     <p>${spot.name}</p>
                                 </a>
                             </div>
                         `;
+
+
+
+                // data.spots.forEach(spot => {
+                //     if (spot.latitude && spot.longitude) {
+
+                    
+                //         const imageUrl = spot.images && spot.images.length > 0 
+                //         ? `{{ asset('storage/images') }}/${spot.images[0].image_url}`
+                //         : '{{ asset('images/map_samples/spot_pc_sample.png') }}';
+
+                //         const popupContent = `
+                //             <div class="spot_popup">
+                //                 <a href="#" class="small_spot">
+                //                     <img src="${imageUrl}" alt="Spot Name" >
+                //                  </a>
+                //                 <a href="#" class="spot_name">
+                //                     <p>${spot.name}</p>
+                //                 </a>
+                //             </div>
+                //         `;
                         new mapboxgl.Marker()
                             .setLngLat([spot.longitude, spot.latitude])
                             .setPopup(new mapboxgl.Popup().setHTML(popupContent))  // HTML形式でポップアップを設定
