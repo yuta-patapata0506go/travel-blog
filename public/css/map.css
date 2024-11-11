@@ -194,6 +194,11 @@ body {
   object-fit: cover
 }
 
+.small_post img:hover {
+  opacity: 0.7;
+}
+
+
 .post_text p {
   position: relative;
   max-height: 50px; /* 開く前に見せたい高さを指定 */
@@ -211,4 +216,20 @@ body {
   border: none; /* ボタンの境界線を無効にする */
   border-radius: 5px; /* 角を丸くする */
   cursor: pointer; /* カーソルをポインターに変更 */
+}
+
+/* 後でbuttonをaに変更、hover修正 */
+
+
+
+/* Icons ------------------------------------------------*/
+
+/* Likeされた状態の色 */
+#like-icon.active {
+  color: red;
+}
+
+/* Favoriteされた状態の色 */
+#favorite-icon.active {
+  color: gold;
 }

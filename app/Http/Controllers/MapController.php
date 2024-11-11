@@ -13,47 +13,84 @@ class MapController extends Controller
         $this->spot = $spot;
     }
 
-    public function index(Request $request){
-        
-        // ユーザーの現在地を取得するためのデフォルト値を設定 //Set default values to obtain the user's current location
-        $userLatitude = $request->input('latitude');
-        $userLongitude = $request->input('longitude');
-
-        // 近くの6つのスポットを取得（Haversine formulaを利用）//Retrieve the 6 nearest spots using the Haversine formula
-        $spots = $this->spot
-            ->selectRaw(
-                '*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance',
-                [$userLatitude, $userLongitude, $userLatitude]
-            )
-            ->orderBy('distance')
-            ->limit(6)
-            ->get();
-
-            return response()->json(['spots' => $spots]);
-    }
-
-
-    public function showMapPage(Request $request)
+    /**
+     * 検索条件に当てはまる（ある場合は）かつ、現在地から近いスポット6つを取得するためのメソッド
+     * Method to retrieve up to 6 spots that match the search criteria (if any) and are closest to the current location.
+     */
+    private function getSpots($userLatitude, $userLongitude, $keyword)
     {
-        // ユーザーの現在地を取得するためのデフォルト値を設定 //Set default values to obtain the user's current location
-        $userLatitude = $request->input('latitude', null);
-        $userLongitude = $request->input('longitude', null);
-        
-        // 近くのスポットを取得する
-        $spots = [];
+        // クエリビルダを使用して検索条件を設定
+        $query = $this->spot->with(['posts', 'images']);
 
+        // 検索条件を追加
+        if (!empty($keyword)) {
+            $query->where(function($q) use ($keyword) {
+                $q->where('name', 'LIKE', "%{$keyword}%") //'name' in spots table
+                  ->orwhere('address', 'LIKE', "%{$keyword}%") //'address' in spots table
+                ->orWhereHas('posts', function($postQuery) use ($keyword) {
+                    $postQuery->where('title', 'LIKE', "%{$keyword}%") //'title' in posts table
+                                ->orWhere('comments', 'LIKE', "%{$keyword}%") // 'comments' in posts table
+                                ->orWhere('event_name', 'LIKE', "%{$keyword}%"); //'event_name' in posts table
+                  });
+            });
+        }
+
+        // 近くの6つのスポットを取得
         if ($userLatitude && $userLongitude) {
-            // 近くの6つのスポットを取得（Haversine formulaを利用）//Retrieve the 6 nearest spots using the Haversine formula
-            $spots = $this->spot
-                ->selectRaw(
+            return $query->selectRaw(
                     '*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance',
                     [$userLatitude, $userLongitude, $userLatitude]
                 )
                 ->orderBy('distance')
                 ->limit(6)
                 ->get();
+        } else {
+            // 現在地がない場合、全件検索
+            return $query->limit(6)->get();
         }
+    }
 
-        return view('map_page.map', compact('spots'));
+
+    /**
+     * スポット情報をJSONとして返却するメソッド
+     * Method to return spot information as JSON
+     */
+    public function index(Request $request){
+        
+        // ユーザーの現在地を取得するためのデフォルト値を設定 //Set default values to obtain the user's current location
+        $userLatitude = $request->input('latitude');
+        $userLongitude = $request->input('longitude');
+
+        // 検索キーワードの取得
+        $keyword = $request->input('keyword', null);
+
+        // getSpots() を呼び出してスポット情報を取得
+        $spots = $this->getSpots($userLatitude, $userLongitude, $keyword);
+
+        // スポット情報をJSONとして返却
+        return response()->json(['spots' => $spots]);
+    }
+
+
+    /**
+     * スポット情報をビューに渡して表示するメソッド
+     * Method to pass spot information to the view for display
+     */
+    public function showMapPage(Request $request)
+    {
+        // ユーザーの現在地を取得
+        $userLatitude = $request->input('latitude', null);
+        $userLongitude = $request->input('longitude', null);
+
+        // 検索キーワードの取得
+        $keyword = $request->input('keyword', null);
+
+        // getSpots() を呼び出してスポット情報を取得
+        $spots = $this->getSpots($userLatitude, $userLongitude, $keyword);
+
+        // スポット情報をビューに渡して表示
+        return view('map_page.map', compact('spots')); //->bladeファイル内でspotを表示
+                                                       //->$spotsからposts()を呼び出しpostを表示
+
     }
 }

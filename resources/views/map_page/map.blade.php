@@ -8,6 +8,14 @@
 
 @section('title', 'Map View')
 
+{{-- @php
+    // Blade内で画像のURLを生成
+    $imageUrl = isset($spot->images) && count($spot->images) > 0 
+        ? asset('storage/' . $spot->images[0]->image_url) 
+        : asset('images/map_samples/spot_pc_sample.png');
+@endphp --}}
+
+
 @section('content')
 <div class="map_container">
   <h2 class="fs-1 fw-bolder mb-4">Search from the map</h2>
@@ -15,20 +23,24 @@
   {{-- Search Bar --}}
 
   <div class="search-container d-flex justify-content-left">
-      <form class="d-flex mb-4" role="search">
-          <input class="form-control form-control-lg me-2" type="search" aria-label="Search">
+      <form class="d-flex mb-4" role="search" method="GET" action="{{ route('map.page') }}">
+          <input type="hidden" name="latitude" value="{{ request('latitude') }}">
+          <input type="hidden" name="longitude" value="{{ request('longitude') }}">
+          <input class="form-control form-control-lg me-2" type="search" aria-label="Search" name="keyword" aria-label="Search" value="{{ request('keyword') }}">
           <i class="fas fa-search icon_size"></i>
           <button class="btn fs-3 fw-bold" type="submit">Search</button>
       </form>
   </div>
 
+ 
+
 {{-- Map --}}
 
-    <div id="map" class="map"></div>
+    <div id="map" class="map mb-5"></div>
 
   
 {{-- Sort Button --}}
-  <form id="sort" class="sort_button">
+  {{-- <form id="sort" class="sort_button">
     <label for="sortOptions" class="fs-4">Sort by</label>
     <select name="price" id="sortOptions" class="fs-4">
         <option value="1">Recommended</option>
@@ -38,7 +50,7 @@
         <option value="5">Many Views</option>
     </select>
     <i class="fa-solid fa-chevron-down icon_size"></i>
-  </form>
+  </form> --}}
                
   {{-- Spots Section --}}
   @include('map_page.contents.small_spots')
@@ -49,25 +61,34 @@
   </div>
 
   {{-- Mapbox JavaScript --}}
-  {{-- <script src='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js'></script> --}}
   <script>
-        document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
     mapboxgl.accessToken = '{{ env("MAPBOX_API_KEY") }}';
+
+    //Pre-generate the image URL path within Blade and pass it to JavaScript.
+    // const storagePath = "{{ asset('storage/images') }}";
+
     
     const urlParams = new URLSearchParams(window.location.search);
     const latitude = urlParams.get('latitude');
     const longitude = urlParams.get('longitude');
+    const keyword = urlParams.get('keyword'); // 検索キーワードも取得
+
     // Only fetch geolocation if latitude and longitude are not in URL parameters
     if (!latitude || !longitude) {
         navigator.geolocation.getCurrentPosition(function(position) {
             const userLatitude = position.coords.latitude;
             const userLongitude = position.coords.longitude;
+            
+            // 現在の検索ワードが存在すればURLに追加
+            const searchKeyword = keyword ? `&keyword=${encodeURIComponent(keyword)}` : '';
+
             // Redirect to the page with latitude and longitude only if not present
-            window.location.href = `{{ route('map.page') }}?latitude=${userLatitude}&longitude=${userLongitude}`;
+            window.location.href = `{{ route('map.page') }}?latitude=${userLatitude}&longitude=${userLongitude}${searchKeyword}`;
         });
     } else {
         // Initialize the map with the latitude and longitude from URL parameters
-        fetch(`{{ route('map.index') }}?latitude=${latitude}&longitude=${longitude}`)
+        fetch(`{{ route('map.index') }}?latitude=${latitude}&longitude=${longitude}&keyword=${encodeURIComponent(keyword || '')}`)
             .then(response => response.json())
             .then(data => {
                 const map = new mapboxgl.Map({
@@ -91,10 +112,24 @@
                 // Marker and Popup of Spots
                 data.spots.forEach(spot => {
                     if (spot.latitude && spot.longitude) {
+
+                        // const imageUrl = spot.images && spot.images.length > 0 
+                        //         ? `${storagePath}/${spot.images[0].image_url}`
+                        //         : 'images/map_samples/spot_pc_sample.png';
+                        const imageUrl = spot.images && spot.images.length > 0 
+                        ? `{{ asset('storage/images') }}/${spot.images[0].image_url}`
+                        : '{{ asset('images/map_samples/spot_pc_sample.png') }}';
+
+                        
+                        //  console.log('Generated Image URL:', imageUrl);
+                        // console.log('Spot Data:', spot);
+                        // console.log('Image URL:', spot.images ? spot.images[0].image_url : 'No image');
+
+
                         const popupContent = `
                             <div class="spot_popup">
                                 <a href="#" class="small_spot">
-                                    <img src="{{ asset('images/map_samples/spot_pc_sample.png') }}" alt="#" >
+                                    <img src="${imageUrl}" alt="Spot Name" >
                                  </a>
                                 <a href="#" class="spot_name">
                                     <p>${spot.name}</p>
@@ -111,7 +146,6 @@
             .catch(error => console.error('Error:', error));
     }
 });
-
 
 
 </script>
