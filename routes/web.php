@@ -18,6 +18,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\Admin\ResponsesController;
+use App\Http\Controllers\Admin\PostsController;
+use App\Http\Controllers\Admin\SpotsController;
+
+
+
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -31,13 +36,9 @@ Route::get('/admin-users-index', function () {
     return view('admin/users/users-index');
 });
 
-Route::get('/admin-posts-index', function () {
-    return view('/admin/posts/posts-index');
-});
+Route::get('/admin-posts-index', [PostsController::class, 'index'])->name('admin.posts.index');
 
-Route::get('/admin-spots-index', function () {
-    return view('/admin/spots/spots-index');
-});
+Route::get('/admin-spots-index', [SpotController::class, 'index'])->name('admin.spot.index');
 
 // admin category feature
 Route::get('/admin-categories-index',[CategoryController::class,'index'])->name('admin.categories.index');
@@ -179,14 +180,16 @@ Route::get('/admin-users-index', [UsersController::class, 'index'])->name('admin
 Route::patch('/admin-users-unhide/{id}', [UsersController::class, 'unhide'])->name('admin.users.unhide');
 Route::delete('/admin-users-hide/{id}', [UsersController::class, 'hide'])->name('admin.users.hide');
 
+Route::get('/admin/posts', [PostsController::class, 'index'])->name('admin.posts.index');
+Route::patch('/admin-posts-unhide/{id}', [PostsController::class, 'unhide'])->name('admin.posts.unhide');
+Route::delete('/admin-posts-hide/{id}', [PostsController::class, 'hide'])->name('admin.posts.hide');
 
-Route::get('/admin-posts-index', function () {
-    return view('/admin/posts/posts-index');
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('spots', SpotsController::class);
+    Route::patch('spots/{spot}/hide', [SpotsController::class, 'hide'])->name('spots.hide');
+    Route::patch('spots/{spot}/unhide', [SpotsController::class, 'unhide'])->name('spots.unhide');
 });
 
-Route::get('/admin-spots-index', function () {
-    return view('/admin/spots/spots-index');
-});
 
 
 // Route::get('/admin-inquiries-index', function () {

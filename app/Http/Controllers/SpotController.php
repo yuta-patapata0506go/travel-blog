@@ -28,18 +28,21 @@ class SpotController extends Controller
     public function index($id = null)
     {
         // 特定のスポットIDが指定されている場合、そのIDのスポットのみを取得
-        if ($id) {
-            $spots = Spot::where('id', $id)->get();
-        } else {
-        // spotsテーブルから全データを取得
-        $spots = Spot::all();
+        // if ($id) {
+        //     $spots = Spot::where('id', $id)->get();
+        // } else {
+        // // spotsテーブルから全データを取得
+        // $spots = Spot::all();
 
-        // ビューにデータを渡して表示
-        return view('spot', [
-            'spots' => $spots,
-            'isDetail' => $id ? true : false, // 一覧表示かどうかを示すフラグ
-        ]);
-    }
+        // // ビューにデータを渡して表示
+        // return view('spot', [
+        //     'spots' => $spots,
+        //     'isDetail' => $id ? true : false, // 一覧表示かどうかを示すフラグ
+        // ]);
+
+        $all_spots = Spot::orderBy('id', 'asc')->paginate(10);
+
+        return view('admin.spots.spots-index', compact('all_spots'));
     }
 
     
@@ -169,5 +172,7 @@ class SpotController extends Controller
         return redirect()->back();
     }
 
-    
+    // <a href="{{ route('spots.edit', $spots->id) }}" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+
+    // <a href="{{ route('spots.show', $spots->id) }}" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
 }

@@ -6,10 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Favorite;
 use App\Models\Image;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+
 
 class Spot extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'spots'; // テーブル名を指定
 
@@ -59,5 +62,7 @@ class Spot extends Model
     {
         return $this->hasMany(Post::class);
     }
+
+    
 
 }

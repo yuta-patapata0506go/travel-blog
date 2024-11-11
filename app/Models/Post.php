@@ -8,11 +8,12 @@ use App\Models\CategoryPost;
 use App\Models\Image;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
     protected $table = "posts";
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     public function user()
     {
@@ -22,6 +23,11 @@ class Post extends Model
     public function CategoryPost()
     {
         return $this->hasMany(CategoryPost::class);
+    }
+
+    public function SpotPost()
+    {
+        return $this->hasOne(Spot::class, 'id', 'spots_id');
     }
 
     
@@ -77,5 +83,4 @@ protected $casts = [
 }
 
 // app/Models/Post.php
-
 
