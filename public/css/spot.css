@@ -17,11 +17,8 @@ body {
     background-image: url('/images/christmas.png'); /* 画像のパスを設定 */
     background-size: cover; /* 画像を画面全体に広げる */
     background-position: center; /* 画像の中心を表示 */
-    background-attachment: fixed;
-    /*opacity: 0.15; /* 背景画像の透過率を設定 */   
+    background-attachment: fixed; 
 }
-
-
 
 .post-container {
     margin: 0;
@@ -450,38 +447,11 @@ button:focus {
 }
 /* -----------------------------------------------------------*/
 
-.weather-card {
-    max-width: 400px;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    background-color: #f8f9fa;
-    font-family: Arial, sans-serif;
-    position: relative;
-    color: #333;
-}
-.weather-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9em;
-    color: #666;
-    margin-bottom: 10px;
-}
 .temperature {
     font-size: 2.5em;
     font-weight: bold;
 }
-.condition {
-    font-size: 1.2em;
-    color: #666;
-}
-.weather-details {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9em;
-    margin-top: 15px;
-}
+
 .detail-item {
     text-align: left;
 }
@@ -503,25 +473,29 @@ button:focus {
 }
 
 .info-container { 
-    display: flex; 
-    justify-content: space-between;
-    align-items: stretch; 
+    width: calc(100% - 30px); /* コメント枠と同じ幅に */
+    margin: 0 auto 20px auto; /* 中央揃え */
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: stretch; /* 高さを揃える */
 } 
 
+.map, .weather {
+    padding: 20px;
+    height: 100%; /* 高さを親に合わせる */
+    box-sizing: border-box;
+}
+
 .map {
-     flex: 2; /* 地図の幅を広くする */ 
-     margin: 10px; display: flex; 
-     flex-direction: column; 
-     justify-content: space-between;
+    flex: 5; /* 天気の幅を少し狭く設定 */    
 }
 
 .weather { 
-    flex: 1; 
-    margin: 10px; 
+    flex: 3.5; 
     display: flex; 
     flex-direction: column;
-    justify-content: space-between; /* 高さを揃えるために追加 */ 
-    padding: 20px; 
+    justify-content: center; /* 上下中央揃えに */
     text-align: center;
 }
 
@@ -549,10 +523,6 @@ button:focus {
     margin-right: 15px; /* アイコンと気温の間にスペースを追加 */
 }
 
-.temperature {
-    font-size: 48px
-}
-
 .weather-info { 
     display: flex; 
     flex-direction: column; 
@@ -564,7 +534,9 @@ button:focus {
     }
 
 .weather-details {
-    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
     margin-top: 15px; /* マージンを調整 */
 }
 
@@ -573,7 +545,7 @@ button:focus {
 }
 
 .large-number { 
-    font-size: 25px; /* 特定の部分のフォントサイズを大きく設定 */ 
+    font-size: 23px; /* 特定の部分のフォントサイズを大きく設定 */ 
     font-weight: bold; /* 強調表示 */ 
 }
 
