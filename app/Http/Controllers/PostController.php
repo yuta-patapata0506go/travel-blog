@@ -9,10 +9,15 @@ use App\Models\Image;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Favorite;
+use App\Models\Recommendation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller; 
+use App\Http\Controllers\RecommendationController; 
 
 class PostController extends Controller
 {
+    
     private $post;
     private $category;
     private $image;
@@ -20,6 +25,7 @@ class PostController extends Controller
     public function __construct(Post $post, Category $category, Image $image, Spot $spot)
 
     {
+        
         $this->post = $post;
         $this->category = $category;
         $this->image = $image;
@@ -297,11 +303,6 @@ if ($request->hasFile('image')) {
 
     
 
-    
-
-    
-    
-    
 
     // 投稿の削除
     public function destroy($id)
@@ -311,11 +312,99 @@ if ($request->hasFile('image')) {
        return redirect()->route('home')->with('success', 'Post deleted successfully.');
     }
 
-    public function showTourismPosts()
+
+    
+    // イベントページ 投稿の表示
+      //おすすめの投稿を表示
+    public function showEventsPosts(RecommendationController $recommendationController )
 {
+    $parentCategories = Category::whereNull('parent_id')->with('children')->get();
+    $posts = Post::with('images')->where('type', 0)->get();
+    $user = Auth::user();
+    $recommendations = $recommendationController->getRecommendations();
+
+    return view('display.events', compact('posts','parentCategories'))
+    ->with('user', $user)
+    ->with('eventRecommendations', $recommendations['eventRecommendations'])
+    ->with('recommendedCategory', $recommendations['recommendedCategory']);
+}
+
+     //カテゴリごとに表示
+public function showCategoryEventsPosts(Request $request, $category_id = null, RecommendationController $recommendationController)
+{
+    $parentCategories = Category::whereNull('parent_id')->with('children')->get();
+
+            // 親カテゴリか子カテゴリかを判断
+    $category = Category::find($category_id);
+    
+    if ($category && $category->parent_id === null) {
+            // 親カテゴリの場合、すべての子カテゴリの投稿を取得
+        $posts = Post::where('type', 0)->whereHas('categories', function ($query) use ($category) {
+            $query->where('renew_categories.parent_id', $category->id);
+        })->get();
+    } else {
+               // 子カテゴリの場合、そのカテゴリのみの投稿を取得
+        $posts = Post::where('type', 0)->whereHas('categories', function ($query) use ($category_id) {
+            $query->where('renew_categories.id',$category_id);
+        })->get();
+    }
+
+    $recommendations = $recommendationController->getRecommendations();
+
+    return view('display.events', compact('posts', 'category', 'parentCategories'))
+        ->with('eventRecommendations', $recommendations['eventRecommendations'])
+        ->with('recommendedCategory', $recommendations['recommendedCategory']);
+}
+
+// ツアリストページ 投稿の表示
+      //おすすめの投稿を表示
+public function showTourismPosts(RecommendationController $recommendationController )
+{
+    $parentCategories = Category::whereNull('parent_id')->with('children')->get();
     $posts = Post::with('images')->where('type', 1)->get();
-    return view('display.tourism', compact('posts'));
+
+    $user = Auth::user();
+    $recommendations = $recommendationController->getRecommendations();
+
+   
+                     // データをビューに渡して表示
+return view('display.tourism', compact('posts','parentCategories'))
+ ->with('user', $user)
+->with('tourismRecommendations', $recommendations['tourismRecommendations'])
+->with('recommendedCategory', $recommendations['recommendedCategory']);
 
 }
+
+    //カテゴリごとに表示
+public function showCategoryTourismPosts(Request $request, $category_id = null, RecommendationController $recommendationController)
+{
+    $parentCategories = Category::whereNull('parent_id')->with('children')->get();
+
+                // 親カテゴリか子カテゴリかを判断
+    $category = Category::find($category_id);
+    
+    if ($category && $category->parent_id === null) {
+                // 親カテゴリの場合、すべての子カテゴリの投稿を取得
+        $posts = Post::where('type', 1)->whereHas('categories', function ($query) use ($category) {
+            $query->where('renew_categories.parent_id', $category->id);
+        })->get();
+    } else {
+                  // 子カテゴリの場合、そのカテゴリのみの投稿を取得
+        $posts = Post::where('type', 1)->whereHas('categories', function ($query) use ($category_id) {
+            $query->where('renew_categories.id',$category_id);
+        })->get();
+    }
+
+    $recommendations = $recommendationController->getRecommendations();
+
+    return view('display.tourism', compact('posts', 'category', 'parentCategories'))
+        ->with('tourismRecommendations', $recommendations['tourismRecommendations'])
+        ->with('recommendedCategory', $recommendations['recommendedCategory']);
+}
+
+
+
+
+    
 }
 

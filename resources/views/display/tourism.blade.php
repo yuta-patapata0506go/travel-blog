@@ -13,14 +13,14 @@
                      <img src="{{ asset('images/Group 316.png') }}" alt="Where To Go?" class="img-fluid mb-2">
                  </div>
                  <div class="tourismbar">
-                      <img src="images/tourismbar.png" alt="Tourism Banner" class="banner-img">
+                      <img src="{{asset('images/tourismbar.png')}}" alt="Tourism Banner" class="banner-img">
                       <div class="banner-text">Tourism</div>
                  </div>
             </div> 
     
             <div class="spot-banner">
-                <a href="#">
-                    <img src="images/map.png" class="spot-banner-img mx-auto d-block" alt="map pictures">
+                <a href="{{ route('map.page')}}">
+                    <img src="{{asset('images/map.png')}}" class="spot-banner-img mx-auto d-block" alt="map pictures">
                     <div class="spot-banner-text">
                             <h2>Spots near You</h2>
                             <div class="map-marker"></div>
@@ -38,16 +38,19 @@
             </div>
 
             <!-- category part -->
-            <div class="category">
-                @php
-                    $categories = ['rainy day','with kid','couple','local','music'];
-                @endphp
-
-                @foreach ($categories as $category)
-                    <a href="#">{{$category}}</a>
+            <div class="categories">
+                @foreach($parentCategories as $parent)
+                  <div class="parent-category">
+                        <a href="{{ route('tourism.category', ['category_id' => $parent->id]) }}">{{ $parent->name }}</a>
+                        <div class="child-categories">
+                              @foreach($parent->children as $child)
+                                 <a href="{{ route('tourism.category', ['category_id' => $child->id]) }}">{{ $child->name }}</a>
+                              @endforeach
+                      </div>
+                 </div>
                 @endforeach
-                <a href="#"><i class="fa-solid fa-ellipsis"></i></a>
             </div>
+
         </div>
     </div> 
     
@@ -66,6 +69,7 @@
            
 
     {{-- Posts Section --}}
+    
     
     @include('post-spot.tourism-posts')
 @endsection

@@ -24,7 +24,7 @@
             <!-- Event and Tourism Page -->
             <div class="row mt-5">
                 <div class="col-md-6">
-                    <a href="{{ route('events') }}"> <!-- イベントページへのリンク -->
+                    <a href="{{ route('display.events') }}"> <!-- イベントページへのリンク -->
                         <div class="card page-link-card shadow-card">
                             <img src="{{ asset('images/event.jpg') }}" class="card-img-top" alt="Event Page Image">
                             <div class="card-body text-center">
@@ -34,7 +34,7 @@
                     </a>
                 </div>
                 <div class="col-md-6">
-                    <a href="{{ route('tourism') }}"> <!-- ツーリズムページへのリンク -->
+                    <a href="{{ route('display.tourism') }}"> <!-- ツーリズムページへのリンク -->
                         <div class="card page-link-card shadow-card">
                             <img src="{{ asset('images/tourism.jpg') }}" class="card-img-top" alt="Tourism Page Image">
                             <div class="card-body text-center">

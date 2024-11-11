@@ -22,10 +22,7 @@ use App\Http\Controllers\RecommendationController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
-// Events and Tourism Routes
-Route::get('/events', function () {
-    return view('display.events');
-});
+
 Route::get('/admin-users-index', function () {
     return view('admin/users/users-index');
 });
@@ -57,8 +54,17 @@ Route::get('/admin-create_category', function () {
     return view('/admin/modals/create_category');
 });
 
+// Events and Tourism Routes
+
+
+Route::get('/events', [PostController::class, 'showEventsPosts'])->name('display.events');
+
 
 Route::get('/tourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
+
+Route::get('/tourism-category/{category_id}', [PostController::class, 'showCategoryTourismPosts'])->name('tourism.category');
+
+Route::get('/events-category/{category_id}', [PostController::class, 'showCategoryEventsPosts'])->name('events.category');
 
 
 Route::get('/events-tourism', function () {
@@ -202,13 +208,9 @@ Route::group(["middleware"=> "auth"], function(){
 // Search Routes
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
-Route::get('/events', function () {
-    return view('display.events'); // 実際のビューのパスに合わせて修正してください
-})->name('events'); // 名前を付けることで、route('events') で参照可能になります。
 
-Route::get('/tourism', function () {
-    return view('display.tourism'); // 実際のビューのパスに合わせて修正してください
-})->name('tourism'); // 名前を付けることで、route('tourism') で参照可能になります。
+
+
 // Serch function
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 

@@ -17,6 +17,9 @@ class PostsController extends Controller
                         ->orderBy('id', 'asc')
                         ->paginate(10);
 
+                       
+                        
+
         return view('admin.posts.posts-index', compact('all_posts'));
     }
 }
