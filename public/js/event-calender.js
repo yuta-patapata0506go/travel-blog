@@ -77,13 +77,28 @@ function searchEvents(year, month, day) {
 
 function fetchEvents(selectedDate) {
     fetch(`/api/events/search?date=${selectedDate}`)
-        .then(response => {
-            console.log(response); 
-            response.json()})        
-        .then(data => {
-             console.log(data); 
-            displayEvents(data)})
-        .catch(error => console.error('Error fetching events:', error));
+    .then(response => response.json())
+    .then(data => {
+      console.log(data); // Check what data is returned
+  
+      if (data.today) {
+        // Handle today events
+      } else {
+        console.log('No events today');
+      }
+  
+      if (data.tomorrow) {
+        // Handle tomorrow events
+      } else {
+        console.log('No events tomorrow');
+      }
+  
+      if (data.month) {
+        // Handle this month's events
+      } else {
+        console.log('No events this month');
+      }
+    });
 }
 
 function displayEvents(data) {
