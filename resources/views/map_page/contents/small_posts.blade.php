@@ -81,15 +81,6 @@
         @endforeach
 
 
-
-        <script>
-          document.querySelector('form').addEventListener('submit', function(event) {
-          event.preventDefault(); // ページ遷移を防ぐ
-          // フォームデータを送信する処理
-          });
-        </script>
-
-
     @endforeach
   </div>
 </div>
