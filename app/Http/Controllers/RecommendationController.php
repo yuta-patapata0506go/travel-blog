@@ -30,7 +30,7 @@ class RecommendationController extends Controller
     {
         // Get the existing recommendation category
     $recommendedCategory = $this->category->whereHas('recommendations')->first();
-
+$existingRecommendation = $this->recommendation->first();
     // Handling when categories are not found
     if (!$recommendedCategory) {
         return [
@@ -65,5 +65,7 @@ class RecommendationController extends Controller
         'recommendedCategory' => $recommendedCategory
     ];
     }
+
+
 
 }
