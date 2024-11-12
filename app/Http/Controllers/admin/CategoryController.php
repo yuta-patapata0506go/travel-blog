@@ -41,7 +41,7 @@ class CategoryController extends Controller
             $category->parent_id = $request->parent_id ?: null;
             $category->created_at = Carbon::now();
             $category->updated_at = Carbon::now();
-            $category->user_id = Auth::id();
+        
             
             $category->save();
             

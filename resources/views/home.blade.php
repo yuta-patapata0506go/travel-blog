@@ -3,7 +3,7 @@
 @section('css')
 
 {{-- CSS --}}
-<link rel="stylesheet" href="{{ asset('css/map.css') }}">
+<link rel="stylesheet" href="{{ asset('css/home.css') }}">
 @endsection
 
 @section('title', 'Home')
@@ -17,36 +17,51 @@
         <div class="d-flex justify-content-center mt-4">
             <div class="search-container d-flex justify-content-left mb-4">
                 <form class="d-flex mb-4" role="search" action="{{ route('search') }}" method="GET">
-                    <input class="form-control form-control-lg me-2" type="search" aria-label="Search">
+                    <!-- Search Input -->
+                    <input 
+                        class="form-control form-control-lg me-2" 
+                        type="search" 
+                        name="query" 
+                        value="{{ request('query') }}" 
+                        placeholder="Search here..." 
+                        aria-label="Search"
+                    >
                     <i class="fas fa-search icon_size"></i>
+
+                    {{-- <!-- Sort Dropdown -->
+                    <select 
+                        class="form-select form-control-lg me-2" 
+                        name="sort" 
+                        aria-label="Sort">
+                        <option value="recommended" {{ request('sort') == 'recommended' ? 'selected' : '' }}>Recommended</option>
+                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest Post</option>
+                        <option value="popular" {{ request('sort') == 'popular' ? 'selected' : '' }}>Popular</option>
+                        <option value="many_likes" {{ request('sort') == 'many_likes' ? 'selected' : '' }}>Many Likes</option>
+                        <option value="many_views" {{ request('sort') == 'many_views' ? 'selected' : '' }}>Many Views</option>
+                    </select> --}}
+
+                    <!-- Submit Button -->
                     <button class="btn fs-3 fw-bold" type="submit">Search</button>
                 </form>
             </div>
         </div>
-                    
-        <!-- Event and Tourism Page -->
-        <div class="row mt-5">
-            <div class="col-md-6">
-                <a href="{{ route('events') }}"> <!-- イベントページへのリンク -->
-                    <div class="card page-link-card shadow-card">
-                        <img src="{{ asset('images/event.jpg') }}" class="card-img-top" alt="Event Page Image">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Event Page</h5>
-                        </div>
-                    </div>
-                </a>
+        
+        <!-- Event and Tourism Display  -->
+        <div class="image-container">
+            <div class="image-item">
+              <a href="{{ route('display.events') }}"> <!-- イベントページへのリンク -->
+                 <img src="images/event-link.png" alt="Event Page">
+                 <div class="overlay-text">Event Page</div>
+              </a>
             </div>
-            <div class="col-md-6">
-                <a href="{{ route('tourism') }}"> <!-- ツーリズムページへのリンク -->
-                    <div class="card page-link-card shadow-card">
-                        <img src="{{ asset('images/tourism.jpg') }}" class="card-img-top" alt="Tourism Page Image">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Tourism Page</h5>
-                        </div>
-                    </div>
-                </a>
+            <div class="image-item">
+               <a href="{{ route('display.tourism') }}"> <!-- ツーリズムページへのリンク -->
+                  <img src="images/tourism-link.png" alt="Tourism Page">
+                  <div class="overlay-text">Tourism Page</div>
+               </a>
             </div>
-        </div>
+      </div>            
+     
 
         <!-- Tourism Recommendation Section -->
         <div class="tourism-recommendation mt-5">
@@ -89,4 +104,3 @@
         </div>
     </div>
 @endsection
-

@@ -13,19 +13,21 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\Admin\InquiriesController;
 use App\Http\Controllers\WeatherController;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\Admin\ResponsesController;
 use App\Http\Controllers\Admin\RecommendationsController;
+use App\Http\Controllers\Admin\SpotApplicationsController;
 use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\TourismController;
+
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
-// Events and Tourism Routes
-Route::get('/events', function () {
-    return view('display.events');
-});
+
 Route::get('/admin-users-index', function () {
     return view('admin/users/users-index');
 });
@@ -44,21 +46,38 @@ Route::post('/admin-categories-store',[CategoryController::class,'store'])->name
 Route::get('/admin-categories-edit/{id}',[CategoryController::class,'edit'])->name('admin.categories.edit');
 Route::patch('/admin-categories-update/{id}',[CategoryController::class,'update'])->name('admin.categories.update');
 Route::patch('/admin/categories/{id}/changeVisibility', [CategoryController::class, 'changeVisibility'])->name('admin.categories.changeVisibility');
-Route::get('/admin-inquiries-index', function () {
-    return view('/admin/inquiries/inquiries-index');
-});
-Route::get('/admin-spot_applications-index', function () {
-    return view('/admin/spot_applications/spot_applications-index');
-});
+// Route::get('/admin-inquiries-index', function () {
+//     return view('/admin/inquiries/inquiries-index');
+// });
+// Route::get('/admin-spot_applications-index', function () {
+//     return view('/admin/spot_applications/spot_applications-index');
+// });
 Route::get('/admin-update_category', function () {
     return view('/admin/modals/update_category');
 });
 Route::get('/admin-create_category', function () {
     return view('/admin/modals/create_category');
 });
-Route::get('/tourism', function () {
-    return view('display.tourism');
-});
+
+// Events and Tourism Routes
+
+
+Route::get('/events', [PostController::class, 'showEventsPosts'])->name('display.events');
+
+Route::get('/events-category/{category_id}', [PostController::class, 'showCategoryEventsPosts'])->name('events.category');
+
+Route::get('/events-posts/search', [PostController::class, 'searchEventsPosts'])->name('events.posts.search');
+
+
+
+Route::get('/tourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
+
+Route::get('/tourism-category/{category_id}', [PostController::class, 'showCategoryTourismPosts'])->name('tourism.category');
+
+Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'])->name('tourism.posts.search');
+
+
+
 Route::get('/events-tourism', function () {
     return view('display.events-tourism');
 });
@@ -76,7 +95,7 @@ Route::get('/navbar', function () {
 });
 
 // Routes for Map Page
-// HTMLの表示用ルート(Route for displaying HTML)
+// HTMLの表示用ルート(Route for displaying HTML) *Use this route to display the map page
 Route::get('/map', [MapController::class, 'showMapPage'])->name('map.page');
 // スポット情報のJSON取得用ルート(Route for retrieving spot information in JSON)
 Route::get('/api/map', [MapController::class, 'index'])->name('map.index');
@@ -136,14 +155,22 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/modal', [RecommendationsController::class, 'showModal'])->name('modal');
             Route::patch('/save', [RecommendationsController::class, 'saveRecommendations'])->name('save');
         });
+
+        Route::group(['prefix' => 'admin/spot_applications', 'as' => 'admin.spot_applications.'], function() { 
+            Route::get('/', [SpotApplicationsController::class, 'index'])->name('index');
+            Route::post('/{id}/update-status', [SpotApplicationsController::class, 'updateStatus'])->name('updateStatus');
+
+        });
     // });
 });
-Route::get('/admin/inquiries/create_reply', function () {
-    return view('admin/inquiries/create_reply');
-});
-Route::get('/admin/inquiries/inquiry_details', function () {
-    return view('admin/inquiries/inquiry_details');
-});
+
+
+// Route::get('/admin/inquiries/create_reply', function () {
+//     return view('admin/inquiries/create_reply');
+// });
+// Route::get('/admin/inquiries/inquiry_details', function () {
+//     return view('admin/inquiries/inquiry_details');
+// });
 Route::get('/admin-allow-spot', function () {
     return view('admin.spot_applications.allowCreate');
 });
@@ -199,15 +226,11 @@ Route::group(["middleware"=> "auth"], function(){
 // Search Routes
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
-Route::get('/events', function () {
-    return view('display.events'); // 実際のビューのパスに合わせて修正してください
-})->name('events'); // 名前を付けることで、route('events') で参照可能になります。
 
-Route::get('/tourism', function () {
-    return view('display.tourism'); // 実際のビューのパスに合わせて修正してください
-})->name('tourism'); // 名前を付けることで、route('tourism') で参照可能になります。
+
+
 // Serch function
-Route::get('/search', [SearchController::class, 'search'])->name('search');
+//Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 
  Route::get('/{type}/{id}', [CommentController::class, 'show'])->name('comment.show');

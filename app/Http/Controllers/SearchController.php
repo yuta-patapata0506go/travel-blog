@@ -18,20 +18,25 @@ class SearchController extends Controller
         
         // ソート条件に基づいてクエリを調整
         switch ($sort) {
-            case 'name_asc':
-                $resultsQuery->orderBy('name', 'asc');
+            case 'recommended':
+                // 推奨ロジック（例えば、ランダム並びや特定条件）
+                $resultsQuery->orderBy('recommend_score', 'desc');
                 break;
-            case 'name_desc':
-                $resultsQuery->orderBy('name', 'desc');
+            case 'newest':
+                // 新しい投稿順
+                $resultsQuery->orderBy('created_at', 'desc');
                 break;
-            case 'price_asc':
-                $resultsQuery->orderBy('price', 'asc');
+            case 'popular':
+                // 人気順（カスタム条件に基づく）
+                $resultsQuery->orderBy('popularity_score', 'desc');
                 break;
-            case 'price_desc':
-                $resultsQuery->orderBy('price', 'desc');
+            case 'many_likes':
+                // いいね数が多い順
+                $resultsQuery->orderBy('likes', 'desc');
                 break;
-            default:
-                // ソート条件がない場合はデフォルトの並び順
+            case 'many_views':
+                // 閲覧数が多い順
+                $resultsQuery->orderBy('views', 'desc');
                 break;
         }
         

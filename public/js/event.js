@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let today = date.getDate();
 
   const renderCalendar = () => {
-    console.log("Calender"); // この行を追加
+    console.log("カレンダーが描画されました"); // この行を追加
       const startDate = new Date(year, month - 1, 1);
       const endDate = new Date(year, month, 0);
       const endDayCount = endDate.getDate();
