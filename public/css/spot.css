@@ -476,7 +476,7 @@ button:focus {
 
 
 .weather { 
-    flex: 4; 
+    flex: 3.5; 
     display: flex; 
     flex-direction: column;
     justify-content: center; /* 上下中央揃えに */
@@ -512,8 +512,8 @@ button:focus {
 
 .weather-info { 
     display: flex; 
-    flex-direction: column; 
-    align-items: flex-start; /* テキストを左寄せにする */ margin-left: 30px;    
+    flex-direction: column;    
+    margin-left: 30px;    
 }
 
 .weather-info p {
