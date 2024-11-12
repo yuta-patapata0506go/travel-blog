@@ -84,6 +84,15 @@
 
 
 
+  <!-- クリックした日付のイベント表示エリア -->
+<div class="event-section" id="selected-date-section" style="display: none;">
+    <h2>Events on <span id="selected-date"></span></h2>
+    <div id="event-list" class="event-list">
+        <!-- イベントがここに表示される -->
+    </div>
+</div>
+
+
   <div class="event-section">
     <h2>Today's Events</h2>
     <div id="today-events" class="event-list"></div>
@@ -99,6 +108,7 @@
     <div id="month-events" class="event-list"></div>
 </div>
 
+
              
 
 
@@ -108,6 +118,6 @@
 
 @endsection
 
-<!-- @section('scripts')
+@section('scripts')
 <script src="{{asset('js/event-calender.js')}}"></script>
-@endsection -->
+@endsection
