@@ -135,16 +135,50 @@ opacity: 0.8; /* 不透明度を下げる */
   color: #2A3132;
 }
 
+.parent-category {
+  position: relative; /* 子カテゴリを親カテゴリに対して配置するためにpositionを設定 */
+}
+
+/* 子カテゴリの初期表示を非表示にする */
+.child-categories {
+  display: none;
+  position: absolute;
+  top: 100%; /* 親カテゴリの下に表示 */
+  left: 0;
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 影をつけて見やすくする */
+  z-index: 1;
+  
+}
+
+.child-categories a {
+  display: block;
+  font-size: 10px; /* 小さめのフォントサイズ */
+  color: #333;
+  padding: 5px 10px;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+
+
+
+/* 親カテゴリにホバーしたときに子カテゴリを表示 */
+.parent-category:hover .child-categories {
+  display: block;
+}
 
 /* category */
-.category {
+.categories {
   display: flex;
   justify-content: center;
   gap: 20px;
 }
 
 /* category-link */
-.category a {
+.categories a {
   text-decoration: none;
   color: #000;
   padding: 15px 15px;
@@ -154,7 +188,7 @@ opacity: 0.8; /* 不透明度を下げる */
 }
 
 /* category hover */
-.category a:hover {
+.categories a:hover {
   color: #007BFF; /* ホバー時の色を指定 */
 }
 
@@ -203,6 +237,7 @@ opacity: 0.8; /* 不透明度を下げる */
   margin-bottom: 60px;
   overflow: hidden;
   border-radius: 10px; /* 角を丸くする */
+  height: 100%;
 }
 
 .small_post img {
@@ -224,9 +259,14 @@ opacity: 0.8; /* 不透明度を下げる */
 .post_text button {
   height: 40px; /* 高さを調整 */
   padding: 10px 15px; /* ボタンの内側の余白 */
-  background-color: #336B87 !important; /* ボタンの背景色 */
+  background-color: #336B87; /* ボタンの背景色 */
   color: #ffffff; /* ボタンのテキスト色 */
   border: none; /* ボタンの境界線を無効にする */
-  border-radius: 5px; /* 角を丸くする */
+  border-radius: 10px; /* 角を丸くする */
   cursor: pointer; /* カーソルをポインターに変更 */
+}
+
+.post_text a button:hover {
+    background-color: #90AFC5; /* ホバー時の背景色 */
+    color: #2A3132; /* ボタンのテキスト色 */
 }
