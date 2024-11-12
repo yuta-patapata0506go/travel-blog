@@ -158,8 +158,7 @@ class SpotController extends Controller
         $response = Http::get($url);
         $data = $response->json();
         // "value" キーが存在するか確認し、存在しない場合はデフォルト値（例：0）を返す
-        // "value" キーが存在するか確認し、存在しない場合はデフォルト値（例：0）を返す
-        return $data['value'] ?? 0 ?? 0;
+        return $data['value'] ?? 0;
     }
     public function like($id)
     {
