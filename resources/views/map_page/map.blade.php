@@ -8,13 +8,6 @@
 
 @section('title', 'Map View')
 
-{{-- @php
-    // Blade内で画像のURLを生成
-    $imageUrl = isset($spot->images) && count($spot->images) > 0 
-        ? asset('storage/' . $spot->images[0]->image_url) 
-        : asset('images/map_samples/spot_pc_sample.png');
-@endphp --}}
-
 
 @section('content')
 <div class="map_container">
@@ -98,7 +91,9 @@
                     zoom: 9
                 });
 
-                console.log(data)
+                // マーカーを追加し、ピンが画面に収まるようにするための `bounds` オブジェクトを作成
+                const bounds = new mapboxgl.LngLatBounds();
+
 
                 // Marker and Popup of User's Current Location
                 const userLocationPopup = `
@@ -110,6 +105,8 @@
                     .setLngLat([longitude, latitude])
                     .setPopup(new mapboxgl.Popup().setHTML(userLocationPopup))
                     .addTo(map);
+
+                    bounds.extend([longitude, latitude]); // 現在地も含める
 
                 // Marker and Popup of Spots
                 data.spots.forEach(spot => {
@@ -128,32 +125,20 @@
                             </div>
                         `;
 
-
-
-                // data.spots.forEach(spot => {
-                //     if (spot.latitude && spot.longitude) {
-
-                    
-                //         const imageUrl = spot.images && spot.images.length > 0 
-                //         ? `{{ asset('storage/images') }}/${spot.images[0].image_url}`
-                //         : '{{ asset('images/map_samples/spot_pc_sample.png') }}';
-
-                //         const popupContent = `
-                //             <div class="spot_popup">
-                //                 <a href="#" class="small_spot">
-                //                     <img src="${imageUrl}" alt="Spot Name" >
-                //                  </a>
-                //                 <a href="#" class="spot_name">
-                //                     <p>${spot.name}</p>
-                //                 </a>
-                //             </div>
-                //         `;
                         new mapboxgl.Marker()
                             .setLngLat([spot.longitude, spot.latitude])
                             .setPopup(new mapboxgl.Popup().setHTML(popupContent))  // HTML形式でポップアップを設定
                             .addTo(map);
+
+                        // 各スポットの座標を `bounds` に追加
+                        bounds.extend([spot.longitude, spot.latitude]);
                     }
                 });
+
+                // マップをすべてのマーカーが表示されるようにズーム・位置調整
+                if (data.spots.length > 0) {
+                    map.fitBounds(bounds, { padding: 50 });
+                }
             })
             .catch(error => console.error('Error:', error));
     }
