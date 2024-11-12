@@ -27,7 +27,7 @@
     <div class="row justify-content-center">
         <div class="col-md-9">
             <div class="spot-banner">
-                <a href="{{route('map.page')}}">
+                <a href="{{ route('map.page', ['keyword' => request('keyword')]) }}">
                     <img src="{{ asset('images/map.png')}}"
                     class="spot-banner-img mx-auto d-block" alt="map pictures">
                     <div class="spot-banner-text">
@@ -38,11 +38,11 @@
 
             {{-- Search Bar --}}
             <div class="search-container d-flex justify-content-center">
-                <form class="d-flex mb-4" role="search">
-                    <input class="form-control form-control-lg me-2" type="search" aria-label="Search">
-                    <i class="fas fa-search icon_size"></i>
-                    <button class="btn fs-3 fw-bold" type="submit">Search</button>
+                  <form class="d-flex mb-4" role="search"     method="GET" action="{{ route('events.posts.search') }}">
+                     <input class="form-control form-control-lg me-2" type="search" name="keyword" aria-label="Search" value="{{ request('keyword') }}">
+                     <button class="btn fs-3 fw-bold" type="submit">Search</button>
                 </form>
+          
             </div>
 
            <!-- category part -->

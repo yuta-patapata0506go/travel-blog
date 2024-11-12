@@ -313,94 +313,157 @@ if ($request->hasFile('image')) {
     }
 
 
-    
+    private function getCommonData(RecommendationController $recommendationController)
+{
+    $parentCategories = Category::whereNull('parent_id')->with('children')->get();
+    $recommendations = $recommendationController->getRecommendations();
+
+    return compact('parentCategories', 'recommendations');
+}
+
+
     // イベントページ 投稿の表示
       //おすすめの投稿を表示
     public function showEventsPosts(RecommendationController $recommendationController )
 {
-    $parentCategories = Category::whereNull('parent_id')->with('children')->get();
+    $commonData = $this->getCommonData($recommendationController);
     $posts = Post::with('images')->where('type', 0)->get();
     $user = Auth::user();
-    $recommendations = $recommendationController->getRecommendations();
-
-    return view('display.events', compact('posts','parentCategories'))
+    
+    return view('display.events', compact('posts'))
     ->with('user', $user)
-    ->with('eventRecommendations', $recommendations['eventRecommendations'])
-    ->with('recommendedCategory', $recommendations['recommendedCategory']);
+    ->with('parentCategories', $commonData['parentCategories'])
+    ->with('eventRecommendations', $commonData['recommendations']['eventRecommendations'])
+    ->with('recommendedCategory', $commonData['recommendations']['recommendedCategory']);
 }
 
-     //カテゴリごとに表示
-public function showCategoryEventsPosts(Request $request, $category_id = null, RecommendationController $recommendationController)
-{
-    $parentCategories = Category::whereNull('parent_id')->with('children')->get();
+    //カテゴリごとに表示
+    public function showCategoryEventsPosts(Request $request, $category_id = null, RecommendationController $recommendationController)
+      {
+          $commonData = $this->getCommonData($recommendationController);
+          $category = Category::find($category_id);
+          
+          if ($category && $category->parent_id === null) {
+              $posts = Post::where('type', 0)->whereHas('categories', function ($query) use ($category) {
+                  $query->where('renew_categories.parent_id', $category->id);
+              })->get();
+          } else {
+              $posts = Post::where('type', 0)->whereHas('categories', function ($query) use ($category_id) {
+                  $query->where('renew_categories.id', $category_id);
+              })->get();
+          }
+      
+          return view('display.events', compact('posts', 'category'))
+          ->with('selectedCategory', $category)
+              ->with('parentCategories', $commonData['parentCategories'])
+              ->with('eventRecommendations', $commonData['recommendations']['eventRecommendations'])
+              ->with('recommendedCategory', $commonData['recommendations']['recommendedCategory']);
+      }
 
-            // 親カテゴリか子カテゴリかを判断
-    $category = Category::find($category_id);
-    
-    if ($category && $category->parent_id === null) {
-            // 親カテゴリの場合、すべての子カテゴリの投稿を取得
-        $posts = Post::where('type', 0)->whereHas('categories', function ($query) use ($category) {
-            $query->where('renew_categories.parent_id', $category->id);
-        })->get();
-    } else {
-               // 子カテゴリの場合、そのカテゴリのみの投稿を取得
-        $posts = Post::where('type', 0)->whereHas('categories', function ($query) use ($category_id) {
-            $query->where('renew_categories.id',$category_id);
-        })->get();
+      // 検索機能
+  //検索条件の指定
+private function getEventsPosts($keyword)
+{
+    // クエリビルダを使用して検索条件を設定
+    $query = Post::with('images')->where('type', 0);
+
+    // 検索条件を追加
+    if (!empty($keyword)) {
+        $query->where(function($q) use ($keyword) {
+            $q->where('title', 'LIKE', "%{$keyword}%") //'title' in posts table
+              ->orWhere('comments', 'LIKE', "%{$keyword}%") // 'comments' in posts table
+              ->orWhere('event_name', 'LIKE', "%{$keyword}%"); //'event_name' in posts table
+        });
     }
 
-    $recommendations = $recommendationController->getRecommendations();
+    // 最大6件の投稿を取得
+    return $query->limit(6)->get();
+}
 
-    return view('display.events', compact('posts', 'category', 'parentCategories'))
-        ->with('eventRecommendations', $recommendations['eventRecommendations'])
-        ->with('recommendedCategory', $recommendations['recommendedCategory']);
+//検索した投稿の取得
+public function searchEventsPosts(Request $request, RecommendationController $recommendationController)
+{
+    $keyword = $request->input('keyword', null);
+    $posts = $this->getEventsPosts($keyword);
+    $commonData = $this->getCommonData($recommendationController);
+
+    return view('display.events', compact('posts', ))
+        ->with('parentCategories', $commonData['parentCategories'])
+        ->with('eventRecommendations', $commonData['recommendations']['eventRecommendations'])
+        ->with('recommendedCategory', $commonData['recommendations']['recommendedCategory']);
 }
 
 // ツアリストページ 投稿の表示
       //おすすめの投稿を表示
-public function showTourismPosts(RecommendationController $recommendationController )
-{
-    $parentCategories = Category::whereNull('parent_id')->with('children')->get();
-    $posts = Post::with('images')->where('type', 1)->get();
-
-    $user = Auth::user();
-    $recommendations = $recommendationController->getRecommendations();
-
+      public function showTourismPosts(RecommendationController $recommendationController)
+      {
+          $commonData = $this->getCommonData($recommendationController);
+          $posts = Post::with('images')->where('type', 1)->get();
+          $user = Auth::user();
+      
+          return view('display.tourism', compact('posts'))
+              ->with('user', $user)
+              ->with('parentCategories', $commonData['parentCategories'])
+              ->with('tourismRecommendations', $commonData['recommendations']['tourismRecommendations'])
+              ->with('recommendedCategory', $commonData['recommendations']['recommendedCategory']);
+      }
+      
    
-                     // データをビューに渡して表示
-return view('display.tourism', compact('posts','parentCategories'))
- ->with('user', $user)
-->with('tourismRecommendations', $recommendations['tourismRecommendations'])
-->with('recommendedCategory', $recommendations['recommendedCategory']);
+      public function showCategoryTourismPosts(Request $request, $category_id = null, RecommendationController $recommendationController)
+      {
+          $commonData = $this->getCommonData($recommendationController);
+          $category = Category::find($category_id);
+          
+          if ($category && $category->parent_id === null) {
+              $posts = Post::where('type', 1)->whereHas('categories', function ($query) use ($category) {
+                  $query->where('renew_categories.parent_id', $category->id);
+              })->get();
+          } else {
+              $posts = Post::where('type', 1)->whereHas('categories', function ($query) use ($category_id) {
+                  $query->where('renew_categories.id', $category_id);
+              })->get();
+          }
+      
+          return view('display.tourism', compact('posts', 'category'))
+              ->with('selectedCategory', $category)
+              ->with('parentCategories', $commonData['parentCategories'])
+              ->with('tourismRecommendations', $commonData['recommendations']['tourismRecommendations'])
+              ->with('recommendedCategory', $commonData['recommendations']['recommendedCategory']);
+      }
 
-}
-
-    //カテゴリごとに表示
-public function showCategoryTourismPosts(Request $request, $category_id = null, RecommendationController $recommendationController)
+// 検索機能
+  //検索条件の指定
+private function getTourismPosts($keyword)
 {
-    $parentCategories = Category::whereNull('parent_id')->with('children')->get();
+    // クエリビルダを使用して検索条件を設定
+    $query = Post::with('images')->where('type', 1);
 
-                // 親カテゴリか子カテゴリかを判断
-    $category = Category::find($category_id);
-    
-    if ($category && $category->parent_id === null) {
-                // 親カテゴリの場合、すべての子カテゴリの投稿を取得
-        $posts = Post::where('type', 1)->whereHas('categories', function ($query) use ($category) {
-            $query->where('renew_categories.parent_id', $category->id);
-        })->get();
-    } else {
-                  // 子カテゴリの場合、そのカテゴリのみの投稿を取得
-        $posts = Post::where('type', 1)->whereHas('categories', function ($query) use ($category_id) {
-            $query->where('renew_categories.id',$category_id);
-        })->get();
+    // 検索条件を追加
+    if (!empty($keyword)) {
+        $query->where(function($q) use ($keyword) {
+            $q->where('title', 'LIKE', "%{$keyword}%") //'title' in posts table
+              ->orWhere('comments', 'LIKE', "%{$keyword}%");// 'comments' in posts table
+
+        });
     }
 
-    $recommendations = $recommendationController->getRecommendations();
-
-    return view('display.tourism', compact('posts', 'category', 'parentCategories'))
-        ->with('tourismRecommendations', $recommendations['tourismRecommendations'])
-        ->with('recommendedCategory', $recommendations['recommendedCategory']);
+    // 最大6件の投稿を取得
+    return $query->limit(6)->get();
 }
+
+//検索した投稿の取得
+public function searchTourismPosts(Request $request, RecommendationController $recommendationController)
+{
+    $keyword = $request->input('keyword', null);
+    $posts = $this->getTourismPosts($keyword);
+    $commonData = $this->getCommonData($recommendationController);
+
+    return view('display.tourism', compact('posts', ))
+        ->with('parentCategories', $commonData['parentCategories'])
+        ->with('tourismRecommendations', $commonData['recommendations']['tourismRecommendations'])
+        ->with('recommendedCategory', $commonData['recommendations']['recommendedCategory']);
+}
+
 
 
 
