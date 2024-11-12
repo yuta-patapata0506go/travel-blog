@@ -51,7 +51,7 @@ class Post extends Model
 
     public function likes(){
         // select * from likes
-        return $this->hasMany(Like::class);
+        return $this->hasMany(Like::class,'post_id');
     }
     public function isLiked(){
         // CHECK IF YOU LIKED THE POST ALREADY

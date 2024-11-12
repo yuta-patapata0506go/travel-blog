@@ -46,7 +46,7 @@ p {
 .post-card {
     position: relative;
     background-color: #ffffff; /* 背景を白に */
-    width: auto;
+    width:100%;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影を追加して浮かせる効果 */
     border-radius: 10px; /* 角を丸くする */
@@ -318,15 +318,34 @@ button:focus {
     color: #2A3132; /* ボタンのテキスト色 */
 }
 
+.card {
+    box-sizing: border-box; /* パディングやボーダーを含めた幅計算 */
+    width: 18rem; /* 固定幅 */
+}
+
 /* カード全体のスタイル */
 .small-post-container {
     display: flex;
     align-items: center;
     gap: 10px; /* カード間の隙間を調整 */
-    overflow-x: scroll;
+    overflow-x: auto;
     scroll-behavior: smooth;
     padding: 10px;
-    width: 100%;
+    width:100%;
+    position: relative;
+}
+
+.small-post {
+    flex: 0 0 calc(100% / 4); /* 1回に表示するカードの数に応じて調整 (4枚) */
+    width: auto;
+    padding: 10px;
+}
+
+.post-wrapper {
+    /*width: 100%; /* 親要素の幅に合わせて調整 */
+    width: 100%; /* 4枚分の幅 */
+    display: flex;
+    transition: transform 0.3s ease-in-out; /* スライドのアニメーション */
 }
 
 /* 個別のカード */
@@ -430,6 +449,7 @@ button:focus {
     border: none;
     font-size: 30px;
     cursor: pointer;
+    z-index: 10; /* アイコンがカードの上に表示されるように */
 }
 
 .arrow-left {
