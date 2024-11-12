@@ -116,7 +116,7 @@
 
 
     {{-- Posts Section --}}
-    @include('post-spot.event-posts')
+  
 
 
 @endsection
