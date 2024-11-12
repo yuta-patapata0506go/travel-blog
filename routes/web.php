@@ -26,10 +26,7 @@ use App\Http\Controllers\TourismController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
-// Events and Tourism Routes
-Route::get('/events', function () {
-    return view('display.events');
-});
+
 Route::get('/admin-users-index', function () {
     return view('admin/users/users-index');
 });
@@ -60,9 +57,26 @@ Route::get('/admin-update_category', function () {
 Route::get('/admin-create_category', function () {
     return view('/admin/modals/create_category');
 });
-Route::get('/tourism', function () {
-    return view('display.tourism');
-});
+
+// Events and Tourism Routes
+
+
+Route::get('/events', [PostController::class, 'showEventsPosts'])->name('display.events');
+
+Route::get('/events-category/{category_id}', [PostController::class, 'showCategoryEventsPosts'])->name('events.category');
+
+Route::get('/events-posts/search', [PostController::class, 'searchEventsPosts'])->name('events.posts.search');
+
+
+
+Route::get('/tourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
+
+Route::get('/tourism-category/{category_id}', [PostController::class, 'showCategoryTourismPosts'])->name('tourism.category');
+
+Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'])->name('tourism.posts.search');
+
+
+
 Route::get('/events-tourism', function () {
     return view('display.events-tourism');
 });
@@ -211,13 +225,9 @@ Route::group(["middleware"=> "auth"], function(){
 // Search Routes
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
-Route::get('/events', function () {
-    return view('display.events'); // 実際のビューのパスに合わせて修正してください
-})->name('events'); // 名前を付けることで、route('events') で参照可能になります。
 
-Route::get('/tourism', function () {
-    return view('display.tourism'); // 実際のビューのパスに合わせて修正してください
-})->name('tourism'); // 名前を付けることで、route('tourism') で参照可能になります。
+
+
 // Serch function
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
@@ -227,11 +237,7 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
  Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
  
 
-// イベントページへのルート
-Route::get('/events', [EventController::class, 'index'])->name('events');
 
-// ツーリズムページへのルート
-Route::get('/tourism', [TourismController::class, 'index'])->name('tourism');
  
 //Serch function
 Route::get('/search', [SearchController::class, 'search'])->name('search');
