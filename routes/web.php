@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Admin\PostsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -142,6 +143,13 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/', [SpotApplicationsController::class, 'index'])->name('index');
             Route::post('/{id}/update-status', [SpotApplicationsController::class, 'updateStatus'])->name('updateStatus');
 
+        });
+
+        Route::group(['prefix' => 'admin/posts', 'as' => 'admin.posts.'], function() { // /admin/recommendations
+            Route::get('/', [PostsController::class, 'index'])->name('index');
+            Route::patch('/unhide/{id}', [PostsController::class, 'unhide'])->name('unhide');
+            Route::delete('/hide/{id}', [PostsController::class, 'hide'])->name('hide');
+            
         });
     // });
 });

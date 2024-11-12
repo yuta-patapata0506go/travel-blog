@@ -25,8 +25,9 @@ class PostsController extends Controller
                          ->with('SpotPost')
                         ->orderBy('id', 'asc')
                         ->paginate(10);
-    dd($all_posts);
-        return view('admin.posts.posts-index', compact('all_posts'));
+        $categories = Category::where('status', 1)->get();
+    // dd($all_posts);
+        return view('admin.posts.posts-index', compact('all_posts', 'categories'));
     }
 
     public function hide($id)
