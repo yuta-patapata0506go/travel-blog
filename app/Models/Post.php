@@ -108,7 +108,7 @@ class Post extends Model
     // A post has many category posts (pivot model)
     public function categoryPosts()
     {
-        return $this->hasMany(CategoryPost::class);
+        return $this->hasMany(CategoryPost::class, 'post_id');
     }
 
     /**
