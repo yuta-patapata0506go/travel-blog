@@ -219,7 +219,7 @@ button:focus {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影 */
     box-sizing: border-box; /* パディングを含む幅計算 */
     cursor: pointer; /* クリックできることを示す */
-    flex: 5; /* 天気の幅を少し狭く設定 */    
+    flex:6; /* 天気の幅を少し狭く設定 */    
     }
 
 /* Comments Section------------------------------------------------*/
@@ -494,7 +494,7 @@ button:focus {
 }
 
 .weather { 
-    flex: 4; 
+    flex: 2; 
     display: flex; 
     flex-direction: column;
     justify-content: center; /* 上下中央揃えに */
@@ -518,7 +518,7 @@ button:focus {
 }
 
 .weather-icon {
-    margin-right: 10; /* アイコンと温度の間のスペースをなくす */
+    margin-right: 10px;
 }
 
 .weather-icon img {
