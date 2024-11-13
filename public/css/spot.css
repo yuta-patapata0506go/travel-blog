@@ -498,7 +498,7 @@ button:focus {
 }
 
 .weather-icon {
-    margin-right: 10; /* アイコンと温度の間のスペースをなくす */
+    margin-right: 10px;
 }
 
 .weather-icon img {
