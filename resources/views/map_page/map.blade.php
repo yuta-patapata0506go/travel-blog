@@ -8,22 +8,32 @@
 
 @section('title', 'Map View')
 
-
 @section('content')
 <div class="map_container">
   <h2 class="fs-1 fw-bolder mb-4">Search from the map</h2>
 
-  {{-- Search Bar --}}
+ <div class="row justify-content-between">
+    {{-- Search Bar --}}
+    <div class="col-auto search-container d-flex justify-content-left">
+        <form class="d-flex mb-4" role="search" method="GET" action="{{ route('map.page') }}">
+            <input type="hidden" name="latitude" value="{{ request('latitude') }}">
+            <input type="hidden" name="longitude" value="{{ request('longitude') }}">
+            <input class="form-control form-control-lg me-2" type="search" aria-label="Search" name="keyword" aria-label="Search" value="{{ old('keyword', request('keyword', $keyword ?? '')) }}">
+            <i class="fas fa-search icon_size"></i>
+            <button class="btn fs-3 fw-bold" type="submit">Search</button>
+        </form>
+    </div>
 
-  <div class="search-container d-flex justify-content-left">
-      <form class="d-flex mb-4" role="search" method="GET" action="{{ route('map.page') }}">
-          <input type="hidden" name="latitude" value="{{ request('latitude') }}">
-          <input type="hidden" name="longitude" value="{{ request('longitude') }}">
-          <input class="form-control form-control-lg me-2" type="search" aria-label="Search" name="keyword" aria-label="Search" value="{{ request('keyword') }}">
-          <i class="fas fa-search icon_size"></i>
-          <button class="btn fs-3 fw-bold" type="submit">Search</button>
-      </form>
-  </div>
+    <div class="col-auto back">
+        <a href="javascript:history.go(-2)">
+            <button type="button" class="btn"><i class="fa-solid fa-chevron-left"></i> Back</button>
+        </a>
+    </div>
+
+
+ </div>
+  
+  
 
  
 
