@@ -108,7 +108,7 @@ class Post extends Model
     // A post has many category posts (pivot model)
     public function categoryPosts()
     {
-        return $this->hasMany(CategoryPost::class);
+        return $this->hasMany(CategoryPost::class, 'post_id');
     }
 
     /**
@@ -160,4 +160,8 @@ class Post extends Model
     {
         $this->attributes['end_date'] = $value ? \Carbon\Carbon::parse($value) : null;
     }
+
+    protected $attributes = [
+        'views' => 0, // デフォルト値を0に設定
+    ];
 }
