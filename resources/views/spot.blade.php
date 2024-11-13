@@ -260,7 +260,7 @@
             <h4 class="post-gallery mt-5">POST related to "SPOT NAME"</h4>
             <!-- Sort by dropdown -->
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle rounded-dropdown" type="checkbox" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle rounded-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                     Sort by
                 </button>
                 <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
@@ -354,13 +354,13 @@
             
             
             <div class="small-post-container d-flex align-items-center">
-            @if (!$posts->onFirstPage())
-            <a href="{{ add_query_param($posts->previousPageUrl(), request()->query()) }}">
-                <button class="arrow-left" onclick="prevPage()">
-                    <i class="fa-solid fa-circle-left"></i>
-                </button>
-            </a>
-            @endif
+                @if (!$posts->onFirstPage())
+                <a href="{{ add_query_param($posts->previousPageUrl(), request()->query()) }}">
+                    <button class="arrow-left" onclick="prevPage()">
+                        <i class="fa-solid fa-circle-left"></i>
+                    </button>
+                </a>
+                @endif
 
                 <div class="post-wrapper d-flex">
                     @foreach ($posts as $index => $post)
@@ -393,12 +393,13 @@
                         <p>No posts available.</p>
                     @endif
                 </div>
+
                 @if ($posts->hasMorePages())
-                <a href="{{ add_query_param($posts->nextPageUrl(), request()->query()) }}">
-                <button class="arrow-right" onclick="nextPage()">
-                    <i class="fa-solid fa-circle-right"></i>
-                </button>
-                </a>
+                    <a href="{{ add_query_param($posts->nextPageUrl(), request()->query()) }}">
+                    <button class="arrow-right" onclick="nextPage()">
+                        <i class="fa-solid fa-circle-right"></i>
+                    </button>
+                    </a>
                 @endif
             </div>
         </div>   
