@@ -473,10 +473,8 @@ button:focus {
     cursor: pointer;
 }
 
-
-
 .weather { 
-    flex: 3.5; 
+    flex: 4; 
     display: flex; 
     flex-direction: column;
     justify-content: center; /* 上下中央揃えに */
@@ -500,7 +498,7 @@ button:focus {
 }
 
 .weather-icon {
-    margin-right: 20; /* アイコンと温度の間のスペースをなくす */
+    margin-right: 10; /* アイコンと温度の間のスペースをなくす */
 }
 
 .weather-icon img {
@@ -512,8 +510,9 @@ button:focus {
 
 .weather-info { 
     display: flex; 
-    flex-direction: column;    
-    margin-left: 30px;    
+    flex-direction: column;
+    align-items: center; /* センターに揃える */ 
+    text-align: center;   
 }
 
 .weather-info p {
