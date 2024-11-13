@@ -13,6 +13,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\Admin\InquiriesController;
 use App\Http\Controllers\WeatherController;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\admin\CategoryController;
@@ -21,8 +22,8 @@ use App\Http\Controllers\Admin\RecommendationsController;
 use App\Http\Controllers\Admin\SpotApplicationsController;
 use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\EventController;
 use App\Http\Controllers\TourismController;
+
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -229,7 +230,7 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 
 // Serch function
-Route::get('/search', [SearchController::class, 'search'])->name('search');
+//Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 
  Route::get('/{type}/{id}', [CommentController::class, 'show'])->name('comment.show');
