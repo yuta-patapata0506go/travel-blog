@@ -11,8 +11,7 @@
 
     <div class="post-container">
 
-            <!-- Card of whole page -->
-        
+        <!-- Card of whole page -->        
         <div class="post-card">
             <!-- HEART BUTTON + no. of likes & FAVORITE BUTTON + no. of likes -->
             <div class="icons d-flex align-items-center">
@@ -241,20 +240,20 @@
                 </div>
             </div>
 
-                <!-- Event and Tourism Display -->
-                <div class="event-tourism-container mt-5">
-                    <!-- Eventページに遷移するフォーム -->
-                    <form action="/events" method="GET" class="event-link event text-white text-shadow" 
-                        style="cursor: pointer;" onclick="this.submit();">
-                        <h5>Event</h5>
-                    </form>
+            <!-- Event and Tourism Display -->
+            <div class="event-tourism-container mt-5">
+                <!-- Eventページに遷移するフォーム -->
+                <form action="/events" method="GET" class="event-link event text-white text-shadow" 
+                    style="cursor: pointer;" onclick="this.submit();">
+                    <h5>Event</h5>
+                </form>
 
-                    <!-- Tourismページに遷移するフォーム -->
-                    <form action="/tourism" method="GET" class="tourism-link tourism text-white text-shadow" 
-                        style="cursor: pointer;" onclick="this.submit();">
-                        <h5>Tourism</h5>
-                    </form>
-                </div>
+                <!-- Tourismページに遷移するフォーム -->
+                <form action="/tourism" method="GET" class="tourism-link tourism text-white text-shadow" 
+                    style="cursor: pointer;" onclick="this.submit();">
+                    <h5>Tourism</h5>
+                </form>
+            </div>
 
             <!-- Posts Gallery -->
             <h4 class="post-gallery mt-5">POST related to "SPOT NAME"</h4>
@@ -287,11 +286,6 @@
                                 <input type="radio" name="sort" value="many_likes" class="form-check-input me-1" {{ $sort === 'many_likes' ? 'checked' : '' }}> Many Likes
                             </label>
                         </li>
-                        <!--<li>
-                            <label class="dropdown-item">
-                                <input type="radio" name="sort" value="many_views" class="form-check-input me-1" {{ $sort === 'many_views' ? 'checked' : '' }}> Many Views
-                            </label>
-                        </li>-->
 
                         <!-- Done button -->
                         <li class="text-end mt-2">
@@ -301,58 +295,7 @@
                 </ul>
             </div>
 
-            <!-- Post display and jump to the Post Page-->
-
-            <!--<div class="small-post-container d-flex align-items-center">
-            <button class="arrow-left" onclick="prevPage()">
-                    <i class="fa-solid fa-circle-left"></i>
-                </button>
-
-                
-            @foreach ($posts as $post)
-            <div class="card small-post shadow-card m-2" style="cursor: pointer; width: 18rem;" onclick="this.querySelector('form').submit();">
-                                                               
-                <div class="carousel-inner">
-                    @foreach ($post->images as $index => $image)
-                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                            <img src="{{ asset('storage/' . $image->image_url) }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
-                        </div>
-                    @endforeach
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="">
-                                    <div class="col-auto title-line">
-                                        <h5 class="card-title">{{ $post->title }}</h5>
-                                        <div class="col-auto">
-                                            <form action="#">
-                                                <button type="submit" class="btn shadow-none p-0"><i class="fa-solid fa-heart"></i></button>
-                                            </form>
-                                            <form action="#">
-                                                <button type="submit" class="btn shadow-none p-0"><i class="fa-solid fa-star"></i></button>
-                                            </form>
-                                        </div>
-                                    </div>                                            
-                                    <div class="row mb-2">
-                                        <span class="col badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
-                                        <span class="col badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
-                                    </div>
-                                            
-                                    <p class="card-text">Short description of the tourism spot.</p>
-                                    <form action="/post/show/{{$post->id}}" method="get">
-                                        <button type="submit" class="btn-small-post-card">Read More</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>                                                       
-                    </div>
-                @endforeach
-                <button class="arrow-right" onclick="nextImage()">
-                    <i class="fa-solid fa-circle-right"></i>
-                </button>
-            </div>-->
-            
-            
+            <!-- Small Spots -->
             <div class="small-post-container d-flex align-items-center">
                 @if (!$posts->onFirstPage())
                 <a href="{{ add_query_param($posts->previousPageUrl(), request()->query()) }}">
