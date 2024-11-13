@@ -23,10 +23,39 @@ class SpotController extends Controller
         $this->post = $post;
     }
     // スポット一覧を表示するメソッド
-    public function index($id)
+    public function index($id, Request $request)
     {
         // 指定されたIDのスポットを取得（1つのみ）
         $spot = Spot::findOrFail($id);
+
+        // リクエストからソート条件を取得し、デフォルトは 'newest'
+        $sort = $request->input('sort', 'newest');
+
+        // ソート条件に応じてポストを取得
+        $postsQuery = Post::where('spot_id', $id);
+
+        switch ($sort) {
+            case 'newest':
+                $postsQuery->orderBy('created_at', 'desc');
+                break;
+            case 'popular':
+                $postsQuery->orderBy('views', 'desc');
+                break;
+            case 'many_likes':
+                $postsQuery->orderBy('likes_count', 'desc'); // likes_count カラムがある場合
+                break;
+            case 'many_views':
+                $postsQuery->orderBy('views', 'desc');
+                break;
+            default:
+                $postsQuery->orderBy('created_at', 'desc');
+                break;
+        }
+
+        // ソート済みのポストを取得
+        $posts = $postsQuery->get();
+
+
         
         // 指定されたスポットIDに関連する全てのポストを取得
         $posts = Post::where('spot_id', $id)->get();
@@ -34,6 +63,7 @@ class SpotController extends Controller
         return view('spot', [
             'spot' => $spot,
             'posts' => $posts,
+            'sort' => $sort, // 現在のソート条件をビューに渡す
         ]);
     }
     // 新しいスポットを登録するフォームの表示
@@ -84,7 +114,8 @@ class SpotController extends Controller
             return redirect()->back()->withErrors(['error' => 'Failed']);
         }
     }
-    public function show($id)
+    
+    public function show($id, Request $request)
     {
         // IDを使ってスポットデータを取得
         $spot = Spot::with('images','likes','favorites', 'comments.replies','posts')->findOrFail($id); // imagesリレーションを読み込む
@@ -106,7 +137,7 @@ class SpotController extends Controller
         // 指定されたIDのスポットを取得（1つのみ）
         $spot = Spot::findOrFail($id);
         // spot_id に一致する post 情報を取得
-        $posts = Post::where('spots_id', $id)->get();
+        $posts = Post::where('spots_id', $spot->id)->get();
         
         //天気機能
         $apiKey = env('OPENWEATHERMAP_API_KEY');
@@ -139,16 +170,42 @@ class SpotController extends Controller
             $spot->uv_index = 0; // UVインデックスが取得できなかった場合のデフォルト値
         }
 
-        $spot->save(); 
+        $spot->save();
+
+        // // リクエストからソートオプションを取得
+        
+        $sort = $request->get('sort', 'newest'); // デフォルトは最新順
+        
+         // スポットに関連する投稿を取得してソート
+        $posts = Post::where('spots_id', $spot->id)
+             ->withCount('likes') // likes_count を取得
+             ->when($sort === 'newest', function ($query) {
+                 $query->orderBy('created_at', 'desc'); // 新しい順
+             })
+             ->when($sort === 'popular', function ($query) {
+                 $query->orderBy('views', 'desc'); // 人気順（表示回数順）
+             })
+             ->when($sort === 'many_likes', function ($query) {
+                 $query->orderByDesc('likes_count'); // いいね数順
+             })
+             ->paginate(3); // 1ページに4件の投稿を表示
+        
+        
+    
+        // 最終的にコレクションを取得
+        //$posts = $postsQuery->get();
+        
+        //$posts = $spot->posts()->latest()->get();  // 投稿を取得
         
         
 
         // スポットが見つからなかった場合のエラーハンドリング
         if (!$spot) {
             return redirect('/spot')->with('error', 'Spot not found');
-        }
+        }  
+
         // spot.blade.php に $spot 変数を渡す
-        return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount', 'comments','posts'));
+        return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount', 'comments','posts','sort','likesCount'));
 
     }
     private function getUVIndex($lat, $lon)

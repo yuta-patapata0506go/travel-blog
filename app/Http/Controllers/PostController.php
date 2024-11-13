@@ -48,7 +48,7 @@ class PostController extends Controller
      
 public function show($id)
 {
-    $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'comments.replies.user', 'comments'])->findOrFail($id);
+    $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'comments.replies.user', 'comments','likes'])->findOrFail($id);
   
     $userId = auth()->id();
 
@@ -80,6 +80,12 @@ public function show($id)
        // Favorite
        $favorited = $post->isFavorited; // アクセサを使用
        $favoritesCount = Favorite::where('post_id', $id)->count();
+
+       // 表示回数をインクリメント
+        $post->increment('views');
+
+        // 「いいね」をインクリメント
+        $post->increment('likes');
 
     return view('posts.show', compact('post', 'firstImage','spotName',  'comments',  'commentCount' ,'liked', 'likesCount','favorited', 'favoritesCount'));
 }
