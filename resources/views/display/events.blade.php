@@ -72,17 +72,24 @@
     </div> 
     
   {{-- Sort Button --}}
-  <form id="sort" class="sort_button">
+<form id="sort" class="sort_button" method="GET" action="{{ url()->current() }}">
+    {{-- 検索キーワードがある場合 --}}
+    <input type="hidden" name="keyword" value="{{ request()->input('keyword') }}">
+    
+    {{-- カテゴリIDが選択されている場合 --}}
+    @if(isset($selectedCategory))
+        <input type="hidden" name="category_id" value="{{ $selectedCategory->id }}">
+    @endif
+
     <label for="sortOptions" class="fs-4">Sort by</label>
-    <select name="price" id="sortOptions" class="fs-4">
-        <option value="1">Recommended</option>
-        <option value="2">Newest Post</option>
-        <option value="3">Popular</option>
-        <option value="4">Many Likes</option>
-        <option value="5">Many Views</option>
+    <select name="sort" id="sortOptions" class="fs-4" onchange="this.form.submit()">
+        <option value="newest" {{ $sort == 'newest' ? 'selected' : '' }}>Newest Post</option>
+        <option value="popular" {{ $sort == 'popular' ? 'selected' : '' }}>Popular</option>
+        <option value="many_likes" {{ $sort == 'many_likes' ? 'selected' : '' }}>Many Likes</option>
+        <option value="many_views" {{ $sort == 'many_views' ? 'selected' : '' }}>Many Views</option>
     </select>
     <i class="fa-solid fa-chevron-down icon_size"></i>
-  </form>
+</form>
 
 
 
