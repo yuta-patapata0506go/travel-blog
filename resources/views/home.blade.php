@@ -70,7 +70,7 @@
                 @for ($i = 0; $i < 4; $i++)
                     <div class="col-md-3 mb-4"> <!-- 4列にするため、col-md-3に変更 -->
                         <div class="card tourism-card shadow-card">
-                            <img src="{{ asset('images/tourism.jpg') }}" class="card-img-top" alt="Tourism Image">
+                            <img src="{{ asset('images/castle.jpg') }}" class="card-img-top" alt="Tourism Image">
                             <div class="card-body">
                                 <h5 class="card-title">Title</h5>
                                 <p class="card-text">Category 1 / Category 2</p>
@@ -90,7 +90,7 @@
                 @for ($i = 0; $i < 4; $i++)
                     <div class="col-md-3 mb-4"> <!-- 4列にするため、col-md-3に変更 -->
                         <div class="card event-card shadow-card">
-                            <img src="{{ asset('images/event.jpg') }}" class="card-img-top" alt="Event Image">
+                            <img src="{{ asset('images/firework.jpeg') }}" class="card-img-top" alt="Event Image">
                             <div class="card-body">
                                 <h5 class="card-title">Title</h5>
                                 <p class="card-text">Category 1 / Category 2</p>
