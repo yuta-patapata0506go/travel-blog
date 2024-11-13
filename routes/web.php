@@ -125,7 +125,7 @@ Route::group(['prefix' => 'recommendation', 'as' => 'recommendation.'], function
 });
 
 
-// Admin　Routes
+// Admin　Route
 Route::group(['middleware' => 'auth'], function () {
     // Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
         Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries

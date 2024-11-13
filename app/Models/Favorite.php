@@ -33,8 +33,10 @@ class Favorite extends Model
 
     }
     public function favoriteSpotsDetail(){
-        return $this->hasOne(Spot::class, 'id');
+        return $this->hasOne(Spot::class, 'id')
+        ->with('isLiked');
     }
+
 
       // ユーザーとのリレーション (1対多の「多」側) 
     // public function user()

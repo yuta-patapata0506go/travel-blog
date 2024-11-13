@@ -45,14 +45,6 @@ class ProfileController extends Controller
              $spotName = $post->spot->name;
          }
      
-          //  // ポストに関連するコメント（親コメントとリプライ）を取得
-          //  $comments = Comment::where('post_id', $id)
-          //  ->whereNull('parent_id')
-          //  ->with(['user', 'replies.user']) // user と replies.user を明示的にロード
-          //  ->get();
-     
-          //  $commentCount = $post->comments()->count();
-     
             // Like
             $liked = Like::where('user_id', $userId)->where('post_id', $id)->exists();
             $likesCount = Like::where('post_id', $id)->count();
@@ -61,7 +53,6 @@ class ProfileController extends Controller
             $favorited = $post->isFavorited; // アクセサを使用
             $favoritesCount = Favorite::where('post_id', $id)->count();
 
-            // $likedPost = $user->likedPost();
      
          return view('mypage.mypage-show', compact('post', 'firstImage','spotName', 'liked', 'likesCount','favorited', 'favoritesCount'))->with('user', $user);
      }
@@ -114,7 +105,11 @@ class ProfileController extends Controller
         $user = $this->user->FindOrFail(Auth::user()->id);
         $favoritePosts = $user->favoritePosts();
         $favoriteSpots = Favorite::where('user_id', Auth::user()->id)->whereNotNull('spot_id')->with('spot')->get();
-        return view('mypage.mypage-favorite', compact('favoritePosts', 'favoriteSpots'))->with('user', $user);
+        $liketoSpot = Like::where('user_id', Auth::user()->id)->whereNotNull('spot_id')->first();
+      
+       
+    
+        return view('mypage.mypage-favorite', compact('favoritePosts', 'favoriteSpots', 'liketoSpot'))->with('user', $user);
      }
      
 }

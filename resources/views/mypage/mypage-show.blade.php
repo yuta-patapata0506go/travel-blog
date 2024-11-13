@@ -18,47 +18,60 @@
                     <div class="row">
                         @foreach ($user->posts as $posts)
                                 <div class="small_post col-md-3">
-                                    <div class="card">
-                                        {{-- <a href="#" >写真のリンクを残すかどうか--}} 
-                                            <img src="{{ asset('/storage/'. $posts->images->first()->image_url)}}" class="card-img-top" alt="Tourism Image">
-                                        {{--</a>--}}
-                        
-                                        <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-auto">
-                                                        <h5 class="fw-bolder">{{$posts->title}}</h5>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <form action="#">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-sm shadow-none p-0">
-                                                                {{-- <i class="fa-regular fa-heart"></i>{{ $user->likedPost->count() }} --}}
-                                                            </button>
-                                                        </form>
+                                    <a href="{{route('post.show', $posts->id)}}" class="text-decoration-none text-dark">
+                                         <div class="card">
+                                                <img src="{{ asset('/storage/'. $posts->images->first()->image_url)}}" class="card-img-top" alt="Tourism Image">
                                 
-                                                    </div>
-                                                    <div class="col-auto p-0">
-                                                        <form action="#">
-                                                            @csrf
-                                                        <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-star"></i></button>
-                                                        </form>
+                                                <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-auto">
+                                                                <h5 class="fw-bolder">{{$posts->title}}</h5>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <form action="#">
+                                                                    @csrf
+                                                                    <button type="submit" class="btn btn-sm shadow-none p-0">
+                                                                        @if ($posts->isLiked())
+                                                                        <i class="fa-regular fa-heart text-danger"></i>
+                                                                    @else
+                                                                        <i class="fa-regular fa-heart"></i>
+                                                                    </button>  
+                                                                    @endif
+                                                                    &nbsp;{{ $posts->likes->count() }}</span>
+                                                                </form>
+                                        
+                                                            </div>
+                                                            <div class="col-auto p-0">
+                                                                <form action="#">
+                                                                    @csrf
+                                                                <button type="submit" class="btn btn-sm shadow-none p-0">
+                                                                    @if ($posts->isFavorited())
+                                                                        <i class="fa-regular fa-star text-warning"></i>
+                                                                    @else
+                                                                        <i class="fa-regular fa-star"></i>
+                                                                    @endif
+                                                                </button>
+                                                                <span>&nbsp;{{ $posts->favorites->count()}}</span>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                
+                                                        <div class="row">
+                                                            <div class="col-auto mb-1">
+                                                                @foreach ($posts->categories as $categories)
+                                                                <span class="badge bg-secondary bg-opacity-50 rounded-pill">{{$categories->name}}</span>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                        <div class="post_text">
+                                                        <p>{{$posts->comments}}</p>
+                                                        <a href={{route('post.show', $posts->id)}} class="btn btn-green">Read More</a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                        
-                                                <div class="row">
-                                                    <div class="col-auto mb-1">
-                                                        @foreach ($posts->categories as $categories)
-                                                        <span class="badge bg-secondary bg-opacity-50 rounded-pill">{{$categories->name}}</span>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                                <div class="post_text">
-                                                <p>{{$posts->comments}}</p>
-                                                <a href={{route('post.show', $posts->id)}} class="btn btn-green">Read More</a>
-                                                </div>
-                                            </div>
                                         </div>
-                                </div>
+                                    </a>
+                                    
                             @endforeach
                     </div>
                 </div>  

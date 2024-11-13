@@ -64,6 +64,9 @@ class Post extends Model
         // CHECK IF YOU LIKED THE POST ALREADY
        return $this->likes()->where('user_id', auth()->user()->id)->exists();
     }
+    public function isFavorited(){
+        return $this->favorites()->where('user_id', Auth()->user()->id)->exists();
+    }
     // select * from likes where post_id = 15 and user_id = 2 ???? == TRUE
 
     public function favorites()
