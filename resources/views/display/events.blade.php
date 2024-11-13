@@ -1,8 +1,13 @@
 @extends('layouts.app')
+
+@section('css')
+<link rel="stylesheet" href="{{asset('css/events.css')}}">
+<link rel="stylesheet" href="{{asset('css/event-calender.css')}}">
+@endsection
+
+
 @section('content')
 
-<link rel="stylesheet" href="{{asset('css/events.css')}}">
-@vite(['resources/js/app.js','resources/css/app.css'])
 
 <!-- design starts from here -->
 <div class="container background-image">
@@ -16,7 +21,7 @@
                
             
                  <div class="eventbar">
-                      <img src="images/eventbar.png" alt="Event Banner" class="banner-img">
+                      <img src="{{ asset('images/eventbar.png')}}" alt="Event Banner" class="banner-img">
                       <div class="banner-text">Event</div>
                  </div>
             </div> 
@@ -27,8 +32,9 @@
     <div class="row justify-content-center">
         <div class="col-md-9">
             <div class="spot-banner">
-                <a href="#">
-                    <img src="images/map.png" class="spot-banner-img mx-auto d-block" alt="map pictures">
+                <a href="{{ route('map.page', ['keyword' => request('keyword')]) }}">
+                    <img src="{{ asset('images/map.png')}}"
+                    class="spot-banner-img mx-auto d-block" alt="map pictures">
                     <div class="spot-banner-text">
                             <h2>Spots near You</h2>
                     </div>
@@ -37,70 +43,91 @@
 
             {{-- Search Bar --}}
             <div class="search-container d-flex justify-content-center">
-                <form class="d-flex mb-4" role="search">
-                    <input class="form-control form-control-lg me-2" type="search" aria-label="Search">
-                    <i class="fas fa-search icon_size"></i>
-                    <button class="btn fs-3 fw-bold" type="submit">Search</button>
+                  <form class="d-flex mb-4" role="search"     method="GET" action="{{ route('events.posts.search') }}">
+                     <input class="form-control form-control-lg me-2" type="search" name="keyword" aria-label="Search" value="{{ request('keyword') }}">
+                     <button class="btn fs-3 fw-bold" type="submit">Search</button>
                 </form>
+          
             </div>
 
-            <!-- category part -->
-            <div class="category">
-                @php
-                    $categories = ['rainy day','with kid','couple','local','music'];
-                @endphp
-
-                @foreach ($categories as $category)
-                    <a href="#">{{$category}}</a>
+           <!-- category part -->
+           <div class="categories">
+    @foreach($parentCategories as $parent)
+        <div class="parent-category">
+            <a href="{{ route('events.category', ['category_id' => $parent->id]) }}">{{ $parent->name }}</a>
+            <div class="child-categories">
+                @foreach($parent->children as $child)
+                    <a href="{{ route('events.category', ['category_id' => $child->id]) }}">{{ $child->name }}</a>
                 @endforeach
-                <a href="#"><i class="fa-solid fa-ellipsis"></i></a>
             </div>
+        </div>
+    @endforeach
+</div>
         </div> 
+
 
         <!-- Calendar Section -->
-        <div class="col-md-2">
-            <div class="calendar-container">
-                <div class="calendar-header">
-                    <button id="prev-month" class="nav-btn">←</button>
-                    <h2 id="month-year"></h2>
-                    <button id="next-month" class="nav-btn">→</button>
-                </div>
-                <table id="calendar">
-                    <thead>
-                        <tr>
-                            <th>SUN</th>
-                            <th>MON</th>
-                            <th>TUE</th>
-                            <th>WED</th>
-                            <th>THU</th>
-                            <th>FRI</th>
-                            <th>SAT</th>
-                        </tr>
-                    </thead>
-                    <tbody id="calendar-body">
-                        <!-- JavaScriptでここに日付が挿入される -->
-                    </tbody>
-                </table>
-            </div>
-        </div> 
+        @include('display.calender')
+    
     </div> 
     
   {{-- Sort Button --}}
-  <form id="sort" class="sort_button">
+<form id="sort" class="sort_button" method="GET" action="{{ url()->current() }}">
+    {{-- 検索キーワードがある場合 --}}
+    <input type="hidden" name="keyword" value="{{ request()->input('keyword') }}">
+    
+    {{-- カテゴリIDが選択されている場合 --}}
+    @if(isset($selectedCategory))
+        <input type="hidden" name="category_id" value="{{ $selectedCategory->id }}">
+    @endif
+
     <label for="sortOptions" class="fs-4">Sort by</label>
-    <select name="price" id="sortOptions" class="fs-4">
-        <option value="1">Recommended</option>
-        <option value="2">Newest Post</option>
-        <option value="3">Popular</option>
-        <option value="4">Many Likes</option>
-        <option value="5">Many Views</option>
+    <select name="sort" id="sortOptions" class="fs-4" onchange="this.form.submit()">
+        <option value="newest" {{ $sort == 'newest' ? 'selected' : '' }}>Newest Post</option>
+        <option value="popular" {{ $sort == 'popular' ? 'selected' : '' }}>Popular</option>
+        <option value="many_likes" {{ $sort == 'many_likes' ? 'selected' : '' }}>Many Likes</option>
+        <option value="many_views" {{ $sort == 'many_views' ? 'selected' : '' }}>Many Views</option>
     </select>
     <i class="fa-solid fa-chevron-down icon_size"></i>
-  </form>
+</form>
+
+
+
+
+  <!-- クリックした日付のイベント表示エリア -->
+<div class="event-section" id="selected-date-section" style="display: none;">
+    <h2>Events on <span id="selected-date"></span></h2>
+    <div id="event-list" class="event-list">
+        <!-- イベントがここに表示される -->
+    </div>
+</div>
+
+
+  <div class="event-section">
+    <h2>Today's Events</h2>
+    <div id="today-events" class="event-list"></div>
+</div>
+
+<div class="event-section">
+    <h2>Tomorrow's Events</h2>
+    <div id="tomorrow-events" class="event-list"></div>
+</div>
+
+<div class="event-section">
+    <h2>This Month's Events</h2>
+    <div id="month-events" class="event-list"></div>
+</div>
+
+
              
+
 
     {{-- Posts Section --}}
     @include('post-spot.event-posts')
 
 
+@endsection
+
+@section('scripts')
+<script src="{{asset('js/event-calender.js')}}"></script>
 @endsection

@@ -142,17 +142,50 @@ body {
   color: #2A3132;
 }
 
+.parent-category {
+  position: relative; /* 子カテゴリを親カテゴリに対して配置するためにpositionを設定 */
+}
+
+/* 子カテゴリの初期表示を非表示にする */
+.child-categories {
+  display: none;
+  position: absolute;
+  top: 100%; /* 親カテゴリの下に表示 */
+  left: 0;
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 影をつけて見やすくする */
+  z-index: 1;
+  
+}
+
+.child-categories a {
+  display: block;
+  font-size: 10px; /* 小さめのフォントサイズ */
+  color: #333;
+  padding: 5px 10px;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+
+
+
+/* 親カテゴリにホバーしたときに子カテゴリを表示 */
+.parent-category:hover .child-categories {
+  display: block;
+}
+
 /* category */
-.category {
+.categories {
   display: flex;
   justify-content: center;
   gap: 20px;
-  position: relative;
-  left: 70px;
 }
 
 /* category-link */
-.category a {
+.categories a {
   text-decoration: none;
   color: #000;
   padding: 15px 15px;
@@ -162,7 +195,7 @@ body {
 }
 
 /* category hover */
-.category a:hover {
+.categories a:hover {
   color: #007BFF; /* ホバー時の色を指定 */
 }
 
@@ -204,10 +237,15 @@ body {
   background-color: #90AFC5;
 }
 
-/* posts */
+
+/* Posts Section------------------------------------------------*/
+
 .small_post .card{
   box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
   margin-bottom: 60px;
+  overflow: hidden;
+  border-radius: 10px; /* 角を丸くする */
+  height: 100%;
 }
 
 .small_post img {
@@ -217,10 +255,83 @@ body {
   object-fit: cover
 }
 
+/* .small_post img:hover {
+  opacity: 0.7;
+} */
+
+
 .post_text p {
   position: relative;
   max-height: 50px; /* 開く前に見せたい高さを指定 */
   margin-bottom: 0;
   overflow: hidden;
   /* transition: max-height 1s; */
+}
+
+
+.post_text button {
+  height: 40px; /* 高さを調整 */
+  padding: 10px 15px; /* ボタンの内側の余白 */
+  background-color: #336B87; /* ボタンの背景色 */
+  color: #ffffff; /* ボタンのテキスト色 */
+  border: none; /* ボタンの境界線を無効にする */
+  border-radius: 10px; /* 角を丸くする */
+  cursor: pointer; /* カーソルをポインターに変更 */
+}
+
+.post_text a button:hover {
+    background-color: #90AFC5; /* ホバー時の背景色 */
+    color: #2A3132; /* ボタンのテキスト色 */
+}
+
+
+/* postの高さを揃える */
+.show_posts .row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.small_post {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.post_text {
+  margin-top: auto; /* ボタンを下部に固定する */
+}
+
+.no-posts-message {
+  text-align: center;
+  font-size: 1.5em;
+  color: #FF0000; /* Red color for visibility */
+  font-weight: bold;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+
+
+/* Icons ------------------------------------------------*/
+
+/* Likeされた状態の色 */
+#like-icon.active {
+  color: red;
+}
+
+/* Favoriteされた状態の色 */
+#favorite-icon.active {
+  color: gold;
 }
