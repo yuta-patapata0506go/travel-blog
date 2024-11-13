@@ -125,7 +125,7 @@
                 <!-- Weather -->
                 <div class="weather"> 
                     <h3>Weather Information</h3>
-                    <br>               
+                    <br>              
                     <!-- Weather Condition Icon -->
                     <div class="weather-icon-container"> 
                         <div class="weather-icon"> <img src="http://openweathermap.org/img/wn/{{ $spot->weather_icon }}.png" alt="{{ $spot->weather_condition }}"> 
@@ -136,10 +136,10 @@
                         </div> 
                     </div> 
                     <div class="weather-details"> 
-                        <p>Humidity: <span class="large-number">{{ $spot->humidity }}%</span></p> 
-                        <p>Wind Speed: <span class="large-number">{{ $spot->wind_speed }}m/s</span></p> 
-                        <p>Precipitation: <span class="large-number">{{ $spot->precipitation }}mm</span></p> 
-                        <p>UV Index: <span class="large-number">{{ $spot->uv_index }}</span></p> 
+                        <p>Humidity: <span class="large-number">{{ $spot->humidity }}<span class="unit">%</span></span></p> 
+                        <p>Wind Speed: <span class="large-number">{{ $spot->wind_speed }}<span class="unit">m/s</span></span></p> 
+                        <p>Precipitation: <span class="large-number">{{ $spot->precipitation }}<span class="unit">mm</span></span></p> 
+                        <p>UV Index: <span class="large-number">{{ $spot->uv_index }}</span></p>
                     </div> 
                 </div> 
             </div>
