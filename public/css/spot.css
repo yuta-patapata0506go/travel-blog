@@ -494,7 +494,7 @@ button:focus {
 }
 
 .weather { 
-    flex: 2; 
+    flex: 3.5; 
     display: flex; 
     flex-direction: column;
     justify-content: center; /* 上下中央揃えに */
