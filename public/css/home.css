@@ -229,3 +229,25 @@ body {
     border-radius: 5px; /* 角を丸くする */
     cursor: pointer; /* カーソルをポインターに変更 */
   }
+  /* Map Icon Button */
+.btn-map {
+    height: calc(2.5rem + 2px); /* サーチボタンの高さに合わせる */
+    width: 50%; /* サーチボタンの横幅の半分 */
+    background-color: #6c757d; /* グレー背景 */
+    color: #ffffff; /* 白色アイコン */
+    border: none; /* ボーダーを削除 */
+    border-radius: 0.375rem; /* サーチボタンの角丸に合わせる */
+    font-size: 1.5rem; /* アイコンサイズ */
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect for Map Button */
+.btn-map:hover {
+    background-color: #5a6268; /* ホバー時の少し濃いグレー */
+    color: #ffffff; /* 白色を維持 */
+}
+
+/* Alignment for Icon */
+.btn-map i {
+    line-height: 1; /* アイコンの中央揃え */
+}
