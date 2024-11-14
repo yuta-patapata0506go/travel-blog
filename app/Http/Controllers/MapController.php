@@ -100,7 +100,7 @@ class MapController extends Controller
         }
 
         // スポット情報をビューに渡して表示
-        return view('map_page.map', compact('spots')); //->bladeファイル内でspotを表示
+        return view('map_page.map', compact('spots', 'keyword')); //->bladeファイル内でspotを表示
                                                        //->$spotsからposts()を呼び出しpostを表示
 
     }
