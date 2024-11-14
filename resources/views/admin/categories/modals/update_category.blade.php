@@ -17,7 +17,7 @@
                     <div class="container">
                         <p>Category ID: {{$category->id}}</p>
                         <label for="category-name-{{$category->id}}" class="form-label">Category Name</label>
-                        <input type="text" id="category-name-{{$category->id}}" name="name" class="form-control" value="Category 1">
+                        <input type="text" id="category-name-{{$category->id}}" name="name" class="form-control" value="{{$category->name}}">
                     </div>
                     <div class="modal-footer border-0 justify-content-center">
                         <button type="button" class="btn btn-dark btn-sm" data-bs-dismiss="modal">Cancel</button>

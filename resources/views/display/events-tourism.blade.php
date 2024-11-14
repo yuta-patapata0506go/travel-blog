@@ -22,19 +22,23 @@
                     <button class="btn fs-3 fw-bold" type="submit">Search</button>
                 </form>
             </div>
+            
+                    <!-- category part -->
+            <div class="categories">
+                @foreach($parentCategories as $parent)
+                  <div class="parent-category">
+                        <a href="{{ route('tourism.category', ['category_id' => $parent->id]) }}">{{ $parent->name }}</a>
+                        <div class="child-categories">
+                              @foreach($parent->children as $child)
+                                 <a href="{{ route('tourism.category', ['category_id' => $child->id]) }}">{{ $child->name }}</a>
+                              @endforeach
+                      </div>
+                 </div>
+                @endforeach
+            </div>
 
-                       <!-- category part -->
-                    <div class="category">
-                        @php
-                          $categories = ['rainy day','with kid','couple','local','music'];
-                        @endphp
-
-                        @foreach ($categories as $category)
-                            <a href="#">{{$category}}</a>
-                        @endforeach
-                        <a href="#"><i class="fa-solid fa-ellipsis"></i></a>
-                     </div>
-             </div>
+        </div>
+    </div> 
 
                 <!-- Event and Tourism Display  -->
                 <div class="image-container">

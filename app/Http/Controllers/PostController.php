@@ -570,5 +570,36 @@ public function searchTourismPosts(Request $request, RecommendationController $r
         ->with('recommendedCategory', $commonData['recommendations']['recommendedCategory']);
 }
 
+
+
+// イベントツアリズムページ
+public function showEventsTourism(Request $request,RecommendationController $recommendationController )
+{
+    $sort = $request->input('sort', 'recommended'); // 設定がなければ 'recommended' をデフォルトに設定
+    $commonData = $this->getCommonData($recommendationController);
+    $user = Auth::user();
+
+    $keyword = $request->input('keyword', null);
+
+    // 基本クエリの作成
+    $postQuery = Post::with('images')
+    ->withCount(['likes', 'favorites']); 
+
+     $spotQuery = Spot::with('images')->withCount(['favorites']); // Spotに関連するfavoritesのカウントを追加
+
+     // ソート適用
+     $postQuery = $this->applySort($postQuery, $sort);
+    $spotQuery = $this->applySort($spotQuery, $sort);
+
+    $posts = $postQuery->get();
+    $spots = $spotQuery->get();
+    
+    return view('display.events-tourism', compact('posts','spots','sort','keyword'))
+    ->with('user', $user)
+    ->with('parentCategories', $commonData['parentCategories'])
+    ->with('eventRecommendations', $commonData['recommendations']['eventRecommendations'])
+    ->with('tourismRecommendations', $commonData['recommendations']['tourismRecommendations'])
+    ->with('recommendedCategory', $commonData['recommendations']['recommendedCategory']);
 }
 
+}

@@ -61,26 +61,25 @@ Route::get('/admin-create_category', function () {
 
 // Events and Tourism Routes
 
-
+    //Events
 Route::get('/events', [PostController::class, 'showEventsPosts'])->name('display.events');
 
 Route::get('/events-category/{category_id}', [PostController::class, 'showCategoryEventsPosts'])->name('events.category');
 
 Route::get('/events-posts/search', [PostController::class, 'searchEventsPosts'])->name('events.posts.search');
 
-
-
+    //Tourism
 Route::get('/tourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
 
 Route::get('/tourism-category/{category_id}', [PostController::class, 'showCategoryTourismPosts'])->name('tourism.category');
 
 Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'])->name('tourism.posts.search');
 
+    //EventsTourism
+
+Route::get('/events-tourism', [PostController::class, 'showEventsTourism'])->name('display.events-tourism');
 
 
-Route::get('/events-tourism', function () {
-    return view('display.events-tourism');
-});
 // My Page Routes
 Route::get('/mypage-show/{id}',[ProfileController::class,'show'])->name('profile.show');  //mypage-showに遷移
 Route::get('/mypage-edit',[ProfileController::class,'edit'])->name('profile.edit');  //editページに遷移
