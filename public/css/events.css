@@ -335,3 +335,7 @@ body {
 #favorite-icon.active {
   color: gold;
 }
+
+.active {
+  color: red; /* 例：赤色に変更 */
+}

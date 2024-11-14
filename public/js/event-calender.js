@@ -1,3 +1,5 @@
+// try {
+
 document.addEventListener("DOMContentLoaded", function () {
     const weeks = ['日', '月', '火', '水', '木', '金', '土'];
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -73,8 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     renderCalendar();
 
-    // 前月ボタン
     document.getElementById('prev-month').addEventListener('click', () => {
+        console.log("Prev month button clicked"); // クリックイベントの確認
         month--;
         if (month < 0) {
             month = 11;
@@ -82,6 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         renderCalendar();
     });
+    
 
     // 翌月ボタン
     document.getElementById('next-month').addEventListener('click', () => {
@@ -94,23 +97,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// サーバーからイベントを取得して表示する関数
-function fetchEvents(selectedDate, isInitialLoad) {
-    fetch(`/api/events/search?date=${selectedDate}`)
-        .then(response => response.json())
-        .then(data => {
-            if (isInitialLoad) {
-                // 初回ロード時に「今日」「明日」「今月」のイベントを保存
-                savedTodayEvents = data.today;
-                savedTomorrowEvents = data.tomorrow;
-                savedMonthEvents = data.month;
-            }
-            displayEvents(data, isInitialLoad);
-        })
-        .catch(error => console.error('Error fetching events:', error));
-}
-
-// イベントデータを表示する関数
 function displayEvents(data, isInitialLoad) {
     const todayEventsContainer = document.getElementById('today-events');
     const tomorrowEventsContainer = document.getElementById('tomorrow-events');
@@ -119,24 +105,203 @@ function displayEvents(data, isInitialLoad) {
 
     // 初回ロード時または日付をクリックした場合、「今日」「明日」「今月」のイベントを表示
     if (isInitialLoad) {
-        todayEventsContainer.innerHTML = savedTodayEvents ? savedTodayEvents.map(event => generateEventHtml(event)).join('') : '<p>No events for today.</p>';
-        tomorrowEventsContainer.innerHTML = savedTomorrowEvents ? savedTomorrowEvents.map(event => generateEventHtml(event)).join('') : '<p>No events for tomorrow.</p>';
-        monthEventsContainer.innerHTML = savedMonthEvents ? savedMonthEvents.map(event => generateEventHtml(event)).join('') : '<p>No events for this month.</p>';
+        todayEventsContainer.innerHTML = savedTodayEvents ? savedTodayEvents.slice(0, 4).map(event => generateEventHtml(event)).join('') : '<p>No events for today.</p>';
+        tomorrowEventsContainer.innerHTML = savedTomorrowEvents ? savedTomorrowEvents.slice(0, 4).map(event => generateEventHtml(event)).join('') : '<p>No events for tomorrow.</p>';
+        monthEventsContainer.innerHTML = savedMonthEvents ? savedMonthEvents.slice(0, 4).map(event => generateEventHtml(event)).join('') : '<p>No events for this month.</p>';
     }
 
-    // 日付をクリックしたときのみ、選択された日付のイベントリストを更新
-    selectedDateEventsContainer.innerHTML = data.selected ? data.selected.map(event => generateEventHtml(event)).join('') : '<p>No events on this date.</p>';
+    // 日付をクリックしたときのみ、選択された日付のイベントリストを更新 (最大4つ)
+    selectedDateEventsContainer.innerHTML = data.selected ? data.selected.slice(0, 4).map(event => generateEventHtml(event)).join('') : '<p>No events on this date.</p>';
+    
+    // ボタンのリスナーを設定
+    setLikeFavoriteListeners();
 }
 
-// イベントHTMLを生成する関数
+
+
 function generateEventHtml(event) {
+    console.log(event); 
+    // 画像が存在する場合のURL設定
+    const imageUrl = event.images && event.images.length > 0 ? `/storage/${event.images[0].image_url}` : '/path/to/default-image.jpg';
+    console.log("Generated image URL:", imageUrl); // URLを確認するためのデバッグ出力
+
     return `
-        <div class="event-card">
-            <h3>${event.title}</h3>
-            <p>${event.event_name}</p>
-            <p>Category: ${event.comments}</p>
-            <p>${event.helpful_info}</p>
-            <p>${event.start_date} - ${event.end_date}</p>
+        <div class="small_post col-md-3">
+            <div class="card">
+                <a href="${event.link || '#'}">
+                  ${imageUrl ? `<img src="${imageUrl}" class="card-img-top" alt="Event Image">` : ''}
+                </a>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-auto">
+                      <h5 class="fw-bolder">${event.title || 'Title'}</h5>
+                    </div>
+                    <div class="col-auto">
+                      <button type="button" class="btn btn-sm shadow-none p-0 like-btn" data-id="${event.id}">
+                        <i class="fa-regular fa-heart" id="like-icon-${event.id}"></i>
+                      </button>
+                      <span class="count-text ms-1" id="like-count-${event.id}">${event.like_count || 0}</span>
+                    </div>
+                    <div class="col-auto p-0">
+                      <button type="button" class="btn btn-sm shadow-none p-0 favorite-btn" data-id="${event.id}">
+                        <i class="fa-regular fa-star" id="favorite-icon-${event.id}"></i>
+                      </button>
+                      <span class="count-text ms-1" id="favorite-count-${event.id}">${event.favorite_count || 0}</span>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-auto mb-1">
+                      ${(event.categories || []).map(category => `<span class="badge bg-secondary bg-opacity-50 rounded-pill ms-1">${category.name}</span>`).join('')}
+                    </div>
+                  </div>
+                  
+                  <div class="post_text">
+                    <p>${event.comments || 'No comments available.'}</p>
+                    <button class="btn comment-card">Learn More</button>
+                  </div>
+                </div>
+            </div>
         </div>
     `;
 }
+
+function fetchEvents(selectedDate, isInitialLoad) {
+    fetch(`/api/events/search?date=${selectedDate}`)
+        .then(response => {
+            if (!response.ok) {
+                console.error(`HTTP error! Status: ${response.status}`);
+                return response.text().then(text => { throw new Error(text) });
+            }
+            return response.json().catch(error => {
+                console.error("JSON parse error:", error);
+                throw new Error("Failed to parse JSON response.");
+            });
+        })
+        .then(data => {
+            console.log("Fetched data:", data);
+            if (isInitialLoad) {
+                savedTodayEvents = data.today;
+                savedTomorrowEvents = data.tomorrow;
+                savedMonthEvents = data.month;
+            }
+            displayEvents(data, isInitialLoad);
+        })
+        .catch(error => {
+            console.error('Error fetching events:', error);
+            alert('イベントの取得に失敗しました。エンドポイントやサーバーの設定を確認してください。');
+        });
+}
+
+function fetchEvents(selectedDate, isInitialLoad) {
+    console.log("Fetching events for date:", selectedDate);
+    fetch(`/api/events/search?date=${selectedDate}`)
+        .then(response => {
+            console.log("Fetch response status:", response.status);
+            if (!response.ok) {
+                console.error(`HTTP error! Status: ${response.status}`);
+                return response.text().then(text => {
+                    console.error("Response text (non-JSON):", text);
+                    throw new Error(`Fetch events error: ${text}`);
+                });
+            }
+            return response.json().catch(error => {
+                console.error("JSON parse error in fetchEvents:", error);
+                throw new Error("Failed to parse JSON response in fetchEvents.");
+            });
+        })
+        .then(data => {
+            console.log("Fetched data:", data);
+            if (isInitialLoad) {
+                savedTodayEvents = data.today;
+                savedTomorrowEvents = data.tomorrow;
+                savedMonthEvents = data.month;
+            }
+            displayEvents(data, isInitialLoad);
+        })
+        .catch(error => {
+            console.error("Error fetching events:", error);
+            alert('イベントの取得に失敗しました。エンドポイントやサーバーの設定を確認してください。');
+        });
+}
+
+function setLikeFavoriteListeners() {
+    document.querySelectorAll(".like-btn").forEach(button => {
+        button.addEventListener("click", function(event) {
+            event.preventDefault();
+            const postId = this.getAttribute("data-id");
+            console.log("Liking post with ID:", postId);
+            fetch(`/post/${postId}/like`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => {
+                console.log("Like response status:", response.status);
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        console.error("Error response text (non-JSON):", text);
+                        throw new Error(`Error ${response.status}: ${text}`);
+                    });
+                }
+                return response.json().catch(error => {
+                    console.error("JSON parse error on like response:", error);
+                    throw new Error("Failed to parse JSON response for like action.");
+                });
+            })
+            .then(data => {
+                console.log("Like action data:", data);
+                document.getElementById(`like-icon-${postId}`).classList.toggle("active", data.isLiked);
+                document.getElementById(`like-count-${postId}`).textContent = data.likeCount;
+            })
+            .catch(error => {
+                console.error("Error liking the post:", error);
+                alert(`There was a problem updating your likes. Please check the server error log: ${error.message}`);
+            });
+        });
+    });
+
+    document.querySelectorAll(".favorite-btn").forEach(button => {
+        button.addEventListener("click", function(event) {
+            event.preventDefault();
+            const postId = this.getAttribute("data-id");
+            console.log("Favoriting post with ID:", postId);
+            fetch(`/post/${postId}/favorite`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => {
+                console.log("Favorite response status:", response.status);
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        console.error("Error response text (non-JSON):", text);
+                        throw new Error(`Error ${response.status}: ${text}`);
+                    });
+                }
+                return response.json().catch(error => {
+                    console.error("JSON parse error on favorite response:", error);
+                    throw new Error("Failed to parse JSON response for favorite action.");
+                });
+            })
+            .then(data => {
+                console.log("Favorite action data:", data);
+                document.getElementById(`favorite-icon-${postId}`).classList.toggle("active", data.isFavorited);
+                document.getElementById(`favorite-count-${postId}`).textContent = data.favoriteCount;
+            })
+            .catch(error => {
+                console.error("Error favoriting the post:", error);
+                alert(`There was a problem updating your favorites. Please check the server error log: ${error.message}`);
+            });
+        });
+    });
+}
+
+
+// } catch (error) {
+//     console.error("An error occurred:", error.message);
+// };
