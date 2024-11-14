@@ -74,6 +74,7 @@ class SpotController extends Controller
     // 新しいスポットを保存する処理
     public function store(Request $request)
     {
+        //dd($request);
         try{
         // バリデーションの追加
         $request->validate([
@@ -95,6 +96,7 @@ class SpotController extends Controller
             $latitude = $coordinates[1];
             $longitude = $coordinates[0];
         } else {
+            //dd($response);
             return back()->withErrors(['error' => 'The retrieval of latitude and longitude for the address has failed.']);
         }
         $this->spot->name = $request->name;
@@ -110,8 +112,10 @@ class SpotController extends Controller
         app(ImageController::class)->store($request, null, spotId: $this->spot->id);
         return redirect()->route('home')->with('success', 'Pending approval by Admin.');
         } catch (\Exception $e) {
+            //dd($e);
             Log::error('Failed: ' . $e->getMessage());
-            return redirect()->back()->withErrors(['error' => 'Failed']);
+            //return redirect()->back()->withErrors(['error' => 'Failed']);
+            print_r($e->getMessage());
         }
     }
     
@@ -135,7 +139,7 @@ class SpotController extends Controller
         $commentCount = $spot->comments()->count();
 
         // 指定されたIDのスポットを取得（1つのみ）
-        $spot = Spot::findOrFail($id);
+        //$spot = Spot::findOrFail($id);
         // spot_id に一致する post 情報を取得
         $posts = Post::where('spots_id', $spot->id)->get();
         
