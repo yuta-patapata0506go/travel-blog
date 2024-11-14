@@ -135,7 +135,7 @@ class SpotController extends Controller
         $commentCount = $spot->comments()->count();
 
         // 指定されたIDのスポットを取得（1つのみ）
-        $spot = Spot::findOrFail($id);
+        // $spot = Spot::findOrFail($id);
         // spot_id に一致する post 情報を取得
         $posts = Post::where('spots_id', $spot->id)->get();
         
