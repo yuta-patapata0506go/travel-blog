@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Post; // Postモデルをインポート
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 
 class EventController extends Controller
@@ -41,22 +42,26 @@ class EventController extends Controller
         $todayEvents = Post::where('type', 0)
                            ->whereDate('start_date', '<=', $date->toDateString())
                            ->whereDate('end_date', '>=', $date->toDateString())
+                           ->with(['images', 'categories'])  // リレーションを取得
                            ->get();
 
         $tomorrow = $date->copy()->addDay();
         $tomorrowEvents = Post::where('type', 0)
                               ->whereDate('start_date', '<=', $tomorrow->toDateString())
                               ->whereDate('end_date', '>=', $tomorrow->toDateString())
+                              ->with(['images', 'categories'])  // リレーションを取得
                               ->get();
 
         $monthEvents = Post::where('type', 0)
                            ->whereMonth('start_date', $date->month)
                            ->whereYear('start_date', $date->year)
+                           ->with(['images', 'categories'])  // リレーションを取得
                            ->get();
 
         $selectedEvents = Post::where('type', 0)
-                              ->whereDate('start_date', '<=', $date->toDateString())
+                              ->whereDate('start_date', '<=', $date->toDateString()) 
                               ->whereDate('end_date', '>=', $date->toDateString())
+                              ->with(['images', 'categories'])  // リレーションを取得
                               ->get();
 
         return response()->json([
@@ -67,15 +72,80 @@ class EventController extends Controller
         ]);
     }
 
-    /**
-     * Post モデルを利用するサンプルメソッド
-     */
-    public function examplePostUsage()
+    public function showEvents()
     {
-        // Post モデルからデータを取得（例：全ての投稿を取得）
-        $posts = $this->post->all();
-        
-        // 投稿情報をビューに渡す
-        return view('posts.index', compact('posts'));
+        $today = Carbon::today();
+        $tomorrow = Carbon::tomorrow();
+        $startOfMonth = $today->copy()->startOfMonth();
+        $endOfMonth = $today->copy()->endOfMonth();
+    
+        $todayEvents = Post::where('type', 0)
+                           ->whereDate('start_date', '<=', $today)
+                           ->whereDate('end_date', '>=', $today)
+                           ->with(['images', 'categories'])  // リレーションを取得
+                           ->take(4)
+                           ->get();
+    
+        $tomorrowEvents = Post::where('type', 0)
+                              ->whereDate('start_date', '<=', $tomorrow)
+                              ->whereDate('end_date', '>=', $tomorrow)
+                              ->with(['images', 'categories'])
+                              ->take(4)
+                              ->get();
+    
+        $monthEvents = Post::where('type', 0)
+                           ->whereBetween('start_date', [$startOfMonth, $endOfMonth])
+                           ->orWhereBetween('end_date', [$startOfMonth, $endOfMonth])
+                           ->with(['images', 'categories'])
+                           ->take(4)
+                           ->get();
+    
+        return view('events.index', compact('todayEvents', 'tomorrowEvents', 'monthEvents'));
     }
+
+    public function like(Request $request, $id)
+{
+    try {
+        $post = Post::findOrFail($id);
+        $user = Auth::user();
+
+        if ($post->isLiked()) {
+            $post->likes()->detach($user->id);
+            $isLiked = false;
+        } else {
+            $post->likes()->attach($user->id);
+            $isLiked = true;
+        }
+
+        return response()->json([
+            'isLiked' => $isLiked,
+            'likeCount' => $post->likes->count(),
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'An error occurred while updating like.'], 500);
+    }
+}
+
+public function favorite(Request $request, $id)
+{
+    try {
+        $post = Post::findOrFail($id);
+        $user = Auth::user();
+
+        if ($post->isFavorited()) {
+            $post->favorites()->detach($user->id);
+            $isFavorited = false;
+        } else {
+            $post->favorites()->attach($user->id);
+            $isFavorited = true;
+        }
+
+        return response()->json([
+            'isFavorited' => $isFavorited,
+            'favoriteCount' => $post->favorites->count(),
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'An error occurred while updating favorite.'], 500);
+    }
+}
 }
