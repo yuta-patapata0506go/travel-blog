@@ -91,6 +91,12 @@ class Post extends Model
         return $this->hasMany(Favorite::class);
     }
 
+    // likes_count をアクセサとして定義
+    public function getLikesCountAttribute()
+    {
+        return $this->attributes['likes_count']; // データベースの likes_count カラムを返す
+    }
+
     // Accessor to check if the post is favorited by the authenticated user
     public function getIsFavoritedAttribute()
     {
@@ -160,4 +166,8 @@ class Post extends Model
     {
         $this->attributes['end_date'] = $value ? \Carbon\Carbon::parse($value) : null;
     }
+
+    protected $attributes = [
+        'views' => 0, // デフォルト値を0に設定
+    ];
 }

@@ -324,14 +324,3 @@ body {
 
 
 
-/* Icons ------------------------------------------------*/
-
-/* Likeされた状態の色 */
-#like-icon.active {
-  color: red;
-}
-
-/* Favoriteされた状態の色 */
-#favorite-icon.active {
-  color: gold;
-}

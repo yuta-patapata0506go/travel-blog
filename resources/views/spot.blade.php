@@ -11,8 +11,7 @@
 
     <div class="post-container">
 
-            <!-- Card of whole page -->
-        
+        <!-- Card of whole page -->        
         <div class="post-card">
             <!-- HEART BUTTON + no. of likes & FAVORITE BUTTON + no. of likes -->
             <div class="icons d-flex align-items-center">
@@ -125,7 +124,7 @@
                 <!-- Weather -->
                 <div class="weather"> 
                     <h3>Weather Information</h3>
-                    <br>               
+                    <br>              
                     <!-- Weather Condition Icon -->
                     <div class="weather-icon-container"> 
                         <div class="weather-icon"> <img src="http://openweathermap.org/img/wn/{{ $spot->weather_icon }}.png" alt="{{ $spot->weather_condition }}"> 
@@ -136,10 +135,10 @@
                         </div> 
                     </div> 
                     <div class="weather-details"> 
-                        <p>Humidity: <span class="large-number">{{ $spot->humidity }}%</span></p> 
-                        <p>Wind Speed: <span class="large-number">{{ $spot->wind_speed }}m/s</span></p> 
-                        <p>Precipitation: <span class="large-number">{{ $spot->precipitation }}mm</span></p> 
-                        <p>UV Index: <span class="large-number">{{ $spot->uv_index }}</span></p> 
+                        <p>Humidity: <span class="large-number">{{ $spot->humidity }}<span class="unit">%</span></span></p> 
+                        <p>Wind Speed: <span class="large-number">{{ $spot->wind_speed }}<span class="unit">m/s</span></span></p> 
+                        <p>Precipitation: <span class="large-number">{{ $spot->precipitation }}<span class="unit">mm</span></span></p> 
+                        <p>UV Index: <span class="large-number">{{ $spot->uv_index }}</span></p>
                     </div> 
                 </div> 
             </div>
@@ -241,109 +240,111 @@
                 </div>
             </div>
 
-                <!-- Event and Tourism Display -->
-                <div class="event-tourism-container mt-5">
-                    <!-- Eventページに遷移するフォーム -->
-                    <form action="/events" method="GET" class="event-link event text-white text-shadow" 
-                        style="cursor: pointer;" onclick="this.submit();">
-                        <h5>Event</h5>
-                    </form>
+            <!-- Event and Tourism Display -->
+            <div class="event-tourism-container mt-5">
+                <!-- Eventページに遷移するフォーム -->
+                <form action="/events" method="GET" class="event-link event text-white text-shadow" 
+                    style="cursor: pointer;" onclick="this.submit();">
+                    <h5>Event</h5>
+                </form>
 
-                    <!-- Tourismページに遷移するフォーム -->
-                    <form action="/tourism" method="GET" class="tourism-link tourism text-white text-shadow" 
-                        style="cursor: pointer;" onclick="this.submit();">
-                        <h5>Tourism</h5>
-                    </form>
-                </div>
+                <!-- Tourismページに遷移するフォーム -->
+                <form action="/tourism" method="GET" class="tourism-link tourism text-white text-shadow" 
+                    style="cursor: pointer;" onclick="this.submit();">
+                    <h5>Tourism</h5>
+                </form>
+            </div>
 
             <!-- Posts Gallery -->
             <h4 class="post-gallery mt-5">POST related to "SPOT NAME"</h4>
             <!-- Sort by dropdown -->
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle rounded-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        Sort by
+                    Sort by
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
                     
-                        <li class="text-end pe-3">
-                            <span class="text-primary cursor-pointer" id="clearCheckboxes">Clear</span>
-                        </li>
+                    <!-- Clear button -->
+                    <li class="text-end">
+                        <span class="text-primary cursor-pointer" id="clearCheckboxes">Clear</span>
+                    </li>
+                    
+                    <!-- Sort options -->
+                    <form action="{{ route('spot.show', $spot->id) }}" method="GET" id="sortForm">
                         <li>
                             <label class="dropdown-item">
-                                <input type="checkbox" value="Newest Post" class="form-check-input me-1"> Newest Post
+                                <input type="radio" name="sort" value="newest" class="form-check-input me-1" {{ $sort === 'newest' ? 'checked' : '' }}> Newest Post
                             </label>
                         </li>
                         <li>
                             <label class="dropdown-item">
-                                <input type="checkbox" value="Popular" class="form-check-input me-1"> Popular
+                                <input type="radio" name="sort" value="popular" class="form-check-input me-1" {{ $sort === 'popular' ? 'checked' : '' }}> Popular
                             </label>
                         </li>
                         <li>
                             <label class="dropdown-item">
-                                <input type="checkbox" value="Many Likes" class="form-check-input me-1"> Many Likes
+                                <input type="radio" name="sort" value="many_likes" class="form-check-input me-1" {{ $sort === 'many_likes' ? 'checked' : '' }}> Many Likes
                             </label>
                         </li>
-                        <li>
-                            <label class="dropdown-item">
-                                <input type="checkbox" value="Many Views" class="form-check-input me-1"> Many Views
-                            </label>
+
+                        <!-- Done button -->
+                        <li class="text-end mt-2">
+                            <button type="submit" class="btn btn-primary btn-sm">Done</button>
                         </li>
-                        
-                        <li class="text-end pe-3">
-                            <form action="#" method="GET">
-                                <button type="submit" class="btn-done">Done</button>
-                            </form>
-                        </li>
+                    </form>
                 </ul>
             </div>
 
-                <!-- Post display and jump to the Post Page-->
+            <!-- Small Spots -->
             <div class="small-post-container d-flex align-items-center">
-                <button class="arrow-left" onclick="nextImage()">
-                    <i class="fa-solid fa-circle-left"></i>
-                </button>
+                @if (!$posts->onFirstPage())
+                <a href="{{ add_query_param($posts->previousPageUrl(), request()->query()) }}">
+                    <button class="arrow-left" onclick="prevPage()">
+                        <i class="fa-solid fa-circle-left"></i>
+                    </button>
+                </a>
+                @endif
 
-                
-            @foreach ($posts as $post)
-            <div class="card post shadow-card m-2" style="cursor: pointer; width: 18rem;" onclick="this.querySelector('form').submit();">
-                <!-- カード内のフォーム -->                                                
-                <div class="carousel-inner">
-                    @foreach ($post->images as $index => $image)
-                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                            <img src="{{ asset('storage/' . $image->image_url) }}" class="d-block w-100 main-carousel-img" alt="Image {{ $index + 1 }}">
-                        </div>
-                    @endforeach
+                <div class="post-wrapper d-flex">
+                    @foreach ($posts as $index => $post)
+                    <div class="card small-post shadow-card m-2 post-card" style="cursor: pointer; width: 18rem;" onclick="this.querySelector('form').submit();">
+                        <!-- カード内のフォーム -->                                                 
+                        <div class="carousel-inner">
+                            @foreach ($post->images as $imgIndex => $image)
+                                <div class="carousel-item {{ $imgIndex === 0 ? 'active' : '' }}">
+                                    <img src="{{ asset('storage/' . $image->image_url) }}" class="d-block w-100 main-carousel-img" alt="Image {{ $imgIndex + 1 }}">
+                                </div>
+                            @endforeach
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="">
-                                    <div class="col-auto title-line">
-                                        <h5 class="card-title">{{ $post->title }}</h5>
-                                        <div class="col-auto">
-                                            <form action="#">
-                                                <button type="submit" class="btn shadow-none p-0"><i class="fa-solid fa-heart"></i></button>
-                                            </form>
-                                            <form action="#">
-                                                <button type="submit" class="btn shadow-none p-0"><i class="fa-solid fa-star"></i></button>
-                                            </form>
-                                        </div>
-                                    </div>                                            
-                                    <div class="row mb-2">
-                                        <span class="col badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
-                                        <span class="col badge bg-secondary bg-opacity-50 rounded-pill">Category</span>
-                                    </div>
-                                            
-                                    <p class="card-text">Short description of the tourism spot.</p>                                            
-                                        <button type="button" class="btn-small-post-card">Read More</button>
-                                </div>
+                            <h5 class="card-title">{{ $post->title }}</h5>
+                            <p class="card-text">{{ $post->comments }}</p>
+                            <div class="col d-flex justify-content-end">
+                                @foreach ($post->categories as $category)
+                                    <div class="badge bg-secondary bg-opacity-50 m-2">{{ $category->name }}</div>
+                                @endforeach
                             </div>
+                            <p>Count of views: {{ $post->views }} views</p>
+                            <p>Count of likes: {{ $post->likes_count }} likes</p>
+                            <form action="/post/show/{{$post->id}}" method="get">
+                                <button type="submit" class="btn-small-post-card">Read More</button>
+                            </form>
                         </div>                                                       
                     </div>
-                @endforeach
-                <button class="arrow-right" onclick="nextImage()">
-                    <i class="fa-solid fa-circle-right"></i>
-                </button>
-            </div>    
+                    @endforeach
+                    @if ($posts->isEmpty())
+                        <p>No posts available.</p>
+                    @endif
+                </div>
+
+                @if ($posts->hasMorePages())
+                    <a href="{{ add_query_param($posts->nextPageUrl(), request()->query()) }}">
+                    <button class="arrow-right" onclick="nextPage()">
+                        <i class="fa-solid fa-circle-right"></i>
+                    </button>
+                    </a>
+                @endif
+            </div>
         </div>   
     </div>
 
@@ -358,14 +359,13 @@
         }
     </script>
 
+    <!-- JavaScript for clearing selections -->
     <script>
-        // Clear all checkboxes when "Clear" button is clicked
         document.getElementById('clearCheckboxes').addEventListener('click', function() {
-        const checkboxes = document.querySelectorAll('.dropdown-menu input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-        checkbox.checked = false;
-            });
-        });
+        document.querySelector('input[name="sort"]:checked').checked = false;
+        document.getElementById('sortForm').submit();
+    });
+
     </script>
 
     <script>
@@ -377,6 +377,29 @@
     event.preventDefault(); // ページ遷移を防ぐ
     // フォームデータを送信する処理
     });
+    </script>
+
+    <script>
+    let currentScrollPosition = 0;
+
+    function nextPage() {
+        const container = document.querySelector('.small-post-container');
+        const scrollAmount = 200; // スクロールする幅を設定
+        container.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
+    }
+
+    function prevPage() {
+        const container = document.querySelector('.small-post-container');
+        const scrollAmount = 200; // スクロールする幅を設定
+        container.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+        });
+    }
+
     </script>
 @endsection
 
