@@ -58,7 +58,7 @@
                     <th>Type</th>
                     <th>Create</th>
                     <th>Visibility</th>
-                    <th></th>
+                    {{-- <th></th> --}}
                     <th></th>
                 </tr>
             </thead>
@@ -68,9 +68,17 @@
                     <td>{{ $post->id }}</td>
                     <td>{{ $post->title }}</td>
                     <td>{{ $post->SpotPost->name }}</td>
-                    <td>{{ $post->user->name }}</td>
-                    <td>{{ $post->category }}</td>
-                    <td>{{ $post->type }}</td>
+                    <td>{{ $post->user->username }}</td>
+                    <td>
+                        @if($post->categories->isNotEmpty())
+                        @foreach($post->categories as $cats)
+                        {{$cats->name}},
+                        @endforeach
+                        @endif
+                    </td>
+                    <td>
+                        {{ $post->type === 0 ? 'Event' : ($post->type === 1 ? 'Tourism' : 'Unknown') }}
+                    </td>
                     <td>{{ $post->created_at }}</td>
                     <td>
                         <div class="dropdown">
@@ -90,11 +98,11 @@
                             </div>
                         </div>
                     </td>
-                    <td>
+                    {{-- <td>
                         <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
-                    </td>
+                    </td> --}}
                     <td>
-                        <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
+                        <a href="{{ route('post.show', $post->id) }}" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
                     </td>
                 </tr>
 

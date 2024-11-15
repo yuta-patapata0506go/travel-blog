@@ -20,11 +20,19 @@ class PostsController extends Controller
         //                 ->orderBy('id', 'asc')
         //                 ->paginate(10);
         $all_posts = Post::withTrashed()
-                        ->with('user')
-                        ->with('categories')
-                         ->with('SpotPost')
-                        ->orderBy('id', 'asc')
-                        ->paginate(10);
+                ->with(['user' => function($query) {
+                    $query->withTrashed();  // ソフトデリートされたユーザーも含めて取得
+                }])
+                ->with('categories')
+                ->with('SpotPost')
+                ->orderBy('id', 'asc')
+                ->paginate(10);
+        // $all_posts = Post::withTrashed()
+        //                 ->with('user')
+        //                 ->with('categories')
+        //                  ->with('SpotPost')
+        //                 ->orderBy('id', 'asc')
+        //                 ->paginate(10);
         $categories = Category::where('status', 1)->get();
     // dd($all_posts);
         return view('admin.posts.posts-index', compact('all_posts', 'categories'));

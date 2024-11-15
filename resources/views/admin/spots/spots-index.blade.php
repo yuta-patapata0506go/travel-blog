@@ -14,10 +14,10 @@
         </div>
 
         <!-- Recommend Setting Button -->
-        <div class="text-end mb-3">
+        {{-- <div class="text-end mb-3">
             <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#category-modal">Recommended Posts Setting</button>
             @include('admin.modals.recommended_post')
-        </div>
+        </div> --}}
 
         <!-- Navigation Icons -->
         <table class="table table-hover table-bordered text-center">
@@ -46,30 +46,7 @@
         </tr>
 
         <!-- Spots Table -->
-        <table class="table table-hover table-bordered text-center">
-            <thead class="table-dark">
-                <tr>
-                    <div class="icon-container">
-                        <a href="admin-users-index" class="icon-item">
-                            <i class="fa-solid fa-user"></i>
-                        </a>
-                        <a href="admin-posts-index" class="icon-item">
-                            <i class="fa-solid fa-newspaper"></i>
-                        </a>
-                        <a href="admin-spots-index" class="icon-item active">
-                            <i class="fa-solid fa-location-dot"></i>
-                        </a>
-                        <a href="admin-categories-index" class="icon-item">
-                            <i class="fa-solid fa-shapes"></i>
-                        </a>
-                        <a href="{{ route('admin.inquiries.index') }}" class="icon-item">
-                            <i class="fa-solid fa-address-card"></i>
-                        </a>
-                        <a href="{{ route('admin.spot_applications.index') }}" class="icon-item">
-                            <i class="fa-solid fa-photo-film"></i>
-                        </a>
-                    </div>
-                </tr>
+
                 <br>
                 <tr>
                     <th>ID</th>
@@ -84,7 +61,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($all_spots as $spot)
+                {{-- @foreach ($all_spots as $spot)
                     <tr>
                         <td>{{ $spot->id }}</td>
                         <td>{{ $spot->name }}</td>
@@ -118,17 +95,17 @@
                         <td>
                             <a href="{{ route('admin.spots.show', $spot->id) }}" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
                         </td>
-                    </tr>
+                    </tr> --}}
 
                     <!-- Include visibility modals for each spot -->
-                    @include('admin.spots.modals.visibility', ['spot' => $spot])
-                @endforeach
+                    {{-- @include('admin.spots.modals.visibility', ['spot' => $spot])
+                @endforeach --}}
             </tbody>
         </table>
     
-        <div class="d-flex justify-content-center">
+        {{-- <div class="d-flex justify-content-center">
             {{ $all_spots->links() }}
-        </div>
+        </div> --}}
     </div>
 
 </body>

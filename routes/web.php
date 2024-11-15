@@ -18,6 +18,12 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\Admin\ResponsesController;
+use App\Http\Controllers\Admin\RecommendationsController;
+use App\Http\Controllers\Admin\SpotApplicationsController;
+use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\TourismController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -25,17 +31,20 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/events', function () {
     return view('display.events');
 });
-Route::get('/admin-users-index', function () {
-    return view('admin/users/users-index');
-});
 
-Route::get('/admin-posts-index', function () {
-    return view('/admin/posts/posts-index');
-});
+Route::get('/admin-users-index', [UsersController::class, 'index']);
+// Route::get('/admin-users-index', function () {
+//     return view('admin/users/users-index');
+// });
 
-Route::get('/admin-spots-index', function () {
-    return view('/admin/spots/spots-index');
-});
+Route::get('/admin-posts-index', [PostsController::class, 'index']);
+// Route::get('/admin-posts-index', function () {
+//     return view('/admin/posts/posts-index');
+// });
+
+// Route::get('/admin-spots-index', function () {
+//     return view('/admin/spots/spots-index');
+// });
 
 // admin category feature
 Route::get('/admin-categories-index',[CategoryController::class,'index'])->name('admin.categories.index');
@@ -175,9 +184,9 @@ Route::patch('/admin-users-unhide/{id}', [UsersController::class, 'unhide'])->na
 Route::delete('/admin-users-hide/{id}', [UsersController::class, 'hide'])->name('admin.users.hide');
 
 
-Route::get('/admin-posts-index', function () {
-    return view('/admin/posts/posts-index');
-});
+// Route::get('/admin-posts-index', function () {
+//     return view('/admin/posts/posts-index');
+// });
 
 Route::get('/admin-spots-index', function () {
     return view('/admin/spots/spots-index');
