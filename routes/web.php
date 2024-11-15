@@ -209,7 +209,7 @@ Route::group(["middleware"=> "auth"], function(){
  });
 
 // Search Routes
-Route::get('/search', [SearchController::class, 'index'])->name('search');
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::get('/events', function () {
     return view('display.events'); // 実際のビューのパスに合わせて修正してください
@@ -218,8 +218,8 @@ Route::get('/events', function () {
 Route::get('/tourism', function () {
     return view('display.tourism'); // 実際のビューのパスに合わせて修正してください
 })->name('tourism'); // 名前を付けることで、route('tourism') で参照可能になります。
-// Serch function
-Route::get('/search', [SearchController::class, 'search'])->name('search');
+// // Serch function
+// Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 
  Route::get('/{type}/{id}', [CommentController::class, 'show'])->name('comment.show');
@@ -233,5 +233,12 @@ Route::get('/events', [EventController::class, 'index'])->name('events');
 // ツーリズムページへのルート
 Route::get('/tourism', [TourismController::class, 'index'])->name('tourism');
  
+
+// events-tourismへのルート
+Route::get('/events-tourism', function () {
+    return view('display.events-tourism');
+})->name('events-tourism');
+
 //Serch function
 Route::get('/search', [SearchController::class, 'search'])->name('search');
+
