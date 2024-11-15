@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Recommendation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -14,9 +15,11 @@ class CategoryController extends Controller
     //
 
     private $category;
+    private $recommendation;
 
-    public function __construct(Category $category) {
+    public function __construct(Category $category,Recommendation $recommendation) {
         $this->category = $category;
+        $this->recommendation = $recommendation;
     }
 
     public function index(){
@@ -24,7 +27,22 @@ class CategoryController extends Controller
 
         $parentCategories = Category::whereNull('parent_id')->get(); 
 
-        return view('admin.categories.categories-index', compact('categories', 'parentCategories')); 
+        $existingRecommendation = $this->recommendation->first();
+        
+        return view('admin.categories.categories-index', compact('categories', 'parentCategories', 'existingRecommendation'));
+
+        
+    }
+
+
+    public function selected()
+    {
+       
+        $categories = $this->category->all();
+        $existingRecommendation = $this->recommendation->first();
+        return view('admin.categories.categories-index')
+            ->with('categories', $categories)
+            ->with('existingRecommendation', $existingRecommendation);
     }
 
     public function store(Request $request) {
@@ -41,7 +59,7 @@ class CategoryController extends Controller
             $category->parent_id = $request->parent_id ?: null;
             $category->created_at = Carbon::now();
             $category->updated_at = Carbon::now();
-            $category->user_id = Auth::id();
+        
             
             $category->save();
             

@@ -8,29 +8,32 @@
 
 @section('title', 'Map View')
 
-{{-- @php
-    // Blade内で画像のURLを生成
-    $imageUrl = isset($spot->images) && count($spot->images) > 0 
-        ? asset('storage/' . $spot->images[0]->image_url) 
-        : asset('images/map_samples/spot_pc_sample.png');
-@endphp --}}
-
-
 @section('content')
 <div class="map_container">
   <h2 class="fs-1 fw-bolder mb-4">Search from the map</h2>
 
-  {{-- Search Bar --}}
+ <div class="row justify-content-between">
+    {{-- Search Bar --}}
+    <div class="col-auto search-container d-flex justify-content-left">
+        <form class="d-flex mb-4" role="search" method="GET" action="{{ route('map.page') }}">
+            <input type="hidden" name="latitude" value="{{ request('latitude') }}">
+            <input type="hidden" name="longitude" value="{{ request('longitude') }}">
+            <input class="form-control form-control-lg me-2" type="search" aria-label="Search" name="keyword" aria-label="Search" value="{{ old('keyword', request('keyword', $keyword ?? '')) }}">
+            <i class="fas fa-search icon_size"></i>
+            <button class="btn fs-3 fw-bold" type="submit">Search</button>
+        </form>
+    </div>
 
-  <div class="search-container d-flex justify-content-left">
-      <form class="d-flex mb-4" role="search" method="GET" action="{{ route('map.page') }}">
-          <input type="hidden" name="latitude" value="{{ request('latitude') }}">
-          <input type="hidden" name="longitude" value="{{ request('longitude') }}">
-          <input class="form-control form-control-lg me-2" type="search" aria-label="Search" name="keyword" aria-label="Search" value="{{ request('keyword') }}">
-          <i class="fas fa-search icon_size"></i>
-          <button class="btn fs-3 fw-bold" type="submit">Search</button>
-      </form>
-  </div>
+    <div class="col-auto back">
+        <a href="javascript:history.go(-2)">
+            <button type="button" class="btn"><i class="fa-solid fa-chevron-left"></i> Back</button>
+        </a>
+    </div>
+
+
+ </div>
+  
+  
 
  
 
@@ -98,6 +101,10 @@
                     zoom: 9
                 });
 
+                // マーカーを追加し、ピンが画面に収まるようにするための `bounds` オブジェクトを作成
+                const bounds = new mapboxgl.LngLatBounds();
+
+
                 // Marker and Popup of User's Current Location
                 const userLocationPopup = `
                             <div class="current_locaiton_popup">
@@ -109,39 +116,39 @@
                     .setPopup(new mapboxgl.Popup().setHTML(userLocationPopup))
                     .addTo(map);
 
+                    bounds.extend([longitude, latitude]); // 現在地も含める
+
                 // Marker and Popup of Spots
                 data.spots.forEach(spot => {
                     if (spot.latitude && spot.longitude) {
 
-                        // const imageUrl = spot.images && spot.images.length > 0 
-                        //         ? `${storagePath}/${spot.images[0].image_url}`
-                        //         : 'images/map_samples/spot_pc_sample.png';
-                        const imageUrl = spot.images && spot.images.length > 0 
-                        ? `{{ asset('storage/images') }}/${spot.images[0].image_url}`
-                        : '{{ asset('images/map_samples/spot_pc_sample.png') }}';
-
-                        
-                        //  console.log('Generated Image URL:', imageUrl);
-                        // console.log('Spot Data:', spot);
-                        // console.log('Image URL:', spot.images ? spot.images[0].image_url : 'No image');
-
+                        const spotUrl = `{{ url('/spot') }}/${spot.id}`; // 'spot.show' ルートに対応するURLを生成
 
                         const popupContent = `
                             <div class="spot_popup">
-                                <a href="#" class="small_spot">
-                                    <img src="${imageUrl}" alt="Spot Name" >
-                                 </a>
-                                <a href="#" class="spot_name">
+                                <a href="${spotUrl}" class="small_spot">
+                                    <img src="${spot.images.length>0?"storage/"+spot.images[0].image_url:"images/map_samples/spot_pc_sample.png"}" alt="Spot Image" >
+                                </a>
+                                <a href="${spotUrl}" class="spot_name">
                                     <p>${spot.name}</p>
                                 </a>
                             </div>
                         `;
+
                         new mapboxgl.Marker()
                             .setLngLat([spot.longitude, spot.latitude])
                             .setPopup(new mapboxgl.Popup().setHTML(popupContent))  // HTML形式でポップアップを設定
                             .addTo(map);
+
+                        // 各スポットの座標を `bounds` に追加
+                        bounds.extend([spot.longitude, spot.latitude]);
                     }
                 });
+
+                // マップをすべてのマーカーが表示されるようにズーム・位置調整
+                if (data.spots.length > 0) {
+                    map.fitBounds(bounds, { padding: 50 });
+                }
             })
             .catch(error => console.error('Error:', error));
     }
