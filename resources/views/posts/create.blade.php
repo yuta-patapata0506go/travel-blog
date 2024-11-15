@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Post/Create')
+
 @section('css')
 @if ($type == 0)
     <link href="{{ asset('css/event-post.css') }}" rel="stylesheet">

@@ -199,7 +199,7 @@ public function show($id)
     // 投稿編集フォームの表示
     public function edit($id)
     {
-        $post = Post::with(['CategoryPost', 'images'])->findOrFail($id);
+        $post = Post::with(['categoryPosts', 'images'])->findOrFail($id);
         $spots = Spot::all();          
 
         // 投稿者であるか確認
@@ -213,7 +213,7 @@ public function show($id)
        
     // 全てのカテゴリを取得
     $all_categories = Category::all(); // これで$all_categoriesがビューに渡されます
-    $selectedCategories = $post->CategoryPost->pluck('category_id')->toArray(); // 選択済みのカテゴリID
+    $selectedCategories = $post->categoryPosts->pluck('category_id')->toArray(); // 選択済みのカテゴリID
 
    
         return view('posts.edit', compact('post','spots', 'type', 'startDate', 'endDate','all_categories', 'selectedCategories'));
@@ -269,7 +269,7 @@ public function show($id)
         : array_map('intval', explode(',', $request->category));
     \Log::info("Categories to save:", ['category_ids' => $categoryIds]);
 
-    $post->CategoryPost()->delete();
+    $post->categoryPosts()->delete();
     $category_post = [];
     foreach ($categoryIds as $category_id) {
         $category_post[] = [
@@ -280,7 +280,7 @@ public function show($id)
             "updated_at" => now(),
         ];
     }
-    $post->CategoryPost()->insert($category_post);
+    $post->categoryPosts()->insert($category_post);
     \Log::info("Checking if new images need to be added for post ID: " . $id);
 if ($request->hasFile('image')) {
     \Log::info("Adding new images for post ID: " . $id);

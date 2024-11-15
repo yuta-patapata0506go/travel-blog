@@ -4,6 +4,8 @@
 
 @extends('layouts.app')
 
+@section('title', 'Post/Edit')
+
 @section('content')
 <div class="background"></div> <!-- 背景画像 -->     
 <div class="container container-fluid mt-5">

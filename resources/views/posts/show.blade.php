@@ -1,6 +1,8 @@
 <link rel="stylesheet" href="{{asset('css/posts.css')}}">
 @extends('layouts.app')
 
+@section('title', 'Post')
+
 @section('content')
 <div class="container background  ">
    <div class="card my-4">
