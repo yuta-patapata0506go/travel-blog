@@ -52,13 +52,13 @@
         <!-- Event and Tourism Display  -->
         <div class="image-container">
             <div class="image-item">
-              <a href="{{ route('events') }}"> <!-- イベントページへのリンク -->
+              <a href="{{ route('display.events') }}"> <!-- イベントページへのリンク -->
                  <img src="images/event-link.png" alt="Event Page">
                  <div class="overlay-text">Event Page</div>
               </a>
             </div>
             <div class="image-item">
-               <a href="{{ route('tourism') }}"> <!-- ツーリズムページへのリンク -->
+               <a href="{{ route('display.tourism') }}"> <!-- ツーリズムページへのリンク -->
                   <img src="images/tourism-link.png" alt="Tourism Page">
                   <div class="overlay-text">Tourism Page</div>
                </a>

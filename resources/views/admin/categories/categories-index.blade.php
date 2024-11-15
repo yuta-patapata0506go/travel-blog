@@ -18,13 +18,13 @@
         
         <!-- Recommend Setting Button -->
         <div class="text-end mb-3">
-            {{-- <button class="btn btn-outline-dark">Recommended Posts</button> --}}
             {{-- modal button --}}
-            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#category-modal"> {{-- Updated this line --}}
-                Recommended Posts Setting {{-- {{ $categoryModalLabel->id }} --}}
+            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#category-modal">
+                Recommended Posts Setting
             </button>
 
             @include('admin.modals.recommended_post')
+        
 
             <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#create-category">
                 Create New Category
@@ -50,10 +50,10 @@
                         <a href="admin-categories-index" class="icon-item active">
                             <i class="fa-solid fa-shapes"></i>
                         </a>
-                        <a href="admin-categories-index" class="icon-item">
+                        <a href="{{ route('admin.inquiries.index') }}" class="icon-item">
                             <i class="fa-solid fa-address-card"></i>
                         </a>
-                        <a href="admin-spot_applications-index" class="icon-item">
+                        <a href="{{ route('admin.spot_applications.index') }}" class="icon-item">
                             <i class="fa-solid fa-photo-film"></i>
                         </a>
                     </div>

@@ -56,6 +56,23 @@ body {
   color: #2A3132;
 }
 
+/* Back Button ---------------------------------------*/
+.back button {
+  font-size: 20px;
+  height: 50px; /* 高さを調整 */
+  padding: 10px 15px; /* ボタンの内側の余白 */
+  background-color: #336B87; /* ボタンの背景色 */
+  color: #ffffff; /* ボタンのテキスト色 */
+  border: none; /* ボタンの境界線を無効にする */
+  border-radius: 10px; /* 角を丸くする */
+  cursor: pointer; /* カーソルをポインターに変更 */
+}
+
+.back button:hover {
+  background-color: #90AFC5;
+  color: #2A3132;
+}
+
 /* Map ------------------------------------------------*/
 .map {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
@@ -88,6 +105,7 @@ body {
   text-decoration: none;
   color: #2A3132;
   margin: 0 auto;
+  width: 100%;
 }
 
 .spot_popup .small_spot img {
@@ -98,10 +116,18 @@ body {
   border-radius: 5px;
 }
 
+.spot_popup .small_spot img:hover {
+  opacity: 0.7;
+}
+
 .spot_popup .spot_name p {
   font-size: 16px;
   width: 200px;
   margin: 10px;
+}
+
+.spot_popup .spot_name p:hover {
+  color: #90AFC5;
 }
 
 
@@ -109,7 +135,7 @@ body {
 
 
 /* Sort Button ------------------------------------------------*/
-.sort_button {
+/* .sort_button {
   text-align: right; 
   position: relative;
   margin: 0em 0em 0em 0em;
@@ -144,7 +170,7 @@ body {
 
 .sort_button select:hover {
   background-color: #90AFC5;
-}
+} */
 
 
 /* Spots Section ------------------------------------------------*/
@@ -169,13 +195,13 @@ body {
   object-fit: cover;
 }
 
-.small_spot img:hover {
+/* .small_spot img:hover {
   opacity: 0.7;
-}
+} */
 
-.spot_name:hover {
+/* .spot_name:hover {
   color: #90AFC5;
-}
+} */
 
 
 /* Posts Section------------------------------------------------*/
@@ -194,9 +220,9 @@ body {
   object-fit: cover
 }
 
-.small_post img:hover {
+/* .small_post img:hover {
   opacity: 0.7;
-}
+} */
 
 
 .post_text p {
@@ -211,14 +237,46 @@ body {
 .post_text button {
   height: 40px; /* 高さを調整 */
   padding: 10px 15px; /* ボタンの内側の余白 */
-  background-color: #336B87 !important; /* ボタンの背景色 */
+  background-color: #336B87; /* ボタンの背景色 */
   color: #ffffff; /* ボタンのテキスト色 */
   border: none; /* ボタンの境界線を無効にする */
-  border-radius: 5px; /* 角を丸くする */
+  border-radius: 10px; /* 角を丸くする */
   cursor: pointer; /* カーソルをポインターに変更 */
 }
 
-/* 後でbuttonをaに変更、hover修正 */
+.post_text a button:hover {
+    background-color: #90AFC5; /* ホバー時の背景色 */
+    color: #2A3132; /* ボタンのテキスト色 */
+}
+
+
+/* postの高さを揃える */
+.show_posts .row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.small_post {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.post_text {
+  margin-top: auto; /* ボタンを下部に固定する */
+}
 
 
 

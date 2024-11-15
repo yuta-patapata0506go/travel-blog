@@ -1,25 +1,25 @@
-<div class="show_spot mt-4 bg-white">
+<div class="show_spot mt-5 bg-white">
   <div class="row">
     @forelse ($spots as $spot)
         <div class="small_spot col-md-4 mb-4">
+          <a href="{{ route('spot.show', $spot->id )}}" class="text-decoration-none">
             <div class="card">
               @if ($spot->images->isNotEmpty())
-              <a href="{{ route('spot.show', $spot->id )}}">
                   <img src="{{ asset('storage/' . $spot->images->first()->image_url) }}" class="card-img-top" alt="{{ $spot->name }}">
-              </a>
+            
               @else
-                  <a href="#">
+                  
                       <img src="{{ asset('images/map_samples/spot_pc_sample.png') }}" class="card-img-top" alt="Default Image">
-                  </a>
+                
               @endif
                 
                 <div class="card-body">
 
                   <div class="row">
                     <div class="col-auto">
-                      <a href="#" class="text-dark text-decoration-none ">
+                    
                         <h5 class="fw-bolder text-truncate spot_name">{{ $spot->name }}</h5>
-                      </a>
+
                     </div>
   
                     <div class="row d-flex justify-content-end pe-2">
@@ -33,9 +33,7 @@
                               </button>
                               <span class="count-text ms-1" id="like-count">{{ $spot->likes->count() }}</span>
                              </form>
-                          {{-- <form action="#">
-                            <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-heart"></i></button>
-                          </form> --}}
+                         
                         </div>
 
                         {{-- Favorites --}}
@@ -48,11 +46,6 @@
                               <span class="count-text ms-1" id="favorite-count">{{ $spot->favorites->count() }}</span>
                             </form>
 
-
-
-                          {{-- <form action="#">
-                            <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-star"></i></button>
-                          </form> --}}
                         </div>
                     </div>
 
@@ -62,6 +55,7 @@
                   
                 </div>
             </div>
+          </a>
         </div>
     @empty
         <p>No nearby spots found.</p>
