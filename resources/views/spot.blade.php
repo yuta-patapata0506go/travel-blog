@@ -325,7 +325,7 @@
                                 @endforeach
                             </div>
                             <p>Count of views: {{ $post->views }} views</p>
-                            <p>Count of likes: {{ $post->likes }} likes</p>
+                            <p>Count of likes: {{ $post->likes_count }} likes</p>
                             <form action="/post/show/{{$post->id}}" method="get">
                                 <button type="submit" class="btn-small-post-card">Read More</button>
                             </form>
