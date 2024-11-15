@@ -111,5 +111,20 @@ class ProfileController extends Controller
     
         return view('mypage.mypage-favorite', compact('favoritePosts', 'favoriteSpots', 'liketoSpot'))->with('user', $user);
      }
+     public function searchMyPosts(Request $request)
+     {
+         // フリーワードを取得
+         $keyword = $request->input('keyword');
      
+         // ログイン中のユーザーの投稿を検索
+         $searchedPosts = Auth::user()->posts() 
+             ->where(function ($query) use ($keyword) {
+                 $query->where('title', 'LIKE', "%{$keyword}%")
+                       ->orWhere('comments', 'LIKE', "%{$keyword}%"); 
+             })
+             ->get();
+     
+         return view('mypage.mypage-result', compact('searchedPosts'));
+        
+     } 
 }

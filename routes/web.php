@@ -91,6 +91,7 @@ Route::get('/mypage-followers/{id}',[ProfileController::class,'followers'])->nam
 Route::post('/follow/store/{user_id}',[FollowController::class,'store'])->name('follow.store'); //follow other users
 Route::delete('/Follow/destroy/{user_id}',[FollowController::class,'destroy'])->name('follow.destroy'); //unforrow
 Route::get('/mypage-favorite',[ProfileController::class,'favorite'])->name('profile.favorite');//mypage-favoriteに遷移
+Route::get('/mypage/search', [PostController::class, 'searchMyPosts'])->name('mypage.search');
 
 });
 

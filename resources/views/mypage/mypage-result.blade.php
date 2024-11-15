@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('title', 'Show Profile')
@@ -13,12 +12,11 @@
     @include('mypage.mypage-header')
     @include('mypage.mypage-search')
   <div class="container-mypage">
-        <div style="margin-top: 50px, margin-bottom: 50px">
-            
-            @if($user->posts->isNotEmpty())
+        <div style="margin-top: 50px, margin-bottom: 50px">        
+            @if($searchedPosts->isNotEmpty())
             <div class="show_posts">
                     <div class="row">
-                        @foreach ($user->posts as $posts)
+                        @foreach ($searchedPosts as $posts)
                                 <div class="small_post col-md-3">
                                     <a href="{{route('post.show', $posts->id)}}" class="text-decoration-none text-dark">
                                          <div class="card">
@@ -81,7 +79,7 @@
         </div>
       
         @else
-        <h3 class="text-center">No Posts Yet</h3>
+        <h3 class="text-center">No results</h3>
         @endif
    
     </div> 
