@@ -11,10 +11,11 @@ use App\Models\Image;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Favorite;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     // Define the table associated with the model
     protected $table = 'posts';
@@ -55,6 +56,17 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function CategoryPost()
+    {
+        return $this->hasMany(CategoryPost::class);
+    }
+
+    public function SpotPost()
+    {
+        return $this->hasOne(Spot::class, 'id', 'spots_id');
+    }
+
+    
     // A post belongs to a spot
     public function spot()
     {
@@ -171,3 +183,14 @@ class Post extends Model
         'views' => 0, // デフォルト値を0に設定
     ];
 }
+    
+
+// 日付としてキャストする属性
+protected $casts = [
+    'start_date' => 'datetime',
+    'end_date' => 'datetime',
+];
+}
+
+// app/Models/Post.php
+
