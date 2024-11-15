@@ -57,3 +57,17 @@ td:hover {
   color: white;
   border-radius: 50%;
 }
+
+.small_post .fa-heart,
+.small_post .fa-star {
+    color: gray !important; /* 初期のボタン色 */
+}
+
+.small_post .fa-heart.active {
+    color: red !important; /* いいねボタンの色 */
+}
+
+.small_post .fa-star.active {
+    color: gold !important; /* お気に入りボタンの色 */
+}
+

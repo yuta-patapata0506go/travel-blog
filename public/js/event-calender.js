@@ -187,10 +187,7 @@ function fetchEvents(selectedDate, isInitialLoad) {
             }
             displayEvents(data, isInitialLoad);
         })
-        .catch(error => {
-            console.error('Error fetching events:', error);
-            alert('イベントの取得に失敗しました。エンドポイントやサーバーの設定を確認してください。');
-        });
+       
 }
 
 function fetchEvents(selectedDate, isInitialLoad) {
@@ -219,10 +216,10 @@ function fetchEvents(selectedDate, isInitialLoad) {
             }
             displayEvents(data, isInitialLoad);
         })
-        .catch(error => {
-            console.error("Error fetching events:", error);
-            alert('イベントの取得に失敗しました。エンドポイントやサーバーの設定を確認してください。');
-        });
+        // .catch(error => {
+        //     console.error("Error fetching events:", error);
+        //     alert('イベントの取得に失敗しました。エンドポイントやサーバーの設定を確認してください。');
+        // });
 }
 
 function setLikeFavoriteListeners() {
@@ -238,28 +235,28 @@ function setLikeFavoriteListeners() {
                     "Content-Type": "application/json"
                 }
             })
-            .then(response => {
+            .then(async response => {
                 console.log("Like response status:", response.status);
                 if (!response.ok) {
-                    return response.text().then(text => {
-                        console.error("Error response text (non-JSON):", text);
-                        throw new Error(`Error ${response.status}: ${text}`);
-                    });
+                    const text = await response.text();
+                    console.error("Error response text (non-JSON):", text);
+                    throw new Error(`Error ${response.status}: ${text}`);
                 }
-                return response.json().catch(error => {
+                try {
+                    return await response.json();
+                } catch (error) {
                     console.error("JSON parse error on like response:", error);
                     throw new Error("Failed to parse JSON response for like action.");
-                });
+                }
             })
             .then(data => {
                 console.log("Like action data:", data);
-                document.getElementById(`like-icon-${postId}`).classList.toggle("active", data.isLiked);
+                document.getElementById(`like-icon-${postId}`).style.color = data.isLiked ? "red" : "gray";
+                console.log(document.getElementById(`like-icon-${postId}`).classList);
+                
                 document.getElementById(`like-count-${postId}`).textContent = data.likeCount;
             })
-            .catch(error => {
-                console.error("Error liking the post:", error);
-                alert(`There was a problem updating your likes. Please check the server error log: ${error.message}`);
-            });
+           
         });
     });
 
@@ -293,10 +290,7 @@ function setLikeFavoriteListeners() {
                 document.getElementById(`favorite-icon-${postId}`).classList.toggle("active", data.isFavorited);
                 document.getElementById(`favorite-count-${postId}`).textContent = data.favoriteCount;
             })
-            .catch(error => {
-                console.error("Error favoriting the post:", error);
-                alert(`There was a problem updating your favorites. Please check the server error log: ${error.message}`);
-            });
+            
         });
     });
 }
