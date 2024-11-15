@@ -79,6 +79,10 @@ Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'
 
 Route::get('/events-tourism', [PostController::class, 'showEventsTourism'])->name('display.events-tourism');
 
+Route::get('/events-tourism/{category_id}', [PostController::class, 'showCategoryEventsTourism'])->name('events-tourism.category');
+
+Route::get('/events-tourism-posts/search', [PostController::class, 'searchEventsTourism'])->name('events-tourism.posts.search');
+
 
 // My Page Routes
 Route::get('/mypage-show/{id}',[ProfileController::class,'show'])->name('profile.show');  //mypage-showに遷移

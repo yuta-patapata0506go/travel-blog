@@ -178,7 +178,7 @@ class SpotController extends Controller
         
          // スポットに関連する投稿を取得してソート
         $posts = Post::where('spots_id', $spot->id)
-             ->withCount('likes') // likes_count を取得
+             ->withCount('likesRelation') // likes_count を取得
              ->when($sort === 'newest', function ($query) {
                  $query->orderBy('created_at', 'desc'); // 新しい順
              })

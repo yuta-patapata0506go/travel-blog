@@ -31,7 +31,7 @@
                         <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
                             <i class="fa-regular fa-heart {{ $recommendation->post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
                         </button>
-                        <span class="count-text ms-1" id="like-count">{{ $recommendation->post->likes->count() }}</span>
+                        <span class="count-text ms-1" id="like-count">{{ $recommendation->post->likesRelation->count() }}</span>
                      </form>
             </div>
             <div class="col-auto p-0">
@@ -123,7 +123,7 @@
                         <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
                             <i class="fa-regular fa-heart {{ $post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
                         </button>
-                        <span class="count-text ms-1" id="like-count">{{ $post->likes->count() }}</span>
+                        <span class="count-text ms-1" id="like-count">{{ $post->likesRelation->count() }}</span>
                     </form>
                       {{-- <form action="#">
                         <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-heart"></i></button>

@@ -74,7 +74,7 @@ class Post extends Model
     }
 
     // A post has many likes
-    public function likes()
+    public function likesRelation()
     {
         return $this->hasMany(Like::class);
     }
@@ -82,7 +82,7 @@ class Post extends Model
     // Check if the post is liked by a specific user
     public function isLiked()
     {
-        return $this->likes()->where('user_id', auth()->id())->exists();
+        return $this->likesRelation()->where('user_id', auth()->id())->exists();
     }
 
     // A post has many favorites
