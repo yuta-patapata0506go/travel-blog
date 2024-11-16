@@ -86,7 +86,11 @@ Route::get('/navbar', function () {
     return view('navbar');
 });
 
+
 // Routes for Map Page
+
+// ユーザーの緯度経度をセッションに保存するルート
+Route::post('/save-location', [MapController::class, 'saveLocation'])->name('save.location');
 // HTMLの表示用ルート(Route for displaying HTML) *Use this route to display the map page
 Route::get('/map', [MapController::class, 'showMapPage'])->name('map.page');
 // スポット情報のJSON取得用ルート(Route for retrieving spot information in JSON)
