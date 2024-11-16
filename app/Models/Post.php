@@ -11,10 +11,11 @@ use App\Models\Image;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Favorite;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     
 
@@ -57,6 +58,17 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function CategoryPost()
+    {
+        return $this->hasMany(CategoryPost::class);
+    }
+
+    public function SpotPost()
+    {
+        return $this->hasOne(Spot::class, 'id', 'spots_id');
+    }
+
+    
     // A post belongs to a spot
     public function spot()
     {
@@ -93,6 +105,12 @@ class Post extends Model
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
+    }
+
+    // likes_count をアクセサとして定義
+    public function getLikesCountAttribute()
+    {
+        return $this->attributes['likes_count']; // データベースの likes_count カラムを返す
     }
 
     // Accessor to check if the post is favorited by the authenticated user
@@ -169,3 +187,7 @@ class Post extends Model
         'views' => 0, // デフォルト値を0に設定
     ];
 }
+
+
+// app/Models/Post.php
+

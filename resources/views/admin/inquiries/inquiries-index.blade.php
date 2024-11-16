@@ -49,16 +49,16 @@
             <thead class="table-dark">
                 <tr>
                     <div class="icon-container">
-                        <a href="admin-users-index" class="icon-item">
+                        <a href="{{ route('admin.users.index') }}" class="icon-item">
                             <i class="fa-solid fa-user"></i>
                         </a>
-                        <a href="admin-posts-index" class="icon-item">
+                        <a href="{{ route('admin.posts.index') }}" class="icon-item">
                             <i class="fa-solid fa-newspaper"></i>
                         </a>
-                        <a href="admin-spots-index" class="icon-item">
+                        <a href="{{ route('admin.spots.index') }}" class="icon-item">
                             <i class="fa-solid fa-location-dot"></i>
                         </a>
-                        <a href="admin-categories-index" class="icon-item">
+                        <a href="{{ route('admin.categories.index') }}" class="icon-item">
                             <i class="fa-solid fa-shapes"></i>
                         </a>
                         <a href="{{ route('admin.inquiries.index') }}" class="icon-item active">
