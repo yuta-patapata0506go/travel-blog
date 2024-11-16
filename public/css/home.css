@@ -202,6 +202,7 @@ body {
     margin-bottom: 60px;
     overflow: hidden;
     border-radius: 10px; /* 角を丸くする */
+    height: 100%;
   }
   
   .small_post img {
@@ -210,6 +211,11 @@ body {
     margin: 0 auto; /* 画像をカード内で中央寄せ */
     object-fit: cover
   }
+  
+  /* .small_post img:hover {
+    opacity: 0.7;
+  } */
+  
   
   .post_text p {
     position: relative;
@@ -223,12 +229,56 @@ body {
   .post_text button {
     height: 40px; /* 高さを調整 */
     padding: 10px 15px; /* ボタンの内側の余白 */
-    background-color: #336B87 !important; /* ボタンの背景色 */
+    background-color: #336B87; /* ボタンの背景色 */
     color: #ffffff; /* ボタンのテキスト色 */
     border: none; /* ボタンの境界線を無効にする */
-    border-radius: 5px; /* 角を丸くする */
+    border-radius: 10px; /* 角を丸くする */
     cursor: pointer; /* カーソルをポインターに変更 */
   }
+  
+  .post_text a button:hover {
+      background-color: #90AFC5; /* ホバー時の背景色 */
+      color: #2A3132; /* ボタンのテキスト色 */
+  }
+  
+  
+  /* postの高さを揃える */
+  .show_posts .row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .small_post {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  .post_text {
+    margin-top: auto; /* ボタンを下部に固定する */
+  }
+  
+  .no-posts-message {
+    text-align: center;
+    font-size: 1.5em;
+    color: #FF0000; /* Red color for visibility */
+    font-weight: bold;
+    margin-top: 20px;
+    padding: 10px;
+  }
+  
   /* Map Icon Button */
 .btn-map {
     height: calc(2.5rem + 2px); /* サーチボタンの高さに合わせる */

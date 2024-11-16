@@ -129,6 +129,8 @@ class SpotController extends Controller
         ->get();
         $commentCount = $spot->comments()->count();
 
+        $spot->increment('views');
+
         // spot_id に一致する post 情報を取得
         $posts = Post::where('spots_id', $spot->id)->get();
         
