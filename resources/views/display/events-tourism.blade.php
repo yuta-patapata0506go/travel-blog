@@ -18,6 +18,7 @@
           <div class="search-container d-flex justify-content-center">
                   <form class="d-flex mb-4" role="search"     method="GET" action="{{ route('events-tourism.posts.search') }}">
                      <input class="form-control form-control-lg me-2" type="search" name="keyword" aria-label="Search" value="{{ request('keyword') }}">
+                     <input type="hidden" name="category_id" value="{{ request('category_id') }}">
                      <button class="btn fs-3 fw-bold" type="submit">Search</button>
                 </form>
           
@@ -43,13 +44,13 @@
                 <!-- Event and Tourism Display  -->
                 <div class="image-container">
                       <div class="image-item">
-                        <a href="{{ route('display.events', ['keyword' => $keyword ?? '','category_id' => $category_id ?? null]) }}">
+                        <a href="{{ route('display.events', ['keyword' => request('keyword'), 'category_id' => request('category_id')]) }}">
                            <img src="{{asset('images/event-link.png')}}" alt="Event Page">
                            <div class="overlay-text">Event Page</div>
                         </a>
                       </div>
                       <div class="image-item">
-                        <a href="{{ route('display.tourism', ['keyword' => request('keyword')] ) }}">
+                        <a href="{{ route('display.tourism', ['keyword' => request('keyword'), 'category_id' => request('category_id')]) }}">
                             <img src="{{asset('images/tourism-link.png')}}" alt="Tourism Page">
                             <div class="overlay-text">Tourism Page</div>
                          </a>

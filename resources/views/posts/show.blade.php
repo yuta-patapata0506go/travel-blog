@@ -130,7 +130,7 @@
                                     <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
                                         <i class="fa-regular fa-heart {{ $post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
                                     </button>
-                                    <span class="count-text ms-1" id="like-count">{{ $post->likesRelation->count() }}</span>
+                                    <span class="count-text ms-1" id="like-count">{{ $post->likes->count() }}</span>
                                 </form>
                             </div>
 

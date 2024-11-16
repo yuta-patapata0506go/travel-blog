@@ -9,7 +9,6 @@ use App\Models\Image;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Favorite;
-use App\Models\Recommendation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller; 
@@ -50,7 +49,7 @@ class PostController extends Controller
      
 public function show($id)
 {
-    $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'comments.replies.user', 'comments','likesRelation'])->findOrFail($id);
+    $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'comments.replies.user', 'comments','likes'])->findOrFail($id);
 
     if (Schema::hasColumn('posts', 'views')) {
         $post->increment('views');
@@ -91,7 +90,7 @@ public function show($id)
         $post->increment('views');
 
         // 「いいね」をインクリメント
-        $post->increment('likes');
+        $post->increment('likes_count');
 
     return view('posts.show', compact('post', 'firstImage','spotName',  'comments',  'commentCount' ,'liked', 'likesCount','favorited', 'favoritesCount'));
 }
@@ -325,7 +324,7 @@ if ($request->hasFile('image')) {
     }
 
 
-    private function getCommonData(RecommendationController $recommendationController)
+    public static function getCommonData(RecommendationController $recommendationController)
 {
     $parentCategories = Category::whereNull('parent_id')->with('children')->get();
     $recommendations = $recommendationController->getRecommendations();
@@ -333,7 +332,7 @@ if ($request->hasFile('image')) {
     return compact('parentCategories', 'recommendations');
 }
 
-private function applySort($query, $sort)
+public static function applySort($query, $sort,$table = 'posts')
 {
     // ソート条件の適用
     switch ($sort) {
@@ -344,11 +343,11 @@ private function applySort($query, $sort)
             $query->orderBy('favorites_count', 'desc'); // favorites_countでソート
             break;
         case 'many_likes':
-            $query->orderBy('likesRelation_count', 'desc'); // likes_countでソート
+            $query->orderBy('likes_count', 'desc'); // likes_countでソート
             break;
         case 'many_views':
             // viewsカラムが存在する場合のみ views でソート
-            if (Schema::hasColumn('posts', 'views')) {
+            if (Schema::hasColumn($table, 'views')) {
                 $query->orderBy('views', 'desc');
             }
             break;
@@ -372,10 +371,10 @@ private function applySort($query, $sort)
     $category_id = $request->input('category_id', null);
     // 基本クエリの作成
     $query = Post::with('images')->where('type', 0)
-                 ->withCount(['likesRelation', 'favorites'])
+                 ->withCount(['likes', 'favorites'])
                  ->when($category_id, function ($query) use ($category_id) {
                     return $query->whereHas('categories', function ($q) use ($category_id) {
-                        $q->where('id', $category_id);
+                        $q->where('renew_categories.id', $category_id);
                     });
                 });
 
@@ -411,7 +410,7 @@ private function applySort($query, $sort)
 
           // 基本クエリの作成
             $query = Post::where('type', 1)->with('images')
-            ->withCount(['likesRelation', 'favorites']); // likesとfavoritesのカウントを追加
+            ->withCount(['likes', 'favorites']); // likesとfavoritesのカウントを追加
           
           // カテゴリのフィルタリング
     if ($category && $category->parent_id === null) {
@@ -447,7 +446,7 @@ private function getEventsPosts($keyword, $sort)
 {
     // クエリビルダを使用して検索条件を設定
     $query = Post::with('images')->where('type', 0)
-    ->withCount(['likesRelation', 'favorites']); // likes と favorites のカウントを追加
+    ->withCount(['likes', 'favorites']); // likes と favorites のカウントを追加
 
     // 検索条件を追加
     if (!empty($keyword)) {
@@ -492,10 +491,10 @@ public function searchEventsPosts(Request $request, RecommendationController $re
     
     // 基本クエリの作成
     $query = Post::with('images')->where('type', 1)
-                 ->withCount(['likesRelation', 'favorites'])
+                 ->withCount(['likes', 'favorites'])
                  ->when($category_id, function ($query) use ($category_id) {
                     return $query->whereHas('categories', function ($q) use ($category_id) {
-                        $q->where('id', $category_id);
+                        $q->where('renew_categories.id', $category_id);
                     });
                 });
 
@@ -509,7 +508,7 @@ public function searchEventsPosts(Request $request, RecommendationController $re
                 
                 if ($category_id) {
                     $query->whereHas('categories', function ($query) use ($category_id) {
-                        $query->where('id', $category_id);
+                        $query->where('renew_categories.id', $category_id);
                     });
                 }
 
@@ -539,7 +538,7 @@ public function showCategoryTourismPosts(Request $request, $category_id = null, 
 
     // 基本クエリの作成
     $query = Post::where('type', 1)->with('images')
-                 ->withCount(['likesRelation', 'favorites']); // likesとfavoritesのカウントを追加
+                 ->withCount(['likes', 'favorites']); // likesとfavoritesのカウントを追加
 
     // カテゴリのフィルタリング
     if ($category && $category->parent_id === null) {
@@ -573,7 +572,7 @@ public function showCategoryTourismPosts(Request $request, $category_id = null, 
   {
       // クエリビルダを使用して検索条件を設定
       $query = Post::with('images')->where('type', 1)
-                   ->withCount(['likesRelation', 'favorites']); // likes と favorites のカウントを追加
+                   ->withCount(['likes', 'favorites']); // likes と favorites のカウントを追加
   
       // 検索条件を追加
       if (!empty($keyword)) {
@@ -618,10 +617,10 @@ public function showEventsTourism(Request $request,RecommendationController $rec
 
     // 基本クエリの作成
     $postQuery = Post::with('images')
-    ->withCount(['likesRelation', 'favorites'])
+    ->withCount(['likes', 'favorites'])
     ->when($category_id, function ($query) use ($category_id) {
         return $query->whereHas('categories', function ($q) use ($category_id) {
-            $q->where('id', $category_id);
+            $q->where('renew_categories.id', $category_id);
         });
     });
     
@@ -640,10 +639,11 @@ public function showEventsTourism(Request $request,RecommendationController $rec
 
 
      // ソート適用
-     $postQuery = $this->applySort($postQuery, $sort);
-    $spotQuery = $this->applySort($spotQuery, $sort);
+     $postQuery = $this->applySort($postQuery, $sort,'posts');
+    $spotQuery = $this->applySort($spotQuery, $sort, 'spots');
 
-    $posts = $postQuery->get();
+    $posts = $postQuery->get()
+;
     $spots = $spotQuery->get();
     
     return view('display.events-tourism', compact('posts','spots','sort','keyword', 'category_id'))
@@ -665,7 +665,7 @@ public function showCategoryEventsTourism(Request $request, $category_id = null)
 
     // 基本クエリの作成
     $query = Post::with('images')
-                 ->withCount(['likesRelation', 'favorites']); // likesとfavoritesのカウントを追加
+                 ->withCount(['likes', 'favorites']); // likesとfavoritesのカウントを追加
 
     // カテゴリのフィルタリング
     if ($category && $category->parent_id === null) {
@@ -705,7 +705,7 @@ public function showCategoryEventsTourism(Request $request, $category_id = null)
       
       // クエリビルダを使用して検索条件を設定
       $query = Post::with('images')
-                   ->withCount(['likesRelation', 'favorites']); // likes と favorites のカウントを追加
+                   ->withCount(['likes', 'favorites']); // likes と favorites のカウントを追加
   
       // 検索条件を追加
       if (!empty($keyword)) {
@@ -748,7 +748,8 @@ private function getSpotResults($keyword, $sort)
 {
     // Spot の基本クエリを作成
     $query = Spot::with('images')
-                 ->withCount('favorites'); // favorites のカウントを追加
+                 ->withCount('favorites') // favorites のカウントを追加
+                 ->withCount(['likes']);
 
     // 検索条件を追加
     if (!empty($keyword)) {

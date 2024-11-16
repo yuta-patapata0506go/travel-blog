@@ -2,14 +2,18 @@
   <div class="container">
      <div class="row">
       <!-- レコメンド機能 recommend -->
-          <h3>Recommended Tourism Posts</h3>
             @if($tourismRecommendations->isEmpty())
-          <a href="{{ route('spot.show', $spot->id )}}" class="text-decoration-none">
-          <div class="col-12">
-               <p class="text-center text-danger">No recommendations available at the moment.</p>
-         </div>
+          <@foreach ($tourismRecommendations as $spot)
+        <a href="{{ route('spot.show', $spot->id) }}" class="small_post col-md-3">
+            <!-- コンテンツ表示 -->
+        </a>
+    @endforeach
+@else
+<div></div>
+@endif
            <!-- card -->
-            @else
+           @if(!$tourismRecommendations->isEmpty())
+           <h4>Tourism Recommendations</h4>
             @foreach ($tourismRecommendations->take(4) as $recommendation)
          <div class="small_post col-md-3">
          <div class="card">
@@ -31,7 +35,7 @@
                         <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
                             <i class="fa-regular fa-heart {{ $recommendation->post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
                         </button>
-                        <span class="count-text ms-1" id="like-count">{{ $recommendation->post->likesRelation->count() }}</span>
+                        <span class="count-text ms-1" id="like-count">{{ $recommendation->post->likes->count() }}</span>
                      </form>
             </div>
             <div class="col-auto p-0">
@@ -123,7 +127,7 @@
                         <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
                             <i class="fa-regular fa-heart {{ $post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
                         </button>
-                        <span class="count-text ms-1" id="like-count">{{ $post->likesRelation->count() }}</span>
+                        <span class="count-text ms-1" id="like-count">{{ $post->likes->count() }}</span>
                     </form>
                       {{-- <form action="#">
                         <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-heart"></i></button>

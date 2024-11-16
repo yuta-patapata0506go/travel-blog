@@ -43,7 +43,7 @@ p {
 .post-card {
     position: relative;
     background-color: #ffffff; /* 背景を白に */
-    width:100%;
+    width:110%;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影を追加して浮かせる効果 */
     border-radius: 10px; /* 角を丸くする */

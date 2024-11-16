@@ -74,7 +74,7 @@ class Post extends Model
     }
 
     // A post has many likes
-    public function likesRelation()
+    public function likes()
     {
         return $this->hasMany(Like::class);
     }
@@ -82,13 +82,19 @@ class Post extends Model
     // Check if the post is liked by a specific user
     public function isLiked()
     {
-        return $this->likesRelation()->where('user_id', auth()->id())->exists();
+        return $this->likes()->where('user_id', auth()->id())->exists();
     }
 
     // A post has many favorites
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
+    }
+
+    // likes_count をアクセサとして定義
+    public function getLikesCountAttribute()
+    {
+        return $this->attributes['likes_count']; // データベースの likes_count カラムを返す
     }
 
     // Accessor to check if the post is favorited by the authenticated user
