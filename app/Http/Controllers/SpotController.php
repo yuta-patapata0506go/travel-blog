@@ -118,7 +118,7 @@ class SpotController extends Controller
     public function show($id, Request $request)
     {
         // IDを使ってスポットデータを取得
-        $spot = Spot::with('images','likes','favorites', 'comments.replies','posts')->findOrFail($id); // imagesリレーションを読み込む
+        $spot = Spot::with('images','likes','favorites', 'comments.replies','posts')->findOrFail($id);// imagesリレーションを読み込む
         $userId = auth()->id();
         // Like
         $liked = Like::where('user_id', $userId)->where('spot_id', $id)->exists();

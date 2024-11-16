@@ -34,7 +34,8 @@ class Favorite extends Model
     }
     public function favoriteSpotsDetail(){
         return $this->hasOne(Spot::class, 'id')
-        ->with('isLiked');
+        ->with('isLiked')
+        ->with('likesRelation'); //FIXED!!11
     }
 
 

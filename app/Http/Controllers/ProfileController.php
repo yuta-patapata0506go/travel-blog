@@ -61,8 +61,11 @@ class ProfileController extends Controller
      * method to open edit page
      */
 
-     public function edit(){
-        $user = $this->user->FindOrFail(Auth::user()->id);
+     public function edit($id){
+        //時間があったら、アドミンのみprofileにアクセスできる仕様に変更したい
+        $user = $this->user->findOrFail($id);
+        // $user = $this->user->FindOrFail(Auth::user()->id);
+
         return view('mypage.mypage-edit')->with('user', $user);
      }
 
@@ -103,16 +106,14 @@ class ProfileController extends Controller
 
       public function favorite(){
         $user = $this->user->FindOrFail(Auth::user()->id);
-        $favoritePosts = $user->favoritePosts();
+        $favoritePosts = Favorite::where('user_id', Auth::user()->id)->whereNotNull('post_id')->with('post')->get();
         $favoriteSpots = Favorite::where('user_id', Auth::user()->id)->whereNotNull('spot_id')->with('spot')->get();
-        $liketoSpot = Like::where('user_id', Auth::user()->id)->whereNotNull('spot_id')->first();
-      
-       
     
-        return view('mypage.mypage-favorite', compact('favoritePosts', 'favoriteSpots', 'liketoSpot'))->with('user', $user);
+        return view('mypage.mypage-favorite', compact('favoritePosts', 'favoriteSpots'))->with('user', $user);
      }
-     public function searchMyPosts(Request $request)
-     {
+     public function searchMyPosts(Request $request) {
+
+        $user = $this->user->findOrFail(Auth::user()->id);
          // フリーワードを取得
          $keyword = $request->input('keyword');
      
@@ -123,8 +124,8 @@ class ProfileController extends Controller
                        ->orWhere('comments', 'LIKE', "%{$keyword}%"); 
              })
              ->get();
-     
-         return view('mypage.mypage-result', compact('searchedPosts'));
+
+         return view('mypage.mypage-result', compact('searchedPosts'))->with('user', $user);
         
      } 
 }
