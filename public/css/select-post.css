@@ -51,7 +51,7 @@ body {
 }
 
 .centered-text p {
-    font-size: 40px; /* 必要に応じてサイズを調整 */
+    font-size: 30px; /* 必要に応じてサイズを調整 */
     font-weight: bold; /* 太くする場合 */
 }
 
@@ -92,3 +92,4 @@ min-height: 100vh; /* ビューポートの高さを100%に設定 */
 font-size: 1.25rem; /* 必要に応じてサイズを調整 */
 font-weight: bold; /* テキストを太くする場合 */
 }
+
