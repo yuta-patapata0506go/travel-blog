@@ -86,7 +86,7 @@ class MapController extends Controller
         $spots = $this->getSpots($userLatitude, $userLongitude, $keyword);
 
         // スポット情報をJSONとして返却
-        return response()->json(['spots' => $spots]);
+        return response()->json(['spots' => $spots, 'keyword' => $keyword]);
     }
 
 

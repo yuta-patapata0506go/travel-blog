@@ -90,7 +90,8 @@
 
     } else {
         // セッションに緯度・経度が保存されている場合、それを利用して地図を初期化
-        fetch(`{{ route('map.index') }}`) // keyword はセッションで取得
+        // 検索キーワードもパラメータに含めてAPIリクエスト
+        fetch(`{{ route('map.index') }}?keyword=${encodeURIComponent(keyword)}`)
             .then(response => response.json())
             .then(data => {
                 const map = new mapboxgl.Map({
