@@ -16,7 +16,7 @@ use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ResponsesController;
 use App\Http\Controllers\Admin\RecommendationsController;
 use App\Http\Controllers\Admin\SpotApplicationsController;
@@ -120,62 +120,63 @@ Route::group(['prefix' => 'recommendation', 'as' => 'recommendation.'], function
     Route::get('/', [RecommendationController::class, 'showRecommendations'])->name('showRecommendations');
 });
 
+// Unauthorized
+Route::get('/unauthorized', function () {
+    return response()->view('errors.unauthorized', [], 403);
+})->name('unauthorized');
 
 // Admin　Routes
-Route::group(['middleware' => 'auth'], function () {
-    // Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
-        Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries
-            Route::get('/', [InquiriesController::class, 'index'])->name('index');
-            Route::get('/{id}/inquiry_details', [InquiriesController::class, 'show'])->name('inquiry_details');
-            Route::patch('/{id}/change-visibility', [InquiriesController::class, 'changeVisibility'])->name('changeVisibility');
-            Route::post('/{id}/change-status', [InquiriesController::class, 'changeStatus'])->name('changeStatus');
-        });
-        Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries
-            Route::get('/{id}/create_reply', [ResponsesController::class, 'create'])->name('create_reply');
-            Route::post('/{id}/reply', [ResponsesController::class, 'store'])->name('reply');
-        });
+Route::group(['middleware'=> 'admin'], function(){
+    Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries
+        Route::get('/', [InquiriesController::class, 'index'])->name('index');
+        Route::get('/{id}/inquiry_details', [InquiriesController::class, 'show'])->name('inquiry_details');
+        Route::patch('/{id}/change-visibility', [InquiriesController::class, 'changeVisibility'])->name('changeVisibility');
+        Route::post('/{id}/change-status', [InquiriesController::class, 'changeStatus'])->name('changeStatus');
+    });
 
-        Route::group(['prefix' => 'admin/recommendations', 'as' => 'admin.recommendations.'], function() { // /admin/recommendations
-            Route::get('/modal', [RecommendationsController::class, 'showModal'])->name('modal');
-            Route::patch('/save', [RecommendationsController::class, 'saveRecommendations'])->name('save');
-        });
+    Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries
+        Route::get('/{id}/create_reply', [ResponsesController::class, 'create'])->name('create_reply');
+        Route::post('/{id}/reply', [ResponsesController::class, 'store'])->name('reply');
+    });
 
-        Route::group(['prefix' => 'admin/spot_applications', 'as' => 'admin.spot_applications.'], function() { 
-            Route::get('/', [SpotApplicationsController::class, 'index'])->name('index');
-            Route::post('/{id}/update-status', [SpotApplicationsController::class, 'updateStatus'])->name('updateStatus');
-        });
+    Route::group(['prefix' => 'admin/recommendations', 'as' => 'admin.recommendations.'], function() { // /admin/recommendations
+        Route::get('/modal', [RecommendationsController::class, 'showModal'])->name('modal');
+        Route::patch('/save', [RecommendationsController::class, 'saveRecommendations'])->name('save');
+    });
 
-        Route::group(['prefix' => 'admin/spots', 'as' => 'admin.spots.'], function() { 
-            Route::get('/', [SpotsController::class, 'index'])->name('index');
-            Route::get('/create', [SpotsController::class, 'create'])->name('create');
-            Route::post('/store', [SpotsController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [SpotsController::class, 'edit'])->name('edit');
-            Route::patch('/update/{id}', [SpotsController::class, 'update'])->name('update');
-            Route::post('/{id}/status', [SpotsController::class, 'changeStatus'])->name('changeStatus');
-            Route::delete('/delete-spot/{id}', [SpotsController::class, 'deleteSpot'])->name('deleteSpot');
+    Route::group(['prefix' => 'admin/spot_applications', 'as' => 'admin.spot_applications.'], function() { 
+        Route::get('/', [SpotApplicationsController::class, 'index'])->name('index');
+        Route::post('/{id}/update-status', [SpotApplicationsController::class, 'updateStatus'])->name('updateStatus');
+    });
 
-        });
+    Route::group(['prefix' => 'admin/spots', 'as' => 'admin.spots.'], function() { 
+        Route::get('/', [SpotsController::class, 'index'])->name('index');
+        Route::get('/create', [SpotsController::class, 'create'])->name('create');
+        Route::post('/store', [SpotsController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [SpotsController::class, 'edit'])->name('edit');
+        Route::patch('/update/{id}', [SpotsController::class, 'update'])->name('update');
+        Route::post('/{id}/status', [SpotsController::class, 'changeStatus'])->name('changeStatus');
+        Route::delete('/delete-spot/{id}', [SpotsController::class, 'deleteSpot'])->name('deleteSpot');
+    });
 
-        Route::group(['prefix' => 'admin/posts', 'as' => 'admin.posts.'], function() { // /admin/posts
-            Route::get('/', [PostsController::class, 'index'])->name('index');
-            Route::patch('/unhide/{id}', [PostsController::class, 'unhide'])->name('unhide');
-            Route::delete('/hide/{id}', [PostsController::class, 'hide'])->name('hide');
-            
-        });
+    Route::group(['prefix' => 'admin/posts', 'as' => 'admin.posts.'], function() { // /admin/posts
+        Route::get('/', [PostsController::class, 'index'])->name('index');
+        Route::patch('/unhide/{id}', [PostsController::class, 'unhide'])->name('unhide');
+        Route::delete('/hide/{id}', [PostsController::class, 'hide'])->name('hide');   
+    });
 
-        Route::group(['prefix' => 'admin/categories', 'as' => 'admin.categories.'], function() { 
-            Route::get('/', [CategoryController::class, 'index'])->name('index');
-            Route::post('/store',[CategoryController::class,'store'])->name('store');
-            Route::patch('/update/{id}',[CategoryController::class,'update'])->name('update');
-            Route::patch('/{id}/changeVisibility', [CategoryController::class, 'changeVisibility'])->name('changeVisibility');
-        });
+    Route::group(['prefix' => 'admin/categories', 'as' => 'admin.categories.'], function() { 
+        Route::get('/', [CategoryController::class, 'index'])->name('index');
+        Route::post('/store',[CategoryController::class,'store'])->name('store');
+        Route::patch('/update/{id}',[CategoryController::class,'update'])->name('update');
+        Route::patch('/{id}/changeVisibility', [CategoryController::class, 'changeVisibility'])->name('changeVisibility');
+    });
 
-        Route::group(['prefix' => 'admin/users', 'as' => 'admin.users.'], function() { 
-            Route::get('/', [UsersController::class, 'index'])->name('index');
-            Route::patch('/unhide/{id}', [UsersController::class, 'unhide'])->name('unhide');
-            Route::delete('/hide/{id}', [UsersController::class, 'hide'])->name('hide');
-        });
-    // });
+    Route::group(['prefix' => 'admin/users', 'as' => 'admin.users.'], function() { 
+        Route::get('/', [UsersController::class, 'index'])->name('index');
+        Route::patch('/unhide/{id}', [UsersController::class, 'unhide'])->name('unhide');
+        Route::delete('/hide/{id}', [UsersController::class, 'hide'])->name('hide');
+    });
 });
 
 
