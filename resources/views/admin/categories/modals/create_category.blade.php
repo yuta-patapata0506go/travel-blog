@@ -8,7 +8,7 @@
           <div class="modal-header border-dark text-center bg-dark">
               <h5 class="modal-title text-light mx-auto">Create Category</h5>
           </div>
-          <div class="modal-body">
+          <div class="modal-body rounded">
             <form action="{{ route('admin.categories.store') }}" method="post">
             @csrf
             <div class="container">
@@ -16,7 +16,7 @@
               <br>
               <input type="text" id="category-name" name="name" class="form-control" placeholder="Category Name here...">
 
-              <label for="parent_id">Parent Category:</label>
+              <label for="parent_id" class="mt-2">Parent Category:</label>
               <select name="parent_id" id="parent_id" class="form-select">
                 <option value="">None</option>
                 @foreach($parentCategories as $parent)
