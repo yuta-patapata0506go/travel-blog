@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\SpotApplicationsController;
 use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TourismController;
+use App\Http\Controllers\Admin\SpotsController;
 
 
 // Home Route
@@ -135,6 +136,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'admin/spot_applications', 'as' => 'admin.spot_applications.'], function() { 
             Route::get('/', [SpotApplicationsController::class, 'index'])->name('index');
             Route::post('/{id}/update-status', [SpotApplicationsController::class, 'updateStatus'])->name('updateStatus');
+        });
+
+        Route::group(['prefix' => 'admin/spots', 'as' => 'admin.spots.'], function() { 
+            Route::get('/', [SpotsController::class, 'index'])->name('index');
+            Route::get('/create', [SpotsController::class, 'create'])->name('create');
+            Route::post('/store', [SpotsController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [SpotsController::class, 'edit'])->name('edit');
+            Route::patch('/update/{id}', [SpotsController::class, 'update'])->name('update');
+            Route::post('/{id}/status', [SpotsController::class, 'changeStatus'])->name('changeStatus');
+            Route::delete('/delete-spot/{id}', [SpotsController::class, 'deleteSpot'])->name('deleteSpot');
 
         });
 
@@ -161,15 +172,15 @@ Route::group(['middleware' => 'auth'], function () {
 // Route::get('/admin/inquiries/inquiry_details', function () {
 //     return view('admin/inquiries/inquiry_details');
 // });
-Route::get('/admin-allow-spot', function () {
-    return view('admin.spot_applications.allowCreate');
-});
-Route::get('/admin-update-spot', function () {
-    return view('admin.spots.update');
-});
-Route::get('/admin-create-spot', function () {
-    return view('admin.spots.create');
-});
+// Route::get('/admin-allow-spot', function () {
+//     return view('admin.spot_applications.allowCreate');
+// });
+// Route::get('/admin-update-spot', function () {
+//     return view('admin.spots.update');
+// });
+// Route::get('/admin-create-spot', function () {
+//     return view('admin.spots.create');
+// });
 Route::get('/admin-users-index', [UsersController::class, 'index'])->name('admin.users.index');
 Route::patch('/admin-users-unhide/{id}', [UsersController::class, 'unhide'])->name('admin.users.unhide');
 Route::delete('/admin-users-hide/{id}', [UsersController::class, 'hide'])->name('admin.users.hide');
@@ -182,15 +193,15 @@ Route::get('/admin-spots-index', function () {
 // Route::get('/admin-inquiries-index', function () {
 //     return view('/admin/inquiries/inquiries-index');
 // });
-Route::get('/admin-spot_applications-index', function () {
-    return view('/admin/spot_applications/spot_applications-index');
-});
-Route::get('/admin-update_category', function () {
-    return view('/admin/modals/update_category');
-});
-Route::get('/admin-create_category', function () {
-    return view('/admin/modals/create_category');
-});
+// Route::get('/admin-spot_applications-index', function () {
+//     return view('/admin/spot_applications/spot_applications-index');
+// });
+// Route::get('/admin-update_category', function () {
+//     return view('/admin/modals/update_category');
+// });
+// Route::get('/admin-create_category', function () {
+//     return view('/admin/modals/create_category');
+// });
 //  post-form
 Route::get('/select-post-form', function () {
     return view('select-post-form');
