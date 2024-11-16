@@ -49,7 +49,7 @@ class PostController extends Controller
      
 public function show($id)
 {
-    $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'comments.replies.user', 'comments','likes'])->findOrFail($id);
+$post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'comments.replies.user', 'comments','likes'])->findOrFail($id); 
 
     if (Schema::hasColumn('posts', 'views')) {
         $post->increment('views');

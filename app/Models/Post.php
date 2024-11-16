@@ -17,6 +17,8 @@ class Post extends Model
 {
     use HasFactory, SoftDeletes;
 
+    
+
     // Define the table associated with the model
     protected $table = 'posts';
 
@@ -74,10 +76,6 @@ class Post extends Model
     }
 
     // A post has many images
-    public function images()
-    {
-        return $this->hasMany(Image::class, 'post_id');
-    }
 
     // A post has many comments
     public function comments()
@@ -85,9 +83,15 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
-    // A post has many likes
-    public function likes()
+    
+    public function images()
     {
+        return $this->hasMany(Image::class, 'post_id'); // 'post_id'が外部キー
+    }
+
+    
+    public function likes(){
+        // select * from likes
         return $this->hasMany(Like::class);
     }
 
@@ -96,8 +100,8 @@ class Post extends Model
     {
         return $this->likes()->where('user_id', auth()->id())->exists();
     }
+    // select * from likes where post_id = 15 and user_id = 2 ???? == TRUE
 
-    // A post has many favorites
     public function favorites()
     {
         return $this->hasMany(Favorite::class);

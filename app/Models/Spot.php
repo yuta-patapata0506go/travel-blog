@@ -56,6 +56,9 @@ class Spot extends Model
     {
         return $this->hasMany(Favorite::class);
     }
+    public function favorite(){
+        return $this->belongsTo(Favorite::class, 'spot_id');
+    }
     // アクセサとしてisFavoritedを定義
     public function getIsFavoritedAttribute()
     {
