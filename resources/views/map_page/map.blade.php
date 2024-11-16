@@ -56,85 +56,84 @@
     document.addEventListener("DOMContentLoaded", () => {
     mapboxgl.accessToken = '{{ env("MAPBOX_API_KEY") }}';
 
+    //Pre-generate the image URL path within Blade and pass it to JavaScript.
+    // const storagePath = "{{ asset('storage/images') }}";
 
+    
     const urlParams = new URLSearchParams(window.location.search);
+    const latitude = urlParams.get('latitude');
+    const longitude = urlParams.get('longitude');
     const keyword = urlParams.get('keyword'); // 検索キーワードも取得
 
-    // セッションから緯度・経度を取得
-    const sessionLatitude = "{{ session('latitude') }}";
-    const sessionLongitude = "{{ session('longitude') }}";
-
-
-    if (!sessionLatitude || !sessionLongitude) {
-        // ユーザーの緯度・経度がセッションにない場合のみ現在地を取得
+    // Only fetch geolocation if latitude and longitude are not in URL parameters
+    if (!latitude || !longitude) {
         navigator.geolocation.getCurrentPosition(function(position) {
             const userLatitude = position.coords.latitude;
             const userLongitude = position.coords.longitude;
-
+            
             // 現在の検索ワードが存在すればURLに追加
             const searchKeyword = keyword ? `&keyword=${encodeURIComponent(keyword)}` : '';
 
-            // セッションに緯度・経度を保存するためのAPIエンドポイントへリクエスト
-            fetch(`{{ route('save.location') }}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({ latitude: userLatitude, longitude: userLongitude })
-            }).then(() => {
-                // ページをリロードしてセッションから緯度・経度を読み込む
-                window.location.reload();
-            }).catch(error => console.error('Error saving location:', error));
+            // Redirect to the page with latitude and longitude only if not present
+            window.location.href = `{{ route('map.page') }}?latitude=${userLatitude}&longitude=${userLongitude}${searchKeyword}`;
         });
-
     } else {
-        // セッションに緯度・経度が保存されている場合、それを利用して地図を初期化
-        // 検索キーワードもパラメータに含めてAPIリクエスト
-        fetch(`{{ route('map.index') }}?keyword=${encodeURIComponent(keyword)}`)
+        // Initialize the map with the latitude and longitude from URL parameters
+        fetch(`{{ route('map.index') }}?latitude=${latitude}&longitude=${longitude}&keyword=${encodeURIComponent(keyword || '')}`)
             .then(response => response.json())
             .then(data => {
                 const map = new mapboxgl.Map({
                     container: 'map',
                     style: 'mapbox://styles/mapbox/streets-v11',
-                    center: [sessionLongitude, sessionLatitude], // セッションの緯度・経度を使用
+                    center: [longitude, latitude], // Use URL params for user location
                     zoom: 9
                 });
 
+                // マーカーを追加し、ピンが画面に収まるようにするための `bounds` オブジェクトを作成
                 const bounds = new mapboxgl.LngLatBounds();
 
-                // ユーザーの現在地をマーカーで表示
-                const userLocationPopup = `<div class="current_location_popup"><p class="fw-bold">Your location</p></div>`;
+
+                // Marker and Popup of User's Current Location
+                const userLocationPopup = `
+                            <div class="current_locaiton_popup">
+                                <p>Your current location</p>
+                            </div>
+                        `;
                 new mapboxgl.Marker({ color: 'blue' })
-                    .setLngLat([sessionLongitude, sessionLatitude])
+                    .setLngLat([longitude, latitude])
                     .setPopup(new mapboxgl.Popup().setHTML(userLocationPopup))
                     .addTo(map);
 
-                bounds.extend([sessionLongitude, sessionLatitude]);
+                    bounds.extend([longitude, latitude]); // 現在地も含める
 
-                // スポットのマーカー表示
+                // Marker and Popup of Spots
                 data.spots.forEach(spot => {
                     if (spot.latitude && spot.longitude) {
-                        const spotUrl = `{{ url('/spot') }}/${spot.id}`;
+
+                        const spotUrl = `{{ url('/spot') }}/${spot.id}`; // 'spot.show' ルートに対応するURLを生成
+
                         const popupContent = `
                             <div class="spot_popup">
                                 <a href="${spotUrl}" class="small_spot">
-                                    <img src="${spot.images.length > 0 ? "storage/" + spot.images[0].image_url : "images/map_samples/spot_pc_sample.png"}" alt="Spot Image">
+                                    <img src="${spot.images.length>0?"storage/"+spot.images[0].image_url:"images/map_samples/spot_pc_sample.png"}" alt="Spot Image" >
                                 </a>
                                 <a href="${spotUrl}" class="spot_name">
                                     <p>${spot.name}</p>
                                 </a>
                             </div>
                         `;
+
                         new mapboxgl.Marker()
                             .setLngLat([spot.longitude, spot.latitude])
-                            .setPopup(new mapboxgl.Popup().setHTML(popupContent))
+                            .setPopup(new mapboxgl.Popup().setHTML(popupContent))  // HTML形式でポップアップを設定
                             .addTo(map);
 
+                        // 各スポットの座標を `bounds` に追加
                         bounds.extend([spot.longitude, spot.latitude]);
                     }
                 });
 
+                // マップをすべてのマーカーが表示されるようにズーム・位置調整
                 if (data.spots.length > 0) {
                     map.fitBounds(bounds, { padding: 50 });
                 }
@@ -143,5 +142,6 @@
     }
 });
 
-    </script>
+
+</script>
  @endsection

@@ -13,18 +13,18 @@ class MapController extends Controller
         $this->spot = $spot;
     }
 
-    // 新規メソッドの追加
-    public function saveLocation(Request $request)
-    {
-        $latitude = $request->input('latitude');
-        $longitude = $request->input('longitude');
+    // sessionから位置情報を取得しjson形式で返すメソッド
+    // public function saveLocation(Request $request)
+    // {
+    //     $latitude = $request->input('latitude');
+    //     $longitude = $request->input('longitude');
 
-        if ($latitude && $longitude) {
-            session(['latitude' => $latitude, 'longitude' => $longitude]);
-            return response()->json(['status' => 'success']);
-        }
-        return response()->json(['status' => 'failed'], 400);
-    }
+    //     if ($latitude && $longitude) {
+    //         session(['latitude' => $latitude, 'longitude' => $longitude]);
+    //         return response()->json(['status' => 'success']);
+    //     }
+    //     return response()->json(['status' => 'failed'], 400);
+    // }
 
     /**
      * 検索条件に当てはまる（ある場合は）かつ、現在地から近いスポット6つを取得するためのメソッド
@@ -86,7 +86,7 @@ class MapController extends Controller
         $spots = $this->getSpots($userLatitude, $userLongitude, $keyword);
 
         // スポット情報をJSONとして返却
-        return response()->json(['spots' => $spots, 'keyword' => $keyword]);
+        return response()->json(['spots' => $spots]);
     }
 
 
