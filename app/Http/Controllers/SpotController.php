@@ -180,7 +180,7 @@ class SpotController extends Controller
              ->when($sort === 'many_likes', function ($query) {
                  $query->orderByDesc('likes_count'); // いいね数順
              })
-             ->paginate(3); // 1ページに4件の投稿を表示
+             ->paginate(4); // 1ページに4件の投稿を表示
         
         // スポットが見つからなかった場合のエラーハンドリング
         if (!$spot) {
