@@ -44,9 +44,6 @@ class SpotController extends Controller
             case 'many_likes':
                 $postsQuery->orderBy('likes_count', 'desc'); // likes_count カラムがある場合
                 break;
-            case 'many_views':
-                $postsQuery->orderBy('views', 'desc');
-                break;
             default:
                 $postsQuery->orderBy('created_at', 'desc');
                 break;
@@ -74,6 +71,7 @@ class SpotController extends Controller
     // 新しいスポットを保存する処理
     public function store(Request $request)
     {
+        //dd($request);
         try{
         // バリデーションの追加
         $request->validate([
@@ -98,8 +96,6 @@ class SpotController extends Controller
             return back()->withErrors(['error' => 'The retrieval of latitude and longitude for the address has failed.']);
         }
         $this->spot->name = $request->name;
-        // this code converts the image into a text;
-        /*$this->spot->image       = 'data:image/'.$request->image->extension().';base64,'.base64_encode(file_get_contents($request->image));*/
         $this->spot->user_id     = auth()->user()->id;
         $this->spot->postalcode  = $request->postalcode;
         $this->spot->address     = $request->address;
@@ -111,7 +107,7 @@ class SpotController extends Controller
         return redirect()->route('home')->with('success', 'Pending approval by Admin.');
         } catch (\Exception $e) {
             Log::error('Failed: ' . $e->getMessage());
-            return redirect()->back()->withErrors(['error' => 'Failed']);
+            print_r($e->getMessage());
         }
     }
     
@@ -124,18 +120,15 @@ class SpotController extends Controller
         $liked = Like::where('user_id', $userId)->where('spot_id', $id)->exists();
         $likesCount = Like::where('spot_id', $id)->count();
         // Favorite
-        $favorited = $spot->isFavorited; // アクセサを使用
+        $favorited = $spot->isFavorited;
         $favoritesCount = Favorite::where('spot_id', $id)->count();
         // Comment
-        // ポストに関連するコメント（親コメントとリプライ）を取得
         $comments = Comment::where('spot_id', $id)
         ->whereNull('parent_id')
         ->with(['user', 'replies.user']) // user と replies.user を明示的にロード
         ->get();
         $commentCount = $spot->comments()->count();
 
-        // 指定されたIDのスポットを取得（1つのみ）
-        $spot = Spot::findOrFail($id);
         // spot_id に一致する post 情報を取得
         $posts = Post::where('spots_id', $spot->id)->get();
         
@@ -178,7 +171,6 @@ class SpotController extends Controller
         
          // スポットに関連する投稿を取得してソート
         $posts = Post::where('spots_id', $spot->id)
-             ->withCount('likes') // likes_count を取得
              ->when($sort === 'newest', function ($query) {
                  $query->orderBy('created_at', 'desc'); // 新しい順
              })
@@ -190,22 +182,21 @@ class SpotController extends Controller
              })
              ->paginate(3); // 1ページに4件の投稿を表示
         
-        
-    
-        // 最終的にコレクションを取得
-        //$posts = $postsQuery->get();
-        
-        //$posts = $spot->posts()->latest()->get();  // 投稿を取得
-        
-        
-
         // スポットが見つからなかった場合のエラーハンドリング
         if (!$spot) {
             return redirect('/spot')->with('error', 'Spot not found');
-        }  
+        }
+
+        // 各投稿に対してlikesCountメソッドを呼び出す
+        $postsWithLikes = $posts->map(function ($post) {
+            return [
+                'title' => $post->title,
+                'likes_count' => $post->likes_count, // likesCountを取得
+            ];
+        });
 
         // spot.blade.php に $spot 変数を渡す
-        return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount', 'comments','posts','sort','likesCount'));
+        return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount', 'comments','posts','sort'));
 
     }
     private function getUVIndex($lat, $lon)
