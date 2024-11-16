@@ -58,12 +58,27 @@ class User extends Authenticatable
         return $this->followers()->where('followed_user_id', Auth::user()->id)->exists();
     }
 
-    // app/Models/User.php
+    public function favoritePosts(){
+        return $this->hasMany(Favorite::class, 'user_id')
+        ->with('favoritePostsDetail')
+        ->whereNotNull('post_id');
+    }
+    public function favoriteSpots(){
+        return $this->hasMany(Favorite::class, 'user_id')
+        ->with('favoriteSpotsDetail')
+        ->whereNotNull('spot_id');
+    }
+    
 
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function posts(){
+        return $this->hasMany(Post::class, 'user_id');
+    }
+    
 
 
     

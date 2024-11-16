@@ -24,45 +24,57 @@ use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TourismController;
 use App\Http\Controllers\Admin\SpotsController;
+use App\Http\Controllers\Admin\PostsController;
 
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+
 // Events and Tourism Routes
 Route::get('/events', function () {
     return view('display.events');
 });
 
-Route::get('/admin-users-index', [UsersController::class, 'index']);
-// Route::get('/admin-users-index', function () {
-//     return view('admin/users/users-index');
-// });
 
-Route::get('/admin-posts-index', [PostsController::class, 'index']);
-// Route::get('/admin-posts-index', function () {
-//     return view('/admin/posts/posts-index');
-// });
+// Events and Tourism Routes
 
-// Route::get('/admin-spots-index', function () {
-//     return view('/admin/spots/spots-index');
-// });
-
-
-Route::get('/tourism', function () {
-    return view('display.tourism');
-});
-Route::get('/events-tourism', function () {
-    return view('display.events-tourism');
-});
+    //Events
+    Route::get('/showevents', [PostController::class, 'showEventsPosts'])->name('display.events');
+    
+    Route::get('/events-category/{category_id}', [PostController::class, 'showCategoryEventsPosts'])->name('events.category');
+    
+    Route::get('/events-posts/search', [PostController::class, 'searchEventsPosts'])->name('events.posts.search');
+    
+        //Tourism
+    Route::get('/showtourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
+    
+    Route::get('/tourism-category/{category_id}', [PostController::class, 'showCategoryTourismPosts'])->name('tourism.category');
+    
+    Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'])->name('tourism.posts.search');
+    
+        //EventsTourism
+    Route::get('/showevents-tourism', [PostController::class, 'showEventsTourism'])->name('display.events-tourism');
+    
+    Route::get('/events-tourism/{category_id}', [PostController::class, 'showCategoryEventsTourism'])->name('events-tourism.category');
+    
+    Route::get('/events-tourism-posts/search', [PostController::class, 'searchEventsTourism'])->name('events-tourism.posts.search');
+    
+    
 // My Page Routes
+Route::group(['middleware' => 'auth'], function () {
 Route::get('/mypage-show/{id}',[ProfileController::class,'show'])->name('profile.show');  //mypage-showに遷移
-Route::get('/mypage-edit',[ProfileController::class,'edit'])->name('profile.edit');  //editページに遷移
+Route::get('/mypage-edit/{id}',[ProfileController::class,'edit'])->name('profile.edit');  //editページに遷移
 Route::patch('/mypage-edit/update',[ProfileController::class,'update'])->name('profile.update');  //profile update
 Route::get('/mypage-following/{id}',[ProfileController::class,'following'])->name('profile.following'); //mypage-followingに遷移
 Route::get('/mypage-followers/{id}',[ProfileController::class,'followers'])->name('profile.followers'); //mypage-followersに遷移
 Route::post('/follow/store/{user_id}',[FollowController::class,'store'])->name('follow.store'); //follow other users
 Route::delete('/Follow/destroy/{user_id}',[FollowController::class,'destroy'])->name('follow.destroy'); //unforrow
 Route::get('/mypage-favorite',[ProfileController::class,'favorite'])->name('profile.favorite');//mypage-favoriteに遷移
+Route::get('/mypage/search', [ProfileController::class, 'searchMyPosts'])->name('mypage.search');
+
+});
+
 Route::get('/navbar', function () {
     return view('navbar');
 });
@@ -114,7 +126,7 @@ Route::group(['prefix' => 'recommendation', 'as' => 'recommendation.'], function
 });
 
 
-// Admin　Routes
+// Admin　Route
 Route::group(['middleware' => 'auth'], function () {
     // Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
         Route::group(['prefix' => 'admin/inquiries', 'as' => 'admin.inquiries.'], function() { // /admin/inquiries
@@ -149,7 +161,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         });
 
-        Route::group(['prefix' => 'admin/posts', 'as' => 'admin.posts.'], function() { // /admin/recommendations
+        Route::group(['prefix' => 'admin/posts', 'as' => 'admin.posts.'], function() { // /admin/posts
             Route::get('/', [PostsController::class, 'index'])->name('index');
             Route::patch('/unhide/{id}', [PostsController::class, 'unhide'])->name('unhide');
             Route::delete('/hide/{id}', [PostsController::class, 'hide'])->name('hide');
@@ -162,46 +174,16 @@ Route::group(['middleware' => 'auth'], function () {
             Route::patch('/update/{id}',[CategoryController::class,'update'])->name('update');
             Route::patch('/{id}/changeVisibility', [CategoryController::class, 'changeVisibility'])->name('changeVisibility');
         });
+
+        Route::group(['prefix' => 'admin/users', 'as' => 'admin.users.'], function() { 
+            Route::get('/', [UsersController::class, 'index'])->name('index');
+            Route::patch('/unhide/{id}', [UsersController::class, 'unhide'])->name('unhide');
+            Route::delete('/hide/{id}', [UsersController::class, 'hide'])->name('hide');
+        });
     // });
 });
 
 
-// Route::get('/admin/inquiries/create_reply', function () {
-//     return view('admin/inquiries/create_reply');
-// });
-// Route::get('/admin/inquiries/inquiry_details', function () {
-//     return view('admin/inquiries/inquiry_details');
-// });
-// Route::get('/admin-allow-spot', function () {
-//     return view('admin.spot_applications.allowCreate');
-// });
-// Route::get('/admin-update-spot', function () {
-//     return view('admin.spots.update');
-// });
-// Route::get('/admin-create-spot', function () {
-//     return view('admin.spots.create');
-// });
-Route::get('/admin-users-index', [UsersController::class, 'index'])->name('admin.users.index');
-Route::patch('/admin-users-unhide/{id}', [UsersController::class, 'unhide'])->name('admin.users.unhide');
-Route::delete('/admin-users-hide/{id}', [UsersController::class, 'hide'])->name('admin.users.hide');
-Route::get('/admin-posts-index', function () {
-    return view('/admin/posts/posts-index');
-});
-Route::get('/admin-spots-index', function () {
-    return view('/admin/spots/spots-index');
-});
-// Route::get('/admin-inquiries-index', function () {
-//     return view('/admin/inquiries/inquiries-index');
-// });
-// Route::get('/admin-spot_applications-index', function () {
-//     return view('/admin/spot_applications/spot_applications-index');
-// });
-// Route::get('/admin-update_category', function () {
-//     return view('/admin/modals/update_category');
-// });
-// Route::get('/admin-create_category', function () {
-//     return view('/admin/modals/create_category');
-// });
 //  post-form
 Route::get('/select-post-form', function () {
     return view('select-post-form');
@@ -246,3 +228,17 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
  
 //Serch function
 Route::get('/search', [SearchController::class, 'search'])->name('search');
+
+//Events
+Route::get('/events', [PostController::class, 'showEventsPosts'])->name('display.events');
+
+Route::get('/events-category/{category_id}', [PostController::class, 'showCategoryEventsPosts'])->name('events.category');
+
+Route::get('/events-posts/search', [PostController::class, 'searchEventsPosts'])->name('events.posts.search');
+
+//Tourism
+Route::get('/tourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
+
+Route::get('/tourism-category/{category_id}', [PostController::class, 'showCategoryTourismPosts'])->name('tourism.category');
+
+Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'])->name('tourism.posts.search');
