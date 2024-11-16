@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\RecommendationController; 
+use App\Http\Controllers\PostController;
 
 class HomeController extends Controller
 {
@@ -21,8 +23,18 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        return view('home');
-    }
+    
+        public function index(RecommendationController $recommendationController)
+{
+    // 共通データ（おすすめ情報を含む）を取得
+    $commonData = PostController::getCommonData($recommendationController);
+
+    // おすすめデータをホームページビューに渡す
+    return view('home', [
+        'eventRecommendations' => $commonData['recommendations']['eventRecommendations'],
+        'tourismRecommendations' => $commonData['recommendations']['tourismRecommendations'],
+        'recommendedCategory' => $commonData['recommendations']['recommendedCategory'],
+    ]);
+}
+    
 }
