@@ -1,6 +1,8 @@
 <link rel="stylesheet" href="{{asset('css/posts.css')}}">
 @extends('layouts.app')
 
+@section('title', 'Post')
+
 @section('content')
 <div class="container background  ">
    <div class="card my-4">
@@ -131,7 +133,7 @@
                                         <i class="fa-regular fa-heart {{ $post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
                                     </button>
                                     <span class="count-text ms-1" id="like-count">{{ $post->likes->count() }}</span>
-                                </form>
+                                </form> {{--FIXED!!8 --}}
                             </div>
 
                             <!-- Star Count -->
@@ -243,29 +245,35 @@
                                     @endif
                                 </div>
                             @endif
-
                             <br>
-                            <h5 class="fw-bold">Fee</h5>
 
-                                <div>
-                                    <!-- Adult Fee -->
+                            <div>
+                                <!-- Adult Fee -->
+                                @if (!empty($post->adult_fee) && !empty($post->adult_currency))
+                                <h5 class="fw-bold">Fee</h5>
                                     <p>
                                         <strong>Adult Fee:</strong> 
                                         {{ $post->adult_fee }} 
                                         <small>{{ $post->adult_currency }}</small>
                                     </p>
+                                @endif
 
-                                    <!-- Child Fee -->
+                                <!-- Child Fee -->
+                                @if (!empty($post->child_fee) && !empty($post->child_currency))
                                     <p>
                                         <strong>Child Fee:</strong> 
                                         {{ $post->child_fee }} 
                                         <small>{{ $post->child_currency }}</small>
                                     </p>
-                                </div>
+                                @endif
+                            </div>
 
-                            <h5 class="fw-bold">Useful Information About This Spot</h5>
-                            <p> &middot; &nbsp; {{ $post->helpful_info }}</p>
-                            
+                            @if (!empty($post->helpful_info))
+                                <h5 class="fw-bold">Useful Information About This Spot</h5>
+                                <p>&middot; &nbsp; {{ $post->helpful_info }}</p>
+                            @endif
+
+                                                        
                         </div>
                     </div>
                 </div>

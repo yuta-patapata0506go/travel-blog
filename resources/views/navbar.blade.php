@@ -44,7 +44,7 @@
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('profile.show', auth()->user()->id) }}">
+                            <a class="dropdown-item" href="{{ route('profile.show', Auth::user()->id)}}">
                                 <i class="fa-solid fa-user me-1"></i>{{ __('Profile') }}
                             </a>
                             <div class="dropdown-divider"></div>
@@ -83,7 +83,7 @@
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('profile.show', auth()->user()->id) }}">
+                            <a class="dropdown-item" href="{{route('profile.show', Auth::user()->id)}}">
                                 <i class="fa-solid fa-user me-1"></i>{{ __('Profile') }}
                             </a>
                             <div class="dropdown-divider"></div>

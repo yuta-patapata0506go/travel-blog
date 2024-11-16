@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Post/Create')
+
 @section('css')
 @if ($type == 0)
     <link href="{{ asset('css/event-post.css') }}" rel="stylesheet">
@@ -145,7 +147,7 @@
 
         <div class="d-flex justify-content-center mt-4">
             <button type="submit" class="btn-post btn-lg-custom">Post</button>
-            <button type="button" class="btn cancel-btn btn-lg-custom">Cancel</button>
+            <button type="button" class="btn cancel-btn btn-lg-custom" onclick="window.location.href='{{ route('select-post-form') }}'">Cancel</button>
         </div>
 
         <!-- Category Modal -->
