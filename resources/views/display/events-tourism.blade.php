@@ -41,7 +41,8 @@
         </div>
     </div> 
 
-                <!-- Event and Tourism Display  -->
+
+                <!-- Event and Tourism Display  -->               
                 <div class="image-container">
                       <div class="image-item">
                         <a href="{{ route('display.events', ['keyword' => request('keyword'), 'category_id' => request('category_id')]) }}">
@@ -84,7 +85,6 @@
 
 
 {{-- Spots Section --}}
-{{-- @include('post-spot.both-spots') --}}
 @include('map_page.contents.small_spots')
 
 {{-- Posts Section --}}

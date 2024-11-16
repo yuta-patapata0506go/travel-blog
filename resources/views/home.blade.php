@@ -32,10 +32,10 @@
                 </form>
             </div>
            <!-- Map Icon -->
-    <a href="{{ route('map.page') }}" style="text-decoration: none;">
-        <i class="fa-regular fa-map" style="font-size: 3rem; color: #6c757d;"></i>
-    </a>
-        </div>
+             <a href="{{ route('map.page') }}" style="text-decoration: none;">
+             <i class="fa-regular fa-map" style="font-size: 3rem; color: #6c757d;"></i>
+             </a>
+          </div>
         
         @if(!empty($results))
             <h3 class="mt-4">Search Results for: {{ $query }}</h3>
@@ -63,12 +63,9 @@
                   <div class="overlay-text">Tourism Page</div>
                </a>
             </div>
-        </div>       
-     
-
-       
-
+        </div>            
     </div>
+    
      {{-- Posts Section --}}
     @include('post-spot.home-recomendedposts')
 @endsection

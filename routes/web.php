@@ -62,14 +62,19 @@ Route::get('/events', function () {
     
     
 // My Page Routes
+Route::group(['middleware' => 'auth'], function () {
 Route::get('/mypage-show/{id}',[ProfileController::class,'show'])->name('profile.show');  //mypage-showに遷移
-Route::get('/mypage-edit',[ProfileController::class,'edit'])->name('profile.edit');  //editページに遷移
+Route::get('/mypage-edit/{id}',[ProfileController::class,'edit'])->name('profile.edit');  //editページに遷移
 Route::patch('/mypage-edit/update',[ProfileController::class,'update'])->name('profile.update');  //profile update
 Route::get('/mypage-following/{id}',[ProfileController::class,'following'])->name('profile.following'); //mypage-followingに遷移
 Route::get('/mypage-followers/{id}',[ProfileController::class,'followers'])->name('profile.followers'); //mypage-followersに遷移
 Route::post('/follow/store/{user_id}',[FollowController::class,'store'])->name('follow.store'); //follow other users
 Route::delete('/Follow/destroy/{user_id}',[FollowController::class,'destroy'])->name('follow.destroy'); //unforrow
 Route::get('/mypage-favorite',[ProfileController::class,'favorite'])->name('profile.favorite');//mypage-favoriteに遷移
+Route::get('/mypage/search', [ProfileController::class, 'searchMyPosts'])->name('mypage.search');
+
+});
+
 Route::get('/navbar', function () {
     return view('navbar');
 });
@@ -202,6 +207,9 @@ Route::group(["middleware"=> "auth"], function(){
        });
  });
 
+ Route::delete('/images/{id}', [ImageController::class, 'destroy'])->name('images.destroy');
+
+
 // Search Routes
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
@@ -221,3 +229,17 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
  
 //Serch function
 Route::get('/search', [SearchController::class, 'search'])->name('search');
+
+//Events
+Route::get('/events', [PostController::class, 'showEventsPosts'])->name('display.events');
+
+Route::get('/events-category/{category_id}', [PostController::class, 'showCategoryEventsPosts'])->name('events.category');
+
+Route::get('/events-posts/search', [PostController::class, 'searchEventsPosts'])->name('events.posts.search');
+
+//Tourism
+Route::get('/tourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
+
+Route::get('/tourism-category/{category_id}', [PostController::class, 'showCategoryTourismPosts'])->name('tourism.category');
+
+Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'])->name('tourism.posts.search');

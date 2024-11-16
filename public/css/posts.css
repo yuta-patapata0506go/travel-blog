@@ -197,6 +197,12 @@ body {
     text-decoration: none; /* 下線を削除 */
 }
 
+.modal-header{
+    background-color: #005f73;
+}
 
+.modal-title{
+    color: #FFFFFF 
+}
 
 

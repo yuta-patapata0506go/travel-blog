@@ -267,4 +267,12 @@ main {
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+.modal-header{
+    background-color: #005f73;
+}
+
+.modal-title{
+    color: #FFFFFF 
+}
+
     

@@ -45,7 +45,7 @@
             </div>
             <div class="row">
               <div class="col-auto">
-                  <strong>Posts</strong> {{-- {{ $user->posts->count() <=1 ? 'Post':'Posts '}} --}}
+                  <strong>{{ $user->posts->count() ." "}}</strong>{{ $user->posts->count() <=1 ? 'Post':'Posts '}}
               </div>
               <div class="col-auto">
                 <a href="{{route('profile.followers',$user->id)}}" class="text-decoration-none text-dark">

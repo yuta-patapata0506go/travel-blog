@@ -16,7 +16,7 @@
                <div class="mt-3">
                     <div class="row">
                         <div class="col-auto">
-                            <a href="{{route('profile.edit')}}"><i class="fa-regular fa-circle-check btn-style"></i></a>
+                            <a href="{{route('profile.edit', $user->id )}}"><i class="fa-regular fa-circle-check btn-style"></i></a>
                         </div>
                         <div class="col-auto">
                             <label for="edit" class="mt-1 text-s16">Edit Profile</label>

@@ -49,25 +49,18 @@ class PostController extends Controller
      
 public function show($id)
 {
-    $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'comments.replies.user', 'comments','likes'])->findOrFail($id);
+$post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'comments.replies.user', 'comments','likes'])->findOrFail($id); 
 
     if (Schema::hasColumn('posts', 'views')) {
         $post->increment('views');
     }
-  
     $userId = auth()->id();
-
-    // Spot ID のデバッグログを記録
+    // Debug log for spot ID
     \Log::info("Spot ID for post ID {$post->id}: " . $post->spot_id);
-
-    // 最初の画像を取得
-    $firstImage = $post->images->first();
-
+    // Determine spot name or fallback
+    $spotName = $post->spot->name ?? 'Location not available';
     if (!$post->spot) {
         \Log::warning("Spot not found for post ID: {$post->id}, spot ID: {$post->spot_id}");
-        $spotName = 'Location not available';
-    } else {
-        $spotName = $post->spot->name;
     }
 
       // ポストに関連するコメント（親コメントとリプライ）を取得
@@ -94,6 +87,13 @@ public function show($id)
 
     return view('posts.show', compact('post', 'firstImage','spotName',  'comments',  'commentCount' ,'liked', 'likesCount','favorited', 'favoritesCount'));
 }
+
+
+
+
+
+
+
 
 
    
@@ -158,6 +158,7 @@ public function show($id)
         }
         // dd($category_post);
         $this->post->categoryPosts()->createMany($category_post);
+        $this->post->categoryPosts()->createMany($category_post);
 
         // / 画像の保存（ImageControllerで処理を行う）
         app(ImageController::class)->store($request, $this->post->id,null);
@@ -209,26 +210,27 @@ public function show($id)
 
     // 投稿編集フォームの表示
     public function edit($id)
-    {
-        $post = Post::with(['CategoryPosts', 'images'])->findOrFail($id);
-        $spots = Spot::all();          
+{
+    $post = Post::with(['categoryPosts', 'images', 'spot'])->findOrFail($id);
+    $spots = Spot::all();
 
-        // 投稿者であるか確認
-        if ($post->user_id !== auth()->id()) {
-            return redirect()->route('posts.index')->with('error', 'Unauthorized access.');
-        }
-
-        $type = $post->type; // Postモデルのtypeフィールドを取得
-        $startDate = $post->start_date ? $post->start_date->format('Y-m-d') : null;
-        $endDate = $post->end_date ? $post->end_date->format('Y-m-d') : null;
-       
-    // 全てのカテゴリを取得
-    $all_categories = Category::all(); // これで$all_categoriesがビューに渡されます
-    $selectedCategories = $post->CategoryPosts->pluck('category_id')->toArray(); // 選択済みのカテゴリID
-
-   
-        return view('posts.edit', compact('post','spots', 'type', 'startDate', 'endDate','all_categories', 'selectedCategories'));
+    // 投稿者であるか確認
+    if ($post->user_id !== auth()->id()) {
+        return redirect()->route('posts.index')->with('error', 'Unauthorized access.');
     }
+
+    $type = $post->type; // Postモデルのtypeフィールドを取得
+    $startDate = $post->start_date ? $post->start_date->format('Y-m-d') : null;
+    $endDate = $post->end_date ? $post->end_date->format('Y-m-d') : null;
+
+    $all_categories = Category::all();
+    $selectedCategories = $post->categoryPosts->pluck('category_id')->toArray();
+
+    return view('posts.edit', compact(
+        'post', 'spots', 'type', 'startDate', 'endDate', 'all_categories', 'selectedCategories'
+    ));
+}
+
 
     
     public function update(Request $request, $id)
@@ -237,6 +239,7 @@ public function show($id)
     
     // バリデーションルール
     $rules = [
+        'spot' => 'required|exists:spots,id', // Spotのバリデーション追加
         'title' => 'string|max:50',
         'event_name' => 'nullable|string|max:30',
         'adult_fee' => 'nullable|numeric|min:0',
@@ -260,6 +263,9 @@ public function show($id)
     }
 
     // Postフィールドの更新
+    $post->spots_id = $request->spot; // Spot IDを保存
+    \Log::info('Spot ID before save: ' . $post->spot_id);
+
     $post->title = $request->title ?? '';
     $post->event_name = $request->event_name;
     $post->adult_fee = $request->adult_fee;
@@ -280,7 +286,7 @@ public function show($id)
         : array_map('intval', explode(',', $request->category));
     \Log::info("Categories to save:", ['category_ids' => $categoryIds]);
 
-    $post->CategoryPost()->delete();
+    $post->categoryPosts()->delete();
     $category_post = [];
     foreach ($categoryIds as $category_id) {
         $category_post[] = [
@@ -291,7 +297,7 @@ public function show($id)
             "updated_at" => now(),
         ];
     }
-    $post->CategoryPost()->insert($category_post);
+    $post->categoryPosts()->insert($category_post);
     \Log::info("Checking if new images need to be added for post ID: " . $id);
 if ($request->hasFile('image')) {
     \Log::info("Adding new images for post ID: " . $id);

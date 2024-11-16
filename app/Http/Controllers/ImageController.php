@@ -38,11 +38,12 @@ class ImageController extends Controller
             return redirect()->back()->withErrors(['error' => 'Image file not selected.']);
         }
     }
-// ImageController.php
-public function destroy($id)
-{
-    $image = Image::findOrFail($id);
-    $image->delete();
-    return response()->json(['success' => true], 200);
-}
+    public function destroy($id)
+    {
+        $image = Image::findOrFail($id);
+        $image->delete();
+    
+        return response()->json(['success' => 'Image deleted successfully.']);
+    }
+    
 }

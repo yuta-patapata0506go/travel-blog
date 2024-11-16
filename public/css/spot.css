@@ -1,23 +1,22 @@
-/*body {
-    font-family: 'Lato', sans-serif;
+body {
+    position: relative;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('/images/christmas.png'); /* 画像のパスを設定 */
-    /*background-size: cover; /* 画像を画面全体に広げる */
-    /*background-position: center; /* 画像の中心を表示 */
-    /*background-color: #FBF4F4;
-    height: 100vh; /* ビューポート全体の高さ */
-    /*min-height: 250vh; /* ビューポート全体の高さ */
-/*}*/
+}
 
-body {
-    background-image: url('/images/christmas.png'); /* 画像のパスを設定 */
-    background-size: cover; /* 画像を画面全体に広げる */
-    background-position: center; /* 画像の中心を表示 */
-    background-attachment: fixed; 
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/christmas.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    opacity: 0.4; /* 透過率を設定 (0.0〜1.0) */
+    z-index: -1; /* 背景の後ろに配置 */
 }
 
 .post-container {
@@ -31,19 +30,11 @@ body {
     
 }
 
-h1 {
-    margin-top: 60px; /* ヘッダーの下にスペースを作る */
-}
-
-p {
-    font-size: small;
-}
-
 /* 投稿カード */
 .post-card {
     position: relative;
     background-color: #ffffff; /* 背景を白に */
-    width:110%;
+    width:120%;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影を追加して浮かせる効果 */
     border-radius: 10px; /* 角を丸くする */
@@ -56,6 +47,19 @@ p {
     object-fit: cover; /* 画像が枠内に収まるように切り取る */
 }
 
+.post-card img {
+    width: 100%; /* カードの幅に合わせる */
+    height: auto; /* 縦横比を保持しつつ高さを自動調整 */
+    max-height: 300px; /* 最大高さを300pxに設定 */
+    border-radius: 10px; /* 角を丸くする */
+    margin-bottom: 20px;
+    object-fit: cover; /* 画像が枠内に収まるように切り取る */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+
+}
+
+
+/* Like & Favorite Section------------------------------------*/
 .icons {
     position: absolute;
     top: 10px;
@@ -94,33 +98,9 @@ button:focus {
 #favorite-icon:hover {
     color: #ffd700;  /* 星が金色になる */
 }
+/* -----------------------------------------------------------*/
 
-/* その他のスタイル */
-
-.post-card img {
-    width: 100%; /* カードの幅に合わせる */
-    height: auto; /* 縦横比を保持しつつ高さを自動調整 */
-    max-height: 300px; /* 最大高さを300pxに設定 */
-    border-radius: 10px; /* 角を丸くする */
-    margin-bottom: 20px;
-    object-fit: cover; /* 画像が枠内に収まるように切り取る */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
-
-}
-
-/* 投稿カード内のコンテンツ */
-.post-content h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-
-.post-content p {
-    font-size: 1rem;
-    color: #555;
-    text-align: center;
-    
-}
-
+/* Spot Image  -----------------------------------------------*/
 /* 上の写真ギャラリー */
 .carousel-indicators-wrapper {
     margin-top: 20px;
@@ -169,6 +149,7 @@ button:focus {
 .thumbnail-img:hover {
     border-color: #007BFF; /* ホバー時にボーダー色をブルーに変更 */
 }
+/* --------------------------------------------------------------*/
 
 /* 横線のスタイル */
 .divider {
@@ -178,6 +159,7 @@ button:focus {
     margin: 20px 0; /* 上下に20pxのマージンを追加 */
 }
 
+/* Map & Weather  -------------------------------------------------*/
 /* 地図と天気のコンテナ */
 .info-container {
     display: flex; /* 横並びにする */
@@ -221,6 +203,7 @@ button:focus {
     cursor: pointer; /* クリックできることを示す */
     flex:6; /* 天気の幅を少し狭く設定 */    
     }
+/* ----------------------------------------------------------------*/
 
 /* Comments Section------------------------------------------------*/
 /* コメントカード */
@@ -251,6 +234,9 @@ button:focus {
     height: 25px !important; /* このスタイルは他のすべてのheight設定よりも優先されます */
     padding: 2px 8px !important; /* paddingの他の設定を上書きします */
     font-size: 8px  !important; /* テキストのサイズを小さく */
+}
+.btn-reply {
+    background-color: #90AFC5;
 }
 /* -----------------------------------------------------------*/
 
@@ -316,9 +302,8 @@ button:focus {
     color: #2A3132; /* ボタンのテキスト色 */
 }
 
-.card {
-    box-sizing: border-box; /* パディングやボーダーを含めた幅計算 */
-    width: 18rem; /* 固定幅 */
+.spot-name{
+    font-weight: bold;
 }
 
 /* カード全体のスタイル */
@@ -328,15 +313,24 @@ button:focus {
     gap: 10px; /* カード間の隙間を調整 */
     overflow-x: auto;
     scroll-behavior: smooth;
-    padding: 10px;
     width:100%;
-    position: relative;
 }
 
 .small-post {
-    flex: 0 0 calc(100% / 4); /* 1回に表示するカードの数に応じて調整 (4枚) */
-    width: auto;
-    padding: 10px;
+    display: flex;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
+    margin-bottom: 60px;
+    overflow: hidden;
+    border-radius: 10px; /* 角を丸くする */
+    justify-content: space-between;
+}
+
+/* 画像のスタイル */
+.small-post img {
+    height: 200px; 
+    display: block; /* 中央寄せに備えてブロック要素に */
+    margin: 0 auto; /* 画像をカード内で中央寄せ */
+    object-fit: cover
 }
 
 .post-wrapper {
@@ -344,23 +338,6 @@ button:focus {
     width: 100%; /* 4枚分の幅 */
     display: flex;
     transition: transform 0.3s ease-in-out; /* スライドのアニメーション */
-}
-
-/* 個別のカード */
-.post {
-    width: 18rem;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    position: relative;
-}
-
-/* 画像のスタイル */
-.post img {
-    width: 100%;
-    max-height: 180px;
-    object-fit: cover;
 }
 
 /* タイトルの左寄せ */
@@ -374,21 +351,15 @@ button:focus {
 /* カード内のアイコン配置 */
 .card-body .row {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.title-line{
-    text-align: right;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 /* アイコンのボタン */
 .card-body .btn {
     text-align: right;
-    border: none;
-    background: none;
-    color: #888;
+    background: #336B87;
+    color:#ffffff;
     padding: 0;
     cursor: pointer;
     transition: color 0.3s;
@@ -426,6 +397,10 @@ button:focus {
 .btn-small-post-card:hover {
     background-color: #90AFC5;
     color: #2A3132;
+}
+
+.count-post{
+    color:#336B87;
 }
 
 /* 左右の矢印ボタン */
@@ -468,6 +443,8 @@ button:focus {
 }
 /* -----------------------------------------------------------*/
 
+
+/* weather  --------------------------------------------------*/
 .temperature {
     font-size: 2.5em;
     font-weight: bold;
@@ -573,4 +550,30 @@ button:focus {
     flex-direction: column; 
     justify-content: space-between;
 }
+/* -----------------------------------------------------------*/
+
+.event-link, .tourism-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 0 40px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.5); /* 背景を暗くしつつ透過 */
+    text-shadow: 1.5px 1.5px 0 #000, -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000; /* 黒で囲む */
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    opacity: 0.8; /* 全体の透過率を設定 */
+    transition: opacity 0.3s, background-color 0.3s;
+}
+
+.event-link:hover, .tourism-link:hover {
+    opacity: 1; /* ホバー時は透過を解除 */
+    background-color: rgba(0, 0, 0, 0.7); /* ホバー時の背景色 */
+}
+
+
 
