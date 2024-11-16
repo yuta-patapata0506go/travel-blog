@@ -13,6 +13,19 @@ class MapController extends Controller
         $this->spot = $spot;
     }
 
+    // 新規メソッドの追加
+    public function saveLocation(Request $request)
+    {
+        $latitude = $request->input('latitude');
+        $longitude = $request->input('longitude');
+
+        if ($latitude && $longitude) {
+            session(['latitude' => $latitude, 'longitude' => $longitude]);
+            return response()->json(['status' => 'success']);
+        }
+        return response()->json(['status' => 'failed'], 400);
+    }
+
     /**
      * 検索条件に当てはまる（ある場合は）かつ、現在地から近いスポット6つを取得するためのメソッド
      * Method to retrieve up to 6 spots that match the search criteria (if any) and are closest to the current location.
@@ -58,8 +71,13 @@ class MapController extends Controller
     public function index(Request $request){
         
         // ユーザーの現在地を取得するためのデフォルト値を設定 //Set default values to obtain the user's current location
-        $userLatitude = $request->input('latitude');
-        $userLongitude = $request->input('longitude');
+        // $userLatitude = $request->input('latitude');
+        // $userLongitude = $request->input('longitude');
+
+          // セッションからユーザーの現在地を取得
+        $userLatitude = session('latitude');
+        $userLongitude = session('longitude');
+
 
         // 検索キーワードの取得
         $keyword = $request->input('keyword', null);
@@ -88,8 +106,19 @@ class MapController extends Controller
         // getSpots() を呼び出してスポット情報を取得
         $spots = $this->getSpots($userLatitude, $userLongitude, $keyword);
 
+        // 各スポットの画像URLを生成
+        foreach ($spots as $spot) {
+            if ($spot->images->isNotEmpty()) {
+                // 最初の画像のURLを生成
+                $spot->image_url = asset('storage/' . $spot->images->first()->image_url);
+            } else {
+                // デフォルト画像のURLを設定
+                $spot->image_url = asset('images/map_samples/spot_pc_sample.png');
+            }
+        }
+
         // スポット情報をビューに渡して表示
-        return view('map_page.map', compact('spots')); //->bladeファイル内でspotを表示
+        return view('map_page.map', compact('spots', 'keyword')); //->bladeファイル内でspotを表示
                                                        //->$spotsからposts()を呼び出しpostを表示
 
     }

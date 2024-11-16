@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Admin\PostsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -31,15 +32,21 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/events', function () {
     return view('display.events');
 });
-Route::get('/admin-users-index', function () {
-    return view('admin/users/users-index');
-});
-Route::get('/admin-posts-index', function () {
-    return view('/admin/posts/posts-index');
-});
-Route::get('/admin-spots-index', function () {
-    return view('/admin/spots/spots-index');
-});
+
+Route::get('/admin-users-index', [UsersController::class, 'index']);
+// Route::get('/admin-users-index', function () {
+//     return view('admin/users/users-index');
+// });
+
+Route::get('/admin-posts-index', [PostsController::class, 'index']);
+// Route::get('/admin-posts-index', function () {
+//     return view('/admin/posts/posts-index');
+// });
+
+// Route::get('/admin-spots-index', function () {
+//     return view('/admin/spots/spots-index');
+// });
+
 // admin category feature
 Route::get('/admin-categories-index',[CategoryController::class,'index'])->name('admin.categories.index');
 
@@ -80,7 +87,11 @@ Route::get('/navbar', function () {
     return view('navbar');
 });
 
+
 // Routes for Map Page
+
+// ユーザーの緯度経度をセッションに保存するルート
+Route::post('/save-location', [MapController::class, 'saveLocation'])->name('save.location');
 // HTMLの表示用ルート(Route for displaying HTML) *Use this route to display the map page
 Route::get('/map', [MapController::class, 'showMapPage'])->name('map.page');
 // スポット情報のJSON取得用ルート(Route for retrieving spot information in JSON)
@@ -157,6 +168,13 @@ Route::group(['middleware' => 'auth'], function () {
             Route::delete('/delete-spot/{id}', [SpotsController::class, 'deleteSpot'])->name('deleteSpot');
 
         });
+
+        Route::group(['prefix' => 'admin/posts', 'as' => 'admin.posts.'], function() { // /admin/recommendations
+            Route::get('/', [PostsController::class, 'index'])->name('index');
+            Route::patch('/unhide/{id}', [PostsController::class, 'unhide'])->name('unhide');
+            Route::delete('/hide/{id}', [PostsController::class, 'hide'])->name('hide');
+            
+        });
     // });
 });
 
@@ -179,12 +197,17 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('/admin-users-index', [UsersController::class, 'index'])->name('admin.users.index');
 Route::patch('/admin-users-unhide/{id}', [UsersController::class, 'unhide'])->name('admin.users.unhide');
 Route::delete('/admin-users-hide/{id}', [UsersController::class, 'hide'])->name('admin.users.hide');
-Route::get('/admin-posts-index', function () {
-    return view('/admin/posts/posts-index');
-});
+
+
+// Route::get('/admin-posts-index', function () {
+//     return view('/admin/posts/posts-index');
+// });
+
 Route::get('/admin-spots-index', function () {
     return view('/admin/spots/spots-index');
 });
+
+
 // Route::get('/admin-inquiries-index', function () {
 //     return view('/admin/inquiries/inquiries-index');
 // });
@@ -220,7 +243,7 @@ Route::group(["middleware"=> "auth"], function(){
  });
 
 // Search Routes
-Route::get('/search', [SearchController::class, 'index'])->name('search');
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::get('/events', function () {
     return view('display.events'); // 実際のビューのパスに合わせて修正してください
@@ -229,8 +252,8 @@ Route::get('/events', function () {
 Route::get('/tourism', function () {
     return view('display.tourism'); // 実際のビューのパスに合わせて修正してください
 })->name('tourism'); // 名前を付けることで、route('tourism') で参照可能になります。
-// Serch function
-Route::get('/search', [SearchController::class, 'search'])->name('search');
+// // Serch function
+// Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 
  Route::get('/{type}/{id}', [CommentController::class, 'show'])->name('comment.show');
@@ -244,5 +267,12 @@ Route::get('/events', [EventController::class, 'index'])->name('events');
 // ツーリズムページへのルート
 Route::get('/tourism', [TourismController::class, 'index'])->name('tourism');
  
+
+// events-tourismへのルート
+Route::get('/events-tourism', function () {
+    return view('display.events-tourism');
+})->name('events-tourism');
+
 //Serch function
 Route::get('/search', [SearchController::class, 'search'])->name('search');
+

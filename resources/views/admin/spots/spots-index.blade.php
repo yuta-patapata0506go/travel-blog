@@ -29,9 +29,6 @@
         <div style="text-align: center;">
             <h1 style="display: inline-block; border-bottom: 2px solid #000; padding-bottom: 5px;">Admin Page</h1>
         </div>
-        
-
-
 
         <!-- Recommend Setting Button -->
         <div class="text-end mb-3">
