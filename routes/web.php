@@ -16,7 +16,7 @@ use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ResponsesController;
 use App\Http\Controllers\Admin\RecommendationsController;
 use App\Http\Controllers\Admin\SpotApplicationsController;
@@ -37,27 +37,7 @@ Route::get('/admin-posts-index', function () {
 Route::get('/admin-spots-index', function () {
     return view('/admin/spots/spots-index');
 });
-// admin category feature
-Route::get('/admin-categories-index',[CategoryController::class,'index'])->name('admin.categories.index');
 
-Route::get('/admin-categories-create',[CategoryController::class,'create'])->name('admin.categories.create');
-
-Route::post('/admin-categories-store',[CategoryController::class,'store'])->name('admin.categories.store');
-Route::get('/admin-categories-edit/{id}',[CategoryController::class,'edit'])->name('admin.categories.edit');
-Route::patch('/admin-categories-update/{id}',[CategoryController::class,'update'])->name('admin.categories.update');
-Route::patch('/admin/categories/{id}/changeVisibility', [CategoryController::class, 'changeVisibility'])->name('admin.categories.changeVisibility');
-// Route::get('/admin-inquiries-index', function () {
-//     return view('/admin/inquiries/inquiries-index');
-// });
-// Route::get('/admin-spot_applications-index', function () {
-//     return view('/admin/spot_applications/spot_applications-index');
-// });
-Route::get('/admin-update_category', function () {
-    return view('/admin/modals/update_category');
-});
-Route::get('/admin-create_category', function () {
-    return view('/admin/modals/create_category');
-});
 
 // Events and Tourism Routes
 
@@ -161,6 +141,13 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/{id}/update-status', [SpotApplicationsController::class, 'updateStatus'])->name('updateStatus');
 
         });
+
+        Route::group(['prefix' => 'admin/categories', 'as' => 'admin.categories.'], function() { 
+            Route::get('/', [CategoryController::class, 'index'])->name('index');
+            Route::post('/store',[CategoryController::class,'store'])->name('store');
+            Route::patch('/update/{id}',[CategoryController::class,'update'])->name('update');
+            Route::patch('/{id}/changeVisibility', [CategoryController::class, 'changeVisibility'])->name('changeVisibility');
+        });
     // });
 });
 
@@ -195,12 +182,7 @@ Route::get('/admin-spots-index', function () {
 Route::get('/admin-spot_applications-index', function () {
     return view('/admin/spot_applications/spot_applications-index');
 });
-Route::get('/admin-update_category', function () {
-    return view('/admin/modals/update_category');
-});
-Route::get('/admin-create_category', function () {
-    return view('/admin/modals/create_category');
-});
+
 //  post-form
 Route::get('/select-post-form', function () {
     return view('select-post-form');
