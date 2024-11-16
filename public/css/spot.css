@@ -14,10 +14,24 @@
 /*}*/
 
 body {
-    background-image: url('/images/christmas.png'); /* 画像のパスを設定 */
-    background-size: cover; /* 画像を画面全体に広げる */
-    background-position: center; /* 画像の中心を表示 */
-    background-attachment: fixed; 
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/christmas.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    opacity: 0.4; /* 透過率を設定 (0.0〜1.0) */
+    z-index: -1; /* 背景の後ろに配置 */
 }
 
 .post-container {
@@ -573,4 +587,29 @@ button:focus {
     flex-direction: column; 
     justify-content: space-between;
 }
+
+.event-link, .tourism-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 0 40px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.5); /* 背景を暗くしつつ透過 */
+    text-shadow: 1.5px 1.5px 0 #000, -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000; /* 黒で囲む */
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    opacity: 0.8; /* 全体の透過率を設定 */
+    transition: opacity 0.3s, background-color 0.3s;
+}
+
+.event-link:hover, .tourism-link:hover {
+    opacity: 1; /* ホバー時は透過を解除 */
+    background-color: rgba(0, 0, 0, 0.7); /* ホバー時の背景色 */
+}
+
+
 
