@@ -87,11 +87,7 @@ public function show($id)
        $favorited = $post->isFavorited; // アクセサを使用
        $favoritesCount = Favorite::where('post_id', $id)->count();
 
-       // 表示回数をインクリメント
-        $post->increment('views');
-
-        // 「いいね」をインクリメント
-        $post->increment('likes');
+   
 
     return view('posts.show', compact('post', 'firstImage','spotName',  'comments',  'commentCount' ,'liked', 'likesCount','favorited', 'favoritesCount'));
 }

@@ -51,7 +51,7 @@ body {
 }
 
 .centered-text p {
-    font-size: 40px; /* 必要に応じてサイズを調整 */
+    font-size: 30px; /* 必要に応じてサイズを調整 */
     font-weight: bold; /* 太くする場合 */
 }
 

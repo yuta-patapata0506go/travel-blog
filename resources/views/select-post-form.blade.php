@@ -10,7 +10,7 @@
 <div class="background"></div> <!-- 背景画像の要素 -->
     <div class="full-height　mt~０"> <!-- ここにクラスを適用 -->
         <div class="container text-center ">
-            <h2 class="centered-text long-underline">Register Spot</h2>
+            <h2 class="centered-text long-underline ">Register Spot</h2>
 
             <div class="d-flex justify-content-center">
                 <div class="position-relative">

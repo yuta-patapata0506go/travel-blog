@@ -245,29 +245,35 @@
                                     @endif
                                 </div>
                             @endif
-
                             <br>
-                            <h5 class="fw-bold">Fee</h5>
 
-                                <div>
-                                    <!-- Adult Fee -->
+                            <div>
+                                <!-- Adult Fee -->
+                                @if (!empty($post->adult_fee) && !empty($post->adult_currency))
+                                <h5 class="fw-bold">Fee</h5>
                                     <p>
                                         <strong>Adult Fee:</strong> 
                                         {{ $post->adult_fee }} 
                                         <small>{{ $post->adult_currency }}</small>
                                     </p>
+                                @endif
 
-                                    <!-- Child Fee -->
+                                <!-- Child Fee -->
+                                @if (!empty($post->child_fee) && !empty($post->child_currency))
                                     <p>
                                         <strong>Child Fee:</strong> 
                                         {{ $post->child_fee }} 
                                         <small>{{ $post->child_currency }}</small>
                                     </p>
-                                </div>
+                                @endif
+                            </div>
 
-                            <h5 class="fw-bold">Useful Information About This Spot</h5>
-                            <p> &middot; &nbsp; {{ $post->helpful_info }}</p>
-                            
+                            @if (!empty($post->helpful_info))
+                                <h5 class="fw-bold">Useful Information About This Spot</h5>
+                                <p>&middot; &nbsp; {{ $post->helpful_info }}</p>
+                            @endif
+
+                                                        
                         </div>
                     </div>
                 </div>

@@ -206,3 +206,10 @@ main {
     border-radius: 10px;
 }
     
+.modal-header{
+    background-color: #005f73;
+}
+
+.modal-title{
+    color: #FFFFFF 
+}
