@@ -8,9 +8,9 @@
 
 @section('content')
 <div class="background"></div> <!-- 背景画像の要素 -->
-    <div class="full-height"> <!-- ここにクラスを適用 -->
-        <div class="container text-center">
-            <h1 class="centered-text long-underline">Register Spot</h1>
+    <div class="full-height　mt~０"> <!-- ここにクラスを適用 -->
+        <div class="container text-center ">
+            <h2 class="centered-text long-underline ">Register Spot</h2>
 
             <div class="d-flex justify-content-center">
                 <div class="position-relative">
@@ -20,9 +20,7 @@
             </div>
             <br>
             <br>
-            <br>
-            <br>
-            <h1 class="centered-text long-underline">Post to the registered spot</h1>
+            <h2 class="centered-text long-underline">Post to the registered spot</h2>
             <div class="d-flex justify-content-center">
                 <div class="position-relative post-option mx-3">
                     <img src="images/left.png" alt="Event" class="img-fluid rounded-image">

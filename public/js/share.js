@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("shareLink").value = currentUrl;
     document.getElementById("facebookShare").href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(currentUrl);
     document.getElementById("twitterShare").href = "https://twitter.com/intent/tweet?url=" + encodeURIComponent(currentUrl);
-    document.getElementById("instagramShare").href = "#"; // Instagramはリンク共有機能がないため空のままにしておきます
+    document.getElementById("instagramShare").href = "https://www.instagram.com/"; // Instagramはリンク共有機能がないため空のままにしておきます
 });
 
 function copyLink() {

@@ -90,6 +90,9 @@ document.getElementById('selectedcategory-btn').addEventListener('click', functi
         categoryContainer.appendChild(span);
     });
 
+
+    
+
     // 隠しフィールドを更新
     const categoryInputsContainer = document.getElementById('category-inputs');
     if (!categoryInputsContainer) {
