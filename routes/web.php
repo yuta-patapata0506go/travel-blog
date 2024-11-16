@@ -105,7 +105,7 @@ Route::group(['prefix' => 'spot', 'as' => 'spot.'], function() {
     Route::post('store', [SpotController::class, 'store'])->name('store');
     Route::get('{id}', [SpotController::class, 'show'])->name('show');
     // Like のルート
-    // Route::post('{id}/like', [SpotController::class, 'like'])->name('like');
+    Route::post('{id}/like', [SpotController::class, 'like'])->name('like');
     // Favorite のルート
     Route::post('{id}/favorite', [SpotController::class, 'favorite'])->name('favorite');
 
@@ -242,3 +242,16 @@ Route::get('/events-tourism', function () {
 //Serch function
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
+//Events
+Route::get('/events', [PostController::class, 'showEventsPosts'])->name('display.events');
+
+Route::get('/events-category/{category_id}', [PostController::class, 'showCategoryEventsPosts'])->name('events.category');
+
+Route::get('/events-posts/search', [PostController::class, 'searchEventsPosts'])->name('events.posts.search');
+
+//Tourism
+Route::get('/tourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
+
+Route::get('/tourism-category/{category_id}', [PostController::class, 'showCategoryTourismPosts'])->name('tourism.category');
+
+Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'])->name('tourism.posts.search');
