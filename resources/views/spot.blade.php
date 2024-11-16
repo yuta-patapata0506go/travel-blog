@@ -235,12 +235,6 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <!-- Read More ボタン -->
-                            @if ($comments->count() > 3)
-                                <div class="text-center mt-3">
-                                    <button id="read-more-btn" class="btn btn-outline-primary btn-sm">Read More</button>
-                                </div>
-                            @endif
                         </div>
                     @endforeach
                 </div>
