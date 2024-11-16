@@ -50,51 +50,61 @@ class PostController extends Controller
      
 public function show($id)
 {
-    $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'comments.replies.user', 'comments','likes'])->findOrFail($id);
-
+    // Fetch the post with all required relationships
+    $post = $this->post->with([
+        'images',
+        'categories',
+        'spot',
+        'comments.user',
+        'comments.replies.user',
+        'likes'
+    ])->findOrFail($id);
+    // Increment views if the column exists
     if (Schema::hasColumn('posts', 'views')) {
         $post->increment('views');
     }
-  
     $userId = auth()->id();
-
-    // Spot ID のデバッグログを記録
+    // Debug log for spot ID
     \Log::info("Spot ID for post ID {$post->id}: " . $post->spot_id);
-
-    // 最初の画像を取得
-    $firstImage = $post->images->first();
-
+    // Determine spot name or fallback
+    $spotName = $post->spot->name ?? 'Location not available';
     if (!$post->spot) {
         \Log::warning("Spot not found for post ID: {$post->id}, spot ID: {$post->spot_id}");
-        $spotName = 'Location not available';
-    } else {
-        $spotName = $post->spot->name;
     }
-
-      // ポストに関連するコメント（親コメントとリプライ）を取得
-      $comments = Comment::where('post_id', $id)
-      ->whereNull('parent_id')
-      ->with(['user', 'replies.user']) // user と replies.user を明示的にロード
-      ->get();
-
-      $commentCount = $post->comments()->count();
-
-       // Like
-       $liked = Like::where('user_id', $userId)->where('post_id', $id)->exists();
-       $likesCount = Like::where('post_id', $id)->count();
-
-       // Favorite
-       $favorited = $post->isFavorited; // アクセサを使用
-       $favoritesCount = Favorite::where('post_id', $id)->count();
-
-       // 表示回数をインクリメント
-        $post->increment('views');
-
-        // 「いいね」をインクリメント
-        $post->increment('likes');
-
-    return view('posts.show', compact('post', 'firstImage','spotName',  'comments',  'commentCount' ,'liked', 'likesCount','favorited', 'favoritesCount'));
+    // Fetch comments (parent comments and replies)
+    $comments = $post->comments()
+        ->whereNull('parent_id')
+        ->with(['user', 'replies.user'])
+        ->get();
+    $commentCount = $post->comments()->count();
+    // Like Information
+    $liked = Like::where('user_id', $userId)->where('post_id', $id)->exists();
+    $likesCount = Like::where('post_id', $id)->count();
+    // Favorite Information
+    $favorited = $post->isFavorited; // Accessor usage
+    $favoritesCount = Favorite::where('post_id', $id)->count();
+    // First image
+    $firstImage = $post->images->first();
+    // Return the view with data
+    return view('posts.show', compact(
+        'post',
+        'firstImage',
+        'spotName',
+        'comments',
+        'commentCount',
+        'liked',
+        'likesCount',
+        'favorited',
+        'favoritesCount'
+    ));
 }
+
+
+
+
+
+
+
 
 
    

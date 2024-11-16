@@ -185,12 +185,6 @@ class Post extends Model
 }
     
 
-// 日付としてキャストする属性
-protected $casts = [
-    'start_date' => 'datetime',
-    'end_date' => 'datetime',
-];
-}
 
 // app/Models/Post.php
 
