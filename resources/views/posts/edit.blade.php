@@ -4,6 +4,8 @@
 
 @extends('layouts.app')
 
+@section('title', 'Post/Edit')
+
 @section('content')
 <div class="background"></div> <!-- 背景画像 -->     
 <div class="container container-fluid mt-5">
@@ -19,12 +21,13 @@
         <div class="mb-3">
             <label for="spot" class="form-label">Spot <span class="text-danger">*</span>:</label>
             <select class="form-select" id="spot" name="spot" required>
-                @foreach ($spots as $spot)
-                    <option value="{{ $spot->id }}" {{ $spot->id == $post->spot_id ? 'selected' : '' }}>
-                        {{ $spot->name }}
-                    </option>
-                @endforeach
-            </select>
+    @foreach ($spots as $spot)
+        <option value="{{ $spot->id }}" {{ (int) $spot->id === (int) $post->spots_id ? 'selected' : '' }}>
+            {{ $spot->name }}
+        </option>
+    @endforeach
+</select>
+
         </div>
     
      <!-- 保存されている画像のサムネイル表示部分 
@@ -228,7 +231,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="categoryModalLabel">Select Categories</h5>
+                <h5 class="modal-title " id="categoryModalLabel">Select Categories</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="cat-form-div">

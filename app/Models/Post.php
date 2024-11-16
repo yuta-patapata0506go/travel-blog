@@ -189,5 +189,5 @@ class Post extends Model
 }
 
 
-// app/Models/Post.php
 
+// app/Models/Post.php
