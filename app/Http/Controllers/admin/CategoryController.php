@@ -12,36 +12,27 @@ use Carbon\Carbon;
 
 class CategoryController extends Controller
 {
-    //
-
     private $category;
     private $recommendation;
 
-    public function __construct(Category $category,Recommendation $recommendation) {
+    public function __construct(Category $category, Recommendation $recommendation) {
         $this->category = $category;
         $this->recommendation = $recommendation;
     }
 
     public function index(){
-        $categories = Category::whereNull('parent_id')->with('children')->paginate(2   );
+        $all_categories = $this->category->with('children')->whereNull('parent_id')->paginate(1);
+
+        $categories = $this->category->all();
 
         $parentCategories = Category::whereNull('parent_id')->get(); 
 
         $existingRecommendation = $this->recommendation->first();
-        
-        return view('admin.categories.categories-index', compact('categories', 'parentCategories', 'existingRecommendation'));
 
-        
-    }
-
-
-    public function selected()
-    {
-       
-        $categories = $this->category->all();
-        $existingRecommendation = $this->recommendation->first();
         return view('admin.categories.categories-index')
             ->with('categories', $categories)
+            ->with('all_categories', $all_categories)
+            ->with('parentCategories', $parentCategories)
             ->with('existingRecommendation', $existingRecommendation);
     }
 
@@ -50,16 +41,13 @@ class CategoryController extends Controller
             
             $request->validate([
                 'name' => 'required|string|max:255',
-                
             ]);
-    
            
             $category = $this->category->newInstance();
             $category->name = $request->name;
             $category->parent_id = $request->parent_id ?: null;
             $category->created_at = Carbon::now();
             $category->updated_at = Carbon::now();
-        
             
             $category->save();
             
