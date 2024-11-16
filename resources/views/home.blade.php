@@ -32,7 +32,7 @@
                 </form>
             </div>
            <!-- Map Icon -->
-    <a href="{{ route('map.page') }}" style="text-decoration: none;">
+    <a href="{{ route('map.page', ['keyword' => $keyword]) }}" style="text-decoration: none;">
         <i class="fa-regular fa-map" style="font-size: 3rem; color: #6c757d;"></i>
     </a>
         </div>
