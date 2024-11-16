@@ -183,14 +183,7 @@ class Post extends Model
         'views' => 0, // デフォルト値を0に設定
     ];
 }
-    
 
-// 日付としてキャストする属性
-protected $casts = [
-    'start_date' => 'datetime',
-    'end_date' => 'datetime',
-];
-}
 
 // app/Models/Post.php
 

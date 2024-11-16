@@ -48,7 +48,7 @@ class Spot extends Model
     }
     public function isLiked(){
         // CHECK IF YOU LIKED THE POST ALREADY
-       return $this->likes()->where('user_id', auth()->id)->exists();
+       return $this->likes()->where('user_id', auth()->id())->exists();
     }
     // select * from likes where post_id = 15 and user_id = 2 ???? == TRUE
 
@@ -59,7 +59,7 @@ class Spot extends Model
     // アクセサとしてisFavoritedを定義
     public function getIsFavoritedAttribute()
     {
-        return $this->favorites()->where('user_id', auth()->id)->exists();
+        return $this->favorites()->where('user_id', auth()->id())->exists();
     }
 
     public function posts()
