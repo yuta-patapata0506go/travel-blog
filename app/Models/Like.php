@@ -42,5 +42,6 @@ class Like extends Model
     {
         return $this->belongsTo(Spot::class);
     }
+    
 }
 
