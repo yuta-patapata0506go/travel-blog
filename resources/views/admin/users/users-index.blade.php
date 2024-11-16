@@ -2,11 +2,27 @@
 
 @section('title', 'Admin: Users')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/admin/main.css') }}">
+@endsection
+
 @section('content')
 
-<link rel="stylesheet" href="{{ asset('css/admin/main.css') }}">
-
 <body>
+    <!-- Success message display -->
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <!-- Error message display -->
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <!-- Admin Page Title -->
     <div class="container mt-5">
         <div style="text-align: center;">
@@ -25,16 +41,16 @@
                     <thead class="table-dark">
                         <tr>
                             <div class="icon-container">
-                                <a href="admin-users-index" class="icon-item active">
+                                <a href="{{ route('admin.users.index') }}" class="icon-item active">
                                     <i class="fa-solid fa-user"></i>
                                 </a>
-                                <a href="admin-posts-index" class="icon-item">
+                                <a href="{{ route('admin.posts.index') }}" class="icon-item">
                                     <i class="fa-solid fa-newspaper"></i>
                                 </a>
-                                <a href="admin-spots-index" class="icon-item">
+                                <a href="{{ route('admin.spots.index') }}" class="icon-item">
                                     <i class="fa-solid fa-location-dot"></i>
                                 </a>
-                                <a href="admin-categories-index" class="icon-item">
+                                <a href="{{ route('admin.categories.index') }}" class="icon-item">
                                     <i class="fa-solid fa-shapes"></i>
                                 </a>
                                 <a href="{{ route('admin.inquiries.index') }}" class="icon-item">
@@ -64,7 +80,15 @@
                 @foreach ($all_users as $user)
                 <tr>
                     <td>{{ $user->id }}</td>
-                    <td><img src="https://via.placeholder.com/40" alt="User Icon" class="icon-image"></td>
+                    <td>
+                        <div class="user-profile">
+                            @if($user->avatar) 
+                                <img src="data:image/{{ explode(';', $user->avatar)[0] }};base64,{{ explode(',', $user->avatar)[1] }}" width="55" height="55" class="rounded-circle" alt="{{ $user->username }}"> 
+                            @else 
+                                <i class="fas fa-user-circle fa-4x"></i> 
+                            @endif 
+                        </div>
+                   </td>
                     <td>{{ $user->username }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->created_at->format('Y-m-d H:i:s') }}</td>
@@ -87,10 +111,10 @@
                         </div>
                     </td>
                     <td>
-                        <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+                        <a href="{{ route('profile.edit') }}" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
+                        <a href="{{ route('profile.show', $user->id) }}" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
                     </td>
                 </tr>
 
@@ -101,33 +125,10 @@
         </table>
 
         <!-- Pagination -->    
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <!-- Previous Page Link -->
-                @if ($all_users->onFirstPage())
-                    <li class="page-item disabled"><a class="page-link" href="#"><</a></li>
-                @else
-                    <li class="page-item"><a class="page-link" href="{{ $all_users->previousPageUrl() }}"><</a></li>
-                @endif
-        
-                <!-- Page Number Links -->
-                @for ($i = 1; $i <= $all_users->lastPage(); $i++)
-                    <li class="page-item {{ ($all_users->currentPage() == $i) ? 'active' : '' }}">
-                        <a class="page-link" href="{{ $all_users->url($i) }}">{{ $i }}</a>
-                    </li>
-                @endfor
-        
-                <!-- Next Page Link -->
-                @if ($all_users->hasMorePages())
-                    <li class="page-item"><a class="page-link" href="{{ $all_users->nextPageUrl() }}">></a></li>
-                @else
-                    <li class="page-item disabled"><a class="page-link" href="#">></a></li>
-                @endif
-            </ul>
-        </nav>
+        <div class="d-flex justify-content-center">
+            {{ $all_users->links() }}
+        </div>
     </div>
-
-    <!-- Footer -->
 
 </body>
 @endsection
