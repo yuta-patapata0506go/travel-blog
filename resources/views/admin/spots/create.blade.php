@@ -1,65 +1,78 @@
-<link rel="stylesheet" href="{{asset('css/admin/form.css')}}">
 @extends('layouts.app')
 
+@section('title', 'Admin: Create New Spot')
+
+@section('css')
+    <link rel="stylesheet" href="{{asset('css/admin/form.css')}}">
+@endsection
+
 @section('content')
+    <!-- Success message display -->
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <!-- Error message display -->
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    <div class="container w-75 mt-5">
         <h1 class="text-center">Create New Spot</h1>
-        <form method="POST" action="#" enctype="multipart/form-data">
+        <form action="{{ route('admin.spots.store') }}" method="POST" enctype="multipart/form-data" class="mt-4">
             @csrf
-            <!-- Spot Name -->
-            <div class="form-group mb-5">
-                <label for="spot_name">Spot Name:</label>
-                <input type="text" class="form-control" id="spot_name" name="spot_name" placeholder="Spot Name" value="{{ old('spot_name') }}">
+            <div class="mb-3 text-start">
+                <label for="spot-name" class="form-label">
+                    Spot Name <span class="text-danger">*</span>:
+                </label>
+                <input type="text" id="spot-name" name="name" class="form-control form-shadow" placeholder="ex. Tokyo sky tree" required>
+                @error('name')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
-            <!-- Address -->
-            <div class="form-group mb-5">
-                <label for="address">Address:</label>
-                <input type="text" class="form-control" id="address" name="address" placeholder="Address" value="{{ old('address') }}">
-            </div>
-            <!-- Image Upload -->
-            <div class="form-group mb-3 w-70">
-                <label for="image" class="form-label">Image:</label>
-                <img src="{{ asset('images/firework.jpeg') }}" class="img-responsive small-image" alt="Firework Image 1">
-                <img src="{{ asset('images/firework.jpeg') }}" class="img-responsive small-image" alt="Firework Image 1">
-                <img src="{{ asset('images/firework.jpeg') }}" class="img-responsive small-image" alt="Firework Image 1">
-                <img src="{{ asset('images/firework.jpeg') }}" class="img-responsive small-image" alt="Firework Image 1">           
-                <input type="file" class="form-control-file d-block my-1 wide-input" id="image" name="image"> 
-                <small class="form-text text-muted ">
-                    Acceptable formats: jpeg, jpg, png, gif. Max file size: 10MB.
-                </small>
-            </div>
-            <!-- Latitude and Longitude -->
-            <div class="form-row mt-5">
-                <div class="form-group">
-                    <label for="latitude">Latitude</label>
-                    <input type="number" class="form-control short-input" id="latitude" name="latitude" placeholder="12.345678" value="{{ old('latitude') }}">
+    
+            <div class="row mb-3">
+                <div class="col-md-3 text-start">
+                    <label for="postal-code" class="form-label">
+                        Postal Code <span class="text-danger">*</span>:
+                    </label>
+                    <input type="text" id="postal-code" name="postalcode" class="form-control form-shadow" placeholder="ex. 〒130-0002" required>
+                    @error('postalcode')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
-                <div class="form-group">
-                    <label for="longitude">Longitude</label>
-                    <input type="number" class="form-control short-input" id="longitude" name="longitude" placeholder="123.456789" value="{{ old('longitude') }}">
+
+                <div class="col-md-9 text-start">
+                    <label for="address" class="form-label">
+                        Address <span class="text-danger">*</span>:
+                    </label>
+                    <input type="text" id="address" name="address" class="form-control form-shadow" placeholder="ex. 5-10 Narihiru, Sumida Ward, Tokyo" required>
+                    @error('address')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
-            <!-- Hidden or Visible -->
-            <div class="form mt-5">
-            <div class="dropdown">
-                    <button class="btn btn-sm" data-bs-toggle="dropdown">
-                        Visibility
-                    </button>
-                <div class="dropdown-menu">
-                    @if (isset($inquiry)) {{-- $post->trashed() --}}
-                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#unhide-inquiry-"> {{-- data-bs-target: #unhide-inquiry-{{ $inquiry->id }} --}}
-                            <i class="fa-solid fa-eye"></i> Visible {{-- {{ $inquiry->id }} --}}
-                        </button>
-                    @else
-                        <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#hide-inquiry-"> {{-- data-bs-target: #unhide-inquiry-{{ $inquiry->id }} --}}
-                            <i class="fa-solid fa-eye-slash"></i> Hidden {{-- {{ $inquiry->id }} --}}
-                        </button>
-                    @endif
-                </div>
+    
+            <div class="mb-3 text-start">
+                <label for="image" class="form-label">
+                    Image <span class="text-danger">*</span>:
+                </label>
+                <input type="file" class="form-control form-shadow" id="image" name="image[]" accept="image/*" multiple>
+                <small class="form-text text-muted">The acceptable formats are jpeg, jpg, png, and gif only. (Max file size is 1048kb.)</small>
+                @error('image')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
-            <!-- Buttons -->
-            <div class="form-group text-center">
-                <a href="#" class="btn-admin ">Cancel </a>
+            <br>
+            
+            <div class="d-flex justify-content-center mt-4">
+                <a href="{{ route('admin.spots.index') }}" class="btn-admin">Cancel</a>
                 <button type="submit" class="btn-admin ">Create</button>
-            </div>
+            </div>          
         </form>
+
+    </div>
 @endsection

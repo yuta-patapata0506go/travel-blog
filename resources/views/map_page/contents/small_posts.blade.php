@@ -67,7 +67,7 @@
 
                   <!-- comments部分 & Buttno -->
                   <div class="post_text">
-                    <p class="mb-2">{{ $post->comments ?? '' }}</p>
+                    <p class="mb-2 text-truncate">{{ $post->comments ?? '' }}</p>
                     <a href="{{ route('post.show', $post->id )}}" >
                       <button class="btn comment-card">Learn More</button>
                     </a>

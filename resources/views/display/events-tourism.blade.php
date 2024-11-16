@@ -84,7 +84,8 @@
 
 
 {{-- Spots Section --}}
-@include('post-spot.both-spots')
+{{-- @include('post-spot.both-spots') --}}
+@include('map_page.contents.small_spots')
 
 {{-- Posts Section --}}
 @include('post-spot.both-posts')

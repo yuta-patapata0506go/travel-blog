@@ -33,7 +33,7 @@
 </div>
 
 {{-- Hidden(Hide) --}}
-<div class="modal fade" id="hide-category-{{  $child->id }}">
+<div class="modal fade" id="hide-category-{{ $child->id }}">
  <div class="modal-dialog w-50 text-center">
    <div class="modal-content border-dark">
      <div class="modal-header border-dark text-center bg-dark">
@@ -44,7 +44,7 @@
      <div class="modal-body">
        <div class="mt-3">
         <i class="fa-solid fa-address-card fa-4x"></i>
-        <p class="mt-1 text-muted">{{  $child->name }}</p>
+        <p class="mt-1 text-muted">{{ $child->name }}</p>
        </div>
        <i class="fa-solid fa-triangle-exclamation fa-4x"></i>
        <p>Are you sure you want to hide this Category?</p>

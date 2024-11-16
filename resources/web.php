@@ -28,8 +28,6 @@ use App\Http\Controllers\Admin\SpotsController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-
 // Events and Tourism Routes
 Route::get('/events', function () {
     return view('display.events');
@@ -50,30 +48,12 @@ Route::get('/admin-posts-index', [PostsController::class, 'index']);
 // });
 
 
-// Events and Tourism Routes
-
-    //Events
-    Route::get('/showevents', [PostController::class, 'showEventsPosts'])->name('display.events');
-    
-    Route::get('/events-category/{category_id}', [PostController::class, 'showCategoryEventsPosts'])->name('events.category');
-    
-    Route::get('/events-posts/search', [PostController::class, 'searchEventsPosts'])->name('events.posts.search');
-    
-        //Tourism
-    Route::get('/showtourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
-    
-    Route::get('/tourism-category/{category_id}', [PostController::class, 'showCategoryTourismPosts'])->name('tourism.category');
-    
-    Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'])->name('tourism.posts.search');
-    
-        //EventsTourism
-    Route::get('/showevents-tourism', [PostController::class, 'showEventsTourism'])->name('display.events-tourism');
-    
-    Route::get('/events-tourism/{category_id}', [PostController::class, 'showCategoryEventsTourism'])->name('events-tourism.category');
-    
-    Route::get('/events-tourism-posts/search', [PostController::class, 'searchEventsTourism'])->name('events-tourism.posts.search');
-    
-    
+Route::get('/tourism', function () {
+    return view('display.tourism');
+});
+Route::get('/events-tourism', function () {
+    return view('display.events-tourism');
+});
 // My Page Routes
 Route::get('/mypage-show/{id}',[ProfileController::class,'show'])->name('profile.show');  //mypage-showに遷移
 Route::get('/mypage-edit',[ProfileController::class,'edit'])->name('profile.edit');  //editページに遷移
@@ -258,8 +238,20 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
  Route::post('/comment/store/{id}', [CommentController::class, 'store'])->name('comment.store');
  Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
  
-
-
  
 //Serch function
 Route::get('/search', [SearchController::class, 'search'])->name('search');
+
+//Events
+Route::get('/events', [PostController::class, 'showEventsPosts'])->name('display.events');
+
+Route::get('/events-category/{category_id}', [PostController::class, 'showCategoryEventsPosts'])->name('events.category');
+
+Route::get('/events-posts/search', [PostController::class, 'searchEventsPosts'])->name('events.posts.search');
+
+//Tourism
+Route::get('/tourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
+
+Route::get('/tourism-category/{category_id}', [PostController::class, 'showCategoryTourismPosts'])->name('tourism.category');
+
+Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'])->name('tourism.posts.search');
