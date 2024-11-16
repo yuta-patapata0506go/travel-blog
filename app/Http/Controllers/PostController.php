@@ -57,6 +57,10 @@ $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'co
     $userId = auth()->id();
     // Debug log for spot ID
     \Log::info("Spot ID for post ID {$post->id}: " . $post->spot_id);
+
+       // 最初の画像を取得
+       $firstImage = $post->images->first();
+       
     // Determine spot name or fallback
     $spotName = $post->spot->name ?? 'Location not available';
     if (!$post->spot) {
