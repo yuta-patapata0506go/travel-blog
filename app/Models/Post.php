@@ -183,7 +183,6 @@ class Post extends Model
         'views' => 0, // デフォルト値を0に設定
     ];
 }
-    
 
 
 

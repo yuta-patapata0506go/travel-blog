@@ -2,11 +2,27 @@
 
 @section('title', 'Admin: Users')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/admin/main.css') }}">
+@endsection
+
 @section('content')
 
-<link rel="stylesheet" href="{{ asset('css/admin/main.css') }}">
-
 <body>
+    <!-- Success message display -->
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <!-- Error message display -->
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <!-- Admin Page Title -->
     <div class="container mt-5">
         <div style="text-align: center;">
@@ -16,7 +32,7 @@
         <!-- Recommend Setting Button -->
         <div class="text-end mb-3">
             <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#category-modal">Recommended Posts Setting</button>
-            {{-- @include('admin.modals.recommended_post') --}}
+            @include('admin.modals.recommended_post')
         </div>
 
                 <!-- User Table -->
@@ -25,16 +41,16 @@
                     <thead class="table-dark">
                         <tr>
                             <div class="icon-container">
-                                <a href="admin-users-index" class="icon-item active">
+                                <a href="{{ route('admin.users.index') }}" class="icon-item active">
                                     <i class="fa-solid fa-user"></i>
                                 </a>
-                                <a href="admin-posts-index" class="icon-item">
+                                <a href="{{ route('admin.posts.index') }}" class="icon-item">
                                     <i class="fa-solid fa-newspaper"></i>
                                 </a>
-                                <a href="admin-spots-index" class="icon-item">
+                                <a href="{{ route('admin.spots.index') }}" class="icon-item">
                                     <i class="fa-solid fa-location-dot"></i>
                                 </a>
-                                <a href="admin-categories-index" class="icon-item">
+                                <a href="{{ route('admin.categories.index') }}" class="icon-item">
                                     <i class="fa-solid fa-shapes"></i>
                                 </a>
                                 <a href="{{ route('admin.inquiries.index') }}" class="icon-item">
@@ -109,36 +125,10 @@
         </table>
 
         <!-- Pagination -->    
-        {{-- <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <!-- Previous Page Link -->
-                @if ($all_users->onFirstPage())
-                    <li class="page-item disabled"><a class="page-link" href="#"><</a></li>
-                @else
-                    <li class="page-item"><a class="page-link" href="{{ $all_users->previousPageUrl() }}"><</a></li>
-                @endif
-        
-                <!-- Page Number Links -->
-                @for ($i = 1; $i <= $all_users->lastPage(); $i++)
-                    <li class="page-item {{ ($all_users->currentPage() == $i) ? 'active' : '' }}">
-                        <a class="page-link" href="{{ $all_users->url($i) }}">{{ $i }}</a>
-                    </li>
-                @endfor
-        
-                <!-- Next Page Link -->
-                @if ($all_users->hasMorePages())
-                    <li class="page-item"><a class="page-link" href="{{ $all_users->nextPageUrl() }}">></a></li>
-                @else
-                    <li class="page-item disabled"><a class="page-link" href="#">></a></li>
-                @endif
-            </ul>
-        </nav> --}}
         <div class="d-flex justify-content-center">
             {{ $all_users->links() }}
         </div>
     </div>
-
-    <!-- Footer -->
 
 </body>
 @endsection

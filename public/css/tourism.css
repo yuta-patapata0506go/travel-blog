@@ -135,6 +135,8 @@ opacity: 0.8; /* 不透明度を下げる */
   color: #2A3132;
 }
 
+
+/* Category ------------------------------------------------*/
 .parent-category {
   position: relative; /* 子カテゴリを親カテゴリに対して配置するためにpositionを設定 */
 }
