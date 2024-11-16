@@ -54,20 +54,13 @@ $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'co
     if (Schema::hasColumn('posts', 'views')) {
         $post->increment('views');
     }
-  
     $userId = auth()->id();
-
-    // Spot ID のデバッグログを記録
+    // Debug log for spot ID
     \Log::info("Spot ID for post ID {$post->id}: " . $post->spot_id);
-
-    // 最初の画像を取得
-    $firstImage = $post->images->first();
-
+    // Determine spot name or fallback
+    $spotName = $post->spot->name ?? 'Location not available';
     if (!$post->spot) {
         \Log::warning("Spot not found for post ID: {$post->id}, spot ID: {$post->spot_id}");
-        $spotName = 'Location not available';
-    } else {
-        $spotName = $post->spot->name;
     }
 
       // ポストに関連するコメント（親コメントとリプライ）を取得
@@ -94,6 +87,13 @@ $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'co
 
     return view('posts.show', compact('post', 'firstImage','spotName',  'comments',  'commentCount' ,'liked', 'likesCount','favorited', 'favoritesCount'));
 }
+
+
+
+
+
+
+
 
 
    

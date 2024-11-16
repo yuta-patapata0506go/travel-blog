@@ -56,7 +56,7 @@
 
         
             <!-- スポットの写真 -->
-            <h2>{{ $spot->name }}</h2>
+            <h1 class="spot-title">{{ $spot->name }}</h1>
             <div class="spot-container">
                 <!-- 画像 -->
                 <div class="card col mt-3" style="height: auto;">
@@ -143,8 +143,8 @@
                 </div> 
             </div>
 
-                <!-- Comments -->
-                <div class="comments-section my-2">
+            <!-- Comments -->
+            <div class="comments-section my-2">
                 <a name="comment">
                     <h5>Question & Comment</h5>
                 </a>
@@ -235,6 +235,12 @@
                                     </div>
                                 @endforeach
                             </div>
+                            <!-- Read More ボタン -->
+                            @if ($comments->count() > 3)
+                                <div class="text-center mt-3">
+                                    <button id="read-more-btn" class="btn btn-outline-primary btn-sm">Read More</button>
+                                </div>
+                            @endif
                         </div>
                     @endforeach
                 </div>
@@ -256,7 +262,7 @@
             </div>
 
             <!-- Posts Gallery -->
-            <h4 class="post-gallery mt-5">POST related to "SPOT NAME"</h4>
+            <h2 class="post-gallery mt-5">POST related to  <span class="spot-name">" {{$spot->name}} "</span></h2>
             <!-- Sort by dropdown -->
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle rounded-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -296,7 +302,7 @@
             </div>
 
             <!-- Small Spots -->
-            <div class="small-post-container d-flex align-items-center">
+            <div class="small-post-container">
                 @if (!$posts->onFirstPage())
                 <a href="{{ add_query_param($posts->previousPageUrl(), request()->query()) }}">
                     <button class="arrow-left" onclick="prevPage()">
@@ -317,15 +323,15 @@
                             @endforeach
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">{{ $post->title }}</h5>
-                            <p class="card-text">{{ $post->comments }}</p>
+                            <h5 class="card-title text-truncate">{{ $post->title }}</h5>
+                            <p class="card-text text-truncate">{{ $post->comments }}</p>
                             <div class="col d-flex justify-content-end">
                                 @foreach ($post->categories as $category)
-                                    <div class="badge bg-secondary bg-opacity-50 m-2">{{ $category->name }}</div>
+                                    <div class="badge bg-secondary bg-opacity-50 rounded-pill">{{ $category->name }}</div>
                                 @endforeach
                             </div>
-                            <p>Count of views: {{ $post->views }} views</p>
-                            <p>Count of likes: {{ $post->likes_count }} likes</p>
+                            <p class="count-post">Popular: {{ $post->views }} views</p>
+                            <p class="count-post">Many Likes: {{ $post->likes_count }} likes</p>
                             <form action="/post/show/{{$post->id}}" method="get">
                                 <button type="submit" class="btn-small-post-card">Read More</button>
                             </form>
@@ -377,6 +383,35 @@
     event.preventDefault(); // ページ遷移を防ぐ
     // フォームデータを送信する処理
     });
+    </script>
+    
+    <!-- JavaScript for "Read More" functionality -->
+    <script>
+        document.getElementById('read-more-btn')?.addEventListener('click', function () {
+            const commentsContainer = document.querySelector('.comments-container');
+            commentsContainer.innerHTML = `
+                @foreach ($comments as $comment)
+                    <div class="card comment-card mt-2 border-top-0">
+                        <div class="card-body bg-light">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <a href="{{ route('profile.show', ['id' => $comment->user->id]) }}">
+                                        @if ($comment->user->avatar)
+                                            <img src="{{ $comment->user->avatar }}" alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px;">
+                                        @else
+                                            <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
+                                        @endif
+                                    </a>
+                                    <span class="ps-2 fw-bold">{{ $comment->user->username }}</span>
+                                </div>
+                                <small class="text-muted">{{ $comment->created_at->format('Y.m.d') }}</small>
+                            </div>
+                            <p class="card-text mt-2">{{ $comment->body }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            `;
+        });
     </script>
 
     <script>
