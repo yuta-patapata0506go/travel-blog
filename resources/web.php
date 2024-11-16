@@ -238,8 +238,6 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
  Route::post('/comment/store/{id}', [CommentController::class, 'store'])->name('comment.store');
  Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
  
-
-
  
 //Serch function
 Route::get('/search', [SearchController::class, 'search'])->name('search');
