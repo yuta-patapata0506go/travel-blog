@@ -40,7 +40,7 @@
             @include('admin.modals.recommended_post')
 
             {{-- Create New Spot Button --}}
-            <a href="#" class="btn btn-outline-dark">Create New Spot</a>
+            <a href="{{ route('admin.spots.create') }}" class="btn btn-outline-dark">Create New Spot</a>
         </div>
 
         <!-- Spot Applications Table -->
@@ -49,10 +49,10 @@
             <thead class="table-dark">
                 <tr>
                     <div class="icon-container">
-                        <a href="admin-users-index" class="icon-item">
+                        <a href="{{ route('admin.users.index') }}" class="icon-item">
                             <i class="fa-solid fa-user"></i>
                         </a>
-                        <a href="admin-posts-index" class="icon-item">
+                        <a href="{{ route('admin.posts.index') }}" class="icon-item">
                             <i class="fa-solid fa-newspaper"></i>
                         </a>
                         <a href="{{ route('admin.spots.index') }}" class="icon-item">
