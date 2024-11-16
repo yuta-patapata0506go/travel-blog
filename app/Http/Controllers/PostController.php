@@ -207,26 +207,27 @@ public function show($id)
 
     // 投稿編集フォームの表示
     public function edit($id)
-    {
-        $post = Post::with(['categoryPosts', 'images'])->findOrFail($id);
-        $spots = Spot::all();          
+{
+    $post = Post::with(['categoryPosts', 'images', 'spot'])->findOrFail($id);
+    $spots = Spot::all();
 
-        // 投稿者であるか確認
-        if ($post->user_id !== auth()->id()) {
-            return redirect()->route('posts.index')->with('error', 'Unauthorized access.');
-        }
-
-        $type = $post->type; // Postモデルのtypeフィールドを取得
-        $startDate = $post->start_date ? $post->start_date->format('Y-m-d') : null;
-        $endDate = $post->end_date ? $post->end_date->format('Y-m-d') : null;
-       
-    // 全てのカテゴリを取得
-    $all_categories = Category::all(); // これで$all_categoriesがビューに渡されます
-    $selectedCategories = $post->categoryPosts->pluck('category_id')->toArray(); // 選択済みのカテゴリID
-
-   
-        return view('posts.edit', compact('post','spots', 'type', 'startDate', 'endDate','all_categories', 'selectedCategories'));
+    // 投稿者であるか確認
+    if ($post->user_id !== auth()->id()) {
+        return redirect()->route('posts.index')->with('error', 'Unauthorized access.');
     }
+
+    $type = $post->type; // Postモデルのtypeフィールドを取得
+    $startDate = $post->start_date ? $post->start_date->format('Y-m-d') : null;
+    $endDate = $post->end_date ? $post->end_date->format('Y-m-d') : null;
+
+    $all_categories = Category::all();
+    $selectedCategories = $post->categoryPosts->pluck('category_id')->toArray();
+
+    return view('posts.edit', compact(
+        'post', 'spots', 'type', 'startDate', 'endDate', 'all_categories', 'selectedCategories'
+    ));
+}
+
 
     
     public function update(Request $request, $id)
@@ -235,6 +236,7 @@ public function show($id)
     
     // バリデーションルール
     $rules = [
+        'spot' => 'required|exists:spots,id', // Spotのバリデーション追加
         'title' => 'string|max:50',
         'event_name' => 'nullable|string|max:30',
         'adult_fee' => 'nullable|numeric|min:0',
@@ -258,6 +260,9 @@ public function show($id)
     }
 
     // Postフィールドの更新
+    $post->spot_id = $request->spot; // Spot IDを保存
+    \Log::info('Spot ID before save: ' . $post->spot_id);
+
     $post->title = $request->title ?? '';
     $post->event_name = $request->event_name;
     $post->adult_fee = $request->adult_fee;
