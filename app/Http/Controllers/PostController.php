@@ -260,7 +260,7 @@ public function show($id)
     }
 
     // Postフィールドの更新
-    $post->spot_id = $request->spot; // Spot IDを保存
+    $post->spots_id = $request->spot; // Spot IDを保存
     \Log::info('Spot ID before save: ' . $post->spot_id);
 
     $post->title = $request->title ?? '';

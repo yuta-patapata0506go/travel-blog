@@ -22,7 +22,7 @@
             <label for="spot" class="form-label">Spot <span class="text-danger">*</span>:</label>
             <select class="form-select" id="spot" name="spot" required>
     @foreach ($spots as $spot)
-        <option value="{{ $spot->id }}" {{ (int) $spot->id === (int) $post->spot_id ? 'selected' : '' }}>
+        <option value="{{ $spot->id }}" {{ (int) $spot->id === (int) $post->spots_id ? 'selected' : '' }}>
             {{ $spot->name }}
         </option>
     @endforeach

@@ -224,9 +224,6 @@ Route::group(["middleware"=> "auth"], function(){
        });
  });
 
- Route::delete('/images/{id}', [ImageController::class, 'destroy'])->name('images.destroy');
-
-
 // Search Routes
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
@@ -241,8 +238,20 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
  Route::post('/comment/store/{id}', [CommentController::class, 'store'])->name('comment.store');
  Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
  
-
-
  
 //Serch function
 Route::get('/search', [SearchController::class, 'search'])->name('search');
+
+//Events
+Route::get('/events', [PostController::class, 'showEventsPosts'])->name('display.events');
+
+Route::get('/events-category/{category_id}', [PostController::class, 'showCategoryEventsPosts'])->name('events.category');
+
+Route::get('/events-posts/search', [PostController::class, 'searchEventsPosts'])->name('events.posts.search');
+
+//Tourism
+Route::get('/tourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
+
+Route::get('/tourism-category/{category_id}', [PostController::class, 'showCategoryTourismPosts'])->name('tourism.category');
+
+Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'])->name('tourism.posts.search');

@@ -13,6 +13,19 @@ class MapController extends Controller
         $this->spot = $spot;
     }
 
+    // 新規メソッドの追加
+    public function saveLocation(Request $request)
+    {
+        $latitude = $request->input('latitude');
+        $longitude = $request->input('longitude');
+
+        if ($latitude && $longitude) {
+            session(['latitude' => $latitude, 'longitude' => $longitude]);
+            return response()->json(['status' => 'success']);
+        }
+        return response()->json(['status' => 'failed'], 400);
+    }
+
     /**
      * 検索条件に当てはまる（ある場合は）かつ、現在地から近いスポット6つを取得するためのメソッド
      * Method to retrieve up to 6 spots that match the search criteria (if any) and are closest to the current location.
@@ -58,8 +71,13 @@ class MapController extends Controller
     public function index(Request $request){
         
         // ユーザーの現在地を取得するためのデフォルト値を設定 //Set default values to obtain the user's current location
-        $userLatitude = $request->input('latitude');
-        $userLongitude = $request->input('longitude');
+        // $userLatitude = $request->input('latitude');
+        // $userLongitude = $request->input('longitude');
+
+          // セッションからユーザーの現在地を取得
+        $userLatitude = session('latitude');
+        $userLongitude = session('longitude');
+
 
         // 検索キーワードの取得
         $keyword = $request->input('keyword', null);
