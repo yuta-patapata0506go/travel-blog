@@ -16,7 +16,7 @@
         <!-- Recommend Setting Button -->
         <div class="text-end mb-3">
             <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#category-modal">Recommended Posts Setting</button>
-            @include('admin.modals.recommended_post')
+            {{-- @include('admin.modals.recommended_post') --}}
         </div>
 
                 <!-- User Table -->
@@ -64,7 +64,15 @@
                 @foreach ($all_users as $user)
                 <tr>
                     <td>{{ $user->id }}</td>
-                    <td><img src="https://via.placeholder.com/40" alt="User Icon" class="icon-image"></td>
+                    <td>
+                        <div class="user-profile">
+                            @if($user->avatar) 
+                                <img src="data:image/{{ explode(';', $user->avatar)[0] }};base64,{{ explode(',', $user->avatar)[1] }}" width="55" height="55" class="rounded-circle" alt="{{ $user->username }}"> 
+                            @else 
+                                <i class="fas fa-user-circle fa-4x"></i> 
+                            @endif 
+                        </div>
+                   </td>
                     <td>{{ $user->username }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->created_at->format('Y-m-d H:i:s') }}</td>
@@ -87,10 +95,10 @@
                         </div>
                     </td>
                     <td>
-                        <a href="#" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+                        <a href="{{ route('profile.edit') }}" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
+                        <a href="{{ route('profile.show', $user->id) }}" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>
                     </td>
                 </tr>
 
@@ -101,7 +109,7 @@
         </table>
 
         <!-- Pagination -->    
-        <nav aria-label="Page navigation">
+        {{-- <nav aria-label="Page navigation">
             <ul class="pagination">
                 <!-- Previous Page Link -->
                 @if ($all_users->onFirstPage())
@@ -124,7 +132,10 @@
                     <li class="page-item disabled"><a class="page-link" href="#">></a></li>
                 @endif
             </ul>
-        </nav>
+        </nav> --}}
+        <div class="d-flex justify-content-center">
+            {{ $all_users->links() }}
+        </div>
     </div>
 
     <!-- Footer -->
