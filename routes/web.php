@@ -16,7 +16,7 @@ use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\Admin\ResponsesController;
 use App\Http\Controllers\Admin\RecommendationsController;
 use App\Http\Controllers\Admin\SpotApplicationsController;
@@ -27,37 +27,29 @@ use App\Http\Controllers\TourismController;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-Route::get('/admin-users-index', function () {
-    return view('admin/users/users-index');
-});
-Route::get('/admin-posts-index', function () {
-    return view('/admin/posts/posts-index');
-});
-Route::get('/admin-spots-index', function () {
-    return view('/admin/spots/spots-index');
-});
-
-
 // Events and Tourism Routes
+Route::get('/events', function () {
+    return view('display.events');
+});
+
+Route::get('/admin-users-index', [UsersController::class, 'index']);
+// Route::get('/admin-users-index', function () {
+//     return view('admin/users/users-index');
+// });
+
+Route::get('/admin-posts-index', [PostsController::class, 'index']);
+// Route::get('/admin-posts-index', function () {
+//     return view('/admin/posts/posts-index');
+// });
+
+// Route::get('/admin-spots-index', function () {
+//     return view('/admin/spots/spots-index');
+// });
 
 
-Route::get('/events', [PostController::class, 'showEventsPosts'])->name('display.events');
-
-Route::get('/events-category/{category_id}', [PostController::class, 'showCategoryEventsPosts'])->name('events.category');
-
-Route::get('/events-posts/search', [PostController::class, 'searchEventsPosts'])->name('events.posts.search');
-
-
-
-Route::get('/tourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
-
-Route::get('/tourism-category/{category_id}', [PostController::class, 'showCategoryTourismPosts'])->name('tourism.category');
-
-Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'])->name('tourism.posts.search');
-
-
-
+Route::get('/tourism', function () {
+    return view('display.tourism');
+});
 Route::get('/events-tourism', function () {
     return view('display.events-tourism');
 });
@@ -142,6 +134,13 @@ Route::group(['middleware' => 'auth'], function () {
 
         });
 
+        Route::group(['prefix' => 'admin/posts', 'as' => 'admin.posts.'], function() { // /admin/recommendations
+            Route::get('/', [PostsController::class, 'index'])->name('index');
+            Route::patch('/unhide/{id}', [PostsController::class, 'unhide'])->name('unhide');
+            Route::delete('/hide/{id}', [PostsController::class, 'hide'])->name('hide');
+            
+        });
+
         Route::group(['prefix' => 'admin/categories', 'as' => 'admin.categories.'], function() { 
             Route::get('/', [CategoryController::class, 'index'])->name('index');
             Route::post('/store',[CategoryController::class,'store'])->name('store');
@@ -182,7 +181,12 @@ Route::get('/admin-spots-index', function () {
 Route::get('/admin-spot_applications-index', function () {
     return view('/admin/spot_applications/spot_applications-index');
 });
-
+Route::get('/admin-update_category', function () {
+    return view('/admin/modals/update_category');
+});
+Route::get('/admin-create_category', function () {
+    return view('/admin/modals/create_category');
+});
 //  post-form
 Route::get('/select-post-form', function () {
     return view('select-post-form');
