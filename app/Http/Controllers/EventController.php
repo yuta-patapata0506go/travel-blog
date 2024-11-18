@@ -104,27 +104,19 @@ class EventController extends Controller
     }
 
     public function like(Request $request, $id)
-{
-    try {
-        $post = Post::findOrFail($id);
-        $user = Auth::user();
-
-        if ($post->isLiked()) {
-            $post->likes()->detach($user->id);
-            $isLiked = false;
-        } else {
-            $post->likes()->attach($user->id);
-            $isLiked = true;
+    {
+        $post = Post::find($id);
+        if (!$post) {
+            return response()->json(['error' => 'Post not found'], 404);
         }
-
+        $user = auth()->user();
+        $isLiked = $user->likes()->toggle($post);
+    
         return response()->json([
             'isLiked' => $isLiked,
-            'likeCount' => $post->likes->count(),
+            'likeCount' => $post->likes()->count(),
         ]);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'An error occurred while updating like.'], 500);
     }
-}
 
 public function favorite(Request $request, $id)
 {

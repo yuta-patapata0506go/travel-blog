@@ -1,6 +1,6 @@
 body {
   position: relative;
-  width: 100%;
+ width: 100%;
   min-height: 100vh; /* 最低でもビューポートの高さに */
   margin: 0;
   overflow-x: hidden; /* 横スクロールを無効化 */
@@ -23,10 +23,6 @@ body {
   z-index: -1; /* 背景が他のコンテンツの背面に表示されるように */
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-}
 
 /* images */
 

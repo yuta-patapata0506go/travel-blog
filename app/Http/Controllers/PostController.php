@@ -85,7 +85,7 @@ $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'co
         // 「いいね」をインクリメント
         $post->increment('likes_count');
 
-    return view('posts.show', compact('post', 'firstImage','spotName',  'comments',  'commentCount' ,'liked', 'likesCount','favorited', 'favoritesCount'));
+    return view('posts.show', compact('post', 'spotName',  'comments',  'commentCount' ,'liked', 'likesCount','favorited', 'favoritesCount'));
 }
 
 
