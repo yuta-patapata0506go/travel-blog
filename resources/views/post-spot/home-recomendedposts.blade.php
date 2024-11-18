@@ -12,7 +12,7 @@
 @endif
         <!-- Tourism Recommendations -->
         @if(!$tourismRecommendations->isEmpty())
-            <h4>Tourism Recommendations</h4>
+            <h2>Tourism Recommendations</h2>
             @foreach ($tourismRecommendations->take(4) as $recommendation)
                 <div class="small_post col-md-3">
                     <div class="card">
@@ -71,7 +71,7 @@
 
         <!-- Event Recommendations -->
         @if(!$eventRecommendations->isEmpty())
-            <h4>Event Recommendations</h4>
+            <h2>Event Recommendations</h2>
             @foreach ($eventRecommendations->take(4) as $recommendation)
                 <div class="small_post col-md-3">
                     <div class="card">

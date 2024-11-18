@@ -12,7 +12,7 @@
 <!-- design starts from here -->
 <div class="container background-image">
     <div class="row">
-        <div class="col-md-11 event-content mx-auto">
+        <div class="col-md event-content mx-auto">
            <!-- images -->
            <div class="images">
                 <div class="logo-img text-center mt-4 mb-4">

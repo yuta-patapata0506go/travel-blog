@@ -54,7 +54,7 @@ Route::get('/events', function () {
     Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'])->name('tourism.posts.search');
     
         //EventsTourism
-    Route::get('/showevents-tourism', [PostController::class, 'showEventsTourism'])->name('display.events-tourism');
+    Route::get('/events-tourism', [PostController::class, 'showEventsTourism'])->name('display.events-tourism');
     
     Route::get('/events-tourism/{category_id}', [PostController::class, 'showCategoryEventsTourism'])->name('events-tourism.category');
     
@@ -243,3 +243,4 @@ Route::get('/tourism', [PostController::class, 'showTourismPosts'])->name('displ
 Route::get('/tourism-category/{category_id}', [PostController::class, 'showCategoryTourismPosts'])->name('tourism.category');
 
 Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'])->name('tourism.posts.search');
+
