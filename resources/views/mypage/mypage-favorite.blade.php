@@ -32,8 +32,8 @@
                                                         <div class="col-auto">
                                                             <h5 class="fw-bolder">{{ $favorite->post->title }}</h5>
                                                         </div>
-                                                        <div class="col-auto">
-                                                       
+                                                        <div class="row d-flex justify-content-end pe-2">
+                                                            <div class="col-auto">
                                                                 <button type="submit" class="btn btn-sm shadow-none p-0">
                                                                     @if ($favorite->post->isLiked())
                                                                         <i class="fa-regular fa-heart text-danger"></i> 
@@ -42,23 +42,22 @@
                                                                     @endif
                                                                     </button>
                                                                     <span>&nbsp;{{$favorite->post->likes->count()}}</span> 
+                                                            </div>
+                                                            <div class="col-auto p-0">    
+                                                                    <button type="submit" class="btn btn-sm shadow-none p-0">
+                                                                        @if ($favorite->post)
+                                                                        <i class="fa-regular fa-star text-warning"></i> 
+                                                                        @else
+                                                                        <i class="fa-regular fa-star"></i>  
+                                                                        @endif
+                                                                        <span>&nbsp;{{$favorite->post->favorites->count()}}</span>
+                                                                    </button>                                                 
+                                                            </div>
                                                         </div>
-                                                        <div class="col-auto p-0">    
-                                                                <button type="submit" class="btn btn-sm shadow-none p-0">
-                                                                    @if ($favorite->post)
-                                                                    <i class="fa-regular fa-star text-warning"></i> 
-                                                                    @else
-                                                                      <i class="fa-regular fa-star"></i>  
-                                                                    @endif
-                                                                    <span>&nbsp;{{$favorite->post->favorites->count()}}</span>
-                                                                </button>
-                                                              
-                                                                
-                                                        </div>
+                                                        
                                                     </div>
 
-                                                    <div class="row">
-                                                        
+                                                    <div class="row">            
                                                         <div class="col-auto mb-1">
                                                             @if($favorite->post->categories)
                                                              @foreach ($favorite->post->categories as $cats)
@@ -103,8 +102,8 @@
                                                     <div class="col-auto">
                                                         <h5 class="fw-bolder">{{ $favorite->spot->name }}</h5>
                                                     </div>
-                                                    <div class="col-auto">
-                                               
+                                                    <div class="row d-flex justify-content-end pe-2">
+                                                        <div class="col-auto">
                                                             <button type="submit" class="btn btn-sm shadow-none p-0">
                                                                 @if ($favorite->spot->isLiked())
                                                                     <i class="fa-regular fa-heart text-danger"></i> 
@@ -112,24 +111,23 @@
                                                                 @else
                                                                     <i class="fa-regular fa-heart"></i>
                                                                 @endif
-                                                                </button>                                                      
-                                                                <span>&nbsp;{{$favorite->spot->likes->count()}}</span>
-                                                      
-                                                                
-                                                
+                                                            </button>                                                      
+                                                                <span>&nbsp;{{$favorite->spot->likes->count()}}</span>      
+                                                        </div>
+                                                        <div class="col-auto p-0">
+                                                            <form action="{{route('spot.show', $favorite->spot_id)}}">
+                                                                <button type="submit" class="btn btn-sm shadow-none p-0">
+                                                                    @if ($favorite)
+                                                                        <i class="fa-regular fa-star text-warning"></i> 
+                                                                    @else
+                                                                        <i class="fa-regular fa-star"></i>
+                                                                    @endif
+                                                                </button>
+                                                                <span>&nbsp;{{$favorite->spot->favorites->count()}}</span>                                                                                                      
+                                                            </form>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-auto p-0">
-                                                        <form action="{{route('spot.show', $favorite->spot_id)}}">
-                                                            <button type="submit" class="btn btn-sm shadow-none p-0">
-                                                                @if ($favorite)
-                                                                    <i class="fa-regular fa-star text-warning"></i> 
-                                                                @else
-                                                                    <i class="fa-regular fa-star"></i>
-                                                                @endif
-                                                            </button>
-                                                            <span>&nbsp;{{$favorite->spot->favorites->count()}}</span>                                                                                                      
-                                                        </form>
-                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
