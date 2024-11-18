@@ -1,18 +1,25 @@
 // try {
-
+// addEventListerner：マウスによるクリックやキーボードからの入力を実行
+//DOMContentLoaded：Webページが読み込みが完了した時に読み込む(画像は含めない)
 document.addEventListener("DOMContentLoaded", function () {
     const weeks = ['日', '月', '火', '水', '木', '金', '土'];
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    let date = new Date();
+    let date = new Date(); 
+    // 日付、時刻の取得
     let year = date.getFullYear();
     let month = date.getMonth();
     let today = date.getDate();
+
+    // const：同じ名前の変数を再代入できない
+    //  {}のなかのみ有効
+    // let：再代入が可能
 
     // 「今日」「明日」「今月」のイベントデータを保存する変数
     let savedTodayEvents = null;
     let savedTomorrowEvents = null;
     let savedMonthEvents = null;
 
+    // カレンダーのHTML要素を生成
     const renderCalendar = () => {
         const startDate = new Date(year, month, 1);
         const endDate = new Date(year, month + 1, 0);
@@ -27,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.getElementById('calendar-body').innerHTML = '';
 
+        //document:ブラウザが読み込んだすべてのソースコード情報を保持している
         calendarHtml += '<tr>';
         for (let w = 0; w < 6; w++) {
             for (let d = 0; d < 7; d++) {
@@ -43,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
             calendarHtml += '</tr>';
         }
 
+        // idやclassを取得 //翌月をクリックした時に翌月のカレンダーを表示
         document.querySelector('#calendar-body').innerHTML = calendarHtml;
 
         // 各日付セルにクリックイベントを追加

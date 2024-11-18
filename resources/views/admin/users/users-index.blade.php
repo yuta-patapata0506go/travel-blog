@@ -111,7 +111,7 @@
                         </div>
                     </td>
                     <td>
-                        <a href="{{ route('profile.edit') }}" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+                        <a href="{{ route('profile.edit', $user->id) }}" class="btn btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
                     </td>
                     <td>
                         <a href="{{ route('profile.show', $user->id) }}" class="btn btn-sm"><i class="fa-regular fa-newspaper"></i></a>

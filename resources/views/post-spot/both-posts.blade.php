@@ -12,7 +12,7 @@
 @endif
         <!-- Tourism Recommendations -->
         @if(!$tourismRecommendations->isEmpty())
-            <h4>Tourism Recommendations</h4>
+            <h2>Tourism Recommendations</h2>
             @foreach ($tourismRecommendations->take(4) as $recommendation)
                 <div class="small_post col-md-3">
                     <div class="card">
@@ -68,10 +68,12 @@
                 </div>
             @endforeach
         @endif
+            
+        
 
         <!-- Event Recommendations -->
         @if(!$eventRecommendations->isEmpty())
-            <h4>Event Recommendations</h4>
+            <h2>Event Recommendations</h2>
             @foreach ($eventRecommendations->take(4) as $recommendation)
                 <div class="small_post col-md-3">
                     <div class="card">
@@ -130,21 +132,24 @@
 </div>
 
 <div class="row">
-        <div class="col-md-11 event-content">
+        <div class="col-md event-content">
            <!-- カテゴリ名または「検索結果」を表示 -->
            <div>
-               @if(isset($selectedCategory))
-                   <h2>Posts related to  {{$selectedCategory->name }} </h2>
-               @elseif(request('keyword'))
-                   <h2>Seaech results</h2>
-               @endif
-           </div>
-
+                @if(isset($selectedCategory))
+                    <h2>Posts related to "{{$selectedCategory->name}}"</h2>
+                @elseif(!empty($query))
+                    <h2>Search results for "{{ $query }}"</h2> <!-- 検索キーワードを表示 -->
+                @else
+                    <h2>Event and Tourism posts</h2> 
+                @endif
+</div>
+      </div>
+  
 <div class="show_posts">
   <div class="row">
   @if($posts->isEmpty())
       <!-- 投稿が存在しない場合のメッセージ -->
-       <div class="col-11 text-center no-posts-message">
+       <div class="col-md text-center no-posts-message">
            <h3>No related posts available.</h3>
       </div>
       @else
