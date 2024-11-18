@@ -86,7 +86,8 @@
                         <tr>
                             <td>{{ $inquiry->id }}</td>
                             <td>{{ $inquiry->created_at->format('Y-m-d') }}</td>
-                            <td>{{ $inquiry->user->username }}</td>
+                            {{-- <td>{{ $inquiry->user->username }}</td> --}}
+                            <td>{{ $inquiry->user ? $inquiry->user->username : 'Deleted User' }}</td>
                             <td>{{ $inquiry->user->email }}</td>
                             <td class="textCell">
                                 <p>{{ Str::limit($inquiry->body, 50) }}</p>
