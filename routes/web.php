@@ -72,8 +72,8 @@ Route::post('/follow/store/{user_id}',[FollowController::class,'store'])->name('
 Route::delete('/Follow/destroy/{user_id}',[FollowController::class,'destroy'])->name('follow.destroy'); //unforrow
 Route::get('/mypage-favorite',[ProfileController::class,'favorite'])->name('profile.favorite');//mypage-favoriteに遷移
 Route::get('/mypage/search', [ProfileController::class, 'searchMyPosts'])->name('mypage.search');
-
 });
+
 
 Route::get('/navbar', function () {
     return view('navbar');
