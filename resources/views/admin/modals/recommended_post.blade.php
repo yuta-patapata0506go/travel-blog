@@ -8,7 +8,7 @@
             <div class="modal-header d-flex justify-content-center bg-dark">
                 <h5 class="modal-title mx-auto text-light" id="categoryModalLabel">Recommended Posts</h5>
             </div>
-            <div class="modal-body">
+            <div class="modal-body border-0 justify-content-center rounded">
                 <form method="POST" action="{{ route('admin.recommendations.save') }}">
                     @csrf
                     @method('PATCH')
