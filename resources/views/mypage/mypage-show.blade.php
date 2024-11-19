@@ -29,33 +29,37 @@
                                                             <div class="col-auto">
                                                                 <h5 class="fw-bolder">{{$posts->title}}</h5>
                                                             </div>
-                                                            <div class="col-auto">
-                                                                <form action="{{route('post.show', $posts->id)}}">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-sm shadow-none p-0">
-                                                                        @if ($posts->isLiked())
-                                                                        <i class="fa-regular fa-heart text-danger"></i>
-                                                                    @else
-                                                                        <i class="fa-regular fa-heart"></i>
-                                                                    </button>  
-                                                                    @endif
-                                                                    &nbsp;{{ $posts->likes->count() }}</span>
-                                                                </form>
+                                                            <div class="row d-flex justify-content-end pe-2">
+                                                                <div class="col-auto">
+                                                                    <form action="{{route('post.show', $posts->id)}}">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn btn-sm shadow-none p-0">
+                                                                            @if ($posts->isLiked())
+                                                                            <i class="fa-regular fa-heart text-danger"></i>
+                                                                        @else
+                                                                            <i class="fa-regular fa-heart"></i>
+                                                                        @endif
+                                                                        </button>  
+                                                                        
+                                                                        &nbsp;{{ $posts->likes->count() }}
+                                                                    </form>
                                         
+                                                                </div>
+                                                                <div class="col-auto p-0">
+                                                                    <form action="{{route('post.show', $posts->id)}}">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn btn-sm shadow-none p-0">
+                                                                            @if ($posts->getIsFavoritedAttribute())
+                                                                                <i class="fa-regular fa-star text-warning"></i>
+                                                                            @else
+                                                                                <i class="fa-regular fa-star"></i>
+                                                                            @endif
+                                                                        </button>
+                                                                        &nbsp;{{ $posts->favorites->count()}}
+                                                                    </form>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-auto p-0">
-                                                                <form action="{{route('post.show', $posts->id)}}">
-                                                                    @csrf
-                                                                <button type="submit" class="btn btn-sm shadow-none p-0">
-                                                                    @if ($posts->getIsFavoritedAttribute())
-                                                                        <i class="fa-regular fa-star text-warning"></i>
-                                                                    @else
-                                                                        <i class="fa-regular fa-star"></i>
-                                                                    @endif
-                                                                </button>
-                                                                <span>&nbsp;{{ $posts->favorites->count()}}</span>
-                                                                </form>
-                                                            </div>
+                                                            
                                                         </div>
                                 
                                                         <div class="row">

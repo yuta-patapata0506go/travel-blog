@@ -33,7 +33,7 @@
                         <a class="nav-link" href="#"><i class="fas fa-language"></i></a> <!-- Language icon -->
                     </li>
                     <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="{{route('profile.show', Auth::user()->id)}}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             @if(Auth::user()->avatar)
                                 <img src="data:image/{{ explode(';', Auth::user()->avatar)[0] }};base64,{{ explode(',', Auth::user()->avatar)[1] }}" width="30" height="30" class="rounded-circle" alt="Admin User">
                             @else
@@ -72,7 +72,7 @@
                     </li>
                     <!-- User Icon Dropdown -->
                     <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="{{route('profile.show', Auth::user()->id)}}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             @if(Auth::user()->avatar)
                                 <img src="data:image/{{ explode(';', Auth::user()->avatar)[0] }};base64,{{ explode(',', Auth::user()->avatar)[1] }}" width="30" height="30" class="rounded-circle" alt="User">
                             @else

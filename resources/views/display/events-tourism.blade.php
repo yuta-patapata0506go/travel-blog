@@ -7,7 +7,7 @@
 <!-- desaign is from here -->
 <div class="container background-image">
   <div class="row">
-        <div class="col-md-11 event-content mx-auto">
+        <div class="col-md event-content mx-auto">
            <!-- images -->
              <div class=" images">
                  <div class="logo-img text-center mt-4 mb-4">
@@ -19,6 +19,7 @@
                   <form class="d-flex mb-4" role="search"     method="GET" action="{{ route('events-tourism.posts.search') }}">
                      <input class="form-control form-control-lg me-2" type="search" name="keyword" aria-label="Search" value="{{ request('keyword') }}">
                      <input type="hidden" name="category_id" value="{{ request('category_id') }}">
+                     <i class="fas fa-search icon_size"></i>
                      <button class="btn fs-3 fw-bold" type="submit">Search</button>
                 </form>
           

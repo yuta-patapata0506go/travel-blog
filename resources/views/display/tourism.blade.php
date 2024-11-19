@@ -1,7 +1,15 @@
 @extends('layouts.app')
+
+@section('css')
+
+{{-- CSS --}}
+<link rel="stylesheet" href="{{ asset('css/tourism.css') }}">
+@endsection
+
+@section('title', 'Tourism View')
 @section('content')
 
-<link rel="stylesheet" href="{{asset('css/tourism.css')}}">
+
 
 <!-- design starts from here -->
 <div class="container background-image">
@@ -19,7 +27,7 @@
             </div> 
     
             <div class="spot-banner">
-                <a href="{{ route('map.page', ['keyword' => request('keyword')]) }}">
+                <a href="{{ route('map.page', ['keyword' => request('keyword'), 'category_id' => request('category_id')]) }}">
                     <img src="{{asset('images/map.png')}}" class="spot-banner-img mx-auto d-block" alt="map pictures">
                     <div class="spot-banner-text">
                             <h2>Spots near You</h2>
@@ -31,7 +39,8 @@
              {{-- Search Bar --}}
              <div class="search-container d-flex justify-content-center">
                   <form class="d-flex mb-4" role="search"     method="GET" action="{{ route('tourism.posts.search') }}">
-                     <input class="form-control form-control-lg me-2" type="search" name="keyword" aria-label="Search" value="{{ request('keyword') }}">
+                     <input class="form-control form-control-lg me-2" type="search" name="keyword" aria-label="Search" value="{{ request('keyword', request('keyword', $keyword ?? '')) }}">
+                     <i class="fas fa-search icon_size"></i>
                      <button class="btn fs-3 fw-bold" type="submit">Search</button>
                 </form>
           

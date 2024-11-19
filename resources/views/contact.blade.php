@@ -25,7 +25,7 @@
             <input type="email" class="form-control" id="email" name="email" value="{{ Auth::user()->email }}" readonly>
         </div>
         <div>
-            <p class="text-brown">If you need to change your email address, please do so from your profile page. <a href="{{ route('profile.edit') }}" class="link-blue btn-link">Update Email</a></p>
+            <p class="text-brown">If you need to change your email address, please do so from your profile page. <a href="{{ route('profile.edit', $user->id) }}" class="link-blue btn-link">Update Email</a></p>
         </div>
 
         <!-- Content -->

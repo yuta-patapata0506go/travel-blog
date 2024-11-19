@@ -26,7 +26,10 @@ class InquiriesController extends Controller
 
     public function index()
     {
-        $all_inquiries = $this->inquiry->with('user')->orderBy('created_at', 'desc')->paginate(10);
+        // $all_inquiries = $this->inquiry->with('user')->orderBy('created_at', 'desc')->paginate(10);
+        $all_inquiries = $this->inquiry->with(['user' => function ($query) {
+            $query->withTrashed();
+        }])->orderBy('created_at', 'desc')->paginate(10);
         $categories = $this->category->all();
         $existingRecommendation = $this->recommendation->first();
         return view('admin.inquiries.inquiries-index')
