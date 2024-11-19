@@ -26,7 +26,7 @@
 
                       {{-- Likes --}}
                         <div class="col-auto">
-                            <form action="{{ route('spot.like', $spot->id ?? 1) }}" method="POST">
+                            <form action="{{ route('spot.like', ['id' => $spot->id, 'type' => 'spot']) }}" method="POST">
                               @csrf
                               <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
                                   <i class="fa-regular fa-heart {{ $spot->isLiked() ? 'active' : '' }}" id="like-icon"></i>
@@ -38,7 +38,7 @@
 
                         {{-- Favorites --}}
                         <div class="col-auto p-0">
-                            <form action="{{ route('spot.favorite', $spot->id ?? 1) }}" method="POST">
+                            <form action="{{ route('spot.favorite', ['id' => $spot->id, 'type' => 'spot']) }}" method="POST">
                               @csrf
                               <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="star">
                                   <i class="fa-regular fa-star {{ $spot->isFavorited ? 'active' : '' }}" id="favorite-icon"></i>
