@@ -10,6 +10,7 @@ use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use League\CommonMark\Util\LinkParserHelper;
 class SpotController extends Controller
 {
     private $spot;
@@ -115,13 +116,16 @@ class SpotController extends Controller
     {
         // IDを使ってスポットデータを取得
         $spot = Spot::with('images','likes','favorites', 'comments.replies','posts')->findOrFail($id);// imagesリレーションを読み込む
+        
         $userId = auth()->id();
         // Like
         $liked = Like::where('user_id', $userId)->where('spot_id', $id)->exists();
         $likesCount = Like::where('spot_id', $id)->count();
+        
         // Favorite
         $favorited = $spot->isFavorited;
         $favoritesCount = Favorite::where('spot_id', $id)->count();
+        
         // Comment
         $comments = Comment::where('spot_id', $id)
         ->whereNull('parent_id')
@@ -210,38 +214,82 @@ class SpotController extends Controller
         // "value" キーが存在するか確認し、存在しない場合はデフォルト値（例：0）を返す
         return $data['value'] ?? 0;
     }
-    public function like($id)
+    public function like($id, $type)
     {
         $userId = auth()->id();
-        $existingLike = Like::where('user_id', $userId)->where('spot_id', $id)->first();
-        if ($existingLike) {
-            // すでに「いいね」している場合は削除して、いいねを取り消し
-            $existingLike->delete();
-        } else {
-            // 新しく「いいね」を追加
-            Like::create([
-                'user_id' => $userId,
-                'spot_id' => $id
-            ]);
+        if ($type === 'spot') {
+            // スポットへの「いいね」を処理
+            $existingLike = Like::where('user_id', $userId)
+                                ->where('spot_id', $id)
+                                ->whereNull('post_id')
+                                ->first();
+    
+            if ($existingLike) {
+                $existingLike->delete();
+            } else {
+                Like::create([
+                    'user_id' => $userId,
+                    'spot_id' => $id,
+                    'post_id' => null,
+                ]);
+            }
+        } elseif ($type === 'post') {
+            // 投稿への「いいね」を処理
+            $existingLike = Like::where('user_id', $userId)
+                                ->where('post_id', $id)
+                                ->whereNull('spot_id')
+                                ->first();
+    
+            if ($existingLike) {
+                $existingLike->delete();
+            } else {
+                Like::create([
+                    'user_id' => $userId,
+                    'spot_id' => null,
+                    'post_id' => $id,
+                ]);
+            }
         }
-        // リダイレクトしてページを再読み込み
+    
         return redirect()->back();
     }
-    public function favorite($id)
+    public function favorite($id, $type)
     {
         $userId = auth()->id();
-        $existingFavorite = Favorite::where('user_id', $userId)->where('spot_id', $id)->first();
-        if ($existingFavorite) {
-            // すでに「いいね」している場合は削除して、いいねを取り消し
-            $existingFavorite->delete();
-        } else {
-            // 新しく「いいね」を追加
-            Favorite::create([
-                'user_id' => $userId,
-                'spot_id' => $id
-            ]);
+        if ($type === 'spot') {
+            // スポットのお気に入りを処理
+            $existingFavorite = Favorite::where('user_id', $userId)
+                                        ->where('spot_id', $id)
+                                        ->whereNull('post_id')
+                                        ->first();
+    
+            if ($existingFavorite) {
+                $existingFavorite->delete();
+            } else {
+                Favorite::create([
+                    'user_id' => $userId,
+                    'spot_id' => $id,
+                    'post_id' => null,
+                ]);
+            }
+        } elseif ($type === 'post') {
+            // 投稿のお気に入りを処理
+            $existingFavorite = Favorite::where('user_id', $userId)
+                                        ->where('post_id', $id)
+                                        ->whereNull('spot_id')
+                                        ->first();
+    
+            if ($existingFavorite) {
+                $existingFavorite->delete();
+            } else {
+                Favorite::create([
+                    'user_id' => $userId,
+                    'spot_id' => null,
+                    'post_id' => $id,
+                ]);
+            }
         }
-        // リダイレクトしてページを再読み込み
+    
         return redirect()->back();
-    }
-}
+            }
+        }

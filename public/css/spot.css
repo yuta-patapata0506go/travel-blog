@@ -31,7 +31,7 @@ body::before {
 }
 
 /* 投稿カード */
-.post-card {
+.post-card-1 {
     position: relative;
     background-color: #ffffff; /* 背景を白に */
     width:120%;
@@ -47,7 +47,7 @@ body::before {
     object-fit: cover; /* 画像が枠内に収まるように切り取る */
 }
 
-.post-card img {
+.post-card-1 img {
     width: 100%; /* カードの幅に合わせる */
     height: auto; /* 縦横比を保持しつつ高さを自動調整 */
     max-height: 300px; /* 最大高さを300pxに設定 */
@@ -310,6 +310,8 @@ button:focus {
 .small-post-container {
     display: flex;
     align-items: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
     gap: 10px; /* カード間の隙間を調整 */
     overflow-x: auto;
     scroll-behavior: smooth;
@@ -330,7 +332,8 @@ button:focus {
     height: 200px; 
     display: block; /* 中央寄せに備えてブロック要素に */
     margin: 0 auto; /* 画像をカード内で中央寄せ */
-    object-fit: cover
+    object-fit: cover;
+    border-radius: 0%;
 }
 
 .post-wrapper {
@@ -343,6 +346,7 @@ button:focus {
 /* タイトルの左寄せ */
 .card-title {
     text-align: left;
+    text-wrap:balance;
     font-size: 1.25rem;
     font-weight: bold;
     margin-bottom: 8px;
@@ -350,14 +354,14 @@ button:focus {
 
 /* カード内のアイコン配置 */
 .card-body .row {
+    padding: 10px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
 
 /* アイコンのボタン */
-.card-body .btn {
-    text-align: right;
+.comments-container .btn {
     background: #336B87;
     color:#ffffff;
     padding: 0;
