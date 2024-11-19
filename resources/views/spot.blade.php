@@ -237,13 +237,13 @@
             <!-- Event and Tourism Display -->
             <div class="event-tourism-container mt-5">
                 <!-- Eventページに遷移するフォーム -->
-                <form action="/showevents" method="GET" class="event-link event text-white text-shadow" 
+                <form action="/events" method="GET" class="event-link event text-white text-shadow" 
                     style="cursor: pointer;" onclick="this.submit();">
                     <h5>Event</h5>
                 </form>
 
                 <!-- Tourismページに遷移するフォーム -->
-                <form action="/showtourism" method="GET" class="tourism-link tourism text-white text-shadow" 
+                <form action="/tourism" method="GET" class="tourism-link tourism text-white text-shadow" 
                     style="cursor: pointer;" onclick="this.submit();">
                     <h5>Tourism</h5>
                 </form>
