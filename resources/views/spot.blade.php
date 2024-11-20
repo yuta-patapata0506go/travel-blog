@@ -100,9 +100,7 @@
                     <div class="map">
                      <div class="card3 border-0  bg-white" style="height: 20rem;">
                         <div class="card-body">
-                           <a href="{{ route('map.page', ['id' => $spot->id]) }}">
-                                <h3>{{ $spot->name }}</h3>
-                            </a>                
+                                <h3 class="map-location"><i class="fa-solid fa-location-dot"></i>  {{ $spot->name }}</h3>              
                             <iframe 
                                 src="https://www.google.com/maps?q={{ $spot->latitude ?? 0 }},{{ $spot->longitude ?? 0 }}&output=embed"
                                 width="100%" height="200" frameborder="0" style="border:0;" allowfullscreen="">
@@ -237,13 +235,13 @@
             <!-- Event and Tourism Display -->
             <div class="event-tourism-container mt-5">
                 <!-- Eventページに遷移するフォーム -->
-                <form action="/showevents" method="GET" class="event-link event text-white text-shadow" 
+                <form action="/events" method="GET" class="event-link event text-white text-shadow" 
                     style="cursor: pointer;" onclick="this.submit();">
                     <h5>Event</h5>
                 </form>
 
                 <!-- Tourismページに遷移するフォーム -->
-                <form action="/showtourism" method="GET" class="tourism-link tourism text-white text-shadow" 
+                <form action="/tourism" method="GET" class="tourism-link tourism text-white text-shadow" 
                     style="cursor: pointer;" onclick="this.submit();">
                     <h5>Tourism</h5>
                 </form>
@@ -289,74 +287,74 @@
                 </ul>
             </div>
 
-            <!-- Small Spots -->
-            <div class="small-post-container">
-                @if (!$posts->onFirstPage())
-                <a href="{{ add_query_param($posts->previousPageUrl(), request()->query()) }}">
-                    <button class="arrow-left" onclick="prevPage()">
-                        <i class="fa-solid fa-circle-left"></i>
-                    </button>
-                </a>
-                @endif
-
-                <div class="post-wrapper d-flex">
-                    @foreach ($posts as $index => $post)
-                    <div class="card small-post shadow-card m-2 post-card" style="cursor: pointer; width: 18rem;" onclick="this.querySelector('form').submit();">
-                        <!-- カード内のフォーム -->                                                 
-                        <div class="carousel-inner">
-                            @foreach ($post->images as $imgIndex => $image)
-                                <div class="carousel-item {{ $imgIndex === 0 ? 'active' : '' }}">
-                                    <img src="{{ asset('storage/' . $image->image_url) }}" class="d-block w-100 main-carousel-img" alt="Image {{ $imgIndex + 1 }}">
+                    <!-- Small posts -->
+                    <div class="small-post-container">
+                        @if (!$posts->onFirstPage())
+                        <a href="{{ add_query_param($posts->previousPageUrl(), request()->query()) }}">
+                            <button class="arrow-left" onclick="prevPage()">
+                                <i class="fa-solid fa-circle-left"></i>
+                            </button>
+                        </a>
+                        @endif
+                        <div class="post-wrapper d-flex">
+                            @foreach ($posts as $index => $post)
+                            <div class="card small-post shadow-card m-2 post-card" style="cursor: pointer; width: 18rem;" onclick="location.href='{{ route('post.show', ['id' => $post->id]) }}'">
+                                <!-- カード内のフォーム -->
+                                <div class="carousel-inner">
+                                    @foreach ($post->images as $imgIndex => $image)
+                                        <div class="carousel-item {{ $imgIndex === 0 ? 'active' : '' }}">
+                                            <img src="{{ asset('storage/' . $image->image_url) }}" class="d-block w-100 main-carousel-img" alt="Image {{ $imgIndex + 1 }}">
+                                        </div>
+                                    @endforeach
                                 </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-truncate">{{ $post->title }}</h5>
+                                    <p class="card-text text-truncate">{{ $post->comments }}</p>
+                                    <div class="col d-flex smallpost-category justify-content-end">
+                                        @foreach ($post->categories as $category)
+                                            <div class="badge bg-secondary bg-opacity-50 rounded-pill">{{ $category->name }}</div>
+                                        @endforeach
+                                    </div>
+                                    <div class="row d-flex justify-content-end pe-2">
+                                        {{-- Likes and Favorites --}}
+                                        <div class="d-flex align-items-center gap-3">
+                                            {{-- Likes --}}
+                                            <form action="{{ route('post.like', $post->id ?? 1) }}" method="POST" class="d-flex align-items-center">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
+                                                    <i class="fa-regular fa-heart {{ $post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
+                                                </button>
+                                                <span class="count-text ms-1" id="like-count">{{ $post->likes->count() }}</span>
+                                            </form>
+                                            {{-- Favorites --}}
+                                            <form action="{{ route('post.favorite', $post->id ?? 1) }}" method="POST" class="d-flex align-items-center">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="star">
+                                                    <i class="fa-regular fa-star {{ $post->isFavorited ? 'active' : '' }}" id="favorite-icon"></i>
+                                                </button>
+                                                <span class="count-text ms-1" id="favorite-count">{{ $post->favorites->count() }}</span>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <form action="/post/show/{{$post->id}}" method="get">
+                                        <button type="submit" class="btn-small-post-card">Read More</button>
+                                    </form>
+                                </div>
+                            </div>
                             @endforeach
+                            @if ($posts->isEmpty())
+                                <p>No posts available.</p>
+                            @endif
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title text-truncate">{{ $post->title }}</h5>
-                            <p class="card-text text-truncate">{{ $post->comments }}</p>
-                            <div class="col d-flex smallpost-category justify-content-end">
-                                @foreach ($post->categories as $category)
-                                    <div class="badge bg-secondary bg-opacity-50 rounded-pill">{{ $category->name }}</div>
-                                @endforeach
-                            </div>
-                            <div class="row d-flex justify-content-end pe-2">
-                                {{-- Likes and Favorites --}}
-                                <div class="d-flex align-items-center gap-3">
-                                    {{-- Likes --}}
-                                    <form action="{{ route('post.like', $post->id ?? 1) }}" method="POST" class="d-flex align-items-center">
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
-                                            <i class="fa-regular fa-heart {{ $post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
-                                        </button>
-                                        <span class="count-text ms-1" id="like-count">{{ $post->likes->count() }}</span>
-                                    </form>
-                                    {{-- Favorites --}}
-                                    <form action="{{ route('post.favorite', $post->id ?? 1) }}" method="POST" class="d-flex align-items-center">
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="star">
-                                            <i class="fa-regular fa-star {{ $post->isFavorited ? 'active' : '' }}" id="favorite-icon"></i>
-                                        </button>
-                                        <span class="count-text ms-1" id="favorite-count">{{ $post->favorites->count() }}</span>
-                                    </form>
-                                </div>
-                            </div>
-                            <form action="/post/show/{{$post->id}}" method="get">
-                                <button type="submit" class="btn-small-post-card">Read More</button>
-                            </form>
-                        </div>                                                       
+                        @if ($posts->hasMorePages())
+                            <a href="{{ add_query_param($posts->nextPageUrl(), request()->query()) }}">
+                            <button class="arrow-right" onclick="nextPage()">
+                                <i class="fa-solid fa-circle-right"></i>
+                            </button>
+                            </a>
+                        @endif
                     </div>
-                    @endforeach
-                    @if ($posts->isEmpty())
-                        <p>No posts available.</p>
-                    @endif
                 </div>
-
-                @if ($posts->hasMorePages())
-                    <a href="{{ add_query_param($posts->nextPageUrl(), request()->query()) }}">
-                    <button class="arrow-right" onclick="nextPage()">
-                        <i class="fa-solid fa-circle-right"></i>
-                    </button>
-                    </a>
-                @endif
             </div>
         </div>   
     </div>
