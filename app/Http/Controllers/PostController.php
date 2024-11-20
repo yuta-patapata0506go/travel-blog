@@ -107,9 +107,9 @@ $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'co
     {
        // バリデーションルールを定義
         $rules = [
-            'title' => 'string|max:50',
+            'title' => 'string|max:100',
             'type' => 'integer|in:0,1',
-            'event_name' => 'nullable|string|max:30',
+            'event_name' => 'nullable|string|max:50',
             'adult_fee' => 'nullable|numeric|min:0',
             'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
             'child_fee' => 'nullable|numeric|min:0',
@@ -244,8 +244,8 @@ $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'co
     // バリデーションルール
     $rules = [
         'spot' => 'required|exists:spots,id', // Spotのバリデーション追加
-        'title' => 'string|max:50',
-        'event_name' => 'nullable|string|max:30',
+        'title' => 'string|max:100',
+        'event_name' => 'nullable|string|max:50',
         'adult_fee' => 'nullable|numeric|min:0',
         'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
         'child_fee' => 'nullable|numeric|min:0',
