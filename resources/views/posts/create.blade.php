@@ -111,6 +111,7 @@
                             <option value="CNY">Chinese Yuan</option>
                             <option value="KRW">South Korean Won</option>
                             <option value="INR">Indian Rupee</option>
+                            <option value="AED">AED</option>
                         </select>
                     </div>      
                     <!-- Child Fee -->
@@ -130,6 +131,7 @@
                             <option value="CNY">Chinese Yuan</option>
                             <option value="KRW">South Korean Won</option>
                             <option value="INR">Indian Rupee</option>
+                            <option value="AED">AED</option>
                         </select>
                     </div>         
                 </div>
