@@ -20,7 +20,7 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  opacity: 0.5; /* ここで背景画像のみ透明化 */
+  opacity: 0.4; /* ここで背景画像のみ透明化 */
   z-index: -1; /* 背景が他のコンテンツの背面に表示されるように */
 }
 

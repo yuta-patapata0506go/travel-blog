@@ -18,7 +18,7 @@
         <form class="d-flex mb-4" role="search" method="GET" action="{{ route('map.page') }}">
             <input type="hidden" name="latitude" value="{{ request('latitude') }}">
             <input type="hidden" name="longitude" value="{{ request('longitude') }}">
-            <input class="form-control form-control-lg me-2" type="search" aria-label="Search" name="keyword" aria-label="Search" value="{{ old('keyword', request('keyword', $keyword ?? '')) }}">
+            <input class="form-control form-control-lg me-2" type="search" aria-label="Search" name="keyword" aria-label="Search" value="{{ old('keyword', request('keyword', $keyword ?? '')) }}" placeholder="Search here..." >
             <i class="fas fa-search icon_size"></i>
             <button class="btn fs-3 fw-bold" type="submit">Search</button>
         </form>
