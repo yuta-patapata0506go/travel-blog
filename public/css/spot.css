@@ -160,6 +160,7 @@ button:focus {
 }
 
 /* Map & Weather  -------------------------------------------------*/
+
 /* 地図と天気のコンテナ */
 .info-container {
     display: flex; /* 横並びにする */
