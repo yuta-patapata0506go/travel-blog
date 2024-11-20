@@ -200,6 +200,8 @@ Route::group(["middleware"=> "auth"], function(){
        });
  });
 
+ 
+
  Route::delete('/images/{id}', [ImageController::class, 'destroy'])->name('images.destroy');
 
 
