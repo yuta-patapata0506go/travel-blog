@@ -160,6 +160,9 @@ button:focus {
 }
 
 /* Map & Weather  -------------------------------------------------*/
+.map-location {
+    color: #336B87;
+}
 /* 地図と天気のコンテナ */
 .info-container {
     display: flex; /* 横並びにする */
