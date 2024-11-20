@@ -162,7 +162,6 @@ $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'co
         }
         // dd($category_post);
         $this->post->categoryPosts()->createMany($category_post);
-        $this->post->categoryPosts()->createMany($category_post);
 
         // / 画像の保存（ImageControllerで処理を行う）
         app(ImageController::class)->store($request, $this->post->id,null);
