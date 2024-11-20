@@ -8,7 +8,7 @@
    <div class="card my-4">
       <div class="card-body1 bg-white p-5">
 
-            <h1>{{ $post->title }}</h1>
+            <h2>{{ $post->title }}</h2>
                 <div class="row align-items-center">
                         <div class="col-auto">
                             <!-- if user has avatar should display -->
