@@ -41,6 +41,12 @@ class InquiriesController extends Controller
     public function show($id)
     {
         $inquiry = $this->inquiry->with('user')->findOrFail($id);
+
+        if ($inquiry && (!$inquiry->user || $inquiry->user->trashed())) {
+            return redirect()->route('admin.inquiries.index')
+                             ->with('error', 'This inquiry has no valid user or the user has been deleted.');
+        }
+
         return view('admin.inquiries.inquiry_details')->with('inquiry', $inquiry);
     }
 

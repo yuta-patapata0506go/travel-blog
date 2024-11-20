@@ -2,42 +2,42 @@
   <div class="container">
      <div class="row">
       <!-- レコメンド機能 recommend -->
-        @if($tourismRecommendations->isEmpty())
-        <@foreach ($tourismRecommendations as $spot)
-           <a href="{{ route('spot.show', $spot->id) }}" class="small_post col-md-3">
+            @if($tourismRecommendations->isEmpty())
+          <@foreach ($tourismRecommendations as $spot)
+        <a href="{{ route('spot.show', $spot->id) }}" class="small_post col-md-3">
             <!-- コンテンツ表示 -->
-           </a>
-        @endforeach
-        @else
-        <div></div>
-        @endif
+        </a>
+    @endforeach
+@else
+<div></div>
+@endif
            <!-- card -->
-         @if(!$tourismRecommendations->isEmpty())
-        <h2>Tourism Recommendations</h2>
-        @foreach ($tourismRecommendations->take(4) as $recommendation)
+           @if(!$tourismRecommendations->isEmpty())
+           <h2>Tourism Recommendations</h2>
+            @foreach ($tourismRecommendations->take(4) as $recommendation)
          <div class="small_post col-md-3">
-             <div class="card">
-                  <a href="{{ route('post.show', $recommendation->post->id) }}">
-                      <img src="{{ asset('storage/' . $recommendation->post->images->first()->image_url) }}" class="card-img-top" alt="Post Image">
-                 </a>
+         <div class="card">
+               <a href="{{ route('post.show', $recommendation->post->id) }}">
+                  <img src="{{ asset('storage/' . $recommendation->post->images->first()->image_url) }}" class="card-img-top" alt="Post Image">
+               </a>
         <!-- card body -->
         <div class="card-body">
             <div class="row">
                 <div class="col-auto">
                     <h5 class="fw-bolder">{{ $recommendation->post->title }}</h5>
                </div>
-           </div>
+        </div>
         <div class="row d-flex justify-content-end pe-2">
                       {{-- Likes --}}
                     <div class="col-auto">
-                          <form action="{{ route('post.like', $recommendation->post->id ?? 1) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
-                                <i class="fa-regular fa-heart {{ $recommendation->post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
-                            </button>
-                            <span class="count-text ms-1" id="like-count">{{ $recommendation->post->likes->count() }}</span>
-                        </form>
-                    </div>
+                      <form action="{{ route('post.like', $recommendation->post->id ?? 1) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
+                            <i class="fa-regular fa-heart {{ $recommendation->post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
+                        </button>
+                        <span class="count-text ms-1" id="like-count">{{ $recommendation->post->likes->count() }}</span>
+                     </form>
+            </div>
             <div class="col-auto p-0">
                       <form action="{{ route('post.favorite', $recommendation->post->id ?? 1) }}" method="POST">
                         @csrf
@@ -78,25 +78,26 @@
 @endif
 </div>
 
+
 <div class="row">
-  <div class="col-md event-content">
-    <!-- カテゴリ名または「検索結果」を表示 -->
-     <div>
-          @if(isset($selectedCategory))
-               <h2>Posts related to "{{$selectedCategory->name}}"</h2>
-           @elseif(request('keyword'))
-               <h2>Search results for "{{ request('keyword') }}"</h2> <!-- 検索キーワードを表示 -->
-           @else
-              <h2>Tourism posts</h2> 
-           @endif
-      </div>
-</div>
+        <div class="col-md event-content">
+           <!-- カテゴリ名または「検索結果」を表示 -->
+           <div>
+                @if(isset($selectedCategory))
+                    <h2>Posts related to "{{$selectedCategory->name}}"</h2>
+                @elseif(!empty($query))
+                    <h2>Search results for "{{ $query }}"</h2> <!-- 検索キーワードを表示 -->
+                @else
+                    <h2>Tourism posts</h2> 
+                @endif
+           </div>
+           </div>
 
 <div class="show_posts">
   <div class="row">
   @if($posts->isEmpty())
       <!-- 投稿が存在しない場合のメッセージ -->
-       <div class="col-11 text-center no-posts-message">
+       <div class="col-md text-center no-posts-message">
            <h3>No related posts available.</h3>
       </div>
       @else

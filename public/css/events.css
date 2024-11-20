@@ -56,14 +56,10 @@ body {
 
 .spot-banner {
     position: relative;
-    left: 80px;
     width: 100%; /* 全幅に調整 */
     max-width: 1200px; /* 最大幅の制限 */
     margin: 0 auto;
     margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-
 }
 
 .spot-link {
@@ -101,11 +97,15 @@ body {
   opacity: 0.8; /* 不透明度を下げる */
 }
 
+.search-wrapper {
+  position: relative;
+  width: 100%; /* 全幅に設定 */
+}
+
 
 /* Search Bar ------------------------------------------------*/
 .search-container {
   position: relative;
-  left: 100px;
   width: 600px;
   max-width: 100%;
   margin: auto;
@@ -139,6 +139,25 @@ body {
   color: #2A3132;
 }
 
+/* Back Button ---------------------------------------*/
+.back button {
+  position: absolute;
+  font-size: 20px;
+  height: 50px; /* 高さを調整 */
+  padding: 10px 15px; /* ボタンの内側の余白 */
+  background-color: #336B87; /* ボタンの背景色 */
+  color: #ffffff; /* ボタンのテキスト色 */
+  border: none; /* ボタンの境界線を無効にする */
+  border-radius: 10px; /* 角を丸くする */
+  cursor: pointer; /* カーソルをポインターに変更 */
+}
+
+.back button:hover {
+  background-color: #90AFC5;
+  color: #2A3132;
+}
+
+/* Category ------------------------------------------------*/
 .parent-category {
   position: relative; /* 子カテゴリを親カテゴリに対して配置するためにpositionを設定 */
 }
@@ -220,7 +239,6 @@ body {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-
   width: 12em;
   height: 2.5em;
   border-radius: 50px;
@@ -320,4 +338,14 @@ body {
 }
 
 
+/* Icons ------------------------------------------------*/
 
+/* Likeされた状態の色 */
+#like-icon.active {
+  color: red;
+}
+
+/* Favoriteされた状態の色 */
+#favorite-icon.active {
+  color: gold;
+}

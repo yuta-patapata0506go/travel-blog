@@ -40,24 +40,18 @@ Route::get('/events', function () {
 // Events and Tourism Routes
 
     //Events
-    Route::get('/showevents', [PostController::class, 'showEventsPosts'])->name('display.events');
-    
+    Route::get('/events', [PostController::class, 'showEventsPosts'])->name('display.events');
     Route::get('/events-category/{category_id}', [PostController::class, 'showCategoryEventsPosts'])->name('events.category');
-    
     Route::get('/events-posts/search', [PostController::class, 'searchEventsPosts'])->name('events.posts.search');
     
         //Tourism
-    Route::get('/showtourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
-    
+    Route::get('/tourism', [PostController::class, 'showTourismPosts'])->name('display.tourism');
     Route::get('/tourism-category/{category_id}', [PostController::class, 'showCategoryTourismPosts'])->name('tourism.category');
-    
     Route::get('/tourism-posts/search', [PostController::class, 'searchTourismPosts'])->name('tourism.posts.search');
     
         //EventsTourism
     Route::get('/events-tourism', [PostController::class, 'showEventsTourism'])->name('display.events-tourism');
-    
     Route::get('/events-tourism/{category_id}', [PostController::class, 'showCategoryEventsTourism'])->name('events-tourism.category');
-    
     Route::get('/events-tourism-posts/search', [PostController::class, 'searchEventsTourism'])->name('events-tourism.posts.search');
     
     
@@ -72,8 +66,8 @@ Route::post('/follow/store/{user_id}',[FollowController::class,'store'])->name('
 Route::delete('/Follow/destroy/{user_id}',[FollowController::class,'destroy'])->name('follow.destroy'); //unforrow
 Route::get('/mypage-favorite',[ProfileController::class,'favorite'])->name('profile.favorite');//mypage-favoriteに遷移
 Route::get('/mypage/search', [ProfileController::class, 'searchMyPosts'])->name('mypage.search');
-
 });
+
 
 Route::get('/navbar', function () {
     return view('navbar');

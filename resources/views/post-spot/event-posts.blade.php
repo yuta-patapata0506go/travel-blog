@@ -2,14 +2,17 @@
   <div class="container">
      <div class="row">
       <!-- レコメンド機能 recommend -->
-          <h3>Recommended Events Posts</h3>
             @if($eventRecommendations->isEmpty())
-          <a href="{{ route('spot.show', $spot->id )}}" class="text-decoration-none">
-          <div class="col-12">
-               <p class="text-center text-danger">No recommendations available at the moment.</p>
-         </div>
+           <@foreach ($eventRecommendations as $spot)
+          <a href="{{ route('spot.show', $spot->id )}}" class="small_post col-md-3">
+          </a>
+          @endforeach
+          @else
+          <div></div>
+          @endif
            <!-- card -->
-            @else
+           @if(!$eventRecommendations->isEmpty())
+           <h2>Event Recommendations</h2>
             @foreach ($eventRecommendations->take(4) as $recommendation)
          <div class="small_post col-md-3">
          <div class="card">
@@ -31,7 +34,7 @@
                         <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
                             <i class="fa-regular fa-heart {{ $recommendation->post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
                         </button>
-                        <span class="count-text ms-1" id="like-count">{{ $recommendation->post->likesRelation->count() }}</span>
+                        <span class="count-text ms-1" id="like-count">{{ $recommendation->post->likes->count() }}</span>
                      </form>
             </div>
             <div class="col-auto p-0">
@@ -77,22 +80,24 @@
 <!-- レコメンド以外で表示するポスト -->
 
 <div class="row">
-        <div class="col-md-11 event-content">
+        <div class="col-md event-content">
            <!-- カテゴリ名または「検索結果」を表示 -->
            <div>
                @if(isset($selectedCategory))
-                   <h2>Posts related to   
-                     {{$selectedCategory->name }} </h2>
-               @elseif(request('keyword'))
-                   <h2>Seaech results</h2>
-               @endif
+                    <h2>Posts related to "{{$selectedCategory->name}}"</h2>
+                @elseif(!empty($query))
+                    <h2>Search results for "{{ $query }}"</h2> <!-- 検索キーワードを表示 -->
+                @else
+                    <h2>Event posts</h2> 
+                @endif
+           </div>
            </div>
 
 <div class="show_posts">
   <div class="row">
       @if($posts->isEmpty())
       <!-- 投稿が存在しない場合のメッセージ -->
-       <div class="col-11 text-center no-posts-message">
+       <div class="col-md text-center no-posts-message">
            <h3>No related posts available.</h3>
       </div>
       @else
@@ -125,7 +130,7 @@
                         <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
                             <i class="fa-regular fa-heart {{ $post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
                         </button>
-                        <span class="count-text ms-1" id="like-count">{{ $post->likesRelation->count() }}</span>
+                        <span class="count-text ms-1" id="like-count">{{ $post->likes->count() }}</span>
                     </form>
                       {{-- <form action="#">
                         <button type="submit" class="btn btn-sm shadow-none p-0"><i class="fa-regular fa-heart"></i></button>
