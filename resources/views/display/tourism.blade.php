@@ -35,6 +35,12 @@
                  </a>
             </div>
 
+            <div class="col-auto back">
+                <a href="{{route('events-tourism.posts.search')}}">
+                    <button type="button" class="btn"><i class="fa-solid fa-chevron-left"></i> Back</button>
+                </a>
+             </div>
+
              {{-- Search Bar --}}
              <div class="search-container d-flex justify-content-center">
                   <form class="d-flex mb-4" role="search"     method="GET" action="{{ route('tourism.posts.search') }}">
@@ -45,6 +51,8 @@
                 </form>
           
             </div>
+
+           
 
             <!-- category part -->
             <div class="categories">

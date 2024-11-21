@@ -56,6 +56,7 @@ body {
 
 .spot-banner {
     position: relative;
+    left: 80px;
     width: 100%; /* 全幅に調整 */
     max-width: 1200px; /* 最大幅の制限 */
     margin: 0 auto;
@@ -106,6 +107,7 @@ body {
 /* Search Bar ------------------------------------------------*/
 .search-container {
   position: relative;
+  left: 100px;
   width: 600px;
   max-width: 100%;
   margin: auto;
@@ -140,8 +142,11 @@ body {
 }
 
 /* Back Button ---------------------------------------*/
+
+
 .back button {
-  position: absolute;
+  position: relative; 
+  bottom: 80px;
   font-size: 20px;
   height: 50px; /* 高さを調整 */
   padding: 10px 15px; /* ボタンの内側の余白 */

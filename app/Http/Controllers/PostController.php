@@ -36,15 +36,17 @@ class PostController extends Controller
 
      // 新規投稿フォームの表示
      public function create($type)
-{
-    // Categoryモデルから全てのカテゴリを取
-    $all_categories = Category::where('status', 1)->get();  // インスタンスではなく、直接モデルを呼び出す
-
-    $spots = Spot::all(); // 全てのスポットデータを取得
-
-    // $typeと$all_categoriesをビューに渡す
-    return view('posts.create', compact('type', 'all_categories', 'spots'));
-}
+     {
+         // Categoryモデルから全てのカテゴリを取得
+         $all_categories = Category::where('status', 1)->get();
+     
+         // Spotモデルからアルファベット順で全てのスポットを取得
+         $spots = Spot::orderBy('name', 'asc')->get();
+     
+         // $typeと$all_categoriesをビューに渡す
+         return view('posts.create', compact('type', 'all_categories', 'spots'));
+     }
+     
 
      
 public function show($id)
@@ -111,9 +113,9 @@ $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'co
             'type' => 'integer|in:0,1',
             'event_name' => 'nullable|string|max:50',
             'adult_fee' => 'nullable|numeric|min:0',
-            'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
+            'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,AED,Free',
             'child_fee' => 'nullable|numeric|min:0',
-            'child_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
+            'child_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,AED,Free',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
             'comments' => 'nullable|string|max:255',
@@ -215,7 +217,7 @@ $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'co
     public function edit($id)
 {
     $post = Post::with(['categoryPosts', 'images', 'spot'])->findOrFail($id);
-    $spots = Spot::all();
+    $spots = Spot::orderBy('name', 'asc')->get();
 
     // 投稿者であるか確認
     if ($post->user_id !== auth()->id()) {
@@ -246,9 +248,9 @@ $post = $this->post->with(['images', 'categories', 'spot', 'comments.user',  'co
         'title' => 'string|max:100',
         'event_name' => 'nullable|string|max:50',
         'adult_fee' => 'nullable|numeric|min:0',
-        'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
+        'adult_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,AED,Free',
         'child_fee' => 'nullable|numeric|min:0',
-        'child_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,Free',
+        'child_currency' => 'nullable|string|in:JPY,USD,EUR,GBP,AUD,CAD,CHF,CNY,KRW,INR,AED,Free',
         'start_date' => 'nullable|date',
         'end_date' => 'nullable|date',
         'comments' => 'nullable|string|max:255',
