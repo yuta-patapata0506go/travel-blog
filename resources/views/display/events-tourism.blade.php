@@ -17,7 +17,7 @@
           {{-- Search Bar --}}
           <div class="search-container d-flex justify-content-center">
                   <form class="d-flex mb-4" role="search"     method="GET" action="{{ route('events-tourism.posts.search') }}">
-                     <input class="form-control form-control-lg me-2" type="search" name="keyword" aria-label="Search" value="{{ request('keyword') }}">
+                     <input class="form-control form-control-lg me-2" type="search" name="keyword" aria-label="Search" value="{{ request('keyword') }}" placeholder="Search here...">
                      <input type="hidden" name="category_id" value="{{ request('category_id') }}">
                      <i class="fas fa-search icon_size"></i>
                      <button class="btn fs-3 fw-bold" type="submit">Search</button>
