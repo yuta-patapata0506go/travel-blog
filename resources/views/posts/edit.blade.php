@@ -173,6 +173,7 @@
                 <option value="CNY" {{ $post->adult_currency == 'CNY' ? 'selected' : '' }}>Chinese Yuan</option>
                 <option value="KRW" {{ $post->adult_currency == 'KRW' ? 'selected' : '' }}>South Korean Won</option>
                 <option value="INR" {{ $post->adult_currency == 'INR' ? 'selected' : '' }}>Indian Rupee</option>
+                <option value="PHP" {{ $post->adult_currency == 'PHP' ? 'selected' : '' }}>Peso</option>
                 <option value="AED" {{ $post->adult_currency == 'AED' ? 'selected' : '' }}>AED</option>
             </select>
         </div>      
@@ -208,6 +209,7 @@
                 <option value="CNY" {{ $post->child_currency == 'CNY' ? 'selected' : '' }}>Chinese Yuan</option>
                 <option value="KRW" {{ $post->child_currency == 'KRW' ? 'selected' : '' }}>South Korean Won</option>
                 <option value="INR" {{ $post->child_currency == 'INR' ? 'selected' : '' }}>Indian Rupee</option>
+                <option value="PHP" {{ $post->child_currency == 'PHP' ? 'selected' : '' }}>Peso</option>
                 <option value="AED" {{ $post->child_currency == 'AED' ? 'selected' : '' }}>AED</option>
             </select>
         </div>         
