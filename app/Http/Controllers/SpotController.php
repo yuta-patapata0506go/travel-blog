@@ -181,10 +181,13 @@ class SpotController extends Controller
                  $query->orderBy('created_at', 'desc'); // 新しい順
              })
              ->when($sort === 'popular', function ($query) {
-                 $query->orderBy('views', 'desc'); // 人気順（表示回数順）
+                 $query->orderBy('favorites_count', 'desc'); // 人気順（表示回数順）
              })
              ->when($sort === 'many_likes', function ($query) {
                  $query->orderByDesc('likes_count'); // いいね数順
+            })
+             ->when($sort === 'many_views', function ($query) {
+                 $query->orderByDesc('views'); // おきにいり数順
              })
              ->paginate(4); // 1ページに4件の投稿を表示
         
@@ -193,18 +196,14 @@ class SpotController extends Controller
             return redirect('/spot')->with('error', 'Spot not found');
         }
 
-        // 各投稿に対してlikesCountメソッドを呼び出す
-        $postsWithLikes = $posts->map(function ($post) {
-            return [
-                'title' => $post->title,
-                'likes_count' => $post->likes_count, // likesCountを取得
-            ];
-        });
+        
 
         // spot.blade.php に $spot 変数を渡す
         return view('spot', compact('spot', 'liked', 'likesCount','favorited', 'favoritesCount', 'comments','posts','sort'));
 
     }
+
+    
     private function getUVIndex($lat, $lon)
     {
         $apiKey = env('OPENWEATHERMAP_API_KEY');
