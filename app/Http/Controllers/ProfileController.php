@@ -62,11 +62,16 @@ class ProfileController extends Controller
      */
 
      public function edit($id){
-        //時間があったら、アドミンのみprofileにアクセスできる仕様に変更したい
-        $user = $this->user->findOrFail($id);
-        // $user = $this->user->FindOrFail(Auth::user()->id);
 
-        return view('mypage.mypage-edit')->with('user', $user);
+        $authUser = Auth::user();
+        $user = $this->user->findOrFail($id);
+        $role = User::where('id', Auth::user()->id)->value('role');
+
+    if ($authUser->id !== $user->id && $role !== 1) {
+        abort(403, 'Unauthorized access.');
+    }
+
+    return view('mypage.mypage-edit')->with('user', $user);
      }
 
      /**
