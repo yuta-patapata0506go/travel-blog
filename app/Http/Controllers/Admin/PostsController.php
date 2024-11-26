@@ -29,33 +29,39 @@ class PostsController extends Controller
         $this->recommendation = $recommendation;
     }
 
-    public function index()
-    {
-        $all_posts = $this->post->withTrashed()->latest()->paginate(10);
-        // $all_posts = Post::withTrashed()
-        //                 ->with(['user', 'categories', 'spot']) // 関連データを取得
-        //                 ->orderBy('id', 'asc')
-        //                 ->paginate(10);
-        ////// $all_posts = Post::withTrashed()
-        //         ->with(['user' => function($query) {
-        //             $query->withTrashed();  // ソフトデリートされたユーザーも含めて取得
-        //         }])
-        //         ->with('categories')
-        //         ->with('SpotPost')
-        //         ->orderBy('id', 'asc')
-        //////         ->paginate(10);
-        // $all_posts = Post::withTrashed()
-        //                 ->with('user')
-        //                 ->with('categories')
-        //                  ->with('SpotPost')
-        //                 ->orderBy('id', 'asc')
-        //                 ->paginate(10);
-        $categories = $this->category->all();
-        // $categories = Category::where('status', 1)->get();
-        $existingRecommendation = $this->recommendation->first();
-    // dd($all_posts);
-        return view('admin.posts.posts-index', compact('all_posts', 'categories', 'existingRecommendation'));
+    public function index(Request $request)
+{
+    // Initialize query for posts with trashed
+    $query = Post::withTrashed()->latest();
+
+    // Search processing: filter by title, event_name, and comments if search input is provided
+    if ($request->has('search')) {
+        $query->where(function ($query) use ($request) {
+            $query->where('title', 'like', '%' . $request->search . '%')
+                ->orWhere('event_name', 'like', '%' . $request->search . '%')
+                ->orWhere('comments', 'like', '%' . $request->search . '%');
+        });
     }
+
+    // Status Filter for soft deletes
+    if ($request->status !== null) {
+        if ($request->status == 'deleted') {
+            $query->onlyTrashed();  // Show only soft-deleted posts
+        } elseif ($request->status == 'active') {
+            $query->whereNull('deleted_at');  // Show only non-deleted posts
+        }
+    }
+
+    // Retrieve post information and set pagination
+    $all_posts = $query->paginate(5)->withQueryString();
+
+    // Retrieve other data
+    $categories = $this->category->all();
+    $existingRecommendation = $this->recommendation->first();
+
+    // Pass data to the view
+    return view('admin.posts.posts-index', compact('all_posts', 'categories', 'existingRecommendation'));
+}
 
     public function hide($id)
     {

@@ -69,6 +69,53 @@
                         </a>
                     </div>
                 </tr>
+
+                <div class="d-flex justify-content-center">
+                    <div class="search-container d-flex flex-wrap align-items-center my-4 w-100">
+                        <!-- Form -->
+                        <form class="d-flex align-items-center w-100" role="search" action="{{ route('admin.inquiries.index') }}" method="GET">
+                            <!-- Search Bar -->
+                            <div class="position-relative flex-grow-1 me-3 mb-2">
+                                <input 
+                                    class="form-control form-control-lg pe-5" 
+                                    type="search" 
+                                    name="search" 
+                                    value="{{ request('search') }}" 
+                                    placeholder="Search here..." 
+                                    aria-label="Search"
+                                >
+                                <!-- Search Icon -->
+                                <i class="fas fa-search fa-2x position-absolute top-50 end-0 translate-middle-y me-3"></i>
+                            </div>
+                
+                            <!-- Search Button -->
+                            <button class="btn btn-outline-dark btn-lg me-3" type="submit">Search</button>
+                
+                            <!-- Status Filter -->
+                            <div class="me-3">
+                                <select name="status" id="status" class="form-select form-select-lg" onchange="this.form.submit()">
+                                    <option value="" {{ request()->status == '' ? 'selected' : '' }}>All Status</option>
+                                    <option value="Unprocessed" {{ request()->status == 'Unprocessed' ? 'selected' : '' }}>Unprocessed</option>
+                                    <option value="Responded" {{ request()->status == 'Responded' ? 'selected' : '' }}>Responded</option>
+                                    <option value="Resolved" {{ request()->status == 'Resolved' ? 'selected' : '' }}>Resolved</option>
+                                </select>
+                            </div>
+                
+                            <!-- Visibility Filter -->
+                            <div>
+                                <select name="visibility" id="visibility" class="form-select form-select-lg" onchange="this.form.submit()">
+                                    <option value="" {{ request()->status == '' ? 'selected' : '' }}>All Visibility</option>
+                                    <option value="Visible" {{ request()->visibility == 'Visible' ? 'selected' : '' }}>Visible</option>
+                                    <option value="Hidden" {{ request()->visibility == 'Hidden' ? 'selected' : '' }}>Hidden</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                
+                 
+
                 <br>
                 <tr>
                     <th>ID</th>
