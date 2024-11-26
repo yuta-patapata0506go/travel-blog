@@ -63,6 +63,38 @@
                     </div>
                 </tr>
 
+                <div class="d-flex justify-content-center">
+                    <div class="search-container d-flex justify-content-left my-4">
+                        <form class="d-flex mb-4" role="search" action="{{ route('admin.posts.index') }}" method="GET">
+                            <!-- Search Input -->
+                            <div class="position-relative w-100 me-2">
+                                <input 
+                                    class="form-control form-control-lg pe-5" 
+                                    type="search" 
+                                    name="search" 
+                                    value="{{ request('search') }}" 
+                                    placeholder="Search here..." 
+                                    aria-label="Search"
+                                >
+                                <!-- Search Icon -->
+                                <i class="fas fa-search fa-2x position-absolute top-50 end-0 translate-middle-y me-3"></i>
+                            </div>
+                            <!-- Submit Button -->
+                            <button class="btn btn-outline-dark" type="submit">Search</button>
+
+                            <!-- Status Filter (Active or Deleted) -->
+                            <div class="w-25 ms-4">
+                                <select name="status" id="status" class="form-select-lg" onchange="this.form.submit()">
+                                    <option value="" {{ request()->status == '' ? 'selected' : '' }}>All</option>
+                                    <option value="active" {{ request()->status == 'active' ? 'selected' : '' }}>Visible</option>
+                                    <option value="deleted" {{ request()->status == 'deleted' ? 'selected' : '' }}>Hidden</option>
+                                </select>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>    
+
         <!--  Table -->
         <table class="table table-hover table-bordered text-center">
             <thead class="table-dark">

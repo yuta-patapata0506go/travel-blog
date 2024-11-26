@@ -24,19 +24,43 @@ class InquiriesController extends Controller
         $this->recommendation = $recommendation;
     }
 
-    public function index()
-    {
-        // $all_inquiries = $this->inquiry->with('user')->orderBy('created_at', 'desc')->paginate(10);
-        $all_inquiries = $this->inquiry->with(['user' => function ($query) {
-            $query->withTrashed();
-        }])->orderBy('created_at', 'desc')->paginate(10);
-        $categories = $this->category->all();
-        $existingRecommendation = $this->recommendation->first();
-        return view('admin.inquiries.inquiries-index')
-            ->with('all_inquiries', $all_inquiries)
-            ->with('categories', $categories)
-            ->with('existingRecommendation', $existingRecommendation);
+public function index(Request $request)
+{
+    // Initial query setup (fetch inquiry information)
+    $query = $this->inquiry->with(['user' => function ($query) {
+        $query->withTrashed(); // Include deleted users
+    }])->orderBy('created_at', 'desc');
+    
+    // Search process: Search by 'body'
+    if ($request->has('search') && !empty($request->search)) {
+        $query->where('body', 'like', '%' . $request->search . '%');
     }
+
+    // Status filter: Filter by 'status' if specified
+    if ($request->status) {
+        $query->where('status', $request->status);
+    }
+
+    // Visibility filter: Filter by 'visibility' if specified
+    if ($request->visibility) {
+        $query->where('visibility', $request->visibility);
+    }
+
+    // Retrieve inquiry information and set pagination
+    $all_inquiries = $query->paginate(5)->withQueryString();
+    
+    // Fetch additional data
+    $categories = $this->category->all();
+    $existingRecommendation = $this->recommendation->first();
+    
+    // Pass data to the view
+    return view('admin.inquiries.inquiries-index', [
+        'all_inquiries' => $all_inquiries,
+        'categories' => $categories,
+        'existingRecommendation' => $existingRecommendation,
+        'search' => $request->search,
+    ]);
+}
 
     public function show($id)
     {

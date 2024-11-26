@@ -26,18 +26,38 @@ class SpotsController extends Controller
         $this->image = $image;
     }
 
-    public function index()
-    {
-        $all_spots = $this->spot->with('images')->orderBy('created_at', 'desc')->paginate(10);
+    public function index(Request $request)
+{
+    // Initial query setup
+    $query = $this->spot->with('images')->orderBy('created_at', 'desc');
 
-        $categories = $this->category->all();
-        $existingRecommendation = $this->recommendation->first();
-
-        return view('admin.spots.spots-index')
-            ->with('all_spots', $all_spots)
-            ->with('categories', $categories)
-            ->with('existingRecommendation', $existingRecommendation);
+    // Search process: Search by 'name', 'postalcode', or 'address'
+    if ($request->has('search')) {
+        $query->where(function ($query) use ($request) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('postalcode', 'like', '%' . $request->search . '%')
+                ->orWhere('address', 'like', '%' . $request->search . '%');
+        });
     }
+
+    // Status filter: Narrow down results if 'status' is specified
+    if ($request->status) {
+        $query->where('status', $request->status);
+    }
+
+    // Retrieve spot information and set pagination
+    $all_spots = $query->paginate(5)->withQueryString();
+
+    // Fetch additional data
+    $categories = $this->category->all();
+    $existingRecommendation = $this->recommendation->first();
+
+    // Pass data to the view
+    return view('admin.spots.spots-index')
+        ->with('all_spots', $all_spots)
+        ->with('categories', $categories)
+        ->with('existingRecommendation', $existingRecommendation);
+}
 
     public function create()
     {

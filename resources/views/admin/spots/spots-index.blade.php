@@ -68,6 +68,40 @@
                         </a>
                     </div>
                 </tr>
+
+                <div class="d-flex justify-content-center">
+                    <div class="search-container d-flex justify-content-left my-4">
+                        <form class="d-flex mb-4" role="search" action="{{ route('admin.spots.index') }}" method="GET">
+                            <!-- Search Input -->
+                            <div class="position-relative w-100 me-2">
+                                <input 
+                                    class="form-control form-control-lg pe-5" 
+                                    type="search" 
+                                    name="search" 
+                                    value="{{ request('search') }}" 
+                                    placeholder="Search here..." 
+                                    aria-label="Search"
+                                >
+                                <!-- Search Icon -->
+                                <i class="fas fa-search fa-2x position-absolute top-50 end-0 translate-middle-y me-3"></i>
+                            </div>
+                            <!-- Submit Button -->
+                            <button class="btn btn-outline-dark" type="submit">Search</button>
+
+                            <!-- Status Filter -->
+                            <div class="w-25 ms-4">
+                                <select name="status" id="status" class="form-select-lg" onchange="this.form.submit()">
+                                    <option value="" {{ request()->status == '' ? 'selected' : '' }}>All</option>
+                                    <option value="pending" {{ request()->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="approved" {{ request()->status == 'approved' ? 'selected' : '' }}>Approved</option>
+                                    <option value="denied" {{ request()->status == 'denied' ? 'selected' : '' }}>Denied</option>
+                                </select>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>  
+
                 <br>
                 <tr>
                     <th>ID</th>
