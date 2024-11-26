@@ -23,17 +23,35 @@ class SpotApplicationsController extends Controller
     }
 
     // Display pending spots
-    public function index()
+    public function index(Request $request)
     {
-        $pendingSpots = $this->spot->where('status', 'pending')->paginate(10);
+        // Initial query setup (fetch all spot applications)
+        $query = $this->spot->query();
 
+        // Search process: Search by 'name', 'postalcode', or 'address'
+        if ($request->has('search') && !empty($request->search)) {
+            $searchTerm = '%' . $request->search . '%'; // Add wildcard to search keywords
+            $query->where(function($query) use ($searchTerm) {
+                $query->where('name', 'like', $searchTerm)
+                    ->orWhere('postalcode', 'like', $searchTerm)
+                    ->orWhere('address', 'like', $searchTerm);
+            });
+        }
+
+        // Retrieve pending spot applications and set pagination
+        $pendingSpots = $query->where('status', 'pending')->paginate(5)->withQueryString();
+
+        // Fetch additional data
         $categories = $this->category->all();
         $existingRecommendation = $this->recommendation->first();
 
-        return view('admin.spot_applications.spot_applications-index')
-            ->with('pendingSpots', $pendingSpots)
-            ->with('categories', $categories)
-            ->with('existingRecommendation', $existingRecommendation);
+        // Pass data to the view
+        return view('admin.spot_applications.spot_applications-index', [
+            'pendingSpots' => $pendingSpots,
+            'categories' => $categories,
+            'existingRecommendation' => $existingRecommendation,
+            'search' => $request->search, // 検索条件をビューに渡す
+        ]);
     }
 
     // Update the status of a spot

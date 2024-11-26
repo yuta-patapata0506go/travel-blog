@@ -19,7 +19,7 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  opacity: 0.5; /* ここで背景画像のみ透明化 */
+  opacity: 0.4; /* ここで背景画像のみ透明化 */
   z-index: -1; /* 背景が他のコンテンツの背面に表示されるように */
 }
 
@@ -131,6 +131,25 @@ opacity: 0.8; /* 不透明度を下げる */
   color: #2A3132;
 }
 
+
+/* Back Button ---------------------------------------*/
+.back button {
+  position: relative; 
+  bottom: 80px;
+  font-size: 20px;
+  height: 50px; /* 高さを調整 */
+  padding: 10px 15px; /* ボタンの内側の余白 */
+  background-color: #336B87; /* ボタンの背景色 */
+  color: #ffffff; /* ボタンのテキスト色 */
+  border: none; /* ボタンの境界線を無効にする */
+  border-radius: 10px; /* 角を丸くする */
+  cursor: pointer; /* カーソルをポインターに変更 */
+}
+
+.back button:hover {
+  background-color: #90AFC5;
+  color: #2A3132;
+}
 
 /* Category ------------------------------------------------*/
 .parent-category {

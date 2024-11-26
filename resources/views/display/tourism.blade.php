@@ -35,16 +35,24 @@
                  </a>
             </div>
 
+            <div class="col-auto back">
+                <a href="{{route('events-tourism.posts.search')}}">
+                    <button type="button" class="btn"><i class="fa-solid fa-chevron-left"></i> Back</button>
+                </a>
+             </div>
+
              {{-- Search Bar --}}
              <div class="search-container d-flex justify-content-center">
                   <form class="d-flex mb-4" role="search"     method="GET" action="{{ route('tourism.posts.search') }}">
                      <input class="form-control form-control-lg me-2" type="search" name="keyword" aria-label="Search" value="{{ request('keyword', 
-                     $keyword ?? '') }}">
+                     $keyword ?? '') }}" placeholder="Search here...">
                      <i class="fas fa-search icon_size"></i>
                      <button class="btn fs-3 fw-bold" type="submit">Search</button>
                 </form>
           
             </div>
+
+           
 
             <!-- category part -->
             <div class="categories">

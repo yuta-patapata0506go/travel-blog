@@ -31,7 +31,7 @@ body {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, .25);
 }
 
-/* .search-container i {
+.search-container i {
   position: absolute;
   right: 55%;
   top: 50%;
@@ -131,47 +131,6 @@ body {
   color: #90AFC5;
 }
 
-
-
-
-
-/* Sort Button ------------------------------------------------*/
-/* .sort_button {
-  text-align: right; 
-  position: relative;
-  margin: 0em 0em 0em 0em;
-}
-
-.sort_button i {
-  pointer-events: none; 
-  position: absolute;
-  color: #666666;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-}
-
-:focus {
-  outline: none;
-}
-
-.sort_button select{
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
-  width: 12em;
-  height: 2.5em;
-  border-radius: 50px;
-  font-size: 1.2em;
-  padding: 0em 1em 0em 1em;
-  margin: 20px 0;
-  cursor: pointer;
-}
-
-.sort_button select:hover {
-  background-color: #90AFC5;
-} */
 
 
 /* Spots Section ------------------------------------------------*/

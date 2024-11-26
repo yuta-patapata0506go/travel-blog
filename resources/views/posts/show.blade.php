@@ -248,26 +248,33 @@
                             <br>
 
                             <div>
-                                <!-- Adult Fee -->
-                                @if (!empty($post->adult_fee) && !empty($post->adult_currency))
+                               <!-- Adult Fee -->
+                            @if (!empty($post->adult_currency))
                                 <h5 class="fw-bold">Fee</h5>
-                                    <p>
-                                        <strong>Adult Fee:</strong> 
-                                        {{ $post->adult_fee }} 
+                                <p>
+                                    <strong>Adult Fee:</strong> 
+                                    @if ($post->adult_currency === 'Free')
+                                        FREE
+                                    @else
+                                        {{ $post->adult_fee ?? 'N/A' }} 
                                         <small>{{ $post->adult_currency }}</small>
-                                    </p>
-                                @endif
+                                    @endif
+                                </p>
+                            @endif
 
-                                <!-- Child Fee -->
-                                @if (!empty($post->child_fee) && !empty($post->child_currency))
-                                    <p>
-                                        <strong>Child Fee:</strong> 
-                                        {{ $post->child_fee }} 
+                            <!-- Child Fee -->
+                            @if (!empty($post->child_currency))
+                                <p>
+                                    <strong>Child Fee:</strong> 
+                                    @if ($post->child_currency === 'Free')
+                                        FREE
+                                    @else
+                                        {{ $post->child_fee ?? 'N/A' }} 
                                         <small>{{ $post->child_currency }}</small>
-                                    </p>
-                                @endif
-                            </div>
-
+                                    @endif
+                                </p>
+                            @endif
+                            
                             @if (!empty($post->helpful_info))
                                 <h5 class="fw-bold">Useful Information About This Spot</h5>
                                 <p>&middot; &nbsp; {{ $post->helpful_info }}</p>

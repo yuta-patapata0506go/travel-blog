@@ -20,22 +20,45 @@ class CategoryController extends Controller
         $this->recommendation = $recommendation;
     }
 
-    public function index(){
-        $all_categories = $this->category->with('children')->whereNull('parent_id')->paginate(1);
-
+    public function index(Request $request)
+    {
+        // Initial query setup (targeting only parent categories)
+        $query = $this->category->with('children')->whereNull('parent_id')->orderBy('created_at', 'desc');
+    
+        // Search process: Search parent categories by 'name'
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+    
+        // Retrieve parent category data and set pagination
+        $all_categories = $query->paginate(1)->withQueryString(); // 親カテゴリのみを対象にページネーション
+    
+        // Paginate only parent categories
+        $all_categories->getCollection()->transform(function ($parentCategory) {
+            // Retrieve child categories for each parent category
+            $parentCategory->children = $parentCategory->children()->orderBy('name')->get();
+            return $parentCategory;
+        });
+    
+        // Get all category information (both parent and child categories)
         $categories = $this->category->all();
-
-        $parentCategories = Category::whereNull('parent_id')->get(); 
-
+    
+        // Retrieve parent categories again
+        $parentCategories = Category::whereNull('parent_id')->get();
+    
+        // Fetch additional data
         $existingRecommendation = $this->recommendation->first();
-
-        return view('admin.categories.categories-index')
-            ->with('categories', $categories)
-            ->with('all_categories', $all_categories)
-            ->with('parentCategories', $parentCategories)
-            ->with('existingRecommendation', $existingRecommendation);
+    
+        // Pass data to the view
+        return view('admin.categories.categories-index', [
+            'categories' => $categories,
+            'all_categories' => $all_categories,
+            'parentCategories' => $parentCategories,
+            'existingRecommendation' => $existingRecommendation,
+            'search' => $request->search, // Pass the search query to the view
+        ]);
     }
-
+    
     public function store(Request $request) {
      
             

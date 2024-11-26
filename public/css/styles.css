@@ -180,3 +180,23 @@ input {
     opacity: 0.1; /* 透過率 */
     z-index: 1; /* 他の要素の下に配置 */
 }
+
+/* Icons ------------------------------------------------*/
+
+#like-icon:hover {
+    color:red;  /* ハートが赤くなる */
+  }
+  
+  #favorite-icon:hover {
+    color: #ffd700;  /* 星が金色になる */
+  }
+  
+  /* Likeされた状態の色 */
+  #like-icon.active {
+    color: red;
+  }
+  
+  /* Favoriteされた状態の色 */
+  #favorite-icon.active {
+    color: gold;
+  }
