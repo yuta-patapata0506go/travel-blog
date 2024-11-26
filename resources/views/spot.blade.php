@@ -278,6 +278,11 @@
                                 <input type="radio" name="sort" value="many_likes" class="form-check-input me-1" {{ $sort === 'many_likes' ? 'checked' : '' }}> Many Likes
                             </label>
                         </li>
+                        <li>
+                            <label class="dropdown-item">
+                                <input type="radio" name="sort" value="many_views" class="form-check-input me-1" {{ $sort === 'many_views' ? 'checked' : '' }}> Many Views
+                            </label>
+                        </li>
 
                         <!-- Done button -->
                         <li class="text-end mt-2">
@@ -310,32 +315,43 @@
                                 <div class="card-body">
                                     <h5 class="card-title text-truncate">{{ $post->title }}</h5>
                                     <p class="card-text text-truncate">{{ $post->comments }}</p>
-                                    <div class="col d-flex smallpost-category justify-content-end">
-                                        @foreach ($post->categories as $category)
-                                            <div class="badge bg-secondary bg-opacity-50 rounded-pill">{{ $category->name }}</div>
-                                        @endforeach
-                                    </div>
                                     <div class="row d-flex justify-content-end pe-2">
                                         {{-- Likes and Favorites --}}
                                         <div class="d-flex align-items-center gap-3">
                                             {{-- Likes --}}
-                                            <form action="{{ route('post.like', $post->id ?? 1) }}" method="POST" class="d-flex align-items-center">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
-                                                    <i class="fa-regular fa-heart {{ $post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
-                                                </button>
-                                                <span class="count-text ms-1" id="like-count">{{ $post->likes->count() }}</span>
-                                            </form>
+                                            <div class="col-auto">
+                                                <form action="{{ route('post.like', $post->id ?? 1) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="like">
+                                                        <i class="fa-regular fa-heart {{ $post->isLiked() ? 'active' : '' }}" id="like-icon"></i>
+                                                    </button>
+                                                    <span class="count-text ms-1" id="like-count">{{ $post->likes->count() }}</span>
+                                                </form>
+                                            </div>
+
                                             {{-- Favorites --}}
-                                            <form action="{{ route('post.favorite', $post->id ?? 1) }}" method="POST" class="d-flex align-items-center">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="star">
-                                                    <i class="fa-regular fa-star {{ $post->isFavorited ? 'active' : '' }}" id="favorite-icon"></i>
-                                                </button>
-                                                <span class="count-text ms-1" id="favorite-count">{{ $post->favorites->count() }}</span>
-                                            </form>
+                                            <div class="col-auto p-0">
+                                                <form action="{{ route('post.favorite', $post->id ?? 1) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-sm shadow-none p-0" aria-label="star">
+                                                        <i class="fa-regular fa-star {{ $post->isFavorited ? 'active' : '' }}" id="favorite-icon"></i>
+                                                    </button>
+                                                    <span class="count-text ms-1" id="favorite-count">{{ $post->favorites->count() }}</span>
+                                                </form>
+                                            </div>
                                         </div>
+                                            
+                                        <!-- Category表示部分 -->
+                                        <div class="row">
+                                            <div class="col-auto mb-1">
+                                            @foreach($post->categories as $category)
+                                                <span class="badge bg-secondary bg-opacity-50 rounded-pill">{{ $category->name }}</span>
+                                            @endforeach
+                                            </div>
+                                        </div>
+                                        
                                     </div>
+                
                                     <form action="/post/show/{{$post->id}}" method="get">
                                         <button type="submit" class="btn-small-post-card">Read More</button>
                                     </form>
@@ -420,27 +436,68 @@
     </script>
 
     <script>
-    let currentScrollPosition = 0;
+        let isScrolling = false; // スクロール中かどうかを追跡
 
-    function nextPage() {
-        const container = document.querySelector('.small-post-container');
-        const scrollAmount = 200; // スクロールする幅を設定
-        container.scrollBy({
-            left: scrollAmount,
-            behavior: 'smooth'
-        });
-    }
+        function nextPage() {
+            if (isScrolling) return; // スクロール中の場合、次の操作をブロック
 
-    function prevPage() {
-        const container = document.querySelector('.small-post-container');
-        const scrollAmount = 200; // スクロールする幅を設定
-        container.scrollBy({
-            left: -scrollAmount,
-            behavior: 'smooth'
-        });
-    }
+            const container = document.querySelector('.small-post-container');
+            const scrollAmount = 200; // スクロールする幅
 
+            // スクロールをスムーズに実行
+            container.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+
+            // スクロール完了後にページ遷移
+            isScrolling = true;
+
+            setTimeout(function() {
+                updatePageParam('next');
+                isScrolling = false; // スクロールが完了したらフラグを戻す
+            }, 500); // 500ms後にページ遷移
+        }
+
+        function prevPage() {
+            if (isScrolling) return; // スクロール中の場合、次の操作をブロック
+
+            const container = document.querySelector('.small-post-container');
+            const scrollAmount = 200; // スクロールする幅
+
+            // スクロールをスムーズに実行
+            container.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth'
+            });
+
+            // スクロール完了後にページ遷移
+            isScrolling = true;
+
+            setTimeout(function() {
+                updatePageParam('prev');
+                isScrolling = false; // スクロールが完了したらフラグを戻す
+            }, 500); // 500ms後にページ遷移
+        }
+
+        function updatePageParam(direction) {
+            const url = new URL(window.location);
+            const currentPage = parseInt(url.searchParams.get('page')) || 1; // 現在のページを取得
+
+            if (direction === 'next') {
+                url.searchParams.set('page', currentPage + 1); // 次のページ
+            } else if (direction === 'prev' && currentPage > 1) {
+                url.searchParams.set('page', currentPage - 1); // 前のページ
+            }
+
+            // ページ遷移を遅延させて行う
+            window.location.href = url.toString(); // ページ遷移
+        }
     </script>
+
+
+
+
 @endsection
 
 @section('styles')
