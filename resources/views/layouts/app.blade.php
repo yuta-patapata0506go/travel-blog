@@ -46,7 +46,7 @@
         <script src="{{asset('js/event-calender.js')}}"></script>
     
         <!-- Vite Assets -->
-        @vite(['resources/sass/app.scss'])
+        {{-- @vite(['resources/sass/app.scss']) --}}
     
         @yield('css')
     </head>
@@ -80,7 +80,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
     <script src="{{asset('js/event-calender.js')}}"></script>
     <!-- Vite Assets -->
-    @vite(['resources/sass/app.scss'])
+    {{-- @vite(['resources/sass/app.scss']) --}}
     @yield('css')
 </head>
 <body class="@yield('body-class')">
