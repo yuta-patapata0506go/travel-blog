@@ -1,6 +1,10 @@
 {
+    "name": "where25",
     "private": true,
     "type": "module",
+    "engines": {
+        "node": "16.x"
+    },
     "scripts": {
         "dev": "vite",
         "build": "vite build",
