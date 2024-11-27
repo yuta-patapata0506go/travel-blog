@@ -3,7 +3,9 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "heroku-prebuild": "npm install && npm run build",
+        "heroku-postbuild": "php artisan migrate --force"
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
