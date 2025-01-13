@@ -61,7 +61,7 @@
             <div class="image-item">
                <a href="{{ route('display.tourism') }}"> <!-- ツーリズムページへのリンク -->
                   <img src="images/tourism-link.png" alt="Tourism Page">
-                  <div class="overlay-text">Tourism</div>
+                  <div class="overlay-text">Tourism Page</div>
                </a>
             </div>
         </div>            
